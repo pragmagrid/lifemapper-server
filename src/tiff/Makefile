@@ -71,7 +71,7 @@ build:
 	)
 	
 install::
-	mkdir -p $(ROOT)/$(PKGROOT)/$(PKGNAME)
+	mkdir -p $(ROOT)/$(PKGROOT)
 	(							\
 		cd $(PKGNAME)-$(VERSION);				\
 		$(MAKE) prefix=$(ROOT)/$(PKGROOT) install;	\
