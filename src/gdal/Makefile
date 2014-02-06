@@ -56,18 +56,21 @@
 #
 # $Log$
 
-REDHAT.ROOT = $(CURDIR)/../../
+PKGROOT	        = /opt/lifemapper
 
+REDHAT.ROOT = $(CURDIR)/../../
 -include $(ROCKSROOT)/etc/Rules.mk
 include Rules.mk
+
+PY.PATH = /opt/python/bin/python2.7
 
 build:
 	gunzip -c $(NAME)-$(VERSION).$(TARBALL_POSTFIX) | $(TAR) -xf -
 	cd patch-files && find . -type f | grep -v CVS | cpio -pduv ..
 	( 							\
 		cd $(NAME)-$(VERSION);				\
-		export PYTHON=$(PYTHON27);             		\
-		./configure --with-python --with-pymoddir=$(PYTHON27_PACKAGES) --prefix=$(PKGROOT);	\
+		export PYTHON=$(PY.PATH);             		\
+		./configure --with-python --with-ogr --prefix=$(PKGROOT);	\
 		$(MAKE);					\
 	)
 	
@@ -75,8 +78,8 @@ install::
 	mkdir -p $(ROOT)/$(PKGROOT)
 	(							\
 		cd $(NAME)-$(VERSION);				\
-		export PYTHON=$(PYTHON27);             		\
-		$(MAKE) prefix=$(ROOT)/$(PKGROOT) INST_PYMOD=$(ROOT)/$(PYTHON27_PACKAGES) install;\
+		export PYTHON=$(PY.PATH);             		\
+		$(MAKE) prefix=$(ROOT)/$(PKGROOT) ROOT=$(ROOT)/ install; \
 	)
 
 clean::

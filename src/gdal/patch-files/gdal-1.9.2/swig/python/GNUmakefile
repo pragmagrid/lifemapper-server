@@ -68,9 +68,9 @@ egg:
 install:
 
 ifeq ($(PY_HAVE_SETUPTOOLS),1)
-	$(PYTHON) setup.py install 
+	$(PYTHON) setup.py install --root=$(ROOT)/
 else
-	$(PYTHON) setup.py install --prefix=$(INST_PYMOD)
+	$(PYTHON) setup.py install --root=$(ROOT)/
 endif
 
 	for f in $(SCRIPTS) ; do $(INSTALL) ./scripts/$$f $(DESTDIR)$(INST_BIN) ; done
