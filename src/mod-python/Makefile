@@ -65,9 +65,9 @@ include Rules.mk
 PY.PATH = /opt/python/bin/python2.7
 
 build:
-	tar xzvf  $(NAME)-$(VERSION).$(TARBALL_POSTFIX) 
+	tar xzvf  $(ARCHIVENAME)-$(VERSION).$(TARBALL_POSTFIX) 
 	( 							\
-		cd $(NAME)-$(VERSION);				\
+		cd $(ARCHIVENAME)-$(VERSION);				\
 		./configure --with-python=$(PY.PATH) --prefix=$(PKGROOT);	\
 		$(MAKE);					\
 	)
@@ -75,9 +75,9 @@ build:
 install::
 	mkdir -p $(ROOT)/$(PKGROOT)/bin
 	(							\
-		cd $(NAME)-$(VERSION);				\
+		cd $(ARCHIVENAME)-$(VERSION);				\
 		$(MAKE) DESTDIR=$(ROOT)/ install;\
 	)
 
 clean::
-	rm -rf $(NAME)-$(VERSION)
+	rm -rf $(ARCHIVENAME)-$(VERSION)
