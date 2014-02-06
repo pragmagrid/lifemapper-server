@@ -1,0 +1,4 @@
+NAME = opt-cython
+VERSION = 0.20
+ARCHIVENAME = Cython
+RELEASE = 0
