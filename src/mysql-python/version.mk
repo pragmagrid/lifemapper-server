@@ -1,0 +1,4 @@
+NAME = opt-MySQL-python
+VERSION = 1.2.5
+ARCHIVENAME = MySQL-python
+RELEASE = 0
