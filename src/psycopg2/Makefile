@@ -62,6 +62,8 @@ REDHAT.ROOT = $(CURDIR)/../../
 -include $(ROCKSROOT)/etc/Rules.mk
 include Rules.mk
 
+RPM.EXTRAS += "AutoReq: 0"
+
 PY.PATH = $(PKGROOT)/bin/python2.7
 PGSQL = /usr/pgsql-9.1/bin
 
