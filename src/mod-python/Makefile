@@ -62,6 +62,8 @@ REDHAT.ROOT = $(CURDIR)/../../
 -include $(ROCKSROOT)/etc/Rules.mk
 include Rules.mk
 
+RPM.EXTRAS += "AutoReq: 0"
+
 PY.PATH = /opt/python/bin/python2.7
 
 build:
