@@ -65,10 +65,10 @@ include Rules.mk
 PY.PATH = /opt/python/bin/python2.7
 
 build:
-	gunzip -c $(NAME)-$(VERSION).$(TARBALL_POSTFIX) | $(TAR) -xf -
+	gunzip -c $(ARCHIVENAME)-$(VERSION).$(TARBALL_POSTFIX) | $(TAR) -xf -
 	cd patch-files && find . -type f | grep -v CVS | cpio -pduv ..
 	( 							\
-		cd $(NAME)-$(VERSION);				\
+		cd $(ARCHIVENAME)-$(VERSION);				\
 		export PYTHON=$(PY.PATH);             		\
 		./configure --with-python --with-ogr --prefix=$(PKGROOT);	\
 		$(MAKE);					\
@@ -77,10 +77,10 @@ build:
 install::
 	mkdir -p $(ROOT)/$(PKGROOT)
 	(							\
-		cd $(NAME)-$(VERSION);				\
+		cd $(ARCHIVENAME)-$(VERSION);				\
 		export PYTHON=$(PY.PATH);             		\
 		$(MAKE) prefix=$(ROOT)/$(PKGROOT) ROOT=$(ROOT)/ install; \
 	)
 
 clean::
-	rm -rf $(NAME)-$(VERSION)
+	rm -rf $(ARCHIVENAME)-$(VERSION)

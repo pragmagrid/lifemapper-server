@@ -1,5 +1,6 @@
 PKGROOT	        = /opt/lifemapper
-NAME            = gdal
+NAME            = lifemapper-gdal
+ARCHIVENAME     = gdal
 VERSION         = 1.9.2
 RELEASE         = 0
 TARBALL_POSTFIX	= tar.gz
