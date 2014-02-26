@@ -56,6 +56,8 @@
 #
 # $Log$
 
+RPM.ARCH = noarch
+
 REDHAT.ROOT = $(CURDIR)/../../
 
 -include $(ROCKSROOT)/etc/Rules.mk
