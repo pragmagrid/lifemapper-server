@@ -1,0 +1,9 @@
+# The default virtual memory behavior is not optimal for PostgreSQL. 
+# Because of the way that the kernel implements memory overcommit, 
+# the kernel might terminate the PostgreSQL postmaster (the master server process) if the memory
+# demands of either PostgreSQL or another process cause the system to run out of virtual memory.
+# To prevent this, modify the kernel's behavior so that it will not "overcommit" memory. 
+# Although this setting will not prevent the OOM killer from being invoked altogether, 
+# it will lower the chances significantly and will therefore lead to more robust system behavior.
+
+vm.overcommit_memory = 2
