@@ -1,0 +1,39 @@
+<?xml version="1.0" standalone="no"?>
+
+<kickstart>
+
+
+	<description>
+	Lifemapper-server roll.
+	LMweb install 
+	</description>
+
+	<copyright>
+	Copyright (c) 2000 - 2012 The Regents of the University of California.
+	All rights reserved. Rocks(r) v5.5/v6.0 www.rocksclusters.org
+	
+	</copyright>
+
+	<changelog>
+	$Log$
+	</changelog>
+
+	<package>lifemapper-mod_python</package>
+	<package>lifemapper-ant</package>
+	<package>opt-cherrypy</package>
+	<package>opt-cheeta</package>
+	<package>opt-pylucene</package>
+
+<post>
+
+mkdir -p /var/lib/lm
+mkdir -p /var/lib/lm/sessions
+mkdir -p /var/lib/lm/luceneIndex
+mkdir -p /var/lib/lm/.python-eggs
+chgrp -R lmwriter /var/lib/lm
+chmod -R g+ws     /var/lib/lm
+
+
+</post>
+
+</kickstart>

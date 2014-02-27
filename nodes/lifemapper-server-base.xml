@@ -1,0 +1,96 @@
+<?xml version="1.0" standalone="no"?>
+
+<kickstart>
+
+
+	<description>
+	Lifemapper-server roll. 
+	LMserver and LMweb servers common install 
+	</description>
+
+	<copyright>
+	Copyright (c) 2000 - 2012 The Regents of the University of California.
+	All rights reserved. Rocks(r) v5.5/v6.0 www.rocksclusters.org
+	
+	</copyright>
+
+	<changelog>
+	$Log$
+	</changelog>
+
+        <!-- RPM repos needed for postgresql,postgis,mapserver -->
+	<package>pgdg-centos91</package>
+	<package>elgis-release</package>
+
+	<!-- packages available on the system -->
+	<package>sqlite</package>
+	<package>flex</package>
+	<package>libxslt</package>
+
+	<!-- mapserver prereq -->
+	<package>bitstream-vera-fonts-common</package>
+	<package>bitstream-vera-sans-fonts</package>
+
+	<!-- packages build from source -->
+	<package>lifemapper-proj</package>
+	<package>lifemapper-geos</package>
+	<package>lifemapper-gdal</package>
+	<package>lifemapper-tiff</package>
+	<package>lifemapper-mod_python</package>
+
+	<package>opt-setuptools</package>
+	<package>opt-numexpr</package>
+	<package>opt-cython</package>
+	<package>opt-pytables</package>
+	<package>opt-egenix-mx-base</package>
+	<package>opt-psycopg2</package>
+	<package>opt-faulthandler</package>
+
+	<package>roll-lifemapper-usersguide</package>
+
+<post>
+
+<file name="/etc/ld.so.conf.d/lifemapper-server.conf">
+/opt/lifemapper/lib
+/usr/java/latest/jre/lib/amd64
+/usr/java/latest/jre/lib/amd64/server
+/opt/python/lib
+</file>
+
+yum --enablerepo base     install giflib-devel
+yum --enablerepo base     install byacc
+yum --enablerepo base     install readline-devel
+yum --enablerepo base     install subversion
+yum --enablerepo rpmforge install hdf4 hdf4-devel 
+yum --enablerepo rpmforge install hdf5 hdf5-devel
+yum --enablerepo base install cmake
+
+yum --enablerepo base update openssl
+yum install postgresql91
+yum install postgresql91-devel
+yum install pgbouncer
+yum --enablerepo epel install json-c.x86_64
+yum install postgis2_91
+
+yum --enablerepo epel fribidi
+yum install mapserver
+
+GID=`grep lmwriter: /etc/group`
+if [ "$GID" == "" ] ; then
+    /usr/sbin/groupadd -g 502 lmwriter
+fi
+
+/usr/sbin/groupadd -g 501 lmreader
+rocks sync users
+
+mkdir -p /state/partition/lm/logs
+chgrp -R lmwriter /state/partition1/lm
+chmod -R g+ws /state/partition1/lm
+
+
+</file>
+
+
+</post>
+
+</kickstart>

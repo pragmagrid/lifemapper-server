@@ -1,0 +1,43 @@
+<?xml version="1.0" standalone="no"?>
+
+<kickstart>
+
+
+	<description>
+	Lifemapper-server roll.
+	LMserver installation 
+	</description>
+
+	<copyright>
+	Copyright (c) 2000 - 2012 The Regents of the University of California.
+	All rights reserved. Rocks(r) v5.5/v6.0 www.rocksclusters.org
+	
+	</copyright>
+
+	<changelog>
+	$Log$
+	</changelog>
+
+        <package>mysql</package>
+        <package>mysql-devel</package>
+        <package>opt-MySQL-python</package>
+        <package>libxslt</package>
+        <package>lifemapper-spatialindex</package>
+
+<post>
+
+#yum install postgis2_91
+#yum --enablerepo epel fribidi
+#yum install mapserver
+
+# set mode to strict (2) to prevent postgres being killed  by OOM 
+/sbin/sysctl -w vm.overcommit_memory=2
+
+# may need this later for postgres tuning 
+# rocks set network mtu public 9000
+# rocks sync host network `hostname -s`
+
+
+</post>
+
+</kickstart>

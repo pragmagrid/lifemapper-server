@@ -1,0 +1,38 @@
+<?xml version="1.0" standalone="no"?>
+
+<graph>
+
+	<description>
+
+	The lifemapper Roll
+
+	</description>
+
+	<copyright>
+	Copyright (c) 2000 - 2012 The Regents of the University of California.
+	All rights reserved. Rocks(r) v5.5/v6.0 www.rocksclusters.org
+	
+	</copyright>
+
+	<changelog>
+	$Log$
+	</changelog>
+
+
+	<!-- for lmserver -->
+        <edge from="server" to="lifemapper-lmserver" cond="lmserver"/>
+        <edge from="server" to="lifemapper-server-base" cond="lmserver"/>
+
+        <order head="lifemapper-server-base">
+                <tail>lifemapper-lmserver</tail>
+        </order>
+
+	<!-- for lmweb -->
+        <edge from="server" to="lifemapper-lmweb" cond="lmweb"/>
+        <edge from="server" to="lifemapper-server-base" cond="lmserver"/>
+
+        <order head="lifemapper-server-base">
+                <tail>lifemapper-lmweb</tail>
+        </order>
+
+</graph>
