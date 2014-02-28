@@ -1,0 +1,17 @@
+# For lifemapper-server roll
+
+# Enable MapServer debugging
+SetEnv MS_ERRORFILE "@MAPSERVER_TMP@/mapserver_error.txt"
+SetEnv MS_DEBUGLEVEL 5
+
+# Root for lifemapper content
+RewriteEngine on
+
+<LocationMatch "^/(css|changeThinking|clients|dl|findUser|hint|images|jobs|login|logout|ogc|schemas|services|robots.txt|signup|spLinks)">
+   PythonPath "sys.path+['@LMHOME@/lm2pub/public_html/services']+['@LMHOME@/']"
+   SetHandler python-program
+   PythonHandler cherrypy._cpmodpy::handler
+   PythonOption cherrypy.setup svc::serverless
+   PythonDebug On
+</LocationMatch>
+
