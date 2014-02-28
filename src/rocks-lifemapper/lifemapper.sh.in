@@ -1,0 +1,11 @@
+# lifemapper roll
+
+PYBIN=/opt/python/bin
+LMBIN=@PKGROOT@/bin
+
+export PATH=$PYBIN:$LMBIN:$PATH
+export PYTHON=/opt/python/bin/@PYTHONVER@
+
+export PYTHON_EGG_CACHE="@LMWEB@/.python-eggs"
+export PYTHONPATH=@LMHOME@
+
