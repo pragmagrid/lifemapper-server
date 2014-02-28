@@ -1,0 +1,20 @@
+#!/bin/bash
+
+# Create directories for lucene indexes and cherrypy sessions
+gname=lmwriter
+GID=`grep $gname: /etc/group`
+
+if [ "$GID" != "" ] ; then
+    mkdir -p @LMWEB@
+    mkdir -p @LMWEB@/sessions
+    mkdir -p @LMWEB@/luceneIndex
+    mkdir -p @LMWEB@/.python-eggs
+    chmod -R g+ws @LMWEB@
+else 
+    echo "ERROR: group $gname does not exist"
+    exit 1
+fi
+
+# install lucene cron job
+crontab -u lmwriter @PKGROOT@/rocks/etc/lucene.cron
+

@@ -64,16 +64,52 @@ include Rules.mk
 version.mk:
 	cat ../version.mk version.mk.in > version.mk
 
-build:
-	echo build
+SEDSPEC += \
+        -e 's%@LMHOME@%$(LMHOME)%g' \
+        -e 's%@MAPSERVER_TMP@%$(MAPSERVER_TMP)%g' \
+        -e 's%@LMWEB@%$(LMWEB)%g' \
+        -e 's%@PYTHONVER@%$(PYTHONVER)%g' \
+        -e 's%@PKGROOT@%$(PKGROOT)%g'
+
+SCRIPTS = lifemapper.conf lifemapper.sh  lmserver_init  lmweb_init buildLmLuceneIndex lucene.cron
+
+lifemapper.conf: lifemapper.conf.in
+	$(SED) $(SEDSPEC) $^ > $@
+
+lifemapper.sh: lifemapper.sh.in
+	$(SED) $(SEDSPEC) $^ > $@
+
+lmserver_init: lmserver_init.in
+	$(SED) $(SEDSPEC) $^ > $@
+
+lmweb_init: lmweb_init.in
+	$(SED) $(SEDSPEC) $^ > $@
+
+buildLmLuceneIndex: buildLmLuceneIndex.in
+	$(SED) $(SEDSPEC) $^ > $@
+
+lucene.cron: lucene.cron.in
+	$(SED) $(SEDSPEC) $^ > $@
+
+build: $(SCRIPTS)
 	
 install::
 	mkdir -p $(ROOT)/etc/profile.d
+	install -m 755 lifemapper.sh $(ROOT)/etc/profile.d
+
 	mkdir -p $(ROOT)/etc/sysctl.d
-	mkdir -p $(ROOT)/$(PKGROOT)/rocks
-	install -m 755 lifemapper.* $(ROOT)/etc/profile.d
 	install -m 644 postgresd $(ROOT)/etc/sysctl.d
-	install -m 755 lmserver_init.sh $(ROOT)/$(PKGROOT)/rocks
+
+	mkdir -p $(ROOT)/$(PKGROOT)/rocks/bin
+	install -m 755 lmserver_init $(ROOT)/$(PKGROOT)/rocks/bin
+	install -m 755 lmweb_init $(ROOT)/$(PKGROOT)/rocks/bin
+	install -m 755 buildLmLuceneIndex $(ROOT)/$(PKGROOT)/rocks/bin
+
+	mkdir -p $(ROOT)/etc/httpd/conf.d
+	install -m 644 lifemapper.conf $(ROOT)/etc/httpd/conf.d
+
+	mkdir -p $(ROOT)/$(PKGROOT)/rocks/etc
+	install -m 644 lucene.cron $(ROOT)/$(PKGROOT)/rocks/etc
 
 clean::
-	rm -rf version.mk
+	rm -rf version.mk $(SCRIPTS)
