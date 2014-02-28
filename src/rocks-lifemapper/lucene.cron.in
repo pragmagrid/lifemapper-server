@@ -1,0 +1,3 @@
+# Lifemapper lucene cron job
+
+0  */4  *  *  *  @LMHOME@/rocks/bin/buildLmLuceneIndex
