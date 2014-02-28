@@ -56,8 +56,6 @@
 #
 # $Log$
 
-PKGROOT = /opt/lifemapper
-
 REDHAT.ROOT = $(CURDIR)/../../
 -include $(ROCKSROOT)/etc/Rules.mk
 include Rules.mk
@@ -65,6 +63,9 @@ include Rules.mk
 RPM.EXTRAS += "AutoReq: 0"
 
 PY.PATH = /opt/python/bin/python2.7
+
+version.mk:
+	cat ../version.mk version.mk.in > version.mk
 
 build:
 	tar xzvf  $(ARCHIVENAME)-$(VERSION).$(TARBALL_POSTFIX) 
@@ -82,4 +83,4 @@ install::
 	)
 
 clean::
-	rm -rf $(ARCHIVENAME)-$(VERSION)
+	rm -rf $(ARCHIVENAME)-$(VERSION) version.mk

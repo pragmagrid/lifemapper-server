@@ -63,14 +63,17 @@ REDHAT.ROOT = $(CURDIR)/../../
 -include $(ROCKSROOT)/etc/Rules.mk
 include Rules.mk
 
+version.mk:
+	cat ../version.mk version.mk.in > version.mk
+
 prep:
 	./prepData.sh
 
 build:
 
 install::
-	mkdir -p $(ROOT)/$(PKGROOT)
-	tar xzvf  $(ARCHIVENAME)-$(DATE).tar.gz  -C  $(ROOT)/$(PKGROOT)/
+	mkdir -p $(ROOT)/$(LMHOME)
+	tar xzvf  $(ARCHIVENAME)-$(DATE).tar.gz  -C  $(ROOT)/$(LMHOME)/
 
 clean::
-	rm -rf  $(ARHIVENAME)
+	rm -rf  $(ARHIVENAME) version.mk

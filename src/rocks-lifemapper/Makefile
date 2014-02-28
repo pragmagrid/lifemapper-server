@@ -56,13 +56,13 @@
 #
 # $Log$
 
-PKGROOT = /opt/lifemapper
-
 REDHAT.ROOT = $(CURDIR)/../../
 
 -include $(ROCKSROOT)/etc/Rules.mk
 include Rules.mk
 
+version.mk:
+	cat ../version.mk version.mk.in > version.mk
 
 build:
 	echo build
@@ -76,4 +76,4 @@ install::
 	install -m 755 lmserver_init.sh $(ROOT)/$(PKGROOT)/rocks
 
 clean::
-	echo clean
+	rm -rf version.mk

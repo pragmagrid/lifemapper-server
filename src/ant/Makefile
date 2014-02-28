@@ -58,11 +58,12 @@
 # $Log$
 #
 
-PKGROOT		= /opt/lifemapper
-
 REDHAT.ROOT	= $(CURDIR)/../../
 -include $(ROCKSROOT)/etc/Rules.mk
 include Rules.mk
+
+version.mk:
+	cat ../version.mk version.mk.in > version.mk
 
 build:
 	tar xzvf  apache-ant-$(VERSION)-bin.tar.gz 
@@ -82,4 +83,4 @@ install::
 	#$(INSTALL) -m444 apache-ant.csh	$(ROOT)/etc/profile.d
 
 clean::
-	rm -rf apache-ant-$(VERSION)
+	rm -rf apache-ant-$(VERSION) version.mk

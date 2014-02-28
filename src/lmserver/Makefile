@@ -61,10 +61,13 @@ REDHAT.ROOT = $(CURDIR)/../../
 -include $(ROCKSROOT)/etc/Rules.mk
 include Rules.mk
 
+version.mk:
+	cat ../version.mk version.mk.in > version.mk
+
 PY.PATH = /opt/python/bin/python2.7
 
 SEDSPEC += \
-        -e 's%@LMHOME@%$(PKGROOT)%g' \
+        -e 's%@LMHOME@%$(LMHOME)%g' \
         -e 's%@LMUSER@%$(LMUSER)%g' \
         -e 's%@LMDISK@%$(LMDISK)%g' \
         -e 's%@PYBIN@%$(PY.PATH)%g'
@@ -96,8 +99,8 @@ build: $(SCRIPTS)
 
 install::
 	# lmserver source
-	mkdir -p $(ROOT)/$(PKGROOT)
-	tar xzvf  $(ARCHIVENAME)-$(DIST).tar.gz  -C  $(ROOT)/$(PKGROOT) --strip=1
+	mkdir -p $(ROOT)/$(LMHOME)
+	tar xzvf  $(ARCHIVENAME)-$(DIST).tar.gz  -C  $(ROOT)/$(LMHOME) --strip=1
 
 	# cron jobs
 	mkdir -p $(ROOT)/etc/cron.hourly
@@ -112,5 +115,5 @@ install::
 	$(INSTALL) -m755 deleteOldAnonymous $(ROOT)/etc/cron.weekly/lifemapper-deleteOldAnonymous
 
 clean::
-	rm -rf  $(SCRIPTS)
+	rm -rf  $(SCRIPTS) version.mk
 	rm -rf  $(ARHIVENAME)

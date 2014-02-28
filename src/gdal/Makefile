@@ -56,11 +56,12 @@
 #
 # $Log$
 
-PKGROOT	        = /opt/lifemapper
-
 REDHAT.ROOT = $(CURDIR)/../../
 -include $(ROCKSROOT)/etc/Rules.mk
 include Rules.mk
+
+version.mk:
+	cat ../version.mk version.mk.in > version.mk
 
 PY.PATH = /opt/python/bin/python2.7
 
@@ -83,4 +84,4 @@ install::
 	)
 
 clean::
-	rm -rf $(ARCHIVENAME)-$(VERSION)
+	rm -rf $(ARCHIVENAME)-$(VERSION) version.mk
