@@ -26,14 +26,23 @@
 
 <post>
 
-mkdir -p /var/lib/lm
-mkdir -p /var/lib/lm/sessions
-mkdir -p /var/lib/lm/luceneIndex
-mkdir -p /var/lib/lm/.python-eggs
-chgrp -R lmwriter /var/lib/lm
-chmod -R g+ws     /var/lib/lm
+mkdir -p /var/lib/lm2/sessions
+mkdir -p /var/lib/lm2/luceneIndex
+mkdir -p /var/lib/lm2/.python-eggs
 
+chgrp -R lmwriter /var/lib/lm2
+chmod -R g+ws     /var/lib/lm2
 
+mkdir -p /var/www/tmp
+chown www-data:www-data /var/www/tmp
+
+<file name="/etc/sysconfig/httpd" mode="append">
+
+# For Lifemapper lmweb server
+umask 002
+
+</file>
+service httpd restart
 </post>
 
 </kickstart>
