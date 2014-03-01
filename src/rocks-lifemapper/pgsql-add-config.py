@@ -16,8 +16,10 @@ class PGconfig:
         self.shmmax         = None    # maximum shared segment size
         self.page_size      = None    # PAGE_SIZE value
         self.shared_buffers = None    # PAGE_SIZE value
-        self.percent        = 0.4     # allocation of memory (%) to shared buffers, see
+        self.percentSB      = 0.4     # allocation of memory (%) to shared buffers, see
                                       # http://www.postgresql.org/docs/9.1/static/runtime-config-resource.html
+        self.percentECS     = 0.33    # good value is 1/3 of total memory  see
+                                      # https://communities.coverity.com/thread/2110
 
         self.base = glob.glob("/var/lib/pgsql/*/data/")[0]
 
@@ -29,6 +31,7 @@ class PGconfig:
         self.getSHMMAX()
         self.getPageSize()
         self.getSharedBuffers()
+        self.getEffectiveCacheSize()
 
     def getMemory(self):
         """ find total memory """
@@ -56,7 +59,7 @@ class PGconfig:
 
     def getSharedBuffers(self):
         """ find shared_buffers """
-        sb = self.memtotal * self.percent    # shared_buffers is % of physical memory
+        sb = self.memtotal * self.percentSB  # shared_buffers value is % of physical memory
 
         # the value for 'shmall' should be greater than the value of 'shared_buffers' (in bytes) divided by 'PAGE_SIZE'. 
         if self.shmall > sb/self.page_size :
@@ -64,13 +67,18 @@ class PGconfig:
         else:
             print "Need to update kernel settings shmmax shmall "
 
+    def getEffectiveCacheSize(self):
+        """ find effective_cache_size """
+        ecs = self.memtotal * self.percentECS # effective_cache_size is % of physical memory
+        self.effective_cache_size = int(ecs)
+
     def make_pgConfgiFile(self):
         """ create new postgresql.conf """
 
         # make a copy of orig file, read defaults from it
         self.pgconf = self.base + "postgresql.conf"
         dest = self.pgconf + ".orig" 
-        #TEMP dest = "/tmp/postgresql.conf.orig" 
+        #FIXME rm dest = "/tmp/postgresql.conf.orig" 
         shutil.copy2(self.pgconf, dest)
         fin = open(self.pgconf, "r")
         lines = fin.readlines()
@@ -80,7 +88,7 @@ class PGconfig:
         # create new config lines and write new file
         newLines = self.make_configLines()              
         fout = open(self.pgconf, "w")
-        #TEMP fout = open("/tmp/mypg.conf", "w")
+        #FIXME rm fout = open("/tmp/mypg.conf", "w")
         fout.write(defaultLines + newLines)
         fout.close()
         
@@ -107,7 +115,7 @@ class PGconfig:
         addLines += "listen_addresses = `*'\n"
         addLines += "password_encryption = on\n"
         addLines += "shared_buffers = %d\n" % self.shared_buffers
-        addLines += "effective_cache_size = 750MB\n"
+        addLines += "effective_cache_size = %d\n" % self.effective_cache_size
         addLines += "enable_seqscan = off\n"
         addLines += "logging_collector = on\n"
         addLines += "log_directory = `pg_log'\n"
