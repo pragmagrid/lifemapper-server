@@ -71,7 +71,14 @@ SEDSPEC += \
         -e 's%@PYTHONVER@%$(PYTHONVER)%g' \
         -e 's%@PKGROOT@%$(PKGROOT)%g'
 
-SCRIPTS = lifemapper.conf lifemapper.sh  lmserver_init  lmweb_init buildLmLuceneIndex lucene.cron
+SCRIPTS = \
+	lifemapper.conf \
+	lifemapper.sh  \
+	lmserver_init \
+	lmweb_init  \
+	buildLmLuceneIndex \
+	lucene.cron \
+	lifemapper-server.conf
 
 lifemapper.conf: lifemapper.conf.in
 	$(SED) $(SEDSPEC) $^ > $@
@@ -91,9 +98,13 @@ buildLmLuceneIndex: buildLmLuceneIndex.in
 lucene.cron: lucene.cron.in
 	$(SED) $(SEDSPEC) $^ > $@
 
+lifemapper-server.conf: lifemapper-server.conf.in
+	$(SED) $(SEDSPEC) $^ > $@
+
 build: $(SCRIPTS)
 	
 install::
+
 	mkdir -p $(ROOT)/etc/profile.d
 	install -m 755 lifemapper.sh $(ROOT)/etc/profile.d
 
@@ -110,6 +121,9 @@ install::
 
 	mkdir -p $(ROOT)/$(PKGROOT)/rocks/etc
 	install -m 644 lucene.cron $(ROOT)/$(PKGROOT)/rocks/etc
+
+	mkdir -p $(ROOT)/etc/ld.so.conf.d
+	install -m 644 lifemapper-server.conf $(ROOT)/etc/ld.so.conf.d
 
 clean::
 	rm -rf version.mk $(SCRIPTS)
