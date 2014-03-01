@@ -45,6 +45,10 @@ PG=`basename /etc/init.d/postgresql-*`
 /sbin/chkconfig --add $PG 
 /sbin/chkconfig mysqld on
 
+BOUNCER=/etc/init.d/pgbouncer
+/sbin/chkconfig $BOUNCER on
+/sbin/chkconfig --add $BOUNCER 
+
 # may need this later for postgres tuning 
 # rocks set network mtu public 9000
 # rocks sync host network `hostname -s`
