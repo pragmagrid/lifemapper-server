@@ -1,16 +1,15 @@
 <chapter id="installing" xreflabel="Installing">
 
 
-<title>Installing the lifemapper Roll</title>
+<title>Installing the Lifemapper-Server Roll</title>
 
 <section id="adding-the-roll" xreflabel="Adding the Roll">
 <title>Adding the Roll</title>
 
 <para>
 
-The lifemapper Roll must be installed during the Frontend installation step
-of your cluster (refer to section 1.2 of the Rocks usersguide).
-Future releases will allow the installation of the lifemapper Roll onto a
+The Lifemapper-Server Roll can be installed during the Frontend installation step
+of your cluster (refer to section 1.2 of the Rocks usersguide) or added to a
 running system.
 
 </para>
@@ -18,10 +17,10 @@ running system.
 
 <para>
 	
-The lifemapper Roll is added to a Frontend installation in exactly the same
+The Lifemapper-Server Roll is added to a Frontend installation in exactly the same
 manner as the required HPC Roll.  Specifically, after the HPC Roll is
 added the installer will once again ask if you have a Roll (see
-below).  Select 'Yes' and insert the lifemapper Roll.
+below).  Select 'Yes' and insert the  Lifemapper-Server Roll.
 
 <screenshot>
 	<graphic fileref="images/i-01.png" scale=50></graphic>

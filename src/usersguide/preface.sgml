@@ -3,15 +3,14 @@
 
 
 <para>
-The lifemapper Roll installs and configures the ...
+The  Lifemapper-Server Roll installs and configures the 
+LmServer snd LmWeb components of Lifemapper.
 </para>
 
 
 <para>
-Please visit the <ulink
-url="http://link-here.html">lifemapper
-site</ulink> to learn more about their release and the individual
-software components.
+Please visit the <ulink url="http://lifemapper.org/?page_id=2">Lifemapper site</ulink> 
+to learn more about the software.
 </para>
 
 </preface>
