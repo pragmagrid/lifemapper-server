@@ -61,10 +61,12 @@ REDHAT.ROOT = $(CURDIR)/../../
 -include $(ROCKSROOT)/etc/Rules.mk
 include Rules.mk
 
-PKGROOT = /opt/python
-PY.PATH = $(PKGROOT)/bin/python2.7
-
 RPM.EXTRAS += "AutoReq: 0"
+
+version.mk:
+	cat ../version.mk version.mk.in > version.mk
+
+PY.PATH = /opt/python/bin/$(PYTHONVER)
 
 build_jcc:
 	tar xzf  $(ARCHIVENAME)-$(VERSION)-src.tar.gz 
@@ -94,5 +96,5 @@ install:: install_jcc
 	)
 
 clean::
-	rm -rf $(ARCHIVENAME)-$(VERSION)
+	rm -rf $(ARCHIVENAME)-$(VERSION) version.mk
 

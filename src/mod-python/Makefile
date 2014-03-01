@@ -62,10 +62,10 @@ include Rules.mk
 
 RPM.EXTRAS += "AutoReq: 0"
 
-PY.PATH = /opt/python/bin/python2.7
-
 version.mk:
 	cat ../version.mk version.mk.in > version.mk
+
+PY.PATH = /opt/python/bin/$(PYTHONVER)
 
 build:
 	tar xzvf  $(ARCHIVENAME)-$(VERSION).$(TARBALL_POSTFIX) 
