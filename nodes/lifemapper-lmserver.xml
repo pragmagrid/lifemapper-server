@@ -33,6 +33,18 @@
 # set mode to strict (2) to prevent postgres being killed  by OOM 
 /sbin/sysctl -w vm.overcommit_memory=2
 
+<file name="/etc/sysctl.conf" mode="append">
+
+# Postgres (for lifemapper)
+# Set overcommit_memory mode to strict to reduce chances of OOM killer invocation
+vm.overcommit_memory = 2
+</file>
+
+PG=`basename /etc/init.d/postgresql-*`
+/sbin/chkconfig $PG on
+/sbin/chkconfig --add $PG 
+/sbin/chkconfig mysqld on
+
 # may need this later for postgres tuning 
 # rocks set network mtu public 9000
 # rocks sync host network `hostname -s`
