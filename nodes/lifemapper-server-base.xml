@@ -31,13 +31,14 @@
 	<package>bitstream-vera-fonts-common</package>
 	<package>bitstream-vera-sans-fonts</package>
 
-	<!-- packages build from source -->
+	<!-- lifemapper prerequisites -->
 	<package>lifemapper-proj</package>
 	<package>lifemapper-geos</package>
 	<package>lifemapper-gdal</package>
 	<package>lifemapper-tiff</package>
 	<package>lifemapper-mod_python</package>
 
+	<!-- python prerequisites -->
 	<package>opt-setuptools</package>
 	<package>opt-numexpr</package>
 	<package>opt-cython</package>
@@ -46,16 +47,12 @@
 	<package>opt-psycopg2</package>
 	<package>opt-faulthandler</package>
 
+	<package>rocks-lifemapper</package>
 	<package>roll-lifemapper-usersguide</package>
 
 <post>
 
-<file name="/etc/ld.so.conf.d/lifemapper-server.conf">
-/opt/lifemapper/lib
-/usr/java/latest/jre/lib/amd64
-/usr/java/latest/jre/lib/amd64/server
-/opt/python/lib
-</file>
+/sbin/ldconfig
 
 yum --enablerepo base     install giflib-devel
 yum --enablerepo base     install byacc
@@ -80,16 +77,28 @@ if [ "$GID" == "" ] ; then
     /usr/sbin/groupadd -g 502 lmwriter
 fi
 
-/usr/sbin/groupadd -g 501 lmreader
+/usr/sbin/useradd -c "Lifemapper web server user"  www-data
 rocks sync users
 
-mkdir -p /state/partition/lm/logs
-chgrp -R lmwriter /state/partition1/lm
-chmod -R g+ws /state/partition1/lm
+</post>
 
+<post>
 
+mkdir -p /state/partition1/lmserver/AncillaryData
+mkdir -p /state/partition1/lmserver/ArchiveData
+mkdir -p /state/partition1/lmserver/UserData
+chgrp -R lmwriter /state/partition1/lmserver/AncillaryData
+chgrp -R lmwriter /state/partition1/lmserver/ArchiveData
+
+for item in `/opt/lifemapper/lmserver/`; do
+    chgrp -R g+ws /opt/lifemapper/lmserver/$item
+done
+
+<file name="/etc/auto.share" mode="append">
+lmserver &Kickstart_PrivateHostname;:/export/&amp;
 </file>
 
+/etc/init.d/autofs restart
 
 </post>
 
