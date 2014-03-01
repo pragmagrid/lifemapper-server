@@ -20,6 +20,7 @@ echo "/usr/java/latest/jre/lib/amd64/server" >> /etc/ld.so.conf.d/lifemapper-ser
 
 # for building PyLucene 
 compile_and_install ant
+export ANT_HOME=/opt/lifemapper
 (cd src/pylucene;  make install_jcc)
 
 # for building pytables 
