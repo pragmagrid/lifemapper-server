@@ -42,7 +42,11 @@ chown www-data:www-data /var/www/tmp
 umask 002
 
 </file>
+
 service httpd restart
+
+crontab -u lmwriter /opt/lifemapper/rocks/etc/lucene.cron
+
 </post>
 
 </kickstart>
