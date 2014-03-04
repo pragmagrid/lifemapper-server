@@ -1,0 +1,195 @@
+#!/usr/bin/env python
+
+import os
+import stat
+import sys
+import glob
+import subprocess
+import shutil
+from pprint import pprint
+
+
+class PGconfig:
+    def __init__(self, argv):
+        self.args = argv[1:]
+        self.memtotal       = None    # total memory in Kb
+        self.shmall         = None    # maximum number of shared memory segments
+        self.shmmax         = None    # maximum shared segment size
+        self.page_size      = None    # PAGE_SIZE value
+        self.shared_buffers = None    # PAGE_SIZE value
+        self.percentSB      = 0.4     # allocation of memory (%) to shared buffers, see
+                                      # http://www.postgresql.org/docs/9.1/static/runtime-config-resource.html
+        self.percentECS     = 0.33    # good value is 1/3 of total memory  see
+                                      # https://communities.coverity.com/thread/2110
+        self.unixSocketDir = "/var/run/postgresql"          # unix socket dir 
+        self.base = glob.glob("/var/lib/pgsql/*/data/")[0]  # postgres db dir
+        self.pgconf = self.base + "postgresql.conf"         # postgres config file
+        self.caconf = self.base + "pg_hba.conf"             # postgres client authentication config file
+        self.uid = None                                     # config file owner 
+        self.gid = None                                     # config file group 
+
+        self.findSysValues()
+
+    def findSysValues(self):
+        self.getMemory()
+        self.getSHMALL()
+        self.getSHMMAX()
+        self.getPageSize()
+        self.getSharedBuffers()
+        self.getEffectiveCacheSize()
+
+    def getMemory(self):
+        """ find total memory """
+        cmd = "cat /proc/meminfo | grep MemTotal"
+        info, err = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()
+        self.memtotal = int(info.split()[1])
+
+    def getSHMALL(self):
+        """ find maximum number of shared memory segments """
+        cmd = "/sbin/sysctl kernel.shmall"
+        info, err = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()
+        self.shmall = int(info.split()[2])
+
+    def getSHMMAX(self):
+        """ find maximum shared segment size  (in pages)"""
+        cmd = "/sbin/sysctl kernel.shmmax"
+        info, err = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()
+        self.shmmax = int(info.split()[2])
+
+    def getPageSize(self):
+        """ find PAGE_SIZE """
+        cmd = "getconf PAGE_SIZE"
+        info, err = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()
+        self.page_size = int(info.split()[0])
+
+    def getSharedBuffers(self):
+        """ find shared_buffers """
+        sb = self.memtotal * self.percentSB  # shared_buffers value is % of physical memory
+
+        # the value for 'shmall' should be greater than the value of 'shared_buffers' (in bytes) divided by 'PAGE_SIZE'. 
+        if self.shmall > sb/self.page_size :
+            self.shared_buffers = int(sb)
+        else:
+            print "Need to update kernel settings shmmax shmall "
+
+    def getEffectiveCacheSize(self):
+        """ find effective_cache_size """
+        ecs = self.memtotal * self.percentECS # effective_cache_size is % of physical memory
+        self.effective_cache_size = int(ecs)
+
+    def getPerms(self, config):
+        """ find permissions and ownership for the config file """
+        stats = os.stat(config)
+        self.uid = stats[stat.ST_UID]
+        self.gid = stats[stat.ST_GID]
+
+    def readFile(self, fname):
+        """ read file, return content"""
+        fin = open(fname, "r")
+        lines = fin.readlines()
+        fin.close()
+        return lines
+
+    def writeFile(self, fname, content):
+        """ write file """
+        fout = open(fname, "w")
+        fout.write(content)
+        fout.close()
+
+    def makeConfigFile(self, str):
+        """ create new postgresql.conf """
+        # origninal config files
+        configFiles = {"pg":self.pgconf,"ca":self.caconf}
+
+        # functions to create new config files content 
+        makeConfLines  = {"pg":self.makePGlines,"ca":self.makeCAlines}
+
+        # make a copy of orig file, use original ownership and permissions
+        fname = configFiles[str]
+        fcopy = fname + ".orig" 
+        fcopy = "/tmp/" + os.path.basename(fname) + ".orig"  #FIXME rm
+        self.getPerms(fname)
+        shutil.copy2(fname, fcopy)
+        os.chown(fcopy, self.uid, self.gid)
+
+        # read defaults from original file
+        content = self.readFile(fname)
+        defaultLines = self.defaultConfig(str, content)  
+
+        # create new config file, set original ownership and permissions
+        newLines = makeConfLines[str]()              
+        fnew = fname
+        fnew = "/tmp/" + os.path.basename(fname)  #FIXME rm
+
+        self.writeFile(fnew, defaultLines + newLines)
+        shutil.copymode(fname, fnew)
+        os.chown(fnew, self.uid, self.gid)
+        
+    def getCAconfig(self, lines):
+        """ read original pg_hba.conf.conf content, return
+            non-comment lines, skip lines to be overwritten """
+
+        comments = ["#", " ", "\t", "\n"]
+        skip = ["local", "host" ]
+
+    def defaultConfig(self, str, lines):
+        """ read original file content, skip lines to be overwritten, return non-comment lines """
+
+        comments = ["#", " ", "\t", "\n"]
+        skipCA = ["local", "host" ]
+        skipPG = ["listen_addresses", "password_encryption", "shared_buffers", "effective_cache_size",
+                    "enable_seqscan", "logging_collector", "log_directory", "log_filename",
+                    "log_truncate_on_rotation", "log_rotation_age", "log_rotation_size"]
+        skip = {"pg":skipPG,"ca":skipCA}
+
+        content = ""
+        for line in lines:
+            if line[0] in comments or line.split()[0] in skip[str]: 
+                continue
+            else: 
+                content += line
+
+        return content
+
+    def makeCAlines(self):
+        """ create lines to add to pg_hba.conf file """
+        lines  = "# TYPE  DATABASE        USER            ADDRESS                 METHOD\n"
+        lines += "# \"local\" is for Unix domain socket connections only\n"
+        lines += "local   all             all                                     md5\n"
+        lines += "local   all             postgres                                md5\n"
+        lines += "# IPv4 local connections: \n"
+        lines += "host    all             all             127.0.0.1/32            md5\n" 
+
+        return lines        
+
+    def makePGlines(self):
+        """ create lines to add to postgresql.conf file """
+        lines = ""
+        lines += "listen_addresses = `*'\n"
+        lines += "password_encryption = on\n"
+        lines += "shared_buffers = %d\n" % self.shared_buffers
+        lines += "effective_cache_size = %d\n" % self.effective_cache_size
+        lines += "enable_seqscan = off\n"
+        lines += "logging_collector = on\n"
+        lines += "log_directory = `pg_log'\n"
+        lines += "log_filename = `postgresql-%Y-%m-%d_%H%M.log'\n"
+        lines += "log_truncate_on_rotation = off\n"
+        lines += "log_rotation_age = 1d\n"
+        lines += "log_rotation_size = 10MB\n"
+        lines += "unix_socket_dir  = %s\n" % self.unixSocketDir
+
+        return lines        
+
+    def runTest(self):
+        """ test output """
+        pprint (self.__dict__)
+
+    def run(self):
+        self.makeConfigFile("pg") 
+        self.makeConfigFile("ca") 
+        self.runTest()
+
+if __name__ == "__main__":
+        app=PGconfig(sys.argv)
+        app.run()
+

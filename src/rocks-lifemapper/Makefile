@@ -115,6 +115,7 @@ install::
 	install -m 755 lmserver_init $(ROOT)/$(PKGROOT)/rocks/bin
 	install -m 755 lmweb_init $(ROOT)/$(PKGROOT)/rocks/bin
 	install -m 755 buildLmLuceneIndex $(ROOT)/$(PKGROOT)/rocks/bin
+	install -m 755 pgsqlConfig.py $(ROOT)/$(PKGROOT)/rocks/bin
 
 	mkdir -p $(ROOT)/etc/httpd/conf.d
 	install -m 644 lifemapper.conf $(ROOT)/etc/httpd/conf.d
