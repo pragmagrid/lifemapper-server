@@ -1,0 +1,45 @@
+#!/usr/bin/env python
+
+import os
+import sys
+import subprocess
+from pprint import pprint
+
+class AddUser:
+    def __init__(self, argv):
+        self.args = argv[1:]
+        self.users          = "/opt/lifemapper/rocks/etc/users"         # users file 
+        self.ulist         = ["sdlapp", "mapuser", "wsuser", "jobuser"] # list of users 
+
+    def makeAuthLines(self):
+        """ create content of users file: user, random password per line """
+        cmd = "mkpasswd -l 12"
+        lines = ""
+	for user in self.ulist:
+            word, err = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()
+            lines += "%s %s\n" % (user, word[:-1])
+        return lines[:-1]
+
+    def makeUserFile(self):
+        """ create users file """
+
+        lines = self.makeAuthLines()
+        fname = self.users
+        fname = "/tmp/" + os.path.basename(fname)  #FIXME rm
+
+        f = open(fname, "w")
+        f.write(lines)
+        f.close()
+        os.chmod(fname, 0600)
+
+    def runTest(self):
+        """ test output """
+        pprint (self.__dict__)
+
+    def run(self):
+        self.makeUserFile()
+
+if __name__ == "__main__":
+        app=AddUser(sys.argv)
+        app.run()
+
