@@ -80,6 +80,9 @@ SCRIPTS = \
 	lucene.cron \
 	lifemapper-server.conf
 
+PYFILES = __init__.py pgconstants.py  
+PYSCRIPTS = pgbouncerConfig pgsqlConfig  pgsqlUsers 
+
 lifemapper.conf: lifemapper.conf.in
 	$(SED) $(SEDSPEC) $^ > $@
 
@@ -115,7 +118,8 @@ install::
 	install -m 755 lmserver_init $(ROOT)/$(PKGROOT)/rocks/bin
 	install -m 755 lmweb_init $(ROOT)/$(PKGROOT)/rocks/bin
 	install -m 755 buildLmLuceneIndex $(ROOT)/$(PKGROOT)/rocks/bin
-	install -m 755 pgsqlConfig.py $(ROOT)/$(PKGROOT)/rocks/bin
+	install -m 755 $(PYSCRIPTS) $(ROOT)/$(PKGROOT)/rocks/bin
+	install -m 644 $(PYFILES) $(ROOT)/$(PKGROOT)/rocks/bin
 
 	mkdir -p $(ROOT)/etc/httpd/conf.d
 	install -m 644 lifemapper.conf $(ROOT)/etc/httpd/conf.d
@@ -128,3 +132,4 @@ install::
 
 clean::
 	rm -rf version.mk $(SCRIPTS)
+	rm -rf *.pyc 
