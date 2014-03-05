@@ -6,6 +6,8 @@ import sys
 import glob
 import subprocess
 import shutil
+import time
+import pgconstants
 from pprint import pprint
 
 
@@ -17,18 +19,29 @@ class PGconfig:
         self.shmmax         = None    # maximum shared segment size
         self.page_size      = None    # PAGE_SIZE value
         self.shared_buffers = None    # PAGE_SIZE value
-        self.percentSB      = 0.4     # allocation of memory (%) to shared buffers, see
-                                      # http://www.postgresql.org/docs/9.1/static/runtime-config-resource.html
-        self.percentECS     = 0.33    # good value is 1/3 of total memory  see
-                                      # https://communities.coverity.com/thread/2110
-        self.unixSocketDir = "/var/run/postgresql"          # unix socket dir 
-        self.base = glob.glob("/var/lib/pgsql/*/data/")[0]  # postgres db dir
-        self.pgconf = self.base + "postgresql.conf"         # postgres config file
-        self.caconf = self.base + "pg_hba.conf"             # postgres client authentication config file
-        self.uid = None                                     # config file owner 
-        self.gid = None                                     # config file group 
+        self.percentSB      = pgconstants.PERCENT_SB  # allocation of memory (%) to shared buffers, see
+                                                      # http://www.postgresql.org/docs/9.1/static/runtime-config-resource.html
+        self.percentECS     = pgconstants.PERCENT_ECS # good value is 1/3 of total memory  see
+                                                      # https://communities.coverity.com/thread/2110
+        self.unixSocketDir  = pgconstants.UNIX_SOCKET_DIR            # unix socket dir 
+        self.base           = glob.glob("/var/lib/pgsql/*/data/")[0] # postgres db dir
+        self.pgconf         = self.base + pgconstants.PGCONF         # postgres config file
+        self.caconf         = self.base + pgconstants.CACONF         # postgres client authentication config file
+        self.pgtempl        = pgconstants.PGTEMPL                    # postgres config file template
+        self.catempl        = pgconstants.CATEMPL                    # postgres client authentication config file template
+        self.uid            = None                                   # config file owner 
+        self.gid            = None                                   # config file group 
+        self.time           = None                                   # time stamp of running the script
 
+        self.findTime()
         self.findSysValues()
+
+    def findTime(self):
+        """ create a time stamp of running the script. 
+            Time stamp is used as a  suffix for saved files """
+        secs = time.time()
+        tuple = time.localtime(secs)
+        self.time = ".%s" % time.strftime("%Y%m%d-%H%M", tuple)
 
     def findSysValues(self):
         self.getMemory()
@@ -85,35 +98,51 @@ class PGconfig:
 
     def readFile(self, fname):
         """ read file, return content"""
-        fin = open(fname, "r")
-        lines = fin.readlines()
-        fin.close()
+        try:
+            fin = open(fname, "r")
+            lines = fin.readlines()
+            fin.close()
+        except IOError as e:
+            print "ERROR: ", e.strerror, "%s" % fname
+            sys.exit(1)
         return lines
 
     def writeFile(self, fname, content):
         """ write file """
-        fout = open(fname, "w")
-        fout.write(content)
-        fout.close()
+        try:
+            fout = open(fname, "w")
+            fout.write(content)
+            fout.close()
+            print "Created %s file" % fname
+        except IOError as e:
+            print "ERROR: ", e.strerror, "%s" % fname
+            sys.exit(1)
+
 
     def makeConfigFile(self, str):
         """ create new postgresql.conf """
         # origninal config files
         configFiles = {"pg":self.pgconf,"ca":self.caconf}
 
+        # config files templates
+        templFiles = {"pg":self.pgtempl,"ca":self.catempl}
+
         # functions to create new config files content 
         makeConfLines  = {"pg":self.makePGlines,"ca":self.makeCAlines}
 
         # make a copy of orig file, use original ownership and permissions
         fname = configFiles[str]
-        fcopy = fname + ".orig" 
-        fcopy = "/tmp/" + os.path.basename(fname) + ".orig"  #FIXME rm
+        fcopy = fname + self.time
+        fcopy = "/tmp/" + os.path.basename(fname) + self.time  #FIXME rm
         self.getPerms(fname)
         shutil.copy2(fname, fcopy)
         os.chown(fcopy, self.uid, self.gid)
+        print "Original %s is backed up as %s " % (fname, fcopy)
+
 
         # read defaults from original file
-        content = self.readFile(fname)
+        self.checkTemplates(configFiles[str], templFiles[str])
+        content = self.readFile(templFiles[str])
         defaultLines = self.defaultConfig(str, content)  
 
         # create new config file, set original ownership and permissions
@@ -124,6 +153,7 @@ class PGconfig:
         self.writeFile(fnew, defaultLines + newLines)
         shutil.copymode(fname, fnew)
         os.chown(fnew, self.uid, self.gid)
+
         
     def getCAconfig(self, lines):
         """ read original pg_hba.conf.conf content, return
@@ -180,6 +210,14 @@ class PGconfig:
 
         return lines        
 
+    def checkTemplates(self, conf, templ):
+        """ check if there is a template for config file, if not (1st time run) create from orig config
+            files deposited by RPMs """
+        if not os.path.isfile(templ):
+            shutil.copy2(conf, templ)
+            os.chown(templ, self.uid, self.gid)
+            print "Created template %s " % (templ)
+
     def runTest(self):
         """ test output """
         pprint (self.__dict__)
@@ -187,7 +225,6 @@ class PGconfig:
     def run(self):
         self.makeConfigFile("pg") 
         self.makeConfigFile("ca") 
-        self.runTest()
 
 if __name__ == "__main__":
         app=PGconfig(sys.argv)

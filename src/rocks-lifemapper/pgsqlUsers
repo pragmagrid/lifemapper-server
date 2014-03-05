@@ -4,12 +4,39 @@ import os
 import sys
 import subprocess
 from pprint import pprint
+import pgconstants 
 
 class AddUser:
     def __init__(self, argv):
         self.args = argv[1:]
-        self.users          = "/opt/lifemapper/rocks/etc/users"         # users file 
-        self.ulist         = ["sdlapp", "mapuser", "wsuser", "jobuser"] # list of users 
+        self.usageName  = os.path.basename(argv[0])
+        self.users      = pgconstants.USERS_FILE  # users file 
+        self.ulist      = pgconstants.USERS_LIST  # list of users 
+
+        self.parseArgs()
+
+    def parseArgs(self):
+        """ prints usage an"""
+        if len(self.args) == 0: 
+            return
+        if self.args[0] in ('-h', '--help', 'help'):
+            self.help()
+        else:
+            print '\nWARNING: ignoring unknown argument %s\n' % self.args, \
+
+    def help(self):
+        """ print usage """
+        print '\nNAME: \n' , \
+              '\t%s - creates a file of users for Lifemapper postgres and pgbouncer access.\n' % self.usageName, \
+              '\nSYNOPSIS:\n' , \
+              '\t%s [-h|--help|help]\n' % self.usageName, \
+              '\nDESCRIPTION:\n' , \
+              '    Create a text file /opt/lifemapper/rocks/etc/users with permissions 0600.\n', \
+              '    File format: USERNAME PASSWORD per line, password is unencrypted.\n', \
+              '    The script is called during lifemapper-server roll installation and is used to \n', \
+              '    create users with md5 encrypted passwords for postgres and pgbouncer queries.\n', \
+              '    -h|--help|help       - prints this usage\n', \
+        sys.exit(0)
 
     def makeAuthLines(self):
         """ create content of users file: user, random password per line """
@@ -27,10 +54,14 @@ class AddUser:
         fname = self.users
         fname = "/tmp/" + os.path.basename(fname)  #FIXME rm
 
-        f = open(fname, "w")
-        f.write(lines)
-        f.close()
-        os.chmod(fname, 0600)
+        try: 
+            f = open(fname, "w")
+            f.write(lines)
+            f.close()
+            os.chmod(fname, 0600)
+            print "Created %s file" % self.users
+        except IOError: 
+            print "ERROR: %s file creation error" % self.users
 
     def runTest(self):
         """ test output """

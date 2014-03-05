@@ -6,6 +6,8 @@ import sys
 import glob
 import subprocess
 import shutil
+import time
+import pgconstants
 from pprint import pprint
 
 
@@ -15,18 +17,23 @@ class PGbouncer:
         self.ip            = None                           # host ip on public interface
         self.network       = None                           # host network 
         self.cidr          = None                           # host CIDR 
-        self.conf          = "/etc/pgbouncer/pgbouncer.ini" # pgbouncer config file
-        self.authFile      = "/etc/pgbouncer/userlist.txt"  # pgbouncer auth file
-        self.unixSocketDir = "/var/run/postgresql"          # unix socket dir for postgres 
-        self.users         = ["sdlapp",                     # pgbouncer users
-                              "mapuser", 
-                              "wsuser", 
-                              "jobuser"] 
+        self.pgbconf       = pgconstants.PGBINI             # pgbouncer config file
+        self.pgbtempl      = pgconstants.PGBTEMPL           # pgbouncer config file template
+        self.authFile      = pgconstants.PGBAUTH            # pgbouncer auth file
+        self.users         = pgconstants.USERS_FILE         # users file
+        self.unixSocketDir = pgconstants.UNIX_SOCKET_DIR    # unix socket dir for postgres 
+        self.userlist      = pgconstants.USERS_LIST         # pgbouncer users
+        self.time          = None                           # time stamp of running the script
 
-        self.findSysValues()
-
-    def findSysValues(self):
+        self.findTime()
         self.getNetworkInfo()
+
+    def findTime(self):
+        """ create a time stamp of running the script. 
+            Time stamp is used as a  suffix for saved files """
+        secs = time.time()
+        tuple = time.localtime(secs)
+        self.time = ".%s" % time.strftime("%Y%m%d-%H%M", tuple)
 
     def getNetworkInfo(self):
         """ find host network info for public interface """
@@ -52,30 +59,47 @@ class PGbouncer:
 
     def readFile(self, fname):
         """ read file, return content"""
-        fin = open(fname, "r")
-        lines = fin.readlines()
-        fin.close()
+        try: 
+            fin = open(fname, "r")
+            lines = fin.readlines()
+            fin.close()
+        except IOError as e:
+            print "ERROR: ", e.strerror, "%s" % fname
+            sys.exit(1)
         return lines
 
     def writeFile(self, fname, content):
         """ write file """
-        fout = open(fname, "w")
-        fout.write(content)
-        fout.close()
+        try:
+            fout = open(fname, "w")
+            fout.write(content)
+            fout.close()
+            print "Created %s file" % fname
+        except IOError as e:
+            print "ERROR: ", e.strerror, "%s" % fname
+            sys.exit(1)
 
     def makeConfigFile(self):
         """ create new pgbouncer.ini file """
 
         # make a copy of orig file, use original ownership and permissions
-        fname = self.conf 
-        fcopy = fname + ".orig"
-        fcopy = "/tmp/" + os.path.basename(fname) + ".orig"  #FIXME rm
+        fname = self.pgbconf 
+        fcopy = fname + self.time
+        fcopy = "/tmp/" + os.path.basename(fname) + self.time  #FIXME rm
         self.getPerms(fname)
         shutil.copy2(fname, fcopy)
         os.chown(fcopy, self.uid, self.gid)
+        print "Original %s is backed up as %s " % (fname, fcopy)
+
+        # create config file template if does not exist (1st time run)
+        templ = self.pgbtempl
+        if not os.path.isfile(templ):
+            shutil.copy2(fname, templ)
+            os.chown(templ, self.uid, self.gid)
+            print "Created template %s " % (templ)
 
         # read defaults from original file
-        content = self.readFile(fname)
+        content = self.readFile(templ)
         defaultLines = self.defaultConfig(content)
 
         # create new config file, set original ownership and permissions
@@ -119,14 +143,24 @@ class PGbouncer:
         return addLines        
 
     def makeAuthLines(self):
-        """ create lines for userlist.txt file """
+        """ create lines for auth file """
         import hashlib
         key_string = "SecretPassword"
         salt = "1Ha7"
         hash = hashlib.md5( salt + key_string ).hexdigest()
 
+        # read user/pass list 
+        lines = ""
+        content = self.readFile(self.users)
+        for item in content:
+            user, unencPasswd = item.split()
+            encPasswd = hashlib.md5(unencPasswd).hexdigest()
+            lines += "\"%s\" \"%s\"\n" % (user, encPasswd)
+
+        return lines
+
     def makeAuthFile(self):
-        """ create pgbouncer auth file """
+        """ create pgbouncer authentication userlist.txt file """
 
         # find owner permissiosn on unix socket dir
         self.getPerms(self.unixSocketDir)
@@ -135,10 +169,10 @@ class PGbouncer:
         lines = self.makeAuthLines()
 
         # write auth file
-        fnew = self.auth
-        fnew = "/tmp/" + os.path.basename(fname)  #FIXME rm
+        fnew = self.authFile
+        fnew = "/tmp/" + os.path.basename(self.authFile)  #FIXME rm
         self.writeFile(fnew, lines)
-        shutil.copymode(fname, fnew)
+        os.chmod(fnew, 0600)
         os.chown(fnew, self.uid, self.gid)
 
     def runTest(self):
@@ -148,7 +182,6 @@ class PGbouncer:
     def run(self):
         self.makeConfigFile()
         self.makeAuthFile()
-        self.runTest() #FIXME rm
 
 if __name__ == "__main__":
         app=PGbouncer(sys.argv)
