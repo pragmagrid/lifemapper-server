@@ -1,0 +1,164 @@
+#!/usr/bin/env python
+
+import os
+import stat
+import sys
+import subprocess
+import shutil
+import confconst
+import confbase
+
+
+class ConfPgbouncer(confbase.Baseconfig):
+    def __init__(self, argv):
+        confbase.Baseconfig.__init__(self, argv)
+        self.ip            = None                           # host ip on public interface
+        self.network       = None                           # host network 
+        self.cidr          = None                           # host CIDR 
+        self.pgbconf       = confconst.PGBINI             # pgbouncer config file
+        self.pgbtempl      = confconst.PGBTEMPL           # pgbouncer config file template
+        self.authFile      = confconst.PGBAUTH            # pgbouncer auth file
+        self.nameinfo = "Update pgbouncer configuration file and user authentication file"
+        self.descinfo = "Use original pgbouncer config file as a template, create updated entries based\n" + \
+                        "%son host's network, write new %s.\n" % (self.space, self.pgbconf) + \
+                        "%sRead users/pass from %s file and create %s \n" % (self.space,self.users,self.authFile)  + \
+                        "%sPrevious config files are saved with script's runtime stamp appended.\n" % self.space + \
+                        "%sThe script is called during lifemapper-server roll installation.\n" % self.space
+
+        self.parseArgs()
+        self.findTime()
+        self.getNetworkInfo()
+
+
+    def getNetworkInfo(self):
+        """ find host network info for public interface """
+        cmd = "rocks list host attr localhost | grep Kickstart_Public"
+        info, err = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()
+        lines = info.split("\n")
+        for line in lines:
+            if len(line):
+                parts = line.split()
+                if parts[1]  == "Kickstart_PublicAddress": self.ip = parts[2]
+                if parts[1]  == "Kickstart_PublicNetwork": self.network = parts[2]
+                if parts[1]  == "Kickstart_PublicNetmaskCIDR": self.cidr = parts[2]
+
+        if self.ip == None or self.network == None or self.cidr == None:
+            print "Missing information about public interface "
+            sys.exit(1)
+
+
+    def makeConfigFile(self):
+        """ create new pgbouncer.ini file """
+
+        # make a copy of orig file, use original ownership and permissions
+        fname = self.pgbconf 
+        fcopy = fname + self.time
+        fcopy = "/tmp/" + os.path.basename(fname) + self.time  #FIXME rm
+        self.getPerms(fname)
+        shutil.copy2(fname, fcopy)
+        os.chown(fcopy, self.uid, self.gid)
+        print "Original %s is backed up as %s " % (fname, fcopy)
+
+        # create config file template if does not exist (1st time run)
+        templ = self.pgbtempl
+        if not os.path.isfile(templ):
+            shutil.copy2(fname, templ)
+            os.chown(templ, self.uid, self.gid)
+            print "Created template %s " % (templ)
+
+        # read defaults from original file
+        content = self.readFile(templ)
+        defaultLines = self.defaultConfig(content)
+
+        # create new config file, set original ownership and permissions
+        newLines = self.makePGBlines()
+        fnew = fname
+        fnew = "/tmp/" + os.path.basename(fname)  #FIXME rm
+
+        self.writeFile(fnew, defaultLines + newLines)
+        shutil.copymode(fname, fnew)
+        os.chown(fnew, self.uid, self.gid)
+
+        
+    def defaultConfig(self, lines):
+        """ read original pgbouncer.ini content, skip lines to be overwritten, return non-comment lines """
+
+        comments = [";", " ", "\t", "\n"]
+        keywords = ["logfile", "pidfile", "auth_file", "listen_port", "pool_mode" ]
+        content = ""
+        for line in lines:
+            if line[0] in comments:
+                continue
+            if line.split()[0] in keywords: 
+                content += line
+
+        return content
+
+    def makePGBlines(self):
+        """ create lines to add to pgbouncer.ini configuration file """
+        addLines = ";; Specific to Lifemapper\n"
+        addLines += "[databases]\n"
+        addLines += "* = host=%s\n\n" % self.ip
+        addLines += ";; Configuration section\n"
+        addLines += "[pgbouncer]\n\n"
+        addLines += "listen_addr = %s/%s\n" % (self.network, self.cidr)
+        addLines += "unix_socket_dir  = %s\n" % self.unixSocketDir
+        addLines += "auth_type = md5\n"
+        addLines += "auth_file = /etc/pgbouncer/userlist.txt\n"
+        addLines += "admin_users =\n"
+        addLines += "stats_users =\n"
+
+        return addLines        
+
+    def makeAuthLines(self):
+        """ create lines for auth file """
+        #import hashlib
+
+        # read user/pass list 
+        lines = ""
+        content = self.readFile(self.users)
+        for item in content:
+            user, txtPassword = item.split()
+            # use ENCYPTED keyword in postgres when creating roles, no need for hash
+            #md5hash = "md5" + hashlib.md5(user + txtPassword).hexdigest()
+            if user in self.adminlist: 
+                continue
+            lines += "\"%s\" \"%s\"\n" % (user, txtPassword)
+            #lines += "\"%s\" \"%s\"\n" % (user, md5hash)
+
+        return lines
+
+    def makeAuthFile(self):
+        """ create pgbouncer authentication userlist.txt file """
+        # find owner permissiosn  to use 
+        self.getPerms(self.unixSocketDir)
+
+        # save previous file if exists
+        fprev = self.authFile
+        fcopy = fprev + self.time
+        fcopy = "/tmp/" + os.path.basename(fprev) + self.time  
+        if os.path.isfile(fprev):
+            shutil.copy2(fprev, fcopy)
+            self.getPerms(fprev)
+            os.chown(fcopy, self.uid, self.gid)
+            print "Original %s is backed up as %s " % (fprev, fcopy)
+
+        # create auth file content
+        lines = self.makeAuthLines()
+
+        # write auth file
+        fnew =  self.authFile 
+        fnew = "/tmp/" + os.path.basename(self.authFile)  #FIXME rm
+        self.writeFile(fnew, lines)
+        os.chmod(fnew, 0600)
+        os.chown(fnew, self.uid, self.gid)
+
+
+    def run(self):
+        self.makeConfigFile()
+        self.makeAuthFile()
+
+### Main ###
+app = ConfPgbouncer(sys.argv)
+app.run()
+
