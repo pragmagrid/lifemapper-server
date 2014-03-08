@@ -9,6 +9,7 @@ if [ "$GID" != "" ] ; then
     mkdir -p @LMWEB@/sessions
     mkdir -p @LMWEB@/luceneIndex
     mkdir -p @LMWEB@/.python-eggs
+    chgrp -R lmwriter @LMWEB@
     chmod -R g+ws @LMWEB@
 else 
     echo "ERROR: group $gname does not exist"
