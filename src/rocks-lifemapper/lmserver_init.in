@@ -3,3 +3,21 @@
 # Set overcommit_memory mode to strict (2) to reduce chances of 'Out of Memory killer' being invoked
 /sbin/sysctl -w vm.overcommit_memory=2
 
+# create users file, rewrite pgsql  and pgbouncer config files
+BIN=/opt/lifemapper/rocks/bin
+
+PROG=/opt/lifemapper/rocks/bin/confUsers
+[ -x $PROG ] && $PROG || echo "ERROR: $PROG is not found"
+
+PROG=/opt/lifemapper/rocks/bin/confPostgres
+[ -x $PROG ] && $PROG || echo "ERROR: $PROG is not found"
+
+PROG=/opt/lifemapper/rocks/bin/confPgbouncer
+[ -x $PROG ] && $PROG || echo "ERROR: $PROG is not found"
+
+# create DB users and postgis extensions
+TDIR=/opt/lifemapper/rocks/sql/
+su - postgres -c "psql template1 -f $TDIR/roles.sql"
+su - postgres -c "psql template1 -f $TDIR/postgis.sql"
+
+
