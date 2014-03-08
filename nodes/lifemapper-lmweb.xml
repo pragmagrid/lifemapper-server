@@ -21,20 +21,17 @@
 	<package>lifemapper-mod_python</package>
 	<package>lifemapper-ant</package>
 	<package>opt-cherrypy</package>
-	<package>opt-cheeta</package>
+	<package>opt-cheetah</package>
 	<package>opt-pylucene</package>
 
 <post>
+# mapserver, its home is for temp files    
+/usr/sbin/useradd -c "Lifemapper web server user"  -d /var/www/tmp -G lmwriter www-data 
+rocks sync users
+# mkdir -p /var/www/tmp
+# chown www-data:www-data /var/www/tmp
 
-mkdir -p /var/lib/lm2/sessions
-mkdir -p /var/lib/lm2/luceneIndex
-mkdir -p /var/lib/lm2/.python-eggs
-
-chgrp -R lmwriter /var/lib/lm2
-chmod -R g+ws     /var/lib/lm2
-
-mkdir -p /var/www/tmp
-chown www-data:www-data /var/www/tmp
+/opt/lifemapper/rocks/bin/lmweb_init
 
 <file name="/etc/sysconfig/httpd" mode="append">
 
@@ -44,8 +41,6 @@ umask 002
 </file>
 
 service httpd restart
-
-crontab -u lmwriter /opt/lifemapper/rocks/etc/lucene.cron
 
 </post>
 
