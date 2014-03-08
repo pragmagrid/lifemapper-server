@@ -26,9 +26,29 @@
 
 <post>
 
-#yum install postgis2_91
-#yum --enablerepo epel fribidi
-#yum install mapserver
+# install postgres
+yum --enablerepo base update openssl
+yum install postgresql91
+yum install postgresql91-devel
+yum install postgresql91-server
+yum install postgresql91-jdbc
+yum --enablerepo base install unixODBC
+yum install postgresql91-odbc
+yum install postgresql91-docs
+yum install postgresql91-pl
+yum install postgresql91-python
+yum install postgresql91-plpython
+yum install postgresql91-pltcl
+yum --enablerepo=base install uuid
+yum install postgresql91-contrib
+yum install postgresql91-libs
+yum install postgresql91-test
+yum install pgbouncer
+
+# install postgis
+export PATH=/usr/pgsql-9.1/bin:$PATH
+yum --enablerepo epel install json-c.x86_64
+yum install postgis2_91
 
 # set mode to strict (2) to prevent postgres being killed  by OOM 
 /sbin/sysctl -w vm.overcommit_memory=2
@@ -40,11 +60,26 @@
 vm.overcommit_memory = 2
 </file>
 
+# create unix socket dir for postgres and pgbounser
+mkdir -p /var/run/postgresql
+chown postgres:postgres /var/run/postgresql
+
+# add unix socket info for postgres user
+<file name="/var/lib/pgsql/.bash_profile" mode="append">
+PGHOST=/var/run/postgresql
+export PGHOST
+</file>
+
+/opt/lifemapper/rocks/bin/lmserver_init
+
+# start postgres 
 PG=`basename /etc/init.d/postgresql-*`
 /sbin/chkconfig $PG on
 /sbin/chkconfig --add $PG 
-/sbin/chkconfig mysqld on
 
+#/sbin/chkconfig mysqld on
+
+# start pgbouncer 
 BOUNCER=/etc/init.d/pgbouncer
 /sbin/chkconfig $BOUNCER on
 /sbin/chkconfig --add $BOUNCER 
@@ -52,7 +87,6 @@ BOUNCER=/etc/init.d/pgbouncer
 # may need this later for postgres tuning 
 # rocks set network mtu public 9000
 # rocks sync host network `hostname -s`
-
 
 </post>
 
