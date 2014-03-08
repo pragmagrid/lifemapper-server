@@ -2,8 +2,9 @@
 
 PYBIN=/opt/python/bin
 LMBIN=@PKGROOT@/bin
+PGSQLBIN=@PGSQL@
 
-export PATH=$PYBIN:$LMBIN:$PATH
+export PATH=$PGSQLBIN:$PYBIN:$LMBIN:$PATH
 export PYTHON=/opt/python/bin/@PYTHONVER@
 
 export PYTHON_EGG_CACHE="@LMWEB@/.python-eggs"
