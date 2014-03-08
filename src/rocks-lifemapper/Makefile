@@ -68,6 +68,7 @@ SEDSPEC += \
         -e 's%@LMHOME@%$(LMHOME)%g' \
         -e 's%@MAPSERVER_TMP@%$(MAPSERVER_TMP)%g' \
         -e 's%@LMWEB@%$(LMWEB)%g' \
+        -e 's%@PGSQL@%$(PGSQL)%g' \
         -e 's%@PYTHONVER@%$(PYTHONVER)%g' \
         -e 's%@PKGROOT@%$(PKGROOT)%g'
 
@@ -82,6 +83,7 @@ SCRIPTS = \
 
 PYFILES = __init__.py pgconstants.py  
 PYSCRIPTS = pgbouncerConfig pgsqlConfig  pgsqlUsers 
+SQL = postgis.sql roles.sql
 
 lifemapper.conf: lifemapper.conf.in
 	$(SED) $(SEDSPEC) $^ > $@
@@ -114,6 +116,12 @@ install::
 	mkdir -p $(ROOT)/etc/sysctl.d
 	install -m 644 postgresd $(ROOT)/etc/sysctl.d
 
+	mkdir -p $(ROOT)/etc/httpd/conf.d
+	install -m 644 lifemapper.conf $(ROOT)/etc/httpd/conf.d
+
+	mkdir -p $(ROOT)/etc/ld.so.conf.d
+	install -m 644 lifemapper-server.conf $(ROOT)/etc/ld.so.conf.d
+
 	mkdir -p $(ROOT)/$(PKGROOT)/rocks/bin
 	install -m 755 lmserver_init $(ROOT)/$(PKGROOT)/rocks/bin
 	install -m 755 lmweb_init $(ROOT)/$(PKGROOT)/rocks/bin
@@ -121,14 +129,11 @@ install::
 	install -m 755 $(PYSCRIPTS) $(ROOT)/$(PKGROOT)/rocks/bin
 	install -m 644 $(PYFILES) $(ROOT)/$(PKGROOT)/rocks/bin
 
-	mkdir -p $(ROOT)/etc/httpd/conf.d
-	install -m 644 lifemapper.conf $(ROOT)/etc/httpd/conf.d
-
 	mkdir -p $(ROOT)/$(PKGROOT)/rocks/etc
 	install -m 644 lucene.cron $(ROOT)/$(PKGROOT)/rocks/etc
 
-	mkdir -p $(ROOT)/etc/ld.so.conf.d
-	install -m 644 lifemapper-server.conf $(ROOT)/etc/ld.so.conf.d
+	mkdir -p $(ROOT)/$(PKGROOT)/rocks/sql
+	install -m 644 $(SQL) $(ROOT)/$(PKGROOT)/rocks/sql 
 
 clean::
 	rm -rf version.mk $(SCRIPTS)
