@@ -48,7 +48,7 @@
 	<package>opt-faulthandler</package>
 
 	<package>rocks-lifemapper</package>
-	<package>roll-lifemapper-usersguide</package>
+	<package>roll-lifemapper-server-usersguide</package>
 
 <post>
 
@@ -62,13 +62,7 @@ yum --enablerepo rpmforge install hdf4 hdf4-devel
 yum --enablerepo rpmforge install hdf5 hdf5-devel
 yum --enablerepo base install cmake
 
-yum --enablerepo base update openssl
-yum install postgresql91
-yum install postgresql91-devel
-yum install pgbouncer
-yum --enablerepo epel install json-c.x86_64
-yum install postgis2_91
-
+# mapserver
 yum --enablerepo epel fribidi
 yum install mapserver
 
@@ -84,11 +78,10 @@ rocks sync users
 
 <post>
 
-mkdir -p /state/partition1/lmserver/AncillaryData
-mkdir -p /state/partition1/lmserver/ArchiveData
-mkdir -p /state/partition1/lmserver/UserData
-chgrp -R lmwriter /state/partition1/lmserver/AncillaryData
-chgrp -R lmwriter /state/partition1/lmserver/ArchiveData
+mkdir -p /state/partition1/lmserver/data/AncillaryData
+mkdir -p /state/partition1/lmserver/data/ArchiveData
+mkdir -p /state/partition1/lmserver/data/UserData
+chgrp -R lmwriter /state/partition1/lmserver/
 
 for item in `/opt/lifemapper/lmserver/`; do
     chgrp -R g+ws /opt/lifemapper/lmserver/$item
