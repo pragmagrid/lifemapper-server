@@ -81,9 +81,8 @@ SCRIPTS = \
 	lucene.cron \
 	lifemapper-server.conf
 
-PYFILES = __init__.py pgconstants.py  
-PYSCRIPTS = pgbouncerConfig pgsqlConfig  pgsqlUsers 
-SQL = postgis.sql roles.sql
+PYFILES = __init__.py confconst.py  
+PYSCRIPTS = confPgbouncer confPostgres  confUsers 
 
 lifemapper.conf: lifemapper.conf.in
 	$(SED) $(SEDSPEC) $^ > $@
@@ -133,7 +132,8 @@ install::
 	install -m 644 lucene.cron $(ROOT)/$(PKGROOT)/rocks/etc
 
 	mkdir -p $(ROOT)/$(PKGROOT)/rocks/sql
-	install -m 644 $(SQL) $(ROOT)/$(PKGROOT)/rocks/sql 
+	install -m 644 postgis.sql $(ROOT)/$(PKGROOT)/rocks/sql 
+	install -m 644 roles.sql $(ROOT)/$(PKGROOT)/rocks/sql/roles.sql.template
 
 clean::
 	rm -rf version.mk $(SCRIPTS)

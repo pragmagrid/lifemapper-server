@@ -3,9 +3,8 @@
 TEMPLDIR = "/opt/lifemapper/rocks/etc/" # config files templates directory
 SQLDIR = "/opt/lifemapper/rocks/sql/"   # sql files directory
 EXT = ".template"                       # template file extension
-ROLE = "roles.sql"
+ROLE = "roles.sql"                      # file for postgres DB users creation
 ROLETEMPL = SQLDIR + ROLE + EXT
-MKPASSWD = "mkpasswd -l 12 -d 3 -s 0"   # use to create passwd: 12c lon, 3 digits, no special chars
 
 # postgres configuration
 UNIX_SOCKET_DIR = "/var/run/postgresql" # unix socket directory
@@ -27,3 +26,4 @@ PGBTEMPL = TEMPLDIR + "pgbouncer.ini" + EXT # template config file
 USERS_FILE = "/opt/lifemapper/rocks/etc/users"         # users file
 USER_LIST = ["sdlapp", "mapuser", "wsuser", "jobuser"] # postgres and pgbouncer users
 ADMIN_LIST = ["postgres", "admin"]                     # admin users
+MKPASSWD = "mkpasswd -l 12 -d 3 -s 0"   # use to create passwd: 12c lon, 3 digits, no special chars
