@@ -27,6 +27,8 @@ class Baseconfig:
         self.sqldir        = confconst.SQLDIR 
         self.role          = confconst.ROLE 
         self.roletempl     = confconst.ROLETEMPL
+        self.mysql         = confconst.MYSQL 
+        self.mysqltempl    = confconst.MYSQLTEMPL
         self.unixSocketDir = confconst.UNIX_SOCKET_DIR
 
 

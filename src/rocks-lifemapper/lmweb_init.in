@@ -19,3 +19,9 @@ fi
 # install lucene cron job
 crontab -u lmwriter @PKGROOT@/rocks/etc/lucene.cron
 
+# enable user access to mysql DB
+initfile=@PKGROOT@/rocks/sql/mysql.sql
+if [ -f $initfile ]; then
+    mysql @MYSQLDB@ <  $initfile
+fi
+

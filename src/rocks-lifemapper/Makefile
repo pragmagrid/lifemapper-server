@@ -70,6 +70,7 @@ SEDSPEC += \
         -e 's%@LMWEB@%$(LMWEB)%g' \
         -e 's%@PGSQL@%$(PGSQL)%g' \
         -e 's%@PYTHONVER@%$(PYTHONVER)%g' \
+        -e 's%@MYSQLDB@%$(MYSQLDB)%g' \
         -e 's%@PKGROOT@%$(PKGROOT)%g'
 
 SCRIPTS = \
@@ -134,6 +135,7 @@ install::
 	mkdir -p $(ROOT)/$(PKGROOT)/rocks/sql
 	install -m 644 postgis.sql $(ROOT)/$(PKGROOT)/rocks/sql 
 	install -m 644 roles.sql $(ROOT)/$(PKGROOT)/rocks/sql/roles.sql.template
+	install -m 644 mysql.sql $(ROOT)/$(PKGROOT)/rocks/sql/mysql.sql.template
 
 clean::
 	rm -rf version.mk $(SCRIPTS)

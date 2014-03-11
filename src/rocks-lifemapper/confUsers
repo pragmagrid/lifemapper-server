@@ -22,7 +22,6 @@ class ConfUser(confbase.Baseconfig):
 
         self.parseArgs()
 
-
     def makeAuthLines(self):
         """ create content of users file: user, random password per line 
             collect password/use info in self.passdict for creating sql file"""
@@ -49,23 +48,23 @@ class ConfUser(confbase.Baseconfig):
         return regex.sub(lambda func: self.passdict[func.string[func.start():func.end()]], text) 
 
 
-    def makeSQLfile(self):
-        """ create roles.sql file from a tempalte, substitute placeholders with created passwords """
+    def makeSQLfile(self, templ, file):
+        """ create sql file from a tempalte, substitute placeholders with created passwords """
         # read content from template, replace placeholders with real passwords
-        fname = self.roletempl
-        content = self.replaceWords(self.readFileText(fname))
+        content = self.replaceWords(self.readFileText(templ))
 
         # write new content in a file
-        fnew = self.role
-        fnew = "/tmp/" + os.path.basename(fnew)  #FIXME rm
-        self.writeFile(fnew, content)
+        #fnew = file
+        file = "/tmp/" + os.path.basename(file)  #FIXME rm
+        self.writeFile(file, content)
         self.getPerms(self.base)
-        os.chmod(fnew, 0600)
-        os.chown(fnew, self.uid, self.gid)
+        os.chmod(file, 0600)
+        os.chown(file, self.uid, self.gid)
 
     def run(self):
         self.makeUserFile()
-        self.makeSQLfile()
+        self.makeSQLfile(self.roletempl, self.role)
+        self.makeSQLfile(self.mysqltempl, self.mysql)
 
 ### Main ###
 app = ConfUser(sys.argv)

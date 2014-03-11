@@ -4,7 +4,9 @@ TEMPLDIR = "/opt/lifemapper/rocks/etc/" # config files templates directory
 SQLDIR = "/opt/lifemapper/rocks/sql/"   # sql files directory
 EXT = ".template"                       # template file extension
 ROLE = "roles.sql"                      # file for postgres DB users creation
-ROLETEMPL = SQLDIR + ROLE + EXT
+ROLETEMPL = SQLDIR + ROLE + EXT         # template file for postgres users creation
+MYSQL = "mysql.sql"                     # file for mysql DB users creation
+MYSQLTEMPL = SQLDIR + MYSQL + EXT       # template file for mysql users creation
 
 # postgres configuration
 UNIX_SOCKET_DIR = "/var/run/postgresql" # unix socket directory
