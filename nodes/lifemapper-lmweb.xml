@@ -40,7 +40,8 @@ umask 002
 
 </file>
 
-service httpd restart
+/sbin/service httpd restart
+/sbin/chkconfig mysqld on
 
 </post>
 
