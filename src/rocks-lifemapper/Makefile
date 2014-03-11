@@ -76,6 +76,7 @@ SEDSPEC += \
 SCRIPTS = \
 	lifemapper.conf \
 	lifemapper.sh  \
+	lifemapper.csh  \
 	lmserver_init \
 	lmweb_init  \
 	buildLmLuceneIndex \
@@ -89,6 +90,9 @@ lifemapper.conf: lifemapper.conf.in
 	$(SED) $(SEDSPEC) $^ > $@
 
 lifemapper.sh: lifemapper.sh.in
+	$(SED) $(SEDSPEC) $^ > $@
+
+lifemapper.csh: lifemapper.csh.in
 	$(SED) $(SEDSPEC) $^ > $@
 
 lmserver_init: lmserver_init.in
@@ -112,6 +116,7 @@ install::
 
 	mkdir -p $(ROOT)/etc/profile.d
 	install -m 755 lifemapper.sh $(ROOT)/etc/profile.d
+	install -m 755 lifemapper.csh $(ROOT)/etc/profile.d
 
 	mkdir -p $(ROOT)/etc/sysctl.d
 	install -m 644 postgresd $(ROOT)/etc/sysctl.d
