@@ -25,7 +25,6 @@
 	<!-- packages available on the system -->
 	<package>sqlite</package>
 	<package>flex</package>
-	<package>libxslt</package>
 
 	<!-- mapserver prereq -->
 	<package>bitstream-vera-fonts-common</package>
@@ -36,7 +35,6 @@
 	<package>lifemapper-geos</package>
 	<package>lifemapper-gdal</package>
 	<package>lifemapper-tiff</package>
-	<package>lifemapper-mod_python</package>
 
 	<!-- python prerequisites -->
 	<package>opt-setuptools</package>
@@ -47,6 +45,7 @@
 	<package>opt-psycopg2</package>
 	<package>opt-faulthandler</package>
 
+	<package>lifemapper-server</package>
 	<package>rocks-lifemapper</package>
 	<package>roll-lifemapper-server-usersguide</package>
 
