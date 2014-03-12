@@ -23,6 +23,8 @@
         <package>opt-MySQL-python</package>
         <package>libxslt</package>
         <package>lifemapper-spatialindex</package>
+        <package>lifemapper-rtree</package>
+        <package>lifemapper-server-data</package>
 
 <post>
 
