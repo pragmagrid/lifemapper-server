@@ -14,7 +14,7 @@ Installing LMserver
   * *yum elgis repo:* mapserver 
   * *yum pgdg91 repo:* postgresql91, postgresql91-devel, postgis2_91, pgbouncer
   * *build from source:* libspatialindex, geos, ant, mod_python, gdal
-  * *build python modules from source:* numexpr, Cheetah, CherryPy, Cython, pytables, egenix-mxDateTime, setuptools, rtree, pylucene, psycopg2, MySQL-python, faulthandler
+  * *build python modules from source:* numexpr, Cheetah, CherryPy, Cython, pytables, egenix-mxDateTime (part of egenix-mx-base), setuptools, rtree, pylucene, psycopg2, MySQL-python, faulthandler
     
   **repos download:**  
     wget http://yum.postgresql.org/9.1/redhat/rhel-6-x86_64/pgdg-centos91-9.1-4.noarch.rpm  
@@ -32,14 +32,21 @@ Installing LMserver
     wget --no-check-certificate https://pypi.python.org/packages/source/n/numexpr/numexpr-2.3.tar.gz  
     wget --no-check-certificate https://downloads.egenix.com/python/egenix-mx-base-3.2.7.tar.gz  
     wget --no-check-certificate http://pypi.python.org/packages/source/s/setuptools/setuptools-2.1.tar.gz  
-    wget --no-check-certificate  https://pypi.python.org/packages/source/R/Rtree/Rtree-0.7.0.tar.gz  
-    wget --no-check-certificate  https://pypi.python.org/packages/source/p/psycopg2/psycopg2-2.5.2.tar.gz  
+    wget --no-check-certificate https://pypi.python.org/packages/source/R/Rtree/Rtree-0.7.0.tar.gz  
+    wget --no-check-certificate https://pypi.python.org/packages/source/p/psycopg2/psycopg2-2.5.2.tar.gz  
     wget --no-check-certificate https://pypi.python.org/packages/source/M/MySQL-python/MySQL-python-1.2.5.zip  
     wget --no-check-ertificate https://pypi.python.org/packages/source/C/Cheetah/Cheetah-2.4.4.tar.gz  
     wget --no-check-certificate https://pypi.python.org/packages/source/f/faulthandler/faulthandler-2.3.tar.gz  
-    wget --no-check-certificate https://pypi.python.org/packages/source/R/Rtree/Rtree-0.7.0.tar.gz
 
   **RPMs download:**  
     wget ftp://ftp.pbone.net/mirror/atrpms.net/el6-x86_64/atrpms/stable/bitstream-vera-sans-fonts-1.10-18.el6.noarch.rpm  
     wget ftp://ftp.pbone.net/mirror/atrpms.net/el6-i386/atrpms/stable/bitstream-vera-fonts-common-1.10-18.el6.noarch.rpm  
 
+**Individual package dependencies**
+  **pytables**: Cython and numexpr python packages and hdf5, hdf5-devel RPMS 
+  **rtree**: spatialindex, setuptools python packages
+  **mapserver**: elgis repo, bitstream-vera-sans-fonts RPM, bitstream-vera-fonts-common RPM
+  *pylucene**: setuptools python packages
+  *postgis2_91**: geos 
+  *mapserver**: geos 
+  *psycopg2**: gdal, postgresql91 
