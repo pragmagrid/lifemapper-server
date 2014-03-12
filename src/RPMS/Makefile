@@ -15,7 +15,7 @@ include Rules.mk
 NOARCH = noarch
 
 rpm:: build
-	-cp *.$(ARCH).rpm $(REDHAT.RPMS)/$(ARCH)/
+	-cp *.$(NOARCH).rpm $(REDHAT.RPMS)/$(NOARCH)/
 
 build:
 	mkdir -p $(REDHAT.RPMS)/$(NOARCH)/
