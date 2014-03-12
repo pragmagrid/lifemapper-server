@@ -69,6 +69,7 @@ version.mk:
 PY.PATH = /opt/python/bin/$(PYTHONVER)
 
 build_jcc:
+	export ANT_HOME=$(PKGROOT) 
 	tar xzf  $(ARCHIVENAME)-$(VERSION)-src.tar.gz 
 	cd patch-files && find . -type f | grep -v CVS | cpio -pduv ..
 	(\
