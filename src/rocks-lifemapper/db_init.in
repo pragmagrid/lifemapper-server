@@ -1,0 +1,7 @@
+#!/bin/bash 
+
+# create DB users and postgis extensions
+TDIR=@PKGROOT@/rocks/sql/
+su - postgres -c "psql template1 -f $TDIR/roles.sql"
+su - postgres -c "psql template1 -f $TDIR/postgis.sql"
+
