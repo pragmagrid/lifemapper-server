@@ -4,7 +4,7 @@
 # Need to pass svn url as a first argument. 
 # Will be prompted for svn user and passwd.
 
-SRC=src
+SRC=components
 
 # check commadn line arguments
 if [ $# -ne 1 ]; then
@@ -18,7 +18,7 @@ fi
 # get src distro from lifemapper svn
 svnCheckout () {
       echo "Starting SVN checkout from $1:"
-      #svn checkout $1
+      svn checkout $1/components
       if [ -d $SRC ]; then
           DIRS=`find $SRC -name .svn`
           for i in $DIRS; do
@@ -37,11 +37,10 @@ compressFiles () {
   if [ -d $SRC ]; then
       echo "Creating src archive from svn checkout"
       DATE=`date +%Y%m%d`
-      PARTS="$SRC/common  $SRC/LM  $SRC/lm2hydra  $SRC/lm2pub  $SRC/scripts"
-      (cd patch-files && find . -type f | grep -v CVS | cpio -pduv ..)
-      tar czf src-$DATE.tar.gz $PARTS 
+      PARTS="$SRC/LmDbServer $SRC/LmWebServer $SRC/LmServerCommon $SRC/LmCommon $SRC/__init__.py"
+      #(cd patch-files && find . -type f | grep -v CVS | cpio -pduv ..)
+      tar czvf src-$DATE.tar.gz $PARTS 
   else
-      pwd
       echo "Svn checkout directory $SRC is not present"
   fi
 }
