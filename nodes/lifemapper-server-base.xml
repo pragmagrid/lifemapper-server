@@ -23,7 +23,6 @@
 	<package>elgis-release</package>
 
 	<!-- packages available on the system -->
-	<package>sqlite</package>
 	<package>flex</package>
 
 	<!-- mapserver prereq -->
@@ -62,7 +61,7 @@ yum --enablerepo rpmforge install hdf5 hdf5-devel
 yum --enablerepo base install cmake
 
 # mapserver
-yum --enablerepo epel fribidi
+yum --enablerepo epel install fribidi
 yum install mapserver
 
 GID=`grep lmwriter: /etc/group`
@@ -70,8 +69,6 @@ if [ "$GID" == "" ] ; then
     /usr/sbin/groupadd -g 502 lmwriter
 fi
 
-/usr/sbin/useradd -c "Lifemapper web server user"  www-data
-rocks sync users
 
 </post>
 
