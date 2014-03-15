@@ -20,10 +20,10 @@
 
         <package>mysql</package>
         <package>mysql-devel</package>
-        <package>opt-MySQL-python</package>
         <package>libxslt</package>
+        <package>opt-MySQL-python</package>
+        <package>opt-rtree</package>
         <package>lifemapper-spatialindex</package>
-        <package>lifemapper-rtree</package>
         <package>lifemapper-server-data</package>
 
 <post>
@@ -33,16 +33,22 @@ yum --enablerepo base update openssl
 yum install postgresql91
 yum install postgresql91-devel
 yum install postgresql91-server
-yum install postgresql91-jdbc
-yum --enablerepo base install unixODBC
-yum install postgresql91-odbc
+
+# FIXME ? yum install postgresql91-jdbc
+# FIXME ? yum --enablerepo base install unixODBC
+# FIXME ? yum install postgresql91-odbc
+
 yum install postgresql91-docs
 yum install postgresql91-python
+
 #yum install postgresql91-plpython
 #yum install postgresql91-pltcl
+
 yum --enablerepo=base install uuid
 yum install postgresql91-contrib
-yum install postgresql91-libs
+
+#yum install postgresql91-libs
+
 yum install postgresql91-test
 yum install pgbouncer
 
@@ -76,13 +82,19 @@ export PGHOST
 /opt/lifemapper/rocks/bin/lmserver_init
 
 # start postgres 
+export PGHOST=/var/run/postgresql
 PG=`basename /etc/init.d/postgresql-*`
 /sbin/chkconfig $PG on
 /sbin/chkconfig --add $PG 
 /sbin/service $PG initdb
 /sbin/service $PG start
 
-#/sbin/chkconfig mysqld on
+# init postgrexs db with user info
+/opt/lifemapper/rocks/bin/db_init
+
+# create md5 auth client info in config file
+/opt/lifemapper/rocks/bin/confPostgres ca
+/sbin/service $PG restart
 
 # start pgbouncer 
 BOUNCER=/etc/init.d/pgbouncer
