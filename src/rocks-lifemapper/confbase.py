@@ -5,6 +5,7 @@ import time
 import glob
 import stat
 import confconst
+import shutil
 from pprint import pprint
 
 class Baseconfig:
@@ -27,8 +28,6 @@ class Baseconfig:
         self.sqldir        = confconst.SQLDIR 
         self.role          = confconst.ROLE 
         self.roletempl     = confconst.ROLETEMPL
-        self.mysql         = confconst.MYSQL 
-        self.mysqltempl    = confconst.MYSQLTEMPL
         self.unixSocketDir = confconst.UNIX_SOCKET_DIR
 
 
@@ -38,11 +37,8 @@ class Baseconfig:
             return
         if self.args[0] in ('-h', '--help', 'help'):
             self.help()
-        else:
-            print '\nWARNING: ignoring unknown argument %s\n' % self.args, \
 
     def help(self):
-        #self.nameinfo, self.descinfo, self.specinfo = getManText(self.space, self.usage_command)
         self.printName()
         self.printSynopsis()
         self.printDescription()
