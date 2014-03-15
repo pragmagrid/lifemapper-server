@@ -79,11 +79,12 @@ SCRIPTS = \
 	lifemapper.csh  \
 	lmserver_init \
 	lmweb_init  \
+	db_init  \
 	buildLmLuceneIndex \
 	lucene.cron \
 	lifemapper-server.conf
 
-PYFILES = __init__.py confconst.py  
+PYFILES = __init__.py confconst.py  confbase.py
 PYSCRIPTS = confPgbouncer confPostgres  confUsers 
 
 lifemapper.conf: lifemapper.conf.in
@@ -99,6 +100,9 @@ lmserver_init: lmserver_init.in
 	$(SED) $(SEDSPEC) $^ > $@
 
 lmweb_init: lmweb_init.in
+	$(SED) $(SEDSPEC) $^ > $@
+
+db_init: db_init.in
 	$(SED) $(SEDSPEC) $^ > $@
 
 buildLmLuceneIndex: buildLmLuceneIndex.in
@@ -130,6 +134,7 @@ install::
 	mkdir -p $(ROOT)/$(PKGROOT)/rocks/bin
 	install -m 755 lmserver_init $(ROOT)/$(PKGROOT)/rocks/bin
 	install -m 755 lmweb_init $(ROOT)/$(PKGROOT)/rocks/bin
+	install -m 755 db_init $(ROOT)/$(PKGROOT)/rocks/bin
 	install -m 755 buildLmLuceneIndex $(ROOT)/$(PKGROOT)/rocks/bin
 	install -m 755 $(PYSCRIPTS) $(ROOT)/$(PKGROOT)/rocks/bin
 	install -m 644 $(PYFILES) $(ROOT)/$(PKGROOT)/rocks/bin
@@ -140,7 +145,6 @@ install::
 	mkdir -p $(ROOT)/$(PKGROOT)/rocks/sql
 	install -m 644 postgis.sql $(ROOT)/$(PKGROOT)/rocks/sql 
 	install -m 644 roles.sql $(ROOT)/$(PKGROOT)/rocks/sql/roles.sql.template
-	install -m 644 mysql.sql $(ROOT)/$(PKGROOT)/rocks/sql/mysql.sql.template
 
 clean::
 	rm -rf version.mk $(SCRIPTS)

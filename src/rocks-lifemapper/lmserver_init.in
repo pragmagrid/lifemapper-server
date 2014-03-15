@@ -4,20 +4,13 @@
 /sbin/sysctl -w vm.overcommit_memory=2
 
 # create users file, rewrite pgsql  and pgbouncer config files
-BIN=/opt/lifemapper/rocks/bin
+PROG=@PKGROOT@/rocks/bin/confUsers
+[ -x $PROG ] && $PROG || echo "ERROR: in executing $PROG"
 
-PROG=/opt/lifemapper/rocks/bin/confUsers
-[ -x $PROG ] && $PROG || echo "ERROR: $PROG is not found"
+PROG=@PKGROOT@/rocks/bin/confPostgres pg
+[ -x $PROG ] && $PROG || echo "ERROR: in executing $PROG"
 
-PROG=/opt/lifemapper/rocks/bin/confPostgres
-[ -x $PROG ] && $PROG || echo "ERROR: $PROG is not found"
-
-PROG=/opt/lifemapper/rocks/bin/confPgbouncer
-[ -x $PROG ] && $PROG || echo "ERROR: $PROG is not found"
-
-# create DB users and postgis extensions
-TDIR=/opt/lifemapper/rocks/sql/
-su - postgres -c "psql template1 -f $TDIR/roles.sql"
-su - postgres -c "psql template1 -f $TDIR/postgis.sql"
+PROG=@PKGROOT@/rocks/bin/confPgbouncer
+[ -x $PROG ] && $PROG || echo "ERROR: in executing $PROG"
 
 
