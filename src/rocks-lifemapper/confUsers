@@ -37,7 +37,7 @@ class ConfUser(confbase.Baseconfig):
         """ create users file """
         lines = self.makeAuthLines()
         fname = self.users
-        fname = "/tmp/" + os.path.basename(fname)  #FIXME rm
+        #fname = "/tmp/" + os.path.basename(fname)  #FIXME rm
         self.writeFile(fname, lines)
         os.chmod(fname, 0600)
 
@@ -55,7 +55,7 @@ class ConfUser(confbase.Baseconfig):
 
         # write new content in a file
         #fnew = file
-        file = "/tmp/" + os.path.basename(file)  #FIXME rm
+        #file = "/tmp/" + os.path.basename(file)  #FIXME rm
         self.writeFile(file, content)
         self.getPerms(self.base)
         os.chmod(file, 0600)
@@ -64,7 +64,6 @@ class ConfUser(confbase.Baseconfig):
     def run(self):
         self.makeUserFile()
         self.makeSQLfile(self.roletempl, self.role)
-        self.makeSQLfile(self.mysqltempl, self.mysql)
 
 ### Main ###
 app = ConfUser(sys.argv)
