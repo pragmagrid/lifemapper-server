@@ -25,11 +25,9 @@
 	<package>opt-pylucene</package>
 
 <post>
-# mapserver, its home is for temp files    
-/usr/sbin/useradd -c "Lifemapper web server user"  -d /var/www/tmp -G lmwriter www-data 
-rocks sync users
-# mkdir -p /var/www/tmp
-# chown www-data:www-data /var/www/tmp
+# mapserver home is for temp files    
+mkdir -p /var/www/tmp
+chown apache:apache /var/www/tmp
 
 /opt/lifemapper/rocks/bin/lmweb_init
 
@@ -41,7 +39,6 @@ umask 002
 </file>
 
 /sbin/service httpd restart
-/sbin/chkconfig mysqld on
 
 </post>
 
