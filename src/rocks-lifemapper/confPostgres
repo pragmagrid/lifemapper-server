@@ -13,6 +13,7 @@ import confbase
 class ConfPostgres(confbase.Baseconfig):
     def __init__(self, argv):
         confbase.Baseconfig.__init__(self, argv)
+        self.memunit        = None                          # memory units (kB)
         self.memtotal       = None                          # total memory in Kb
         self.shmall         = None                          # maximum number of shared memory segments
         self.shmmax         = None                          # maximum shared segment size
@@ -24,18 +25,28 @@ class ConfPostgres(confbase.Baseconfig):
         self.catempl        = confconst.CATEMPL             # postgres client authentication config file template
         self.percentSB      = confconst.PERCENT_SB          # % memory for shared buffers
         self.percentECS     = confconst.PERCENT_ECS         # % memory for effective cashe size
-        self.nameinfo = "Update postgres configuration file and client authentication file"
-        self.descinfo = "Use original postgres configuration file as a template, create updated entries based\n" + \
-                        "%son host's available memory, write new %s.\n" % (self.space, self.pgconf) + \
-                        "%sUse original client authentication file, update connections entries to use md5 \n" % self.space  + \
-                        "%sauthentication, write new %s.\n" % (self.space, self.caconf) + \
-                        "%sTemplates are created from original config files that are distributed with RPMs.\n" % self.space  + \
-                        "%sPrevious config files are saved with script's runtime stamp appended.\n" % self.space + \
-                        "%sThe script is called during lifemapper-server roll installation.\n" % self.space
+        self.nameinfo = "Update postgres %s or %s configuration file" % (confconst.PGCONF, confconst.CACONF)
+        self.descinfo = "pg - use original postgres configuration file %s as a template, create updated entries based\n" % confconst.PGCONF + \
+                        "%s     on host's available memory, write new %s.\n" % (self.space, confconst.PGCONF) + \
+                        "%sca - use original client authentication file %s, update connections entries to use md5 \n" % (self.space,confconst.CACONF)  + \
+                        "%s     authentication, write new %s.\n" % (self.space, confconst.CACONF) + \
+                        "%s     Templates are created from original config files that are distributed with postgresql RPMs.\n" % self.space  + \
+                        "%s     Previous config files are saved with script's runtime stamp appended.\n" % self.space + \
+                        "%s     The script is called during lifemapper-server roll installation.\n" % self.space
 
         self.parseArgs()
+        self.checkArgs()
         self.findTime()
         self.findSysValues()
+
+    def printSynopsis(self):
+        print '\nSYNOPSIS\n', self.space + self.usage_command, "pg|ca", "[-h|--help|help]"
+
+    def checkArgs(self):
+        if len(self.args) == 0:
+            self.help()
+	if self.args[0] not in ["pg","ca"]:
+            self.help()
 
     def findSysValues(self):
         self.getMemory()
@@ -50,6 +61,7 @@ class ConfPostgres(confbase.Baseconfig):
         cmd = "cat /proc/meminfo | grep MemTotal"
         info, err = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()
         self.memtotal = int(info.split()[1])
+        self.memunit = info.split()[2]
 
     def getSHMALL(self):
         """ find maximum number of shared memory segments """
@@ -100,7 +112,7 @@ class ConfPostgres(confbase.Baseconfig):
         # make a copy of orig file, use original ownership and permissions
         fname = configFiles[str]
         fcopy = fname + self.time
-        fcopy = "/tmp/" + os.path.basename(fname) + self.time  #FIXME rm
+        #fcopy = "/tmp/" + os.path.basename(fname) + self.time  #FIXME rm
         self.getPerms(fname)
         shutil.copy2(fname, fcopy)
         os.chown(fcopy, self.uid, self.gid)
@@ -114,7 +126,7 @@ class ConfPostgres(confbase.Baseconfig):
         # create new config file, set original ownership and permissions
         newLines = makeConfLines[str]()              
         fnew = fname
-        fnew = "/tmp/" + os.path.basename(fname)  #FIXME rm
+        #fnew = "/tmp/" + os.path.basename(fname)  #FIXME rm
 
         self.writeFile(fnew, defaultLines + newLines)
         shutil.copymode(fname, fnew)
@@ -163,22 +175,21 @@ class ConfPostgres(confbase.Baseconfig):
         lines = ""
         lines += "listen_addresses = '*'\n"
         lines += "password_encryption = on\n"
-        lines += "shared_buffers = %d\n" % self.shared_buffers
-        lines += "effective_cache_size = %d\n" % self.effective_cache_size
+        lines += "shared_buffers = %d%s\n" % (self.shared_buffers, self.memunit)
+        lines += "effective_cache_size = %d%s\n" % (self.effective_cache_size, self.memunit)
         lines += "enable_seqscan = off\n"
         lines += "logging_collector = on\n"
-        lines += "log_directory = `pg_log'\n"
-        lines += "log_filename = `postgresql-%Y-%m-%d_%H%M.log'\n"
+        lines += "log_directory = 'pg_log'\n"
+        lines += "log_filename = 'postgresql-%Y-%m-%d_%H%M.log'\n"
         lines += "log_truncate_on_rotation = off\n"
         lines += "log_rotation_age = 1d\n"
         lines += "log_rotation_size = 10MB\n"
-        lines += "unix_socket_dir  = %s\n" % self.unixSocketDir
+        lines += "unix_socket_directory = '%s'\n" % self.unixSocketDir
 
         return lines        
 
     def run(self):
-        self.makeConfigFile("pg") 
-        self.makeConfigFile("ca") 
+        self.makeConfigFile(self.args[0]) 
 
 ### Main ###
 app = ConfPostgres(sys.argv)
