@@ -17,7 +17,7 @@ fi
 
 # get data distro from lifemapper svn
 svnCheckout () {
-      svn checkout $1
+      svn checkout $1/extras/data
       if [ -d $DATA ]; then
         cd $DATA/
         rm -rf .svn
@@ -29,7 +29,7 @@ compressFiles () {
   if [ -d $DATA ]; then
       echo "Creating data archive from svn checkout"
       DATE=`date +%Y%m%d`
-      tar czf data-$DATE.tar.gz $DATA
+      tar czvf data-$DATE.tar.gz $DATA
   else
       echo "Svn checkout directory $DATA is not present"
   fi
