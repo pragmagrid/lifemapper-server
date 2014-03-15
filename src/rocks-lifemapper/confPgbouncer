@@ -53,7 +53,7 @@ class ConfPgbouncer(confbase.Baseconfig):
         # make a copy of orig file, use original ownership and permissions
         fname = self.pgbconf 
         fcopy = fname + self.time
-        fcopy = "/tmp/" + os.path.basename(fname) + self.time  #FIXME rm
+        #fcopy = "/tmp/" + os.path.basename(fname) + self.time  #FIXME rm
         self.getPerms(fname)
         shutil.copy2(fname, fcopy)
         os.chown(fcopy, self.uid, self.gid)
@@ -73,9 +73,9 @@ class ConfPgbouncer(confbase.Baseconfig):
         # create new config file, set original ownership and permissions
         newLines = self.makePGBlines()
         fnew = fname
-        fnew = "/tmp/" + os.path.basename(fname)  #FIXME rm
+        #fnew = "/tmp/" + os.path.basename(fname)  #FIXME rm
 
-        self.writeFile(fnew, defaultLines + newLines)
+        self.writeFile(fnew, newLines + defaultLines)
         shutil.copymode(fname, fnew)
         os.chown(fnew, self.uid, self.gid)
 
@@ -104,27 +104,21 @@ class ConfPgbouncer(confbase.Baseconfig):
         addLines += "listen_addr = %s/%s\n" % (self.network, self.cidr)
         addLines += "unix_socket_dir  = %s\n" % self.unixSocketDir
         addLines += "auth_type = md5\n"
-        addLines += "auth_file = /etc/pgbouncer/userlist.txt\n"
-        addLines += "admin_users =\n"
-        addLines += "stats_users =\n"
+        addLines += "admin_users = postgres\n"
+        addLines += "stats_users = postgres\n"
 
         return addLines        
 
     def makeAuthLines(self):
         """ create lines for auth file """
-        #import hashlib
-
         # read user/pass list 
         lines = ""
         content = self.readFile(self.users)
         for item in content:
             user, txtPassword = item.split()
-            # use ENCYPTED keyword in postgres when creating roles, no need for hash
-            #md5hash = "md5" + hashlib.md5(user + txtPassword).hexdigest()
             if user in self.adminlist: 
                 continue
             lines += "\"%s\" \"%s\"\n" % (user, txtPassword)
-            #lines += "\"%s\" \"%s\"\n" % (user, md5hash)
 
         return lines
 
@@ -136,7 +130,7 @@ class ConfPgbouncer(confbase.Baseconfig):
         # save previous file if exists
         fprev = self.authFile
         fcopy = fprev + self.time
-        fcopy = "/tmp/" + os.path.basename(fprev) + self.time  
+        #fcopy = "/tmp/" + os.path.basename(fprev) + self.time  
         if os.path.isfile(fprev):
             shutil.copy2(fprev, fcopy)
             self.getPerms(fprev)
@@ -148,7 +142,7 @@ class ConfPgbouncer(confbase.Baseconfig):
 
         # write auth file
         fnew =  self.authFile 
-        fnew = "/tmp/" + os.path.basename(self.authFile)  #FIXME rm
+        #fnew = "/tmp/" + os.path.basename(self.authFile)  #FIXME rm
         self.writeFile(fnew, lines)
         os.chmod(fnew, 0600)
         os.chown(fnew, self.uid, self.gid)
