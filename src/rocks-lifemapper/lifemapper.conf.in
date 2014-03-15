@@ -1,5 +1,8 @@
 # For lifemapper-server roll
 
+# load mod_python module
+LoadModule python_module modules/mod_python.so
+
 # Enable MapServer debugging
 SetEnv MS_ERRORFILE "@MAPSERVER_TMP@/mapserver_error.txt"
 SetEnv MS_DEBUGLEVEL 5
