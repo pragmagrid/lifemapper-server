@@ -106,8 +106,8 @@ class ConfPgbouncer(confbase.Baseconfig):
         #addLines += "listen_addr = %s/%s\n" % (self.network, self.cidr)
         addLines += "unix_socket_dir = %s\n" % self.unixSocketDir
         addLines += "auth_type = md5\n"
-        addLines += "admin_users = postgres\n"
-        addLines += "stats_users = postgres\n"
+        addLines += "admin_users = \n"
+        addLines += "stats_users = \n"
 
         return addLines        
 
