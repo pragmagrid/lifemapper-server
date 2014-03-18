@@ -10,8 +10,8 @@ GRANT SELECT ON TABLE geometry_columns TO reader,writer;
 GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE geography_columns TO admin; 
 GRANT SELECT ON TABLE geography_columns TO reader,writer;
 
-GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE raster_column TO admin; 
-GRANT SELECT ON TABLE raster_column TO reader,writer;
+GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE raster_columns TO admin; 
+GRANT SELECT ON TABLE raster_columns TO reader,writer;
 
 GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE raster_overviews TO admin; 
 GRANT SELECT ON TABLE raster_overviews TO reader,writer;
