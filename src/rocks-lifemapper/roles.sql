@@ -12,15 +12,15 @@ GRANT ALL ON DATABASE template1 TO admin WITH GRANT OPTION;
 CREATE ROLE reader NOINHERIT;
 CREATE ROLE writer CREATEDB NOINHERIT;
 
+/* permissions for reader */
 CREATE ROLE mapuser with LOGIN INHERIT ENCRYPTED PASSWORD  'PASSmapuser';
 GRANT reader TO mapuser;
 
+/* permissions for writer */
 CREATE ROLE sdlapp with LOGIN INHERIT ENCRYPTED PASSWORD  'PASSsdlapp';
-GRANT writer TO sdlapp;
-
 CREATE ROLE wsuser with LOGIN INHERIT ENCRYPTED PASSWORD  'PASSwsuser';
-GRANT writer TO wsuser;
-
 CREATE ROLE jobuser with LOGIN INHERIT ENCRYPTED PASSWORD 'PASSjobuser';
+GRANT writer TO sdlapp;
+GRANT writer TO wsuser;
 GRANT writer TO jobuser;
 
