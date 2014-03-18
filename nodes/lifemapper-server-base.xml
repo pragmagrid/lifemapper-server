@@ -2,7 +2,6 @@
 
 <kickstart>
 
-
 	<description>
 	Lifemapper-server roll. 
 	LMserver and LMweb servers common install 
@@ -11,11 +10,9 @@
 	<copyright>
 	Copyright (c) 2000 - 2012 The Regents of the University of California.
 	All rights reserved. Rocks(r) v5.5/v6.0 www.rocksclusters.org
-	
 	</copyright>
 
 	<changelog>
-	$Log$
 	</changelog>
 
         <!-- RPM repos needed for postgresql,postgis,mapserver -->
@@ -68,7 +65,6 @@ GID=`grep lmwriter: /etc/group`
 if [ "$GID" == "" ] ; then
     /usr/sbin/groupadd -g 502 lmwriter
 fi
-
 
 </post>
 
