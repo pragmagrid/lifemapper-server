@@ -7,8 +7,8 @@
 PROG=@PKGROOT@/rocks/bin/confUsers
 [ -x $PROG ] && $PROG || echo "ERROR: in executing $PROG"
 
-PROG=@PKGROOT@/rocks/bin/confPostgres pg
-[ -x $PROG ] && $PROG || echo "ERROR: in executing $PROG"
+PROG=@PKGROOT@/rocks/bin/confPostgres 
+[ -x $PROG ] && $PROG pg || echo "ERROR: in executing $PROG"
 
 PROG=@PKGROOT@/rocks/bin/confPgbouncer
 [ -x $PROG ] && $PROG || echo "ERROR: in executing $PROG"
