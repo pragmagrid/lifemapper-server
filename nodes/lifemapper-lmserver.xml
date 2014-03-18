@@ -43,7 +43,9 @@ yum install postgresql91-test
 #yum install postgresql91-pltcl
 #yum install postgresql91-libs
 
+# install pgbouncer
 yum install pgbouncer
+usermod -G postgres pgbouncer
 
 # install postgis
 export PATH=/usr/pgsql-9.1/bin:$PATH
@@ -65,6 +67,7 @@ vm.overcommit_memory = 2
 # create unix socket dir for postgres and pgbouncer
 mkdir -p /var/run/postgresql
 chown postgres:postgres /var/run/postgresql
+chmod 0770 /var/run/postgresql
 
 # add unix socket info for postgres user
 <file name="/var/lib/pgsql/.bash_profile" mode="append">
