@@ -11,20 +11,17 @@
 	<copyright>
 	Copyright (c) 2000 - 2012 The Regents of the University of California.
 	All rights reserved. Rocks(r) v5.5/v6.0 www.rocksclusters.org
-	
 	</copyright>
 
 	<changelog>
-	$Log$
 	</changelog>
 
-        <package>mysql</package>
-        <package>mysql-devel</package>
         <package>libxslt</package>
         <package>opt-MySQL-python</package>
         <package>opt-rtree</package>
         <package>lifemapper-spatialindex</package>
         <package>lifemapper-server-data</package>
+        <package>strace</package>
 
 <post>
 
@@ -33,23 +30,19 @@ yum --enablerepo base update openssl
 yum install postgresql91
 yum install postgresql91-devel
 yum install postgresql91-server
-
-# FIXME ? yum install postgresql91-jdbc
-# FIXME ? yum --enablerepo base install unixODBC
-# FIXME ? yum install postgresql91-odbc
-
 yum install postgresql91-docs
 yum install postgresql91-python
-
-#yum install postgresql91-plpython
-#yum install postgresql91-pltcl
-
 yum --enablerepo=base install uuid
 yum install postgresql91-contrib
+yum install postgresql91-test
 
+# yum install postgresql91-jdbc
+# yum --enablerepo base install unixODBC
+# yum install postgresql91-odbc
+#yum install postgresql91-plpython
+#yum install postgresql91-pltcl
 #yum install postgresql91-libs
 
-yum install postgresql91-test
 yum install pgbouncer
 
 # install postgis
@@ -69,7 +62,7 @@ yum install postgis2_91
 vm.overcommit_memory = 2
 </file>
 
-# create unix socket dir for postgres and pgbounser
+# create unix socket dir for postgres and pgbouncer
 mkdir -p /var/run/postgresql
 chown postgres:postgres /var/run/postgresql
 
@@ -79,14 +72,16 @@ PGHOST=/var/run/postgresql
 export PGHOST
 </file>
 
-/opt/lifemapper/rocks/bin/lmserver_init
 
 # start postgres 
 export PGHOST=/var/run/postgresql
 PG=`basename /etc/init.d/postgresql-*`
 /sbin/chkconfig $PG on
 /sbin/chkconfig --add $PG 
+
+# initdb creates config files, rewrite them restrart service
 /sbin/service $PG initdb
+/opt/lifemapper/rocks/bin/lmserver_init
 /sbin/service $PG start
 
 # init postgrexs db with user info
@@ -94,10 +89,12 @@ PG=`basename /etc/init.d/postgresql-*`
 
 # create md5 auth client info in config file
 /opt/lifemapper/rocks/bin/confPostgres ca
+
+# restart postgres with updated configuration
 /sbin/service $PG restart
 
 # start pgbouncer 
-BOUNCER=/etc/init.d/pgbouncer
+BOUNCER=pgbouncer
 /sbin/chkconfig $BOUNCER on
 /sbin/chkconfig --add $BOUNCER 
 /sbin/service $BOUNCER start
