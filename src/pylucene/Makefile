@@ -78,6 +78,7 @@ build_jcc:
 	)
 
 install_jcc: build_jcc
+	export ANT_HOME=$(PKGROOT) 
 	(\
 	    cd $(ARCHIVENAME)-$(VERSION)/jcc;   \
 	    $(PY.PATH) setup.py install --root=$(ROOT)/; \
@@ -92,6 +93,7 @@ build: build_jcc
 
 install:: install_jcc
 	(\
+	    unset ANT_HOME; \
 	    cd $(ARCHIVENAME)-$(VERSION);   \
 	    $(MAKE) INSTALL_OPT="--root $(ROOT)/" install;\
 	)
