@@ -4,20 +4,17 @@
 
 	<description>
 
-	The lifemapper Roll
+	The Lifemapper server Roll
 
 	</description>
 
 	<copyright>
 	Copyright (c) 2000 - 2012 The Regents of the University of California.
 	All rights reserved. Rocks(r) v5.5/v6.0 www.rocksclusters.org
-	
 	</copyright>
 
 	<changelog>
-	$Log$
 	</changelog>
-
 
 	<!-- for lmserver -->
         <edge from="server" to="lifemapper-lmserver"/>
@@ -33,6 +30,13 @@
 
         <order head="lifemapper-server-base">
                 <tail>lifemapper-lmweb</tail>
+        </order>
+
+        <!-- put lifemapper server last -->
+        <order head="TAIL">
+                <tail>lifemapper-server-base</tail>
+                <tail>lifemapper-lmweb</tail>
+                <tail>lifemapper-lmserver</tail>
         </order>
 
 </graph>
