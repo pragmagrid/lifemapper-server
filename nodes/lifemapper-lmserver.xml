@@ -27,14 +27,14 @@
 
 # install postgres
 yum --enablerepo base update openssl
-yum install postgresql91
-yum install postgresql91-devel
-yum install postgresql91-server
-yum install postgresql91-docs
-yum install postgresql91-python
+yum --enablerepo pdgd91 install postgresql91
+yum --enablerepo pdgd91 install postgresql91-devel
+yum --enablerepo pdgd91 install postgresql91-server
+yum --enablerepo pdgd91 install postgresql91-docs
+yum --enablerepo pdgd91 install postgresql91-python
 yum --enablerepo=base install uuid
-yum install postgresql91-contrib
-yum install postgresql91-test
+yum --enablerepo pdgd91 install postgresql91-contrib
+yum --enablerepo pdgd91 install postgresql91-test
 
 # yum install postgresql91-jdbc
 # yum --enablerepo base install unixODBC
@@ -44,7 +44,7 @@ yum install postgresql91-test
 #yum install postgresql91-libs
 
 # install pgbouncer
-yum install pgbouncer
+yum --enablerepo pdgd91 install pgbouncer
 usermod -G postgres pgbouncer
 
 # install postgis
@@ -52,7 +52,7 @@ export PATH=/usr/pgsql-9.1/bin:$PATH
 yum --enablerepo epel install json-c.x86_64
 
 # this installs proj and geos rpms
-yum install postgis2_91
+yum --enablerepo pdgd91 install postgis2_91
 
 # set mode to strict (2) to prevent postgres being killed  by OOM 
 /sbin/sysctl -w vm.overcommit_memory=2

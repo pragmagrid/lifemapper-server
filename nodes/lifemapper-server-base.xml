@@ -59,7 +59,7 @@ yum --enablerepo base install cmake
 
 # mapserver
 yum --enablerepo epel install fribidi
-yum install mapserver
+yum --enablerepo elgis install mapserver
 
 GID=`grep lmwriter: /etc/group`
 if [ "$GID" == "" ] ; then
