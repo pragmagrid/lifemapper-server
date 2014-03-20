@@ -16,7 +16,7 @@ yumdownloader --resolve --enablerepo pgdg91 postgresql91-python.x86_64; \
 yumdownloader --resolve --enablerepo base uuid.x86_64; \
 yumdownloader --resolve --enablerepo pgdg91 postgresql91-contrib.x86_64; \
 yumdownloader --resolve --enablerepo pgdg91 postgresql91-test.x86_64; \
-yumdownloader --resolve --enablerepo pgdg91 pgbouncer.x86_64; \
+yumdownloader --enablerepo pgdg91 pgbouncer.x86_64; \
 yumdownloader --resolve --enablerepo epel json-c.x86_64; \
 yumdownloader --resolve --enablerepo pgdg91 postgis2_91.x86_64; \
 yumdownloader --resolve --enablerepo rpmforge hdf4-devel.x86_64; \
@@ -26,7 +26,6 @@ yumdownloader --resolve --enablerepo base giflib-devel.x86_64; \
 yumdownloader --resolve --enablerepo base byacc.x86_64; \
 yumdownloader --resolve --enablerepo base subversion.x86_64; \
 yumdownloader --resolve --enablerepo base cmake.x86_64; \
-rm -rf libevent-1.4*rpm; \
 )
 
 # add dynamic libs

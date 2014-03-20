@@ -36,7 +36,7 @@
         <package>postgresql91-test</package>
 
         <!-- pgbouncer and dependencies -->
-        <package>libevent</package>
+        <package>lifemapper-libevent</package>
         <package>pgbouncer</package>
 
         <!-- postgis and dependencies -->

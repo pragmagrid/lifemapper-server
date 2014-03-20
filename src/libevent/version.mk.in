@@ -1,0 +1,5 @@
+NAME        	= lifemapper-libevent
+ARCHIVENAME     = libevent
+VERSION     	= 2.0.21
+RELEASE 	= 0
+TARBALL_POSTFIX	= tar.gz
