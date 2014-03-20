@@ -23,36 +23,31 @@
         <package>lifemapper-server-data</package>
         <package>strace</package>
 
+        <!-- postgres and dependencies -->
+        <package>postgresql91</package>
+        <package>postgresql91-libs</package>
+        <package>postgresql91-devel</package>
+        <package>postgresql91-server</package>
+        <package>postgresql91-docs</package>
+        <package>mx</package>
+        <package>postgresql91-python</package>
+        <package>uuid</package>
+        <package>postgresql91-contrib</package>
+        <package>postgresql91-test</package>
+
+        <!-- pgbouncer and dependencies -->
+        <package>libevent</package>
+        <package>pgbouncer</package>
+
+        <!-- postgis and dependencies -->
+        <package>json-c</package>
+        <package>geos</package>
+        <package>proj</package>
+        <package>postgis2_91</package>
 <post>
 
-# install postgres
-yum --enablerepo base update openssl
-yum --enablerepo pdgd91 install postgresql91
-yum --enablerepo pdgd91 install postgresql91-devel
-yum --enablerepo pdgd91 install postgresql91-server
-yum --enablerepo pdgd91 install postgresql91-docs
-yum --enablerepo pdgd91 install postgresql91-python
-yum --enablerepo=base install uuid
-yum --enablerepo pdgd91 install postgresql91-contrib
-yum --enablerepo pdgd91 install postgresql91-test
-
-# yum install postgresql91-jdbc
-# yum --enablerepo base install unixODBC
-# yum install postgresql91-odbc
-#yum install postgresql91-plpython
-#yum install postgresql91-pltcl
-#yum install postgresql91-libs
-
-# install pgbouncer
-yum --enablerepo pdgd91 install pgbouncer
-usermod -G postgres pgbouncer
-
-# install postgis
+/usr/sbin/usermod -G postgres pgbouncer
 export PATH=/usr/pgsql-9.1/bin:$PATH
-yum --enablerepo epel install json-c.x86_64
-
-# this installs proj and geos rpms
-yum --enablerepo pdgd91 install postgis2_91
 
 # set mode to strict (2) to prevent postgres being killed  by OOM 
 /sbin/sysctl -w vm.overcommit_memory=2
@@ -74,7 +69,6 @@ chmod 0770 /var/run/postgresql
 PGHOST=/var/run/postgresql
 export PGHOST
 </file>
-
 
 # start postgres 
 export PGHOST=/var/run/postgresql
