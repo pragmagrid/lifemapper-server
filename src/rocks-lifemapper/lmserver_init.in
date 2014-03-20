@@ -3,14 +3,32 @@
 # Set overcommit_memory mode to strict (2) to reduce chances of 'Out of Memory killer' being invoked
 /sbin/sysctl -w vm.overcommit_memory=2
 
+# log errors
+LOG=/tmp/lmserver_init.log
+touch $LOG
+
 # create users file, rewrite pgsql  and pgbouncer config files
 PROG=@PKGROOT@/rocks/bin/confUsers
-[ -x $PROG ] && $PROG || echo "ERROR: in executing $PROG"
+echo "Running $PROG" >> $LOG
+if [ -x $PROG ]; then
+    $PROG >> $LOG 2>&1
+else 
+    echo "ERROR: in executing $PROG" >> $LOG
+fi
 
 PROG=@PKGROOT@/rocks/bin/confPostgres 
-[ -x $PROG ] && $PROG pg || echo "ERROR: in executing $PROG"
+echo "Running $PROG" >> $LOG
+if [ -x $PROG ]; then
+    $PROG pg  >> $LOG 2>&1
+else 
+    echo "ERROR: in executing $PROG" >> $LOG
+fi
 
 PROG=@PKGROOT@/rocks/bin/confPgbouncer
-[ -x $PROG ] && $PROG || echo "ERROR: in executing $PROG"
+echo "Running $PROG" >> $LOG
+if [ -x $PROG ]; then
+    $PROG >> $LOG 2>&1
+else 
+    echo "ERROR: in executing $PROG" >> $LOG
 
-
+fi
