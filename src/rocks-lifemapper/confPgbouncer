@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/opt/rocks/bin/python
 
 import os
 import stat
@@ -7,6 +7,7 @@ import subprocess
 import shutil
 import confconst
 import confbase
+from IPy import IP
 
 
 class ConfPgbouncer(confbase.Baseconfig):
@@ -15,6 +16,7 @@ class ConfPgbouncer(confbase.Baseconfig):
         self.ip            = None                           # host ip on public interface
         self.network       = None                           # host network 
         self.cidr          = None                           # host CIDR 
+        self.iface         = "eth1"                         # host public interface #FIXME 
         self.pgbconf       = confconst.PGBINI             # pgbouncer config file
         self.pgbtempl      = confconst.PGBTEMPL           # pgbouncer config file template
         self.authFile      = confconst.PGBAUTH            # pgbouncer auth file
@@ -43,9 +45,28 @@ class ConfPgbouncer(confbase.Baseconfig):
                 if parts[1]  == "Kickstart_PublicNetmaskCIDR": self.cidr = parts[2]
 
         if self.ip == None or self.network == None or self.cidr == None:
+            (self.ip, self.network, self.cidr ) = self.findIfaceVals(self.iface)
+
+        if self.ip == None or self.network == None or self.cidr == None:
             print "Missing information about public interface "
             sys.exit(1)
 
+    def findIfaceVals(self, iface):
+        """find ip, netmask, subnet, cidr, broadcast for a given interface. return as a tuple"""
+        __name__ = "findIfaceVals"
+
+        cmd = '/sbin/ifconfig %s | grep Mask' % iface
+
+        info, err = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()
+        parts = info.split()
+        tmp, ip = parts[1].split(':')
+        tmp, netmask = parts[3].split(':')
+
+        i = IP(ip).make_net(netmask)
+        broadcast = i.broadcast().strNormal()
+        subnet, cidr = (i.strNormal()).split('/')
+
+        return (ip, subnet, cidr )
 
     def makeConfigFile(self):
         """ create new pgbouncer.ini file """
