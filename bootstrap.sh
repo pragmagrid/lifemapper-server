@@ -4,6 +4,31 @@
 #
 . /opt/rocks/share/devel/src/roll/etc/bootstrap-functions.sh
 
+# download needed RPMS
+(cd src/RPMS; 
+yumdownloader --resolve --enablerepo elgis mapserver.x86_64; \
+yumdownloader --resolve --enablerepo epel fribidi.x86_64; \
+yumdownloader --resolve --enablerepo pgdg91 postgresql91.x86_64; \
+yumdownloader --resolve --enablerepo pgdg91 postgresql91-devel.x86_64; \
+yumdownloader --resolve --enablerepo pgdg91 postgresql91-server.x86_64; \
+yumdownloader --resolve --enablerepo pgdg91 postgresql91-docs.x86_64; \
+yumdownloader --resolve --enablerepo pgdg91 postgresql91-python.x86_64; \
+yumdownloader --resolve --enablerepo base uuid.x86_64; \
+yumdownloader --resolve --enablerepo pgdg91 postgresql91-contrib.x86_64; \
+yumdownloader --resolve --enablerepo pgdg91 postgresql91-test.x86_64; \
+yumdownloader --resolve --enablerepo pgdg91 pgbouncer.x86_64; \
+yumdownloader --resolve --enablerepo epel json-c.x86_64; \
+yumdownloader --resolve --enablerepo pgdg91 postgis2_91.x86_64; \
+yumdownloader --resolve --enablerepo rpmforge hdf4-devel.x86_64; \
+yumdownloader --resolve --enablerepo rpmforge hdf5-devel.x86_64; \
+yumdownloader --resolve --enablerepo base readline-devel.x86_64; \
+yumdownloader --resolve --enablerepo base giflib-devel.x86_64; \
+yumdownloader --resolve --enablerepo base byacc.x86_64; \
+yumdownloader --resolve --enablerepo base subversion.x86_64; \
+yumdownloader --resolve --enablerepo base cmake.x86_64; \
+rm -rf libevent-1.4*rpm; \
+)
+
 # add dynamic libs
 echo "/usr/java/latest/jre/lib/amd64" > /etc/ld.so.conf.d/lifemapper-server.conf
 echo "/usr/java/latest/jre/lib/amd64/server" >> /etc/ld.so.conf.d/lifemapper-server.conf
