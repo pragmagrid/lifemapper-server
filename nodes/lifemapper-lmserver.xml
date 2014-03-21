@@ -70,36 +70,19 @@ PGHOST=/var/run/postgresql
 export PGHOST
 </file>
 
-# start postgres 
-export PGHOST=/var/run/postgresql
 PG=`basename /etc/init.d/postgresql-*`
-/sbin/chkconfig $PG on
 /sbin/chkconfig --add $PG 
+/sbin/chkconfig $PG on
 
-# initdb creates config files, rewrite them restrart service
-/sbin/service $PG initdb
-/opt/lifemapper/rocks/bin/lmserver_init
-/sbin/service $PG start
+/sbin/chkconfig --add pgbouncer 
+/sbin/chkconfig pgbouncer on
 
-# init postgrexs db with user info
-/opt/lifemapper/rocks/bin/db_init
-
-# create md5 auth client info in config file
-/opt/lifemapper/rocks/bin/confPostgres ca
-
-# restart postgres with updated configuration
-/sbin/service $PG restart
-
-# start pgbouncer 
-BOUNCER=pgbouncer
-/sbin/chkconfig $BOUNCER on
-/sbin/chkconfig --add $BOUNCER 
-/sbin/service $BOUNCER start
+# do db initialization adn start services
+/opt/lifemapper/rocks/bin/firstBootStart
 
 # may need this later for postgres tuning 
 # rocks set network mtu public 9000
 # rocks sync host network `hostname -s`
-
 </post>
 
 </kickstart>

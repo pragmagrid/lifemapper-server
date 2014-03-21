@@ -85,7 +85,7 @@ SCRIPTS = \
 	lifemapper-server.conf
 
 PYFILES = __init__.py confconst.py  confbase.py
-PYSCRIPTS = confPgbouncer confPostgres  confUsers 
+PROGS = confPgbouncer confPostgres  confUsers  firstBootStart
 
 lifemapper.conf: lifemapper.conf.in
 	$(SED) $(SEDSPEC) $^ > $@
@@ -136,7 +136,7 @@ install::
 	install -m 755 lmweb_init $(ROOT)/$(PKGROOT)/rocks/bin
 	install -m 755 db_init $(ROOT)/$(PKGROOT)/rocks/bin
 	install -m 755 buildLmLuceneIndex $(ROOT)/$(PKGROOT)/rocks/bin
-	install -m 755 $(PYSCRIPTS) $(ROOT)/$(PKGROOT)/rocks/bin
+	install -m 755 $(PROGS) $(ROOT)/$(PKGROOT)/rocks/bin
 	install -m 644 $(PYFILES) $(ROOT)/$(PKGROOT)/rocks/bin
 
 	mkdir -p $(ROOT)/$(PKGROOT)/rocks/etc

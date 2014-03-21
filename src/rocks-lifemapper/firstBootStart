@@ -1,0 +1,38 @@
+#!/bin/bash
+
+# set unix socket dir
+export PGHOST=/var/run/postgresql
+
+PG=`basename /etc/init.d/postgresql-*`
+LOG=/tmp/lifemapper-firstboot.log
+touch $LOG
+
+# initdb creates postgres data/*
+echo "Running $PG initdb" >> $LOG
+/sbin/service $PG initdb  >> $LOG
+
+# rewrite postgres/pgbouncer config files
+echo "Running lmserver_init" >> $LOG
+/opt/lifemapper/rocks/bin/lmserver_init
+
+# start postgres
+echo "Starting $PG" >> $LOG
+/sbin/service $PG start >> $LOG
+
+# init postgres db with user/postgis info
+/bin/sleep 15
+echo "Creating roles and postgis tables" >> $LOG
+/opt/lifemapper/rocks/bin/db_init >> $LOG  2>&1
+
+# create md5 auth client info in config file
+echo "Creating postgres auth file " >> $LOG
+/opt/lifemapper/rocks/bin/confPostgres ca >> $LOG
+
+# restart postgres with updated configuration
+echo "Restart postgres " >> $LOG
+/sbin/service $PG restart >> $LOG
+
+# start pgbouncer
+echo "Start pgbouncer " >> $LOG
+/sbin/service pgbouncer start >> $LOG
+
