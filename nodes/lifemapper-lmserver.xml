@@ -64,12 +64,6 @@ mkdir -p /var/run/postgresql
 chown postgres:postgres /var/run/postgresql
 chmod 0770 /var/run/postgresql
 
-# add unix socket info for postgres user
-<file name="/var/lib/pgsql/.bash_profile" mode="append">
-PGHOST=/var/run/postgresql
-export PGHOST
-</file>
-
 PG=`basename /etc/init.d/postgresql-*`
 /sbin/chkconfig --add $PG 
 /sbin/chkconfig $PG on
@@ -77,8 +71,14 @@ PG=`basename /etc/init.d/postgresql-*`
 /sbin/chkconfig --add pgbouncer 
 /sbin/chkconfig pgbouncer on
 
-# do db initialization adn start services
+<file name="/etc/rc.d/rocksconfig.d/post-99-lifemapper-lmserver" perms="0700">
+#!/bin/bash
+# do db initialization and start services
+
 /opt/lifemapper/rocks/bin/firstBootStart
+rm -rf /etc/rc.d/rocksconfig.d/post-99-lifemapper-lmserver
+
+</file>
 
 # may need this later for postgres tuning 
 # rocks set network mtu public 9000

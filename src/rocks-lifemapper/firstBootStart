@@ -1,7 +1,6 @@
 #!/bin/bash
 
-# set unix socket dir
-export PGHOST=/var/run/postgresql
+### init postgres db and create new configuration ###
 
 PG=`basename /etc/init.d/postgresql-*`
 LOG=/tmp/lifemapper-firstboot.log
@@ -11,28 +10,46 @@ touch $LOG
 echo "Running $PG initdb" >> $LOG
 /sbin/service $PG initdb  >> $LOG
 
-# rewrite postgres/pgbouncer config files
-echo "Running lmserver_init" >> $LOG
-/opt/lifemapper/rocks/bin/lmserver_init
-
-# start postgres
-echo "Starting $PG" >> $LOG
+# start postgres with default config
+echo "Running postgresql start" >> $LOG
 /sbin/service $PG start >> $LOG
+/bin/sleep 15
+
+# create lifemapper db users
+echo "Running confUsers" >> $LOG
+/opt/lifemapper/rocks/bin/confUsers >> $LOG
 
 # init postgres db with user/postgis info
-/bin/sleep 15
 echo "Creating roles and postgis tables" >> $LOG
 /opt/lifemapper/rocks/bin/db_init >> $LOG  2>&1
+
+# create postgres config file 
+echo "Creating postgres config file " >> $LOG
+/opt/lifemapper/rocks/bin/confPostgres pg >> $LOG
 
 # create md5 auth client info in config file
 echo "Creating postgres auth file " >> $LOG
 /opt/lifemapper/rocks/bin/confPostgres ca >> $LOG
 
+### restart services with new configuration ###
+
+# need to update openssl for postgres
+/usr/bin/yum --enablerepo base update openssl >> $LOG 
+
+# set unix socket dir
+export PGHOST=/var/run/postgresql
+echo "PGHOST=/var/run/postgresql" >> /var/lib/pgsql/.bash_profile
+echo "export PGHOST" >> /var/lib/pgsql/.bash_profile
+
 # restart postgres with updated configuration
 echo "Restart postgres " >> $LOG
 /sbin/service $PG restart >> $LOG
 
+# create new pgbouncer config file 
+echo "RCreating pgbouncer config file " >> $LOG
+/opt/lifemapper/rocks/bin/confPgbouncer >> $LOG
+
 # start pgbouncer
 echo "Start pgbouncer " >> $LOG
-/sbin/service pgbouncer start >> $LOG
+/sbin/service pgbouncer restart >> $LOG
 
