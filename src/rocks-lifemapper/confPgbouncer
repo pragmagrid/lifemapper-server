@@ -129,6 +129,7 @@ class ConfPgbouncer(confbase.Baseconfig):
         addLines += "auth_type = md5\n"
         addLines += "admin_users = \n"
         addLines += "stats_users = \n"
+        addLines += "stats_period = 120\n"
 
         return addLines        
 
