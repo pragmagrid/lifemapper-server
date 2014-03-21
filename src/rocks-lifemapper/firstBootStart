@@ -6,8 +6,18 @@ PG=`basename /etc/init.d/postgresql-*`
 LOG=/tmp/lifemapper-firstboot.log
 touch $LOG
 
+# stop services if running
+echo "Stop $PG and pgbouncer" >> $LOG
+if [ -f /var/run/pgbouncer/pgbouncer.pid ]; then
+    /sbin/service pgbouncer stop >> $LOG
+fi
+
+if [ -f /var/run/$PG.pid ] ; then
+    /sbin/service $PG stop >> $LOG
+fi
+
 # initdb creates postgres data/*
-echo "Running $PG initdb" >> $LOG
+echo "Running postgres initdb" >> $LOG
 /sbin/service $PG initdb  >> $LOG
 
 # start postgres with default config
@@ -20,23 +30,25 @@ echo "Running confUsers" >> $LOG
 /opt/lifemapper/rocks/bin/confUsers >> $LOG
 
 # init postgres db with user/postgis info
-echo "Creating roles and postgis tables" >> $LOG
+echo "Creating roles and postgis tables with confUsers" >> $LOG
 /opt/lifemapper/rocks/bin/db_init >> $LOG  2>&1
 
 # create postgres config file 
-echo "Creating postgres config file " >> $LOG
+echo "Creating postgres config file with confPostgres " >> $LOG
 /opt/lifemapper/rocks/bin/confPostgres pg >> $LOG
 
 # create md5 auth client info in config file
-echo "Creating postgres auth file " >> $LOG
+echo "Creating postgres auth file with confPostgres" >> $LOG
 /opt/lifemapper/rocks/bin/confPostgres ca >> $LOG
 
 ### restart services with new configuration ###
 
 # need to update openssl for postgres
+echo "Yum update openssl" >> $LOG
 /usr/bin/yum --enablerepo base update openssl >> $LOG 
 
 # set unix socket dir
+echo "Update unix socket info for psql " >> $LOG
 export PGHOST=/var/run/postgresql
 echo "PGHOST=/var/run/postgresql" >> /var/lib/pgsql/.bash_profile
 echo "export PGHOST" >> /var/lib/pgsql/.bash_profile
@@ -46,10 +58,10 @@ echo "Restart postgres " >> $LOG
 /sbin/service $PG restart >> $LOG
 
 # create new pgbouncer config file 
-echo "RCreating pgbouncer config file " >> $LOG
+echo "Creating pgbouncer config file " >> $LOG
 /opt/lifemapper/rocks/bin/confPgbouncer >> $LOG
 
 # start pgbouncer
 echo "Start pgbouncer " >> $LOG
-/sbin/service pgbouncer restart >> $LOG
+/sbin/service pgbouncer start >> $LOG
 
