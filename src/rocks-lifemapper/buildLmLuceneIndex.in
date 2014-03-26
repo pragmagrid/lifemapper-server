@@ -9,7 +9,7 @@
 . /etc/profile.d/lifemapper.sh
 
 # Build the index
-/opt/python/bin/@PYTHONVER@ @LMHOME@/lm2pub/modules/lucene/lmLucene.py build
+/opt/python/bin/@PYTHONVER@ @LMHOME@/LmWebServer/src/lucene/lmLucene.py build
 
 # Note: the output  of build can be piped to a file to check for success
 # or check the files modification time in @LMWEB@/luceneIndex/
