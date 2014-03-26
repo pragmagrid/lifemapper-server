@@ -1,4 +1,4 @@
-# lifemapper roll
+# lifemapper-server roll
 
 set PYBIN=/opt/python/bin
 set LMBIN=@PKGROOT@/bin
@@ -8,5 +8,4 @@ set path = ( $PGSQLBIN $PYBIN $LMBIN $path )
 setenv PYTHON /opt/python/bin/@PYTHONVER@
 
 setenv PYTHON_EGG_CACHE @LMWEB@/.python-eggs
-setenv PYTHONPATH @LMHOME@
-
+setenv PYTHONPATH "@LMHOME@:@PKGROOT@/LmCompute"
