@@ -64,7 +64,7 @@ include Rules.mk
 version.mk:
 	cat ../version.mk version.mk.in > version.mk
 
-PY.PATH = /opt/python/bin/python2.7
+PY.PATH = /opt/python/bin/$(PYTHONVER)
 
 SEDSPEC += \
         -e 's%@LMHOME@%$(LMHOME)%g' \
@@ -73,24 +73,35 @@ SEDSPEC += \
         -e 's%@PYBIN@%$(PY.PATH)%g'
 
 SCRIPTS = hourlyUpdates dailyUpdates weeklyUpdates monthlyUpdates checkLmWeb deleteOldAnonymous 
+SCRIPTS = buildLmLuceneIndex.cron lmLucene.sh checkLmWeb.cron nextProductionUpdateDBChanges.sql deleteOldAnonymous.cron
 
-hourlyUpdates: hourlyUpdates.cron
+buildLmLuceneIndex.cron: buildLmLuceneIndex.cron.in
 	$(SED) $(SEDSPEC) $^ > $@
 
-dailyUpdates: dailyUpdates.cron
+deleteOldAnonymous.cron: deleteOldAnonymous.cron.in
 	$(SED) $(SEDSPEC) $^ > $@
 
-weeklyUpdates: weeklyUpdates.cron
+lmLucene.sh: lmLucene.sh.in
 	$(SED) $(SEDSPEC) $^ > $@
 
-monthlyUpdates: monthlyUpdates.cron
+checkLmWeb.cron: checkLmWeb.cron.in
 	$(SED) $(SEDSPEC) $^ > $@
 
-checkLmWeb: checkLmWeb.cron
+nextProductionUpdateDBChanges.sql: nextProductionUpdateDBChanges.sql.in
 	$(SED) $(SEDSPEC) $^ > $@
 
-deleteOldAnonymous: deleteOldAnonymous.cron
-	$(SED) $(SEDSPEC) $^ > $@
+#hourlyUpdates: hourlyUpdates.cron
+#	$(SED) $(SEDSPEC) $^ > $@
+#dailyUpdates: dailyUpdates.cron
+#	$(SED) $(SEDSPEC) $^ > $@
+#weeklyUpdates: weeklyUpdates.cron
+#	$(SED) $(SEDSPEC) $^ > $@
+#monthlyUpdates: monthlyUpdates.cron
+#	$(SED) $(SEDSPEC) $^ > $@
+#checkLmWeb: checkLmWeb.cron
+#	$(SED) $(SEDSPEC) $^ > $@
+#deleteOldAnonymous: deleteOldAnonymous.cron
+#	$(SED) $(SEDSPEC) $^ > $@
 
 prep:
 	./prepSrc.sh
@@ -102,17 +113,28 @@ install::
 	mkdir -p $(ROOT)/$(LMHOME)
 	tar xzvf  $(ARCHIVENAME)-$(DIST).tar.gz  -C  $(ROOT)/$(LMHOME) --strip=1
 
+	mkdir -p  $(ROOT)/$(LMHOME)/LmWebServer/src/lucene/
+	$(INSTALL) -m755 buildLmLuceneIndex.cron $(ROOT)/$(LMHOME)/LmWebServer/src/lucene/
+	$(INSTALL) -m755 lmLucene.sh $(ROOT)/$(LMHOME)/LmWebServer/src/lucene/
+
+	mkdir -p  $(ROOT)/$(LMHOME)/LmWebServer/src/scripts/
+	$(INSTALL) -m755 checkLmWeb.cron $(ROOT)/$(LMHOME)/LmWebServer/src/scripts/
+	$(INSTALL) -m755 deleteOldAnonymous.cron $(ROOT)/$(LMHOME)/LmWebServer/src/scripts/
+
+	mkdir -p  $(ROOT)/$(LMHOME)/LmDbServer/config/
+	$(INSTALL) -m644 nextProductionUpdateDBChanges.sql $(ROOT)/$(LMHOME)/LmDbServer/config/
+
 	# cron jobs
-	mkdir -p $(ROOT)/etc/cron.hourly
-	mkdir -p $(ROOT)/etc/cron.daily
-	mkdir -p $(ROOT)/etc/cron.weekly
-	mkdir -p $(ROOT)/etc/cron.monthly
-	$(INSTALL) -m755 hourlyUpdates $(ROOT)/etc/cron.hourly/lifemapper-hourly
-	$(INSTALL) -m755 dailyUpdates $(ROOT)/etc/cron.daily/lifemapper-daily
-	$(INSTALL) -m755 weeklyUpdates $(ROOT)/etc/cron.weekly/lifemapper-weekly
-	$(INSTALL) -m755 monthlyUpdates $(ROOT)/etc/cron.monthly/lifemapper-monthly
-	$(INSTALL) -m755 checkLmWeb $(ROOT)/etc/cron.weekly/lifemapper-checkLmWeb
-	$(INSTALL) -m755 deleteOldAnonymous $(ROOT)/etc/cron.weekly/lifemapper-deleteOldAnonymous
+	#mkdir -p $(ROOT)/etc/cron.hourly
+	#mkdir -p $(ROOT)/etc/cron.daily
+	#mkdir -p $(ROOT)/etc/cron.weekly
+	#mkdir -p $(ROOT)/etc/cron.monthly
+	#$(INSTALL) -m755 hourlyUpdates $(ROOT)/etc/cron.hourly/lifemapper-hourly
+	#$(INSTALL) -m755 dailyUpdates $(ROOT)/etc/cron.daily/lifemapper-daily
+	#$(INSTALL) -m755 weeklyUpdates $(ROOT)/etc/cron.weekly/lifemapper-weekly
+	#$(INSTALL) -m755 monthlyUpdates $(ROOT)/etc/cron.monthly/lifemapper-monthly
+	#$(INSTALL) -m755 checkLmWeb $(ROOT)/etc/cron.weekly/lifemapper-checkLmWeb
+	#$(INSTALL) -m755 deleteOldAnonymous $(ROOT)/etc/cron.weekly/lifemapper-deleteOldAnonymous
 
 clean::
 	rm -rf  $(SCRIPTS) version.mk

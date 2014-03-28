@@ -27,10 +27,13 @@
 #            Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 
 #            02110-1301, USA.
 
+# Set environment in case it is not already set
+. /etc/profile.d/lifemapper.sh
 
 # Have to export PYTHONPATH or the modules will not be found
-export PYTHONPATH=@LMHOME@:@LMHOME@/src/clients/python/lifemapper
+export PYTHONPATH=@LMHOME@:@LMHOME@/LmClient/LmPython/lifemapper
 
-@PYBIN@ @LMHOME@/scripts/checkLmWeb.py
-@PYBIN@ @LMHOME@/scripts/specifyAssumptions.py
-@PYBIN@ @LMHOME@/scripts/sdmTimeTest.py
+@PYBIN@  @LMHOME@/LmWebServer/src/scripts/checkLmWeb.py
+
+@PYBIN@  @LMHOME@/LmWebServer/src/scripts/specifyAssumptions.py
+
