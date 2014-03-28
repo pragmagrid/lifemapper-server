@@ -25,9 +25,6 @@ svnCheckout () {
               echo "removing $i"
               rm -rf $i
           done
-          # Does not exists in new distro or have changed
-          #rm -rf $SRC/scripts/*.cron
-          #rm -rf $SRC/scripts/lmsetup.sh
       else
           echo "Error with SVN checkout: directory $SRC is not created"
       fi
@@ -37,11 +34,9 @@ svnCheckout () {
 compressFiles () {
   if [ -d $SRC ]; then
       echo "Creating src archive from svn checkout"
-      #DATE=`date +%Y%m%d`
-      # force to first date for now
-      DATE="20140314"
-      PARTS="$SRC/LmDbServer $SRC/LmWebServer $SRC/LmServerCommon $SRC/LmCommon $SRC/__init__.py"
-      (cd patch-files && find . -type f | grep -v CVS | cpio -pduv ..)
+      DATE=`date +%Y%m%d`
+      PARTS="$SRC/LmClient $SRC/LmDbServer $SRC/LmWebServer $SRC/LmServerCommon $SRC/LmCommon $SRC/__init__.py"
+      #(cd patch-files && find . -type f | grep -v CVS | cpio -pduv ..)
       tar czvf src-$DATE.tar.gz $PARTS 
   else
       echo "Svn checkout directory $SRC is not present"
