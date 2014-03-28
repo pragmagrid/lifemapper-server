@@ -80,7 +80,6 @@ SCRIPTS = \
 	lmserver_init \
 	lmweb_init  \
 	db_init  \
-	buildLmLuceneIndex \
 	lucene.cron \
 	lifemapper-server.conf
 
@@ -103,9 +102,6 @@ lmweb_init: lmweb_init.in
 	$(SED) $(SEDSPEC) $^ > $@
 
 db_init: db_init.in
-	$(SED) $(SEDSPEC) $^ > $@
-
-buildLmLuceneIndex: buildLmLuceneIndex.in
 	$(SED) $(SEDSPEC) $^ > $@
 
 lucene.cron: lucene.cron.in
@@ -135,7 +131,6 @@ install::
 	install -m 755 lmserver_init $(ROOT)/$(PKGROOT)/rocks/bin
 	install -m 755 lmweb_init $(ROOT)/$(PKGROOT)/rocks/bin
 	install -m 755 db_init $(ROOT)/$(PKGROOT)/rocks/bin
-	install -m 755 buildLmLuceneIndex $(ROOT)/$(PKGROOT)/rocks/bin
 	install -m 755 $(PROGS) $(ROOT)/$(PKGROOT)/rocks/bin
 	install -m 644 $(PYFILES) $(ROOT)/$(PKGROOT)/rocks/bin
 
