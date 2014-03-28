@@ -68,17 +68,25 @@ PY.PATH = /opt/python/bin/$(PYTHONVER)
 
 SEDSPEC += \
         -e 's%@LMHOME@%$(LMHOME)%g' \
+        -e 's%@LMWEB@%$(LMWEB)%g' \
+        -e 's%@TEMPDIR@%$(TEMPDIR)%g' \
+        -e 's%@DATADIR@%$(DATADIR)%g' \
         -e 's%@LMUSER@%$(LMUSER)%g' \
         -e 's%@LMDISK@%$(LMDISK)%g' \
         -e 's%@PYBIN@%$(PY.PATH)%g'
 
-SCRIPTS = hourlyUpdates dailyUpdates weeklyUpdates monthlyUpdates checkLmWeb deleteOldAnonymous 
-SCRIPTS = buildLmLuceneIndex.cron lmLucene.sh checkLmWeb.cron nextProductionUpdateDBChanges.sql deleteOldAnonymous.cron
+SCRIPTS = buildLmLuceneIndex.cron checkLmWeb.cron deleteOldAnonymous.cron \
+          lmconstants.py \
+          lmLucene.sh \
+          nextProductionUpdateDBChanges.sql 
 
 buildLmLuceneIndex.cron: buildLmLuceneIndex.cron.in
 	$(SED) $(SEDSPEC) $^ > $@
 
 deleteOldAnonymous.cron: deleteOldAnonymous.cron.in
+	$(SED) $(SEDSPEC) $^ > $@
+
+lmconstants.py: lmconstants.py.in
 	$(SED) $(SEDSPEC) $^ > $@
 
 lmLucene.sh: lmLucene.sh.in
@@ -123,6 +131,10 @@ install::
 
 	mkdir -p  $(ROOT)/$(LMHOME)/LmDbServer/config/
 	$(INSTALL) -m644 nextProductionUpdateDBChanges.sql $(ROOT)/$(LMHOME)/LmDbServer/config/
+
+	mkdir -p  $(ROOT)/$(LMHOME)/LmCommon/src/common
+	$(INSTALL) -m644 lmconstants.py $(ROOT)/$(LMHOME)/LmCommon/src/common
+
 
 	# cron jobs
 	#mkdir -p $(ROOT)/etc/cron.hourly
