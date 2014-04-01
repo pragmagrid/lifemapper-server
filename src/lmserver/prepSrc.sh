@@ -30,6 +30,20 @@ svnCheckout () {
       fi
 }
 
+mvSrc () {
+  DIRS="LmCompute LmDbServer LmWebServer LmServerCommon LmCommon"
+  for i in $DIRS; do
+    dirname=$SRC/$i
+    if [ -d $dirname/src ] ; then
+      echo "moving files from $dirname/src"
+      mv  $dirname/src/* $dirname
+      rm -rf $dirname/src/
+    else
+      echo "directory $dirname/src is not present"
+    fi
+  done
+}
+
 # create distro file
 compressFiles () {
   if [ -d $SRC ]; then
@@ -43,5 +57,6 @@ compressFiles () {
   fi
 }
 
-svnCheckout $URL
+#svnCheckout $URL
+mvSrc
 compressFiles
