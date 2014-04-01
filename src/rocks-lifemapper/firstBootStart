@@ -18,7 +18,10 @@ fi
 
 # initdb creates postgres data/*
 echo "Running postgres initdb" >> $LOG
-/sbin/service $PG initdb  >> $LOG
+#  OPT needs testing
+OPT="-E 'UTF-8' --lc-collate='en_US.UTF-8' --lc-ctype='en_US.UTF-8'"
+OPT=""
+/sbin/service $PG initdb $OPT  >> $LOG
 
 # start postgres with default config
 echo "Running postgresql start" >> $LOG
