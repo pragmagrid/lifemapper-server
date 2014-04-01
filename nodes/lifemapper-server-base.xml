@@ -72,10 +72,15 @@ fi
 
 <post>
 
-mkdir -p /state/partition1/lmserver/data/AncillaryData
-mkdir -p /state/partition1/lmserver/data/ArchiveData
+mkdir -p /state/partition1/lmserver/log
+mkdir -p /state/partition1/lmserver/data/ClimateData
+mkdir -p /state/partition1/lmserver/data/ESRIDATA
+mkdir -p /state/partition1/lmserver/data/image
+mkdir -p /state/partition1/lmserver/data/models
 mkdir -p /state/partition1/lmserver/data/UserData
 chgrp -R lmwriter /state/partition1/lmserver/
+chmod -R g+ws /state/partition1/lmserver/data/models/ 
+chmod -R g+ws /state/partition1/lmserver/data/UserData/
 
 for item in `/opt/lifemapper/lmserver/`; do
     chgrp -R g+ws /opt/lifemapper/lmserver/$item
@@ -86,6 +91,13 @@ lmserver &Kickstart_PrivateHostname;:/export/&amp;
 </file>
 
 /etc/init.d/autofs restart
+
+LOG=`ls /share/lmserver | grep log`
+if [ "$LOG" != "" ] ; then
+    ln -s /share/lmserver/log /opt/lifemapper/lmserver/log
+else
+    echo "ERROR: directory /share/lmserver/log  does not exist"
+fi
 
 </post>
 
