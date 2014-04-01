@@ -15,4 +15,4 @@ export PYTHONPATH=@LMHOME@
 #   or you can check the last modified time of the files in: 
 #   /var/lib/lm2/luceneIndex/
 
-@PYBIN@ @LMHOME@/LmWebServer/src/lucene/lmLucene.py build
+@PYBIN@ @LMHOME@/LmWebServer/lucene/lmLucene.py build

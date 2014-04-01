@@ -120,20 +120,31 @@ install::
 	# lmserver source
 	mkdir -p $(ROOT)/$(LMHOME)
 	tar xzvf  $(ARCHIVENAME)-$(DIST).tar.gz  -C  $(ROOT)/$(LMHOME) --strip=1
+	mv $(ROOT)/$(LMHOME)/LmCommon/src/* $(ROOT)/$(LMHOME)/LmCommon/
+	rm -rf $(ROOT)/$(LMHOME)/LmCommon/src/
+	mv $(ROOT)/$(LMHOME)/LmDbServer/src/* $(ROOT)/$(LMHOME)/LmDbServer/
+	rm -rf $(ROOT)/$(LMHOME)/LmDbServer/src/
+	mv $(ROOT)/$(LMHOME)/LmServerCommon/src/* $(ROOT)/$(LMHOME)/LmServerCommon/
+	rm -rf $(ROOT)/$(LMHOME)/LmServerCommon/src/
+	mv $(ROOT)/$(LMHOME)/LmWebServer/src/* $(ROOT)/$(LMHOME)/LmWebServer/
+	rm -rf $(ROOT)/$(LMHOME)/LmWebServer/src/
 
-	mkdir -p  $(ROOT)/$(LMHOME)/LmWebServer/src/lucene/
-	$(INSTALL) -m755 buildLmLuceneIndex.cron $(ROOT)/$(LMHOME)/LmWebServer/src/lucene/
-	$(INSTALL) -m755 lmLucene.sh $(ROOT)/$(LMHOME)/LmWebServer/src/lucene/
+	mkdir -p  $(ROOT)/$(LMHOME)/LmWebServer/lucene/
+	$(INSTALL) -m755 buildLmLuceneIndex.cron $(ROOT)/$(LMHOME)/LmWebServer/lucene/
+	$(INSTALL) -m755 lmLucene.sh $(ROOT)/$(LMHOME)/LmWebServer/lucene/
 
-	mkdir -p  $(ROOT)/$(LMHOME)/LmWebServer/src/scripts/
-	$(INSTALL) -m755 checkLmWeb.cron $(ROOT)/$(LMHOME)/LmWebServer/src/scripts/
-	$(INSTALL) -m755 deleteOldAnonymous.cron $(ROOT)/$(LMHOME)/LmWebServer/src/scripts/
+	mkdir -p  $(ROOT)/$(LMHOME)/LmWebServer/scripts/
+	$(INSTALL) -m755 checkLmWeb.cron $(ROOT)/$(LMHOME)/LmWebServer/scripts/
+	$(INSTALL) -m755 deleteOldAnonymous.cron $(ROOT)/$(LMHOME)/LmWebServer/scripts/
 
 	mkdir -p  $(ROOT)/$(LMHOME)/LmDbServer/config/
 	$(INSTALL) -m644 nextProductionUpdateDBChanges.sql $(ROOT)/$(LMHOME)/LmDbServer/config/
 
-	mkdir -p  $(ROOT)/$(LMHOME)/LmCommon/src/common
-	$(INSTALL) -m644 lmconstants.py $(ROOT)/$(LMHOME)/LmCommon/src/common
+	mkdir -p  $(ROOT)/$(LMHOME)/LmCommon/common
+	$(INSTALL) -m644 lmconstants.py $(ROOT)/$(LMHOME)/LmCommon/common
+
+	mkdir -p  $(ROOT)/$(LMHOME)/LmDbServer/populate/
+	$(INSTALL) -m644 initCatalog.py $(ROOT)/$(LMHOME)/LmDbServer/populate/
 
 
 	# cron jobs
