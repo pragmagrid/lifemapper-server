@@ -8,3 +8,5 @@ export PATH=$PGSQLBIN:$PYBIN:$LMBIN:$PATH
 export PYTHON=/opt/python/bin/@PYTHONVER@
 export PYTHON_EGG_CACHE="@LMWEB@/.python-eggs"
 export PYTHONPATH=@LMHOME@:@LMHOME@/LmClient/LmPython/lifemapper:@PKGROOT@/LmCompute
+
+export PGHOST=/var/run/postgresql
