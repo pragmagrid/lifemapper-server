@@ -15,7 +15,6 @@
 	</copyright>
 
 	<changelog>
-	$Log$
 	</changelog>
 
 	<package>lifemapper-mod_python</package>
@@ -26,8 +25,8 @@
 
 <post>
 # mapserver home is for temp files    
-mkdir -p /var/www/tmp
-chown apache:apache /var/www/tmp
+/bin/mkdir -p /var/www/tmp
+/bin/chown apache:apache /var/www/tmp
 
 /opt/lifemapper/rocks/bin/lmweb_init
 

@@ -72,18 +72,18 @@ fi
 
 <post>
 
-mkdir -p /state/partition1/lmserver/log
-mkdir -p /state/partition1/lmserver/data/ClimateData
-mkdir -p /state/partition1/lmserver/data/ESRIDATA
-mkdir -p /state/partition1/lmserver/data/image
-mkdir -p /state/partition1/lmserver/data/models
-mkdir -p /state/partition1/lmserver/data/UserData
-chgrp -R lmwriter /state/partition1/lmserver/
-chmod -R g+ws /state/partition1/lmserver/data/models/ 
-chmod -R g+ws /state/partition1/lmserver/data/UserData/
+/bin/mkdir -p /state/partition1/lmserver/log
+/bin/mkdir -p /state/partition1/lmserver/data/ClimateData
+/bin/mkdir -p /state/partition1/lmserver/data/ESRIDATA
+/bin/mkdir -p /state/partition1/lmserver/data/image
+/bin/mkdir -p /state/partition1/lmserver/data/models
+/bin/mkdir -p /state/partition1/lmserver/data/UserData
+/bin/chgrp -R lmwriter /state/partition1/lmserver/
+/bin/chmod -R g+ws /state/partition1/lmserver/data/models/ 
+/bin/chmod -R g+ws /state/partition1/lmserver/data/UserData/
 
 for item in `/opt/lifemapper/lmserver/`; do
-    chgrp -R g+ws /opt/lifemapper/lmserver/$item
+    /bin/chgrp -R g+ws /opt/lifemapper/lmserver/$item
 done
 
 <file name="/etc/auto.share" mode="append">
@@ -94,9 +94,9 @@ lmserver &Kickstart_PrivateHostname;:/export/&amp;
 
 LOG=`ls /share/lmserver | grep log`
 if [ "$LOG" != "" ] ; then
-    ln -s /share/lmserver/log /opt/lifemapper/lmserver/log
+    /bin/ln -s /share/lmserver/log /opt/lifemapper/lmserver/log
 else
-    echo "ERROR: directory /share/lmserver/log  does not exist"
+    /bin/echo "ERROR: directory /share/lmserver/log  does not exist"
 fi
 
 </post>
