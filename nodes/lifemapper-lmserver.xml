@@ -20,7 +20,6 @@
         <package>opt-MySQL-python</package>
         <package>opt-rtree</package>
         <package>lifemapper-spatialindex</package>
-        <package>lifemapper-server-data</package>
         <package>strace</package>
 
         <!-- postgres and dependencies -->
@@ -62,7 +61,7 @@ vm.overcommit_memory = 2
 # create unix socket dir for postgres and pgbouncer
 mkdir -p /var/run/postgresql
 chown postgres:postgres /var/run/postgresql
-chmod 0770 /var/run/postgresql
+chmod 0775 /var/run/postgresql
 
 PG=`basename /etc/init.d/postgresql-*`
 /sbin/chkconfig --add $PG 
