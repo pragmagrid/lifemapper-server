@@ -1,3 +1,3 @@
 # Lifemapper lucene cron job
 
-0  */4  *  *  *  @LMHOME@/LmWebServer/src/lucene/buildLmLuceneIndex.cron
+0  */4  *  *  *  @LMHOME@/LmWebServer/lucene/buildLmLuceneIndex.cron
