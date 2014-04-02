@@ -54,8 +54,12 @@ echo "Yum update openssl" >> $LOG
 # set unix socket dir
 echo "Update unix socket info for psql " >> $LOG
 export PGHOST=/var/run/postgresql
-echo "PGHOST=/var/run/postgresql" >> /var/lib/pgsql/.bash_profile
-echo "export PGHOST" >> /var/lib/pgsql/.bash_profile
+PROFILE=/var/lib/pgsql/.bash_profile
+if [ ! -f $PROFILE ] ; then
+    touch $PROFILE
+    chown postgres:postgres $PROFILE
+fi
+echo "export PGHOST=/var/run/postgresql" >> $PROFILE
 
 # restart postgres with updated configuration
 echo "Restart postgres " >> $LOG
