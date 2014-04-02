@@ -1,7 +1,18 @@
 #!/bin/bash 
 
+PORT=5432
+
+if [ -e /var/run/postgresql/.s.PGSQL.$PORT ] ; then
+    PGHOST=/var/run/postgresql
+elif  [ -e /tmp/.s.PGSQL.$PORT ] ; then
+    PGHOST=/tmp
+else
+    echo "Can not find postgres connections on Unix domain socket, check if postgres daemon is running"
+    exit 1
+fi
+
 # create DB users and postgis extensions
-TDIR=@PKGROOT@/rocks/sql/
-su - postgres -c "psql template1 -f $TDIR/roles.sql"
-su - postgres -c "psql template1 -f $TDIR/postgis.sql"
+TDIR=@PKGROOT@/rocks/sql
+su - postgres -c "export PGHOST=$PGHOST; psql template1 -f $TDIR/roles.sql"
+su - postgres -c "export PGHOST=$PGHOST; psql template1 -f $TDIR/postgis.sql"
 
