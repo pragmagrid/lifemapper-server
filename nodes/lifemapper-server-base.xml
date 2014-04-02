@@ -78,9 +78,11 @@ fi
 /bin/mkdir -p /state/partition1/lmserver/data/image
 /bin/mkdir -p /state/partition1/lmserver/data/models
 /bin/mkdir -p /state/partition1/lmserver/data/UserData
-/bin/chgrp -R lmwriter /state/partition1/lmserver/
-/bin/chmod -R g+ws /state/partition1/lmserver/data/models/ 
-/bin/chmod -R g+ws /state/partition1/lmserver/data/UserData/
+
+/bin/chgrp -R lmwriter /state/partition1/lmserver
+/bin/chmod -R g+ws /state/partition1/lmserver/log
+/bin/chmod -R g+ws /state/partition1/lmserver/data/models 
+/bin/chmod -R g+ws /state/partition1/lmserver/data/UserData
 
 for item in `/opt/lifemapper/lmserver/`; do
     /bin/chgrp -R g+ws /opt/lifemapper/lmserver/$item
