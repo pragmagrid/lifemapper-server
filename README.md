@@ -50,3 +50,11 @@ Installing LMserver
   *postgis2_91**: geos 
   *mapserver**: geos 
   *psycopg2**: gdal, postgresql91 
+
+** TODO ** 
+These files need further decoupling from the manual deiting
+  * LmCommon/common/lmconstants.py 
+  * LmServerCommon/sdm/algorithm.py 
+  * LmServerCommon/db/peruser.py 
+  * LmServerCommon/db/localparams.py 
+
