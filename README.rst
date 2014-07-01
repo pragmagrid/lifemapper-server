@@ -62,13 +62,13 @@ Downloads
 Individual package dependencies
 -------------------------------
 
-  :**pytables**:    Cython and numexpr python packages and hdf5, hdf5-devel RPMS   
-  :**rtree**:       spatialindex, setuptools python packages  
-  :**mapserver**:   elgis repo, bitstream-vera-sans-fonts RPM, bitstream-vera-fonts-common RPM  
-  :**pylucene**:    setuptools python packages  
-  :**postgis2_91**: geos  
-  :**mapserver**:   geos  
-  :**psycopg2**:    gdal, postgresql91  
+:**pytables**:    Cython and numexpr python packages and hdf5, hdf5-devel RPMS   
+:**rtree**:       spatialindex, setuptools python packages  
+:**mapserver**:   elgis repo, bitstream-vera-sans-fonts RPM, bitstream-vera-fonts-common RPM  
+:**pylucene**:    setuptools python packages  
+:**postgis2_91**: geos  
+:**mapserver**:   geos  
+:**psycopg2**:    gdal, postgresql91  
 
 Building individual packages 
 --------------------------------
@@ -96,12 +96,13 @@ Adding a roll
 TODO 
 -----------
 
-1. add screen on frontend
-2. These files need further decoupling from the manual deiting  
-  * LmCommon/common/lmconstants.py  
-  * LmServerCommon/sdm/algorithm.py  
-  * LmServerCommon/db/peruser.py  
-  * LmServerCommon/db/localparams.py  
-  * LmServerCommon/common/datalocator.py  
-  * LmDbServer/pipeline/localpipeline.py  
+#. add screen on frontend
+#. These files need further decoupling from the manual deiting   
+
+   * LmCommon/common/lmconstants.py  
+   * LmServerCommon/sdm/algorithm.py  
+   * LmServerCommon/db/peruser.py  
+   * LmServerCommon/db/localparams.py  
+   * LmServerCommon/common/datalocator.py  
+   * LmDbServer/pipeline/localpipeline.py  
 
