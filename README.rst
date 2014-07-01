@@ -1,12 +1,15 @@
 
 .. hightlight:: rest
 
-.. content:: Lifemapper server roll
-
 LifeMapper Server roll
 =============================
+.. contents::  
 
-This roll installs lmserver and lmweb parts of Lifemapper
+Introduction
+----------------
+This roll installs lmserver and lmweb parts of Lifemapper.
+All prerequisite software listed below is a part of a roll and all installed
+prerequisites are configured during roll installation. 
 
 Prerequisites
 -----------------
