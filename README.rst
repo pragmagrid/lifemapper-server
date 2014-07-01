@@ -76,6 +76,11 @@ Individual package dependencies
 Building a roll 
 ------------------
 
+Checkout roll distribution from git repo :: 
+
+   # git clone https://github.com/pragmagrid/lifemapper-server.git 
+   # cd lifemapper-server/
+
 To build a roll, first execute a script that downloads and installs some packages 
 and RPMS that are prerequisites for other packages. ::
 
@@ -92,7 +97,8 @@ When all individual packages are building without errors build a roll (at the to
 
 Adding a roll
 ------------------
-::
+
+Execute all commands from top level lifemapper-server/ ::
 
    # rocks add roll lifemapper-server-6.1-0.x86_64.disk1.iso   
    # (cd /export/rocks/install; rocks create distro)  
