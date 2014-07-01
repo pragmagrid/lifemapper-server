@@ -22,25 +22,25 @@ Prerequisites
 
 #. Source distributions: 
    
-   :**libraries and binaries:** : ant gdal proj geos libevent libspatialindex tiff  
-   :**python modules:** : Cheetah, CherryPy, Cython,  egenix-mxDateTime (part of egenix-mx-base),   
-                          faulthandler  mod_python, mysql-python,  numexpr,   
-                          rtree, psycopg2,  pylucene, pytables, setuptools   
-
+   :binaries: ant gdal proj geos libevent libspatialindex tiff  
+   :python modules:         Cheetah, CherryPy, Cython,  egenix-mxDateTime (part of egenix-mx-base),   
+                                faulthandler  mod_python, mysql-python,  numexpr,   
+                                rtree, psycopg2,  pylucene, pytables, setuptools   
+    
 Downloads
 ---------------
 
-  **elgis and pgdg91 repos**  
+#. **elgis and pgdg91 repos**  ::
 
     wget http://yum.postgresql.org/9.1/redhat/rhel-6-x86_64/pgdg-centos91-9.1-4.noarch.rpm  
     wget http://elgis.argeo.org/repos/6/elgis-release-6-6_0.noarch.rpm  
 
-  **vera fonts for mapserver**  
+#. **vera fonts for mapserver**  ::
 
     wget ftp://ftp.pbone.net/mirror/atrpms.net/el6-x86_64/atrpms/stable/bitstream-vera-sans-fonts-1.10-18.el6.noarch.rpm  
     wget ftp://ftp.pbone.net/mirror/atrpms.net/el6-i386/atrpms/stable/bitstream-vera-fonts-common-1.10-18.el6.noarch.rpm  
 
-  **sources**  
+#. **sources**  ::
 
     wget http://download.osgeo.org/geos/geos-3.4.2.tar.bz2  
     wget http://www.cython.org/release/Cython-0.20.tar.gz  
@@ -62,29 +62,31 @@ Downloads
 Individual package dependencies
 -------------------------------
 
-  :**pytables**: Cython and numexpr python packages and hdf5, hdf5-devel RPMS   
-  :**rtree**: spatialindex, setuptools python packages  
-  :**mapserver**: elgis repo, bitstream-vera-sans-fonts RPM, bitstream-vera-fonts-common RPM  
-  :**pylucene**: setuptools python packages  
+  :**pytables**:    Cython and numexpr python packages and hdf5, hdf5-devel RPMS   
+  :**rtree**:       spatialindex, setuptools python packages  
+  :**mapserver**:   elgis repo, bitstream-vera-sans-fonts RPM, bitstream-vera-fonts-common RPM  
+  :**pylucene**:    setuptools python packages  
   :**postgis2_91**: geos  
-  :**mapserver**: geos  
-  :**psycopg2**: gdal, postgresql91  
+  :**mapserver**:   geos  
+  :**psycopg2**:    gdal, postgresql91  
 
-Building individual packages
+Building individual packages 
 --------------------------------
+::
 
-    # ./bootstrap.sh  
-    # cd src/pkgname 
-    # make rpm 
+   # cd src/pkgname 
+   # make rpm 
 
-Building a roll
+Building a roll 
 ------------------
+::
 
-    # ./bootstrap.sh  
-    # make roll
+   # ./bootstrap.sh  
+   # make roll
 
 Adding a roll
 ------------------
+::
 
     # rocks add roll lifemapper-server-6.1-0.x86_64.disk1.iso   
     # (cd /export/rocks/install; rocks create distro)  
