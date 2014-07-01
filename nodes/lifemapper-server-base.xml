@@ -58,6 +58,7 @@
 	<package>fribidi</package>
 	<package>postgresql91-libs</package>
 	<package>mapserver</package>
+	<package>lifemapper-climate-data</package>
 
 <post>
 

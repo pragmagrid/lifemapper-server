@@ -1,0 +1,11 @@
+NAME        	= lifemapper-climate-data
+ARCHIVENAME     = data
+
+PART1           = a1f
+PART2           = a2c
+PART3           = b1a
+PART4           = cru
+
+VERSION     	= 1.0
+RELEASE 	= 0
+TARBALL_POSTFIX	= tar.gz
