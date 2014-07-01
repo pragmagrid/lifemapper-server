@@ -4,6 +4,20 @@
 #
 . /opt/rocks/share/devel/src/roll/etc/bootstrap-functions.sh
 
+# enable elgis repo, need for map server
+(cd src/RPMS; 
+ELGISREPO=elgis-release-6-6_0.noarch.rpm
+wget  http://elgis.argeo.org/repos/6/$ELGISREPO
+rpm -i $ELGISREPO
+)
+
+# enable repo for postgresql and postgis2 rpms
+(cd src/RPMS; 
+PGDGREPO=pgdg-centos91-9.1-4.noarch.rpm
+wget http://yum.postgresql.org/9.1/redhat/rhel-6-x86_64/$PGDGREPO
+rpm -i src/RPMS/$PGDGREPO
+)
+
 # download needed RPMS
 (cd src/RPMS; 
 yumdownloader --resolve --enablerepo elgis mapserver.x86_64; \
@@ -35,12 +49,10 @@ echo "/opt/lifemapper/lib" >> /etc/ld.so.conf.d/lifemapper-server.conf
 echo "/opt/python/lib/" >> /etc/ld.so.conf.d/lifemapper-server.conf
 /sbin/ldconfig
 
-# yum repo for postgresql and postgis2 rpms
-rpm -i src/RPMS/pgdg-centos91-9.1-4.noarch.rpm
-
-# yum repo and vera fonts for mapserver
+# need cmake for compiling 
 yum --enablerepo base install cmake
-rpm -i src/RPMS/elgis-release-6-6_0.noarch.rpm 
+
+# vera fonts for mapserver
 rpm -i src/RPMS/bitstream-vera-fonts-common-1.10-18.el6.noarch.rpm
 rpm -i src/RPMS/bitstream-vera-sans-fonts-1.10-18.el6.noarch.rpm
 
