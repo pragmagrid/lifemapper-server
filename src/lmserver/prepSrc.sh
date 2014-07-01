@@ -5,15 +5,8 @@
 # Will be prompted for svn user and passwd.
 
 SRC=components
-
-# check commadn line arguments
-if [ $# -ne 1 ]; then
-    echo "Usage: $0 url"
-    echo "       url  - svn url to check out lifemapper src "
-    echo "       NOTE: for svn co will be prompted for valid user/pass "
-else
-    URL=$1
-fi
+URL=https://svn.lifemapper.org/trunk
+echo "NOTE: for svn checkout you will be prompted for valid user/pass "
 
 # get src distro from lifemapper svn
 svnCheckout () {
@@ -57,6 +50,6 @@ compressFiles () {
   fi
 }
 
-#svnCheckout $URL
+svnCheckout $URL
 mvSrc
 compressFiles
