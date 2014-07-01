@@ -73,33 +73,45 @@ Individual package dependencies
 :**mapserver**:   geos  
 :**psycopg2**:    gdal, postgresql91  
 
-Building individual packages 
---------------------------------
-::
+Building a roll 
+------------------
+
+To build a roll, first execute a script that downloads and installs some packages 
+and RPMS that are prerequisites for other packages. ::
+
+   # ./bootstrap.sh  
+
+To build individual packages ::
 
    # cd src/pkgname 
    # make rpm 
 
-Building a roll 
-------------------
-::
+When all individual packages are building without errors build a roll (at the top level) ::
 
-   # ./bootstrap.sh  
    # make roll
 
 Adding a roll
 ------------------
 ::
 
-    # rocks add roll lifemapper-server-6.1-0.x86_64.disk1.iso   
-    # (cd /export/rocks/install; rocks create distro)  
-    # rocks run roll lifemapper-server > add-lmserver.sh  
-    # bash add-lmserver.sh  
+   # rocks add roll lifemapper-server-6.1-0.x86_64.disk1.iso   
+   # (cd /export/rocks/install; rocks create distro)  
+   # rocks run roll lifemapper-server > add-lmserver.sh  
+   # bash add-lmserver.sh  
+
+Removing a roll
+-------------------
+
+When debugging a roll may need to remove the roll and all installled RPMs.
+The 1st command removes the installed roll, the 2nd all roll RPMs that were installed.  ::
+
+   # rocks remove roll lifemapper-server
+   # (cd /export/rocks/install; rocks create distro)  
+   # ./rmrpm.sh
 
 TODO 
 -----------
 
-#. add screen on frontend
 #. These files need further decoupling from the manual deiting   
 
    * LmCommon/common/lmconstants.py  

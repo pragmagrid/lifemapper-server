@@ -40,6 +40,7 @@ yumdownloader --resolve --enablerepo base giflib-devel.x86_64; \
 yumdownloader --resolve --enablerepo base byacc.x86_64; \
 yumdownloader --resolve --enablerepo base subversion.x86_64; \
 yumdownloader --resolve --enablerepo base cmake.x86_64; \
+yumdownloader --resolve --enablerepo base screen.x86_64; \
 )
 
 # add dynamic libs

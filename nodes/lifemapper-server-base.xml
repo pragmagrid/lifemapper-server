@@ -33,6 +33,7 @@
 	<package>hdf5</package>
 	<package>hdf5-devel</package>
 	<package>cmake</package>
+	<package>screen</package>
 	<package>lifemapper-proj</package>
 	<package>lifemapper-geos</package>
 	<package>lifemapper-gdal</package>
@@ -58,6 +59,8 @@
 	<package>fribidi</package>
 	<package>postgresql91-libs</package>
 	<package>mapserver</package>
+
+	<!-- lifemapper data -->
 	<package>lifemapper-climate-data</package>
 
 <post>
