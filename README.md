@@ -7,23 +7,22 @@ Installing LMserver
 -------------------
 
 **Prerequisites**  
-~~~~~~~~~~~~~~~~~~~~
+ 
+* elgis, pgdg91 repos (download RPMs)
+* from yum base repo: cmake, subversion, sqlite-devel, giflib-devel, byacc, readline-devel 
+* from yum rpmforge repo: hdf4, hdf4-devel, hdf5, hdf5-devel
+* from yum epel repo: fribidi, json-c
+* from yum elgis repo: mapserver 
+* from yum pgdg91 repo: postgresql91, postgresql91-devel, postgis2_91, pgbouncer
+* build from source: libspatialindex, geos, ant, mod_python, gdal
+* build python modules from source:  
+  numexpr, Cheetah, CherryPy, Cython,  
+  pytables, egenix-mxDateTime (part of egenix-mx-base),  
+  setuptools, rtree, pylucene, psycopg2, MySQL-python, faulthandler  
 
-  * elgis, pgdg91 repos (download RPMs)
-  * from yum base repo: cmake, subversion, sqlite-devel, giflib-devel, byacc, readline-devel 
-  * from yum rpmforge repo: hdf4, hdf4-devel, hdf5, hdf5-devel
-  * from yum epel repo: fribidi, json-c
-  * from yum elgis repo: mapserver 
-  * from yum pgdg91 repo: postgresql91, postgresql91-devel, postgis2_91, pgbouncer
-  * build from source: libspatialindex, geos, ant, mod_python, gdal
-  * build python modules from source:  
-       numexpr, Cheetah, CherryPy, Cython,  
-       pytables, egenix-mxDateTime (part of egenix-mx-base),  
-       setuptools, rtree, pylucene, psycopg2, MySQL-python, faulthandler
 
 **Downloads**  
-~~~~~~~~~~~~~~
-    
+
   **elgis and pgdg91 repos**  
     wget http://yum.postgresql.org/9.1/redhat/rhel-6-x86_64/pgdg-centos91-9.1-4.noarch.rpm  
     wget http://elgis.argeo.org/repos/6/elgis-release-6-6_0.noarch.rpm  
@@ -32,7 +31,7 @@ Installing LMserver
     wget ftp://ftp.pbone.net/mirror/atrpms.net/el6-x86_64/atrpms/stable/bitstream-vera-sans-fonts-1.10-18.el6.noarch.rpm  
     wget ftp://ftp.pbone.net/mirror/atrpms.net/el6-i386/atrpms/stable/bitstream-vera-fonts-common-1.10-18.el6.noarch.rpm  
 
-  **source **  
+  **source**  
     wget http://download.osgeo.org/geos/geos-3.4.2.tar.bz2  
     wget http://www.cython.org/release/Cython-0.20.tar.gz  
     wget http://sourceforge.net/projects/pytables/files/pytables/3.1.0/tables-3.1.0rc2.tar.gz  
@@ -51,7 +50,6 @@ Installing LMserver
     wget --no-check-certificate https://pypi.python.org/packages/source/f/faulthandler/faulthandler-2.3.tar.gz  
 
 **Individual package dependencies**  
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   **pytables**: Cython and numexpr python packages and hdf5, hdf5-devel RPMS   
   **rtree**: spatialindex, setuptools python packages  
@@ -62,24 +60,20 @@ Installing LMserver
   **psycopg2**: gdal, postgresql91  
 
 
-**Building a roll**
-~~~~~~~~~~~~~~~~~~~~~~~~~
+**Building a roll**  
 
-# ./bootstrap.sh  
-# make roll
+  # ./bootstrap.sh  
+  # make roll
 
+**Adding a roll**  
 
-**Adding a roll** 
-~~~~~~~~~~~~~~~~~~~~~~~~~
+  # rocks add roll lifemapper-server-6.1-0.x86_64.disk1.iso   
+  # (cd /export/rocks/install; rocks create distro)  
+  # rocks run roll lifemapper-server > add-lmserver.sh  
+  # bash add-lmserver.sh  
 
-# rocks add roll lifemapper-server-6.1-0.x86_64.disk1.iso   
-# (cd /export/rocks/install; rocks create distro)  
-# rocks run roll lifemapper-server > add-lmserver.sh  
-# bash add-lmserver.sh  
+** TODO **   
 
-
-** TODO ** 
-~~~~~~~~~~~~~`
 1. add screen on frontend
 2. These files need further decoupling from the manual deiting  
   * LmCommon/common/lmconstants.py  
