@@ -1,0 +1,31 @@
+# build directory
+FOSSILS/
+RPMS/
+SOURCES/
+
+_os
+_arch
+
+# ignore version* files
+rocks-version.mk
+rocks-version-common.mk
+
+# ignore python files
+python.mk
+*.pyc
+
+# ignore Rules* files
+Rules-install.mk
+Rules-linux-centos.mk
+Rules-linux.mk
+Rules-rcfiles.mk
+Rules-scripts.mk
+Rules.mk
+Rolls.mk
+
+# ignore src files
+src/lmserver/components-2014-03-31/
+src/lmserver/components/
+#src/lmserver/src-20140327.tar.gz
+src/lmserver/src*
+src/lmserver/src-20140508.tar.gz
