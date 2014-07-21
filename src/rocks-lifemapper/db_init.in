@@ -1,5 +1,10 @@
 #!/bin/bash 
 
+# Initialize postgres DB with user/postgis info
+#   (1) setup user acces from rols.sql
+#   (2) setup postgis tables and user access from postgis.sql
+ 
+
 PORT=5432
 
 if [ -e /var/run/postgresql/.s.PGSQL.$PORT ] ; then
