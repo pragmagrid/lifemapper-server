@@ -2,6 +2,8 @@
 FOSSILS/
 RPMS/
 SOURCES/
+BUILD/
+SPECS/
 
 _os
 _arch
