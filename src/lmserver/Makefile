@@ -73,14 +73,24 @@ SEDSPEC += \
         -e 's%@DATADIR@%$(DATADIR)%g' \
         -e 's%@LMUSER@%$(LMUSER)%g' \
         -e 's%@LMDISK@%$(LMDISK)%g' \
+        -e 's%@PKGROOT@%$(PKGROOT)%g' \
         -e 's%@PYBIN@%$(PY.PATH)%g'
 
-SCRIPTS = buildLmLuceneIndex.cron checkLmWeb.cron deleteOldAnonymous.cron \
+SCRIPTS = buildLmLuceneIndex.cron \
+          checkLmWeb.cron \
+          config.ini \
+          deleteOldAnonymous.cron \
           lmconstants.py \
-          lmLucene.sh \
-          nextProductionUpdateDBChanges.sql 
+          lmLucene.sh 
+
+SQL = nextProductionUpdateDBChanges.sql \
+      createMAL.sql \
+      createSPECO.sql
 
 buildLmLuceneIndex.cron: buildLmLuceneIndex.cron.in
+	$(SED) $(SEDSPEC) $^ > $@
+
+config.ini: config.ini.in
 	$(SED) $(SEDSPEC) $^ > $@
 
 deleteOldAnonymous.cron: deleteOldAnonymous.cron.in
@@ -96,6 +106,12 @@ checkLmWeb.cron: checkLmWeb.cron.in
 	$(SED) $(SEDSPEC) $^ > $@
 
 nextProductionUpdateDBChanges.sql: nextProductionUpdateDBChanges.sql.in
+	$(SED) $(SEDSPEC) $^ > $@
+
+createMAL.sql: createMAL.sql.in
+	$(SED) $(SEDSPEC) $^ > $@
+
+createSPECO.sql: createSPECO.sql.in
 	$(SED) $(SEDSPEC) $^ > $@
 
 #hourlyUpdates: hourlyUpdates.cron
@@ -114,7 +130,7 @@ nextProductionUpdateDBChanges.sql: nextProductionUpdateDBChanges.sql.in
 prep:
 	./prepSrc.sh
 
-build: $(SCRIPTS)
+build: $(SCRIPTS) $(SQL)
 
 install::
 	# lmserver source
@@ -129,15 +145,17 @@ install::
 	$(INSTALL) -m755 checkLmWeb.cron $(ROOT)/$(LMHOME)/LmWebServer/scripts/
 	$(INSTALL) -m755 deleteOldAnonymous.cron $(ROOT)/$(LMHOME)/LmWebServer/scripts/
 
-	mkdir -p  $(ROOT)/$(LMHOME)/LmDbServer/config/
-	$(INSTALL) -m644 nextProductionUpdateDBChanges.sql $(ROOT)/$(LMHOME)/LmDbServer/config/
+	mkdir -p  $(ROOT)/$(LMHOME)/LmDbServer/dbsetup/
+	$(INSTALL) -m644 $(SQL) $(ROOT)/$(LMHOME)/LmDbServer/dbsetup/
 
 	mkdir -p  $(ROOT)/$(LMHOME)/LmCommon/common
 	$(INSTALL) -m644 lmconstants.py $(ROOT)/$(LMHOME)/LmCommon/common
 
-	mkdir -p  $(ROOT)/$(LMHOME)/LmDbServer/populate/
-	$(INSTALL) -m644 initCatalog.py $(ROOT)/$(LMHOME)/LmDbServer/populate/
+	#mkdir -p  $(ROOT)/$(LMHOME)/LmDbServer/populate/
+	#$(INSTALL) -m644 initCatalog.py $(ROOT)/$(LMHOME)/LmDbServer/populate/
 
+	mkdir -p  $(ROOT)/$(LMHOME)/LmCompute/config
+	$(INSTALL) -m644 config.ini $(ROOT)/$(LMHOME)/LmCompute/config
 
 	# cron jobs
 	#mkdir -p $(ROOT)/etc/cron.hourly
@@ -152,5 +170,5 @@ install::
 	#$(INSTALL) -m755 deleteOldAnonymous $(ROOT)/etc/cron.weekly/lifemapper-deleteOldAnonymous
 
 clean::
-	rm -rf  $(SCRIPTS) version.mk
+	rm -rf  $(SCRIPTS) $(SQL) version.mk
 	rm -rf  $(ARHIVENAME)

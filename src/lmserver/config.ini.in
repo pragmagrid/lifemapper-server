@@ -1,0 +1,54 @@
+; Lifemapper configuration file for lmCompute
+
+[contact]
+INSTITUTION_NAME: 
+ADMIN_NAME: 
+ADMIN_EMAIL: 
+LOCAL_MACHINE_ID: 
+
+[environment]
+;PLUGINS_DIR: @PKGROOT@/LmCompute/plugins # /var/lm/LmCompute/plugins 
+;PP_PATH: @PKGROOT@                      # /var/lm/apps/
+;OB_DATA_PATH: @LMDISK@/data             # /var/lm/data/ 
+;OB_OUTPUT_PATH: @LMDISK@/jobs           # /var/lm/jobs/ 
+;M_USER_JOB: pragma,lm2                  # lm2
+;YTHON_CMD: @PYBIN@                      # python
+;EMPORARY_FILE_PATH: @LMDISK@/temp        # /var/lm/temp/
+PLUGINS_DIR: @PKGROOT@/LmCompute/plugins 
+APP_PATH: @PKGROOT@                      
+JOB_DATA_PATH: @LMDISK@/data             
+JOB_OUTPUT_PATH: @LMDISK@/jobs           
+LM_USER_JOB: pragma,lm2                  
+PYTHON_CMD: @PYBIN@                      
+TEMPORARY_FILE_PATH: @LMDISK@/temp       
+
+[commands]
+GDALINFO_CMD: gdalinfo
+
+; Plugins
+[openModeller]
+DEFAULT_LOG_LEVEL: debug
+OM_MODEL_CMD: om_model
+OM_PROJECT_CMD: om_project
+OM_VERSION: 1.3.0
+
+[maxent]
+JAVA_CMD: java -cp
+ME_CMD: maxent.jar
+MDL_TOOL: density.MaxEnt
+PRJ_TOOL: density.Project
+ME_VERSION: 3.3.3k
+
+[gbif]
+GBIF_USER: aimee
+GBIF_KEY: pipelines4us
+
+[options]
+Store Log Files: False
+Log Storage Location: 
+
+[metrics]
+;Metrics Storage Directory: @LMDISK@/metrics    # /var/lm/metrics
+Metrics Storage Directory: @LMDISK@/metrics    
+Store Metrics: True
+

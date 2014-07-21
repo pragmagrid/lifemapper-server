@@ -5,4 +5,4 @@ RELEASE 	= 0
 TARBALL_POSTFIX	= tar.gz
 
 # date when checkedout from svn
-DIST            = 20140327
+DIST            = 20140718
