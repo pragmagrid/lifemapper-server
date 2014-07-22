@@ -2,7 +2,7 @@
 
 PYBIN=/opt/python/bin
 LMBIN=@PKGROOT@/bin
-PGSQLBIN=@PGSQL@
+PGSQLBIN=/usr/pgsql-@PGSQLVER@/bin
 
 export PATH=$PGSQLBIN:$PYBIN:$LMBIN:$PATH
 export PYTHON=/opt/python/bin/@PYTHONVER@

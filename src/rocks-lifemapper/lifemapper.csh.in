@@ -2,7 +2,7 @@
 
 set PYBIN=/opt/python/bin
 set LMBIN=@PKGROOT@/bin
-set PGSQLBIN=@PGSQL@
+set PGSQLBIN=/usr/pgsql-@PGSQLVER@/bin
 
 set path = ( $PGSQLBIN $PYBIN $LMBIN $path )
 setenv PYTHON /opt/python/bin/@PYTHONVER@
