@@ -42,9 +42,7 @@ compressFiles () {
   if [ -d $SRC ]; then
       echo "Creating src archive from svn checkout"
       DATE=`date +%Y%m%d`
-      PARTS="$SRC/LmClient $SRC/LmDbServer $SRC/LmWebServer $SRC/LmServerCommon $SRC/LmCommon $SRC/__init__.py"
-      #(cd patch-files && find . -type f | grep -v CVS | cpio -pduv ..)
-      tar czvf src-$DATE.tar.gz $PARTS 
+      tar czvf src-$DATE.tar.gz $SRC/* --exclude=LmCompute
   else
       echo "Svn checkout directory $SRC is not present"
   fi
