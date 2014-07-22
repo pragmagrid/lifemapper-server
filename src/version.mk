@@ -5,5 +5,5 @@ LMWEB         = /var/lib/lm2
 DATADIR       = /share/lmserver/data
 TEMPDIR       = /tmp
 PYTHONVER     = python2.7
-PGSQL         = /usr/pgsql-9.1/bin
+PGSQLVER      = 9.1
 LMDISK        = /share/lm
