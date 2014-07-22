@@ -68,12 +68,13 @@ SEDSPEC += \
         -e 's%@LMHOME@%$(LMHOME)%g' \
         -e 's%@MAPSERVER_TMP@%$(MAPSERVER_TMP)%g' \
         -e 's%@LMWEB@%$(LMWEB)%g' \
-        -e 's%@PGSQL@%$(PGSQL)%g' \
+        -e 's%@PGSQLVER@%$(PGSQLVER)%g' \
         -e 's%@PYTHONVER@%$(PYTHONVER)%g' \
         -e 's%@MYSQLDB@%$(MYSQLDB)%g' \
         -e 's%@PKGROOT@%$(PKGROOT)%g'
 
 SCRIPTS = \
+	firstBootStart \
 	lifemapper.conf \
 	lifemapper.sh  \
 	lifemapper.csh  \
@@ -83,8 +84,8 @@ SCRIPTS = \
 	lucene.cron \
 	lifemapper-server.conf
 
-PYFILES = __init__.py confconst.py  confbase.py
-PROGS = confPgbouncer confPostgres  confUsers  firstBootStart
+PYFILES = __init__.py confconst.py confbase.py
+PROGS = confPgbouncer confPostgres confUsers firstBootStart
 
 lifemapper.conf: lifemapper.conf.in
 	$(SED) $(SEDSPEC) $^ > $@
@@ -105,6 +106,9 @@ db_init: db_init.in
 	$(SED) $(SEDSPEC) $^ > $@
 
 lucene.cron: lucene.cron.in
+	$(SED) $(SEDSPEC) $^ > $@
+
+firstBootStart: firstBootStart.in
 	$(SED) $(SEDSPEC) $^ > $@
 
 lifemapper-server.conf: lifemapper-server.conf.in
