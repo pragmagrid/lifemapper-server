@@ -1,0 +1,138 @@
+#!/bin/bash
+#
+# This script is creates configuration files for postgres and pgbouncer. 
+# The script can be run at any time to remove all the previous configuration
+# and create a new one. 
+
+usage () 
+{
+    echo "Usage: $0"
+    echo "This script is run during the roll install it will:"
+    echo "     - initialize postgress db"
+    echo "     - create lifemapper db users"
+    echo "     - creating roles and postgis tables"
+    echo "     - create new config and auth files for postgres "
+    echo "     - create new config for pgbouncer "
+    echo "     - update openssl (yum) "
+    echo "     - set postgres unix socket PGHOST=/var/run/postgresql"
+    echo "     - restart postgres/pgbouncer with new configuration\n"
+    echo "   "
+    echo "The script can be run at any time to remove all previous configuration and to create"
+    echo "a new one. In this case, old postgres db data (/var/lib/pgsql/*/data/*) is removed."
+}
+
+if [ $# -ne 0 ]; then
+    usage
+    exit 0
+fi 
+
+set_defaults() {
+    # Source function library.
+    INITD=/etc/rc.d/init.d
+    . $INITD/functions
+
+    PG=`basename /etc/init.d/postgresql-*`
+    PROFILE=/var/lib/pgsql/.bash_profile
+    LOG=/tmp/lifemapper-firstboot.log
+    touch $LOG
+    BIN=@PKGROOT@/rocks/bin
+}
+
+# stop services if running
+stop_services () {
+    echo "-- stop $PG and pgbouncer daemons " >> $LOG
+
+    if [ -f /var/run/pgbouncer/pgbouncer.pid ]; then
+        /sbin/service pgbouncer stop >> $LOG
+    fi
+
+    if [ -f /var/run/$PG.pid ] ; then
+        /sbin/service $PG stop >> $LOG
+    fi
+
+    prog="postmaster"
+    if [ -n "`pidof $prog`" ]; then
+        killproc  $prog
+    fi
+}
+
+# rm old db data, run initdb, start postgres daemon
+init_postgres () {
+    if [ -d /var/lib/pgsql/@PGSQLVER@/data ]; then
+            echo "-- removing postgres db data" >> $LOG
+	    rm -rf /var/lib/pgsql/@PGSQLVER@/data/*
+    fi
+
+    # initdb creates postgres data/*
+    echo "-- run postgres initdb" >> $LOG
+    # this option will not work via "service"
+    # OPT="-E 'UTF-8' --lc-collate='en_US.UTF-8' --lc-ctype='en_US.UTF-8'"
+    # OPT needs testing
+    OPT="en_US.UTF-8"
+    /sbin/service $PG initdb $OPT  >> $LOG
+
+    # start postgres with default config
+    echo "-- start postgres with defualt config" >> $LOG
+    /sbin/service $PG start >> $LOG
+    /bin/sleep 15
+}
+
+# create lifemapper db users and roles.sql 
+# and initialize postgres db with user/postgis data
+create_db_users() {
+    echo "-- create lifemapper db users" >> $LOG
+    $BIN/confUsers >> $LOG
+    
+    echo "-- create roles and postgis tables" >> $LOG
+    $BIN/db_init >> $LOG  2>&1
+}
+
+# create postgres and pgbouncer config and auth files
+create_config_files() {
+    # create postgres config file 
+    echo "-- create postgres config file" >> $LOG
+    $BIN/confPostgres pg >> $LOG
+
+    # create md5 auth client info in config file
+    echo "-- create postgres auth file " >> $LOG
+    $BIN/confPostgres ca >> $LOG
+
+    # create new pgbouncer config file 
+    echo "-- create pgbouncer config file " >> $LOG
+    $BIN/confPgbouncer >> $LOG
+}
+
+# need to update openssl for postgres
+update_openssl() {
+    echo "-- yum update openssl" >> $LOG
+    /usr/bin/yum --enablerepo base update openssl >> $LOG 
+}
+
+# set unix socket; restart postgres and pgbouncer with new config
+start_services() {
+    # set unix socket dir
+    echo "-- update unix socket " >> $LOG
+    export PGHOST=/var/run/postgresql
+    if [ ! -f $PROFILE ] ; then
+        touch $PROFILE
+        chown postgres:postgres $PROFILE
+    fi
+    echo "export PGHOST=/var/run/postgresql" >> $PROFILE
+
+    # restart postgres with updated configuration
+    echo "-- restart postgres with new configuration" >> $LOG
+    /sbin/service $PG restart >> $LOG
+
+    # start pgbouncer
+    echo "-- restart pgbouncer with new configuration" >> $LOG
+    /sbin/service pgbouncer start >> $LOG
+}
+
+
+set_defaults
+stop_services
+init_postgres
+create_db_users
+create_config_files
+update_openssl
+start_services
