@@ -11,3 +11,5 @@ setenv PYTHON_EGG_CACHE @LMWEB@/.python-eggs
 setenv PYTHONPATH "@LMHOME@:@LMHOME@/LmClient/LmPython/lifemapper:@PKGROOT@"
 
 setenv PGHOST /var/run/postgresql
+setenv LIFEMAPPER_CONFIG_FILE @LMHOME@/config/config.ini
+

@@ -10,3 +10,5 @@ export PYTHON_EGG_CACHE="@LMWEB@/.python-eggs"
 export PYTHONPATH=@LMHOME@:@LMHOME@/LmClient/LmPython/lifemapper:@PKGROOT@
 
 export PGHOST=/var/run/postgresql
+
+export LIFEMAPPER_CONFIG_FILE=@LMHOME@/config/config.ini
