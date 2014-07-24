@@ -80,12 +80,16 @@ SCRIPTS = buildLmLuceneIndex.cron \
           checkLmWeb.cron \
           config.ini \
           deleteOldAnonymous.cron \
-          lmconstants.py \
           lmLucene.sh 
+          #lmconstants.py \
 
-SQL = nextProductionUpdateDBChanges.sql \
-      createMAL.sql \
-      createSPECO.sql
+SQL = runAllSQLScripts.sql
+#nextProductionUpdateDBChanges.sql 
+      #createMAL.sql \
+      #createSPECO.sql
+
+runAllSQLScripts.sql: runAllSQLScripts.sql.in
+	$(SED) $(SEDSPEC) $^ > $@
 
 buildLmLuceneIndex.cron: buildLmLuceneIndex.cron.in
 	$(SED) $(SEDSPEC) $^ > $@
@@ -96,8 +100,8 @@ config.ini: config.ini.in
 deleteOldAnonymous.cron: deleteOldAnonymous.cron.in
 	$(SED) $(SEDSPEC) $^ > $@
 
-lmconstants.py: lmconstants.py.in
-	$(SED) $(SEDSPEC) $^ > $@
+#lmconstants.py: lmconstants.py.in
+#	$(SED) $(SEDSPEC) $^ > $@
 
 lmLucene.sh: lmLucene.sh.in
 	$(SED) $(SEDSPEC) $^ > $@
@@ -105,14 +109,14 @@ lmLucene.sh: lmLucene.sh.in
 checkLmWeb.cron: checkLmWeb.cron.in
 	$(SED) $(SEDSPEC) $^ > $@
 
-nextProductionUpdateDBChanges.sql: nextProductionUpdateDBChanges.sql.in
-	$(SED) $(SEDSPEC) $^ > $@
+#nextProductionUpdateDBChanges.sql: nextProductionUpdateDBChanges.sql.in
+#	$(SED) $(SEDSPEC) $^ > $@
 
-createMAL.sql: createMAL.sql.in
-	$(SED) $(SEDSPEC) $^ > $@
+#createMAL.sql: createMAL.sql.in
+#	$(SED) $(SEDSPEC) $^ > $@
 
-createSPECO.sql: createSPECO.sql.in
-	$(SED) $(SEDSPEC) $^ > $@
+#createSPECO.sql: createSPECO.sql.in
+#	$(SED) $(SEDSPEC) $^ > $@
 
 #hourlyUpdates: hourlyUpdates.cron
 #	$(SED) $(SEDSPEC) $^ > $@
@@ -148,14 +152,14 @@ install::
 	mkdir -p  $(ROOT)/$(LMHOME)/LmDbServer/dbsetup/
 	$(INSTALL) -m644 $(SQL) $(ROOT)/$(LMHOME)/LmDbServer/dbsetup/
 
-	mkdir -p  $(ROOT)/$(LMHOME)/LmCommon/common
-	$(INSTALL) -m644 lmconstants.py $(ROOT)/$(LMHOME)/LmCommon/common
+	#mkdir -p  $(ROOT)/$(LMHOME)/LmCommon/common
+	#$(INSTALL) -m644 lmconstants.py $(ROOT)/$(LMHOME)/LmCommon/common
 
 	#mkdir -p  $(ROOT)/$(LMHOME)/LmDbServer/populate/
 	#$(INSTALL) -m644 initCatalog.py $(ROOT)/$(LMHOME)/LmDbServer/populate/
 
-	mkdir -p  $(ROOT)/$(LMHOME)/LmCompute/config
-	$(INSTALL) -m644 config.ini $(ROOT)/$(LMHOME)/LmCompute/config
+	mkdir -p  $(ROOT)/$(LMHOME)/config
+	$(INSTALL) -m644 config.ini $(ROOT)/$(LMHOME)/config
 
 	# cron jobs
 	#mkdir -p $(ROOT)/etc/cron.hourly
