@@ -1,3 +1,4 @@
+#!/opt/rocks/bin/python
 
 import os
 import sys
@@ -32,6 +33,8 @@ class Baseconfig:
         self.role          = confconst.ROLE 
         self.roletempl     = confconst.ROLETEMPL
         self.unixSocketDir = confconst.UNIX_SOCKET_DIR
+        self.ip = None
+        self.iface         = "eth1" 
 
 
     def parseArgs(self):
