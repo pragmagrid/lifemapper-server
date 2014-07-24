@@ -24,7 +24,5 @@ GRANT writer TO sdlapp;
 GRANT writer TO wsuser;
 GRANT writer TO jobuser;
 
-/* permissions for sdlapp */
-grant SELECT, EXECUTE on *.* to 'sdlapp'@'localhost' identified by 'PASSsdlapp';
 
 
