@@ -38,6 +38,8 @@ class ConfPostgres(confbase.Baseconfig):
         self.checkArgs()
         self.findTime()
         self.findSysValues()
+
+        self.ip = None
         self.getNetworkInfo()
 
     def printSynopsis(self):
