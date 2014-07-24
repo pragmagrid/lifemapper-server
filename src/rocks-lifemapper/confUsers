@@ -16,7 +16,7 @@ class ConfUser(confbase.Baseconfig):
         self.nameinfo = "creates users account info for Lifemapper's postgres and pgbouncer access"
         self.descinfo ='Create a text file %s.\n' % self.users + \
                        '%sFile format: USERNAME PASSWORD per line, password is not encrypted.\n' % self.space + \
-                       '%sCreate a text file %s%s to use for db users creation.\n' % (self.space,self.sqldir,self.role) + \
+                       '%sCreate a text file %s to use for db users creation.\n' % (self.space,self.role) + \
                        '%sThe script is called during lifemapper-server roll installation.\n' % self.space + \
                        '%sFiles ownership is postgres and permissions are set to 0600\n' % self.space
 
