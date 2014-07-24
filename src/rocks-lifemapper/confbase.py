@@ -5,8 +5,11 @@ import time
 import glob
 import stat
 import confconst
+import subprocess
 import shutil
 from pprint import pprint
+from IPy import IP
+
 
 class Baseconfig:
     """ base class for all configurations"""
@@ -122,4 +125,40 @@ class Baseconfig:
     def runTest(self):
         """ test output """
         pprint (self.__dict__)
+
+    def getNetworkInfo(self):
+        """ find host network info for public interface """
+        cmd = "rocks list host attr localhost | grep Kickstart_Public"
+        info, err = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()
+        lines = info.split("\n")
+        for line in lines:
+            if len(line):
+                parts = line.split()
+                if parts[1]  == "Kickstart_PublicAddress": self.ip = parts[2]
+                if parts[1]  == "Kickstart_PublicNetwork": self.network = parts[2]
+                if parts[1]  == "Kickstart_PublicNetmaskCIDR": self.cidr = parts[2]
+
+        if self.ip == None or self.network == None or self.cidr == None:
+            (self.ip, self.network, self.cidr ) = self.findIfaceVals(self.iface)
+
+        if self.ip == None or self.network == None or self.cidr == None:
+            print "Missing information about public interface "
+            sys.exit(1)
+
+    def findIfaceVals(self, iface):
+        """find ip, netmask, subnet, cidr, broadcast for a given interface. return as a tuple"""
+        __name__ = "findIfaceVals"
+
+        cmd = '/sbin/ifconfig %s | grep Mask' % iface
+
+        info, err = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()
+        parts = info.split()
+        tmp, ip = parts[1].split(':')
+        tmp, netmask = parts[3].split(':')
+
+        i = IP(ip).make_net(netmask)
+        broadcast = i.broadcast().strNormal()
+        subnet, cidr = (i.strNormal()).split('/')
+
+        return (ip, subnet, cidr )
 
