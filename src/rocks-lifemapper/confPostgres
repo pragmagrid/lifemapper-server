@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/opt/rocks/bin/python
 
 import os
 import stat
@@ -38,6 +38,7 @@ class ConfPostgres(confbase.Baseconfig):
         self.checkArgs()
         self.findTime()
         self.findSysValues()
+        self.getNetworkInfo()
 
     def printSynopsis(self):
         print '\nSYNOPSIS\n', self.space + self.usage_command, "pg|ca", "[-h|--help|help]"
@@ -167,6 +168,7 @@ class ConfPostgres(confbase.Baseconfig):
         lines += "local   all             postgres                                md5\n"
         lines += "# IPv4 local connections: \n"
         lines += "host    all             all             127.0.0.1/32            md5\n" 
+        lines += "host    all             all             %s/32            md5\n" % self.ip
 
         return lines        
 
