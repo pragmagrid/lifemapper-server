@@ -54,7 +54,6 @@
 # 
 # @Copyright@
 #
-# $Log$
 
 REDHAT.ROOT = $(CURDIR)/../../
 
@@ -73,19 +72,28 @@ SEDSPEC += \
         -e 's%@MYSQLDB@%$(MYSQLDB)%g' \
         -e 's%@PKGROOT@%$(PKGROOT)%g'
 
+PROFILES = \
+	lifemapper.sh \
+	lifemapper.csh 
+
 SCRIPTS = \
-	firstBootStart \
 	lifemapper.conf \
-	lifemapper.sh  \
-	lifemapper.csh  \
-	lmserver_init \
-	lmweb_init  \
-	db_init  \
 	lucene.cron \
 	lifemapper-server.conf
 
-PYFILES = __init__.py confconst.py confbase.py
-PROGS = confPgbouncer confPostgres confUsers firstBootStart
+PROGS = \
+	firstBootStart \
+	lmserver_init \
+	lmweb_init \
+	db_init \
+	updateIP 
+
+PYFILES = __init__.py \
+	confconst.py \
+	confbase.py \
+	confPgbouncer \
+	confPostgres \
+	confUsers 
 
 lifemapper.conf: lifemapper.conf.in
 	$(SED) $(SEDSPEC) $^ > $@
@@ -105,6 +113,9 @@ lmweb_init: lmweb_init.in
 db_init: db_init.in
 	$(SED) $(SEDSPEC) $^ > $@
 
+updateIP: updateIP.in
+	$(SED) $(SEDSPEC) $^ > $@
+
 lucene.cron: lucene.cron.in
 	$(SED) $(SEDSPEC) $^ > $@
 
@@ -114,13 +125,13 @@ firstBootStart: firstBootStart.in
 lifemapper-server.conf: lifemapper-server.conf.in
 	$(SED) $(SEDSPEC) $^ > $@
 
-build: $(SCRIPTS)
+
+build: $(SCRIPTS) $(PROFILES) $(PROGS)
 	
 install::
 
 	mkdir -p $(ROOT)/etc/profile.d
-	install -m 755 lifemapper.sh $(ROOT)/etc/profile.d
-	install -m 755 lifemapper.csh $(ROOT)/etc/profile.d
+	install -m 755 $(PROFILES) $(ROOT)/etc/profile.d
 
 	mkdir -p $(ROOT)/etc/sysctl.d
 	install -m 644 postgresd $(ROOT)/etc/sysctl.d
@@ -132,9 +143,6 @@ install::
 	install -m 644 lifemapper-server.conf $(ROOT)/etc/ld.so.conf.d
 
 	mkdir -p $(ROOT)/$(PKGROOT)/rocks/bin
-	install -m 755 lmserver_init $(ROOT)/$(PKGROOT)/rocks/bin
-	install -m 755 lmweb_init $(ROOT)/$(PKGROOT)/rocks/bin
-	install -m 755 db_init $(ROOT)/$(PKGROOT)/rocks/bin
 	install -m 755 $(PROGS) $(ROOT)/$(PKGROOT)/rocks/bin
 	install -m 644 $(PYFILES) $(ROOT)/$(PKGROOT)/rocks/bin
 
@@ -146,5 +154,5 @@ install::
 	install -m 644 roles.sql $(ROOT)/$(PKGROOT)/rocks/sql/roles.sql.template
 
 clean::
-	rm -rf version.mk $(SCRIPTS)
+	rm -rf version.mk $(SCRIPTS) $(PROFILES) $(PROGBS)
 	rm -rf *.pyc 
