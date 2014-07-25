@@ -1,34 +1,49 @@
 #!/bin/bash
+#
+# Run this scirpt if db users need  passwords need a change.
+# This script does the following:
+#     Create lifemapper db users and roles.sql 
+#     Initialize postgres db with user/postgis data
+#     Create postgres and pgbouncer config and auth files
+# Restart postgres and pgbouncer after running this script
 
-# Set overcommit_memory mode to strict (2) to reduce chances of 'Out of Memory killer' being invoked
-/sbin/sysctl -w vm.overcommit_memory=2
+set_defaults() {
+    # Source function library.
+    INITD=/etc/rc.d/init.d
+    . $INITD/functions
 
-# log errors
-LOG=/tmp/lmserver_init.log
-touch $LOG
+    # log errors
+    LOG=/tmp/lmserver_init.log
+    touch $LOG
+    BIN=@PKGROOT@/rocks/bin
+}
 
-# create users file, rewrite pgsql  and pgbouncer config files
-PROG=@PKGROOT@/rocks/bin/confUsers
-echo "Running $PROG" >> $LOG
-if [ -x $PROG ]; then
-    $PROG >> $LOG 2>&1
-else 
-    echo "ERROR: in executing $PROG" >> $LOG
-fi
+# create lifemapper db users and roles.sql 
+# and initialize postgres db with user/postgis data
+create_db_users() {
+    echo "-- create lifemapper db users" >> $LOG
+    $BIN/confUsers >> $LOG
 
-PROG=@PKGROOT@/rocks/bin/confPostgres 
-echo "Running $PROG" >> $LOG
-if [ -x $PROG ]; then
-    $PROG pg  >> $LOG 2>&1
-else 
-    echo "ERROR: in executing $PROG" >> $LOG
-fi
+    echo "-- create roles and postgis tables" >> $LOG
+    $BIN/db_init >> $LOG  2>&1
+}
 
-PROG=@PKGROOT@/rocks/bin/confPgbouncer
-echo "Running $PROG" >> $LOG
-if [ -x $PROG ]; then
-    $PROG >> $LOG 2>&1
-else 
-    echo "ERROR: in executing $PROG" >> $LOG
+# create postgres and pgbouncer config and auth files
+create_config_files() {
+    # create postgres config file 
+    echo "-- create postgres config file" >> $LOG
+    $BIN/confPostgres pg >> $LOG
 
-fi
+    # create md5 auth client info in config file
+    echo "-- create postgres auth file " >> $LOG
+    $BIN/confPostgres ca >> $LOG
+
+    # create new pgbouncer config file 
+    echo "-- create pgbouncer config file " >> $LOG
+    $BIN/confPgbouncer >> $LOG
+}
+
+####### Main #######
+set_defaults
+create_db_users
+create_config_files
