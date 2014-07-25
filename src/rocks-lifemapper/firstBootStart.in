@@ -16,6 +16,7 @@ usage ()
     echo "     - update openssl (yum) "
     echo "     - set postgres unix socket PGHOST=/var/run/postgresql"
     echo "     - restart postgres/pgbouncer with new configuration\n"
+    echo "     - inserts host IP in @LMHOME@/config/config.ini\n"
     echo "   "
     echo "The script can be run at any time to remove all previous configuration and to create"
     echo "a new one. In this case, old postgres db data (/var/lib/pgsql/*/data/*) is removed."
@@ -72,7 +73,7 @@ init_postgres () {
     /sbin/service $PG initdb $OPT  >> $LOG
 
     # start postgres with default config
-    echo "-- start postgres with defualt config" >> $LOG
+    echo "-- start postgres with default config" >> $LOG
     /sbin/service $PG start >> $LOG
     /bin/sleep 15
 }
@@ -128,7 +129,14 @@ start_services() {
     /sbin/service pgbouncer start >> $LOG
 }
 
+# run updateIP to put correct IP lmserver's config.ini 
+update_config_ini() {
+    echo "-- update host IP in @LMHOME@/config/config.ini" >> $LOG
+    $BIN/updateIP >> $LOG  2>&1
+}
 
+
+####### Main #######
 set_defaults
 stop_services
 init_postgres
@@ -136,3 +144,4 @@ create_db_users
 create_config_files
 update_openssl
 start_services
+update_config_ini

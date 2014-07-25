@@ -1,0 +1,28 @@
+#!/bin/bash 
+#
+# Update @LMHOME@/config/config.ini file with correct ip info  
+#
+
+# public host address
+IP=`/opt/rocks/bin/rocks list host attr localhost | grep Kickstart_PublicAddress | awk '{print $3}'`
+
+# check for attribute for lifemapper dbserver 
+IPdbserver=`/opt/rocks/bin/rocks list host attr localhost | grep LM_dbserver | awk '{print $3}'`
+if [ "$IPdbserver" = "true" ] || [ "$IPdbserver" = "" ] ; then
+    IPdbserver=$IP
+fi
+
+# check for attribute for lifemapper webserver 
+IPwebserver=`/opt/rocks/bin/rocks list host attr localhost | grep LM_webserver | awk '{print $3}'`
+if [ "$IPwebserver" = "true" ] ||  [ "$IPwebserver" = "" ] ; then
+    IPwebserver=$IP
+fi
+
+infile=@LMHOME@/config/config.ini
+infile=config.ini
+
+# update IPs 
+sed -i "s%@PUBLIC_FQDN@%$IP%g" $infile 
+sed -i "s%@WEB_FQDN@%$IPwebserver%g" $infile 
+sed -i "s%@DB_FQDN@%$IPdbserver%g" $infile 
+
