@@ -13,7 +13,7 @@ set_defaults() {
     . $INITD/functions
 
     # log errors
-    LOG=/tmp/lmserver_init.log
+    LOG=/tmp/lifemapper-config.log
     touch $LOG
     BIN=@PKGROOT@/rocks/bin
 }
@@ -23,6 +23,9 @@ set_defaults() {
 create_db_users() {
     echo "-- create lifemapper db users" >> $LOG
     $BIN/confUsers >> $LOG
+
+    echo "-- update users passwords in @LMHOME@/LmServerCommon/db/connect.py" >> $LOG
+    $BIN/confDbconnect >> $LOG  2>&1
 
     echo "-- create roles and postgis tables" >> $LOG
     $BIN/db_init >> $LOG  2>&1
