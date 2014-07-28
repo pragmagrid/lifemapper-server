@@ -27,3 +27,6 @@ USERS_FILE = "/opt/lifemapper/rocks/etc/users"         # users file
 USER_LIST = ["sdlapp", "mapuser", "wsuser", "jobuser"] # postgres and pgbouncer users
 ADMIN_LIST = ["postgres", "admin"]                     # admin users
 MKPASSWD = "mkpasswd -l 12 -d 3 -s 0"   # use to create passwd: 12c lon, 3 digits, no special chars
+
+# lifemapper db users passwords are used in this file
+DBCONNECT = "/opt/lifemapper/lmserver/LmServerCommon/db/connect.py" 
