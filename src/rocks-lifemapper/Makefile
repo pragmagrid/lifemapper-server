@@ -151,7 +151,7 @@ install::
 
 	mkdir -p $(ROOT)/$(PKGROOT)/rocks/sql
 	install -m 644 postgis.sql $(ROOT)/$(PKGROOT)/rocks/sql 
-	install -m 644 roles.sql $(ROOT)/$(PKGROOT)/rocks/sql/roles.sql.template
+	install -m 644 roles.sql.template $(ROOT)/$(PKGROOT)/rocks/sql
 
 clean::
 	rm -rf version.mk $(SCRIPTS) $(PROFILES) $(PROGBS)

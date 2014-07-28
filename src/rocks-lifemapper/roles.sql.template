@@ -23,6 +23,3 @@ CREATE ROLE jobuser with LOGIN INHERIT ENCRYPTED PASSWORD 'PASSjobuser';
 GRANT writer TO sdlapp;
 GRANT writer TO wsuser;
 GRANT writer TO jobuser;
-
-
-
