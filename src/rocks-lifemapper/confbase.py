@@ -120,10 +120,17 @@ class Baseconfig:
         """ check if there is a template for config file, if not (1st time run) create from orig config
             files deposited by RPMs."""
         if not os.path.isfile(templ):
-            shutil.copy2(conf, templ)
-            self.getPerms(conf)
-            os.chown(templ, self.uid, self.gid)
+            self.saveOrigFile(conf, templ) #FIXME check this out
+            #shutil.copy2(conf, templ)
+            #self.getPerms(conf)
+            #os.chown(templ, self.uid, self.gid)
             print "Created template %s " % (templ)
+
+    def saveOrigFile(self, orig, copy):
+        """ save file as a copy """
+        shutil.copy2(orig, copy)
+        self.getPerms(orig)
+        os.chown(copy, self.uid, self.gid)
 
     def runTest(self):
         """ test output """
