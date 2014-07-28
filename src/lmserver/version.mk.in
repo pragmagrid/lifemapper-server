@@ -1,8 +1,5 @@
 NAME        	= lifemapper-server
-ARCHIVENAME     = src
-VERSION     	= 1.0
+ARCHIVENAME     = components
+VERSION     	= 5195
 RELEASE 	= 1
 TARBALL_POSTFIX	= tar.gz
-
-# date when checkedout from svn
-DIST            = 20140718
