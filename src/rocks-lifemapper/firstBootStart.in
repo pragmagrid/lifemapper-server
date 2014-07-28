@@ -34,7 +34,7 @@ set_defaults() {
 
     PG=`basename /etc/init.d/postgresql-*`
     PROFILE=/var/lib/pgsql/.bash_profile
-    LOG=/tmp/lifemapper-firstboot.log
+    LOG=/tmp/lifemapper-config.log
     touch $LOG
     BIN=@PKGROOT@/rocks/bin
 }
@@ -80,27 +80,10 @@ init_postgres () {
 
 # create lifemapper db users and roles.sql 
 # and initialize postgres db with user/postgis data
-create_db_users() {
-    echo "-- create lifemapper db users" >> $LOG
-    $BIN/confUsers >> $LOG
-    
-    echo "-- create roles and postgis tables" >> $LOG
-    $BIN/db_init >> $LOG  2>&1
-}
+lmserver_init() {
+    echo "-- Executing lmserver_init" >> $LOG
+    $BIN/lmserver_init >> $LOG
 
-# create postgres and pgbouncer config and auth files
-create_config_files() {
-    # create postgres config file 
-    echo "-- create postgres config file" >> $LOG
-    $BIN/confPostgres pg >> $LOG
-
-    # create md5 auth client info in config file
-    echo "-- create postgres auth file " >> $LOG
-    $BIN/confPostgres ca >> $LOG
-
-    # create new pgbouncer config file 
-    echo "-- create pgbouncer config file " >> $LOG
-    $BIN/confPgbouncer >> $LOG
 }
 
 # need to update openssl for postgres
@@ -130,7 +113,7 @@ start_services() {
 }
 
 # run updateIP to put correct IP lmserver's config.ini 
-update_config_ini() {
+update_config() {
     echo "-- update host IP in @LMHOME@/config/config.ini" >> $LOG
     $BIN/updateIP >> $LOG  2>&1
 }
@@ -140,8 +123,7 @@ update_config_ini() {
 set_defaults
 stop_services
 init_postgres
-create_db_users
-create_config_files
+lmserver_init
 update_openssl
 start_services
-update_config_ini
+update_config
