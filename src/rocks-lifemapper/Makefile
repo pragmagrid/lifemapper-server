@@ -70,7 +70,8 @@ SEDSPEC += \
         -e 's%@PGSQLVER@%$(PGSQLVER)%g' \
         -e 's%@PYTHONVER@%$(PYTHONVER)%g' \
         -e 's%@MYSQLDB@%$(MYSQLDB)%g' \
-        -e 's%@PKGROOT@%$(PKGROOT)%g'
+        -e 's%@PKGROOT@%$(PKGROOT)%g' \
+        -e 's%@UNIXSOCKET@%$(UNIXSOCKET)%g'
 
 PROFILES = \
 	lifemapper.sh \
@@ -91,6 +92,9 @@ PROGS = \
 PYFILES = __init__.py \
 	confconst.py \
 	confbase.py \
+
+EXECFILES = \
+	confDbconnect \
 	confPgbouncer \
 	confPostgres \
 	confUsers 
@@ -125,8 +129,10 @@ firstBootStart: firstBootStart.in
 lifemapper-server.conf: lifemapper-server.conf.in
 	$(SED) $(SEDSPEC) $^ > $@
 
+confconst.py: confconst.py.in
+	$(SED) $(SEDSPEC) $^ > $@
 
-build: $(SCRIPTS) $(PROFILES) $(PROGS)
+build: $(SCRIPTS) $(PROFILES) $(PROGS) confconst.py
 	
 install::
 
@@ -145,6 +151,7 @@ install::
 	mkdir -p $(ROOT)/$(PKGROOT)/rocks/bin
 	install -m 755 $(PROGS) $(ROOT)/$(PKGROOT)/rocks/bin
 	install -m 644 $(PYFILES) $(ROOT)/$(PKGROOT)/rocks/bin
+	install -m 755 $(EXECFILES) $(ROOT)/$(PKGROOT)/rocks/bin
 
 	mkdir -p $(ROOT)/$(PKGROOT)/rocks/etc
 	install -m 644 lucene.cron $(ROOT)/$(PKGROOT)/rocks/etc
@@ -154,5 +161,5 @@ install::
 	install -m 644 roles.sql.template $(ROOT)/$(PKGROOT)/rocks/sql
 
 clean::
-	rm -rf version.mk $(SCRIPTS) $(PROFILES) $(PROGBS)
+	rm -rf version.mk $(SCRIPTS) $(PROFILES) $(PROGBS) confconst.py
 	rm -rf *.pyc 
