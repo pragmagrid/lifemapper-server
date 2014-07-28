@@ -53,8 +53,6 @@
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 # 
 # @Copyright@
-#
-# $Log$
 
 REDHAT.ROOT = $(CURDIR)/../../
 
@@ -67,112 +65,58 @@ version.mk:
 PY.PATH = /opt/python/bin/$(PYTHONVER)
 
 SEDSPEC += \
+        -e 's%@PKGROOT@%$(PKGROOT)%g' \
+        -e 's%@PYBIN@%$(PY.PATH)%g' \
+        -e 's%@DATADIR@%$(DATADIR)%g' \
+        -e 's%@LMDISK@%$(LMDISK)%g' \
         -e 's%@LMHOME@%$(LMHOME)%g' \
         -e 's%@LMWEB@%$(LMWEB)%g' \
-        -e 's%@TEMPDIR@%$(TEMPDIR)%g' \
-        -e 's%@DATADIR@%$(DATADIR)%g' \
         -e 's%@LMUSER@%$(LMUSER)%g' \
-        -e 's%@LMDISK@%$(LMDISK)%g' \
-        -e 's%@PKGROOT@%$(PKGROOT)%g' \
-        -e 's%@PYBIN@%$(PY.PATH)%g'
+        -e 's%@TEMPDIR@%$(TEMPDIR)%g' 
 
 SCRIPTS = buildLmLuceneIndex.cron \
           checkLmWeb.cron \
           config.ini \
           deleteOldAnonymous.cron \
-          lmLucene.sh 
-          #lmconstants.py \
+          lmLucene.sh  \
+          runAllSQLScripts.sql 
 
-SQL = runAllSQLScripts.sql
-#nextProductionUpdateDBChanges.sql 
-      #createMAL.sql \
-      #createSPECO.sql
+buildLmLuceneIndex.cron: $(ARCHIVENAME)/LmWebServer/lucene/buildLmLuceneIndex.cron.in
+	$(SED) $(SEDSPEC) $^ > $(ARCHIVENAME)/LmWebServer/lucene/$@
+	chmod 755 $(ARCHIVENAME)/LmWebServer/lucene/buildLmLuceneIndex.cron
 
-runAllSQLScripts.sql: runAllSQLScripts.sql.in
-	$(SED) $(SEDSPEC) $^ > $@
+checkLmWeb.cron: $(ARCHIVENAME)/LmWebServer/scripts/checkLmWeb.cron.in
+	$(SED) $(SEDSPEC) $^ > $(ARCHIVENAME)/LmWebServer/scripts/$@
+	chmod 755 $(ARCHIVENAME)/LmWebServer/scripts/checkLmWeb.cron
 
-buildLmLuceneIndex.cron: buildLmLuceneIndex.cron.in
-	$(SED) $(SEDSPEC) $^ > $@
+config.ini: $(ARCHIVENAME)/config/config.ini.in
+	$(SED) $(SEDSPEC) $^ > $(ARCHIVENAME)/config/$@
 
-config.ini: config.ini.in
-	$(SED) $(SEDSPEC) $^ > $@
+deleteOldAnonymous.cron: $(ARCHIVENAME)/LmDbServer/scripts/deleteOldAnonymous.cron.in
+	$(SED) $(SEDSPEC) $^ > $(ARCHIVENAME)/LmDbServer/scripts/$@
+	chmod 755 $(ARCHIVENAME)/LmDbServer/scripts/deleteOldAnonymous.cron
 
-deleteOldAnonymous.cron: deleteOldAnonymous.cron.in
-	$(SED) $(SEDSPEC) $^ > $@
+lmLucene.sh: $(ARCHIVENAME)/LmWebServer/lucene/lmLucene.sh.in
+	$(SED) $(SEDSPEC) $^ > $(ARCHIVENAME)/LmWebServer/lucene/$@
+	chmod 755 $(ARCHIVENAME)/LmWebServer/lucene/lmLucene.sh
 
-#lmconstants.py: lmconstants.py.in
-#	$(SED) $(SEDSPEC) $^ > $@
-
-lmLucene.sh: lmLucene.sh.in
-	$(SED) $(SEDSPEC) $^ > $@
-
-checkLmWeb.cron: checkLmWeb.cron.in
-	$(SED) $(SEDSPEC) $^ > $@
-
-#nextProductionUpdateDBChanges.sql: nextProductionUpdateDBChanges.sql.in
-#	$(SED) $(SEDSPEC) $^ > $@
-
-#createMAL.sql: createMAL.sql.in
-#	$(SED) $(SEDSPEC) $^ > $@
-
-#createSPECO.sql: createSPECO.sql.in
-#	$(SED) $(SEDSPEC) $^ > $@
-
-#hourlyUpdates: hourlyUpdates.cron
-#	$(SED) $(SEDSPEC) $^ > $@
-#dailyUpdates: dailyUpdates.cron
-#	$(SED) $(SEDSPEC) $^ > $@
-#weeklyUpdates: weeklyUpdates.cron
-#	$(SED) $(SEDSPEC) $^ > $@
-#monthlyUpdates: monthlyUpdates.cron
-#	$(SED) $(SEDSPEC) $^ > $@
-#checkLmWeb: checkLmWeb.cron
-#	$(SED) $(SEDSPEC) $^ > $@
-#deleteOldAnonymous: deleteOldAnonymous.cron
-#	$(SED) $(SEDSPEC) $^ > $@
+runAllSQLScripts.sql: $(ARCHIVENAME)/LmDbServer/dbsetup/runAllSQLScripts.sql.in
+	$(SED) $(SEDSPEC) $^ > $(ARCHIVENAME)/LmDbServer/dbsetup/$@
 
 prep:
 	./prepSrc.sh
 
-build: $(SCRIPTS) $(SQL)
+build: 
+	tar xzvf $(NAME)-$(VERSION).tar.gz  
+	make $(SCRIPTS)
 
 install::
-	# lmserver source
 	mkdir -p $(ROOT)/$(LMHOME)
-	tar xzvf  $(ARCHIVENAME)-$(DIST).tar.gz  -C  $(ROOT)/$(LMHOME) --strip=1
-
-	mkdir -p  $(ROOT)/$(LMHOME)/LmWebServer/lucene/
-	$(INSTALL) -m755 buildLmLuceneIndex.cron $(ROOT)/$(LMHOME)/LmWebServer/lucene/
-	$(INSTALL) -m755 lmLucene.sh $(ROOT)/$(LMHOME)/LmWebServer/lucene/
-
-	mkdir -p  $(ROOT)/$(LMHOME)/LmWebServer/scripts/
-	$(INSTALL) -m755 checkLmWeb.cron $(ROOT)/$(LMHOME)/LmWebServer/scripts/
-	$(INSTALL) -m755 deleteOldAnonymous.cron $(ROOT)/$(LMHOME)/LmWebServer/scripts/
-
-	mkdir -p  $(ROOT)/$(LMHOME)/LmDbServer/dbsetup/
-	$(INSTALL) -m644 $(SQL) $(ROOT)/$(LMHOME)/LmDbServer/dbsetup/
-
-	#mkdir -p  $(ROOT)/$(LMHOME)/LmCommon/common
-	#$(INSTALL) -m644 lmconstants.py $(ROOT)/$(LMHOME)/LmCommon/common
-
-	#mkdir -p  $(ROOT)/$(LMHOME)/LmDbServer/populate/
-	#$(INSTALL) -m644 initCatalog.py $(ROOT)/$(LMHOME)/LmDbServer/populate/
-
-	mkdir -p  $(ROOT)/$(LMHOME)/config
-	$(INSTALL) -m644 config.ini $(ROOT)/$(LMHOME)/config
-
-	# cron jobs
-	#mkdir -p $(ROOT)/etc/cron.hourly
-	#mkdir -p $(ROOT)/etc/cron.daily
-	#mkdir -p $(ROOT)/etc/cron.weekly
-	#mkdir -p $(ROOT)/etc/cron.monthly
-	#$(INSTALL) -m755 hourlyUpdates $(ROOT)/etc/cron.hourly/lifemapper-hourly
-	#$(INSTALL) -m755 dailyUpdates $(ROOT)/etc/cron.daily/lifemapper-daily
-	#$(INSTALL) -m755 weeklyUpdates $(ROOT)/etc/cron.weekly/lifemapper-weekly
-	#$(INSTALL) -m755 monthlyUpdates $(ROOT)/etc/cron.monthly/lifemapper-monthly
-	#$(INSTALL) -m755 checkLmWeb $(ROOT)/etc/cron.weekly/lifemapper-checkLmWeb
-	#$(INSTALL) -m755 deleteOldAnonymous $(ROOT)/etc/cron.weekly/lifemapper-deleteOldAnonymous
+	rm -rf $(ARCHIVENAME)/svn-info
+	rm -rf $(ARCHIVENAME)/LmDbServer/populate/aimee_export2.txt
+	(cd $(ARCHIVENAME)/LmDbServer/populate; mv aimee_subset.txt aimee_export2.txt)
+	mv $(ARCHIVENAME)/*  $(ROOT)/$(LMHOME) 
 
 clean::
-	rm -rf  $(SCRIPTS) $(SQL) version.mk
-	rm -rf  $(ARHIVENAME)
+	rm -rf  $(SCRIPTS)  version.mk
+	rm -rf  $(ARCHIVENAME)
