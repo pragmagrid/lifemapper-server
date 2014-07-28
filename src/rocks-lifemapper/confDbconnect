@@ -1,0 +1,64 @@
+#!/opt/rocks/bin/python
+
+import os
+import sys
+import confconst
+import confbase
+
+class ConfDbconnect(confbase.Baseconfig):
+    def __init__(self, argv):
+        confbase.Baseconfig.__init__(self, argv)
+        self.connect  = confconst.DBCONNECT            
+        self.nameinfo = "Create %s with user authentication info" % self.connect
+        self.descinfo = "Read user/pass info from %s file and create %s \n" % (self.users,self.connect)  
+
+        self.userdict = { "mapuser": "DbUser.Map",
+			  "wsuser" : "DbUser.WebService",
+			  "sdlapp" : "DbUser.Pipeline",
+			  "jobuser": "DbUser.Job"}
+
+        # May use this later once DbUser struct is finalized in lm
+        # sys.path.append("/opt/lifemapper/lmserver/")
+        # from LmServerCommon.common.lmconstants import DbUser
+        # self.userdict = DbUser
+                        
+        self.parseArgs()
+
+    def makeSalt(self):
+	""" make salt, not used now """
+	self.salt = os.urandom(16).encode('base_64')
+
+
+    def makeLines(self):
+        """ create lines for connect.py file """
+        lines = "from LmServerCommon.common.lmconstants import DbUser\n\n"
+        lines += "HL_NAME = {\n"
+
+        # read user/pass list 
+        content = self.readFile(self.users)
+        for item in content:
+            user, txtPassword = item.split()
+            if user in self.userlist: 
+            	lines += "           %s: \'%s\',\n" % (self.userdict[user], txtPassword)
+
+        lines += "          }"
+        return lines
+
+    def makeConnectFile(self):
+        # create auth file content
+        lines = self.makeLines()
+
+        # make a coopy of original file
+	templ = "%s.orig" % self.connect
+        self.saveOrigFile(self.connect, templ)
+
+        # write connect.py file
+        self.writeFile(self.connect, lines)
+
+    def run(self):
+        self.makeConnectFile()
+
+### Main ###
+app = ConfDbconnect(sys.argv)
+app.run()
+
