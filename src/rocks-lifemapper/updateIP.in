@@ -32,8 +32,6 @@ getIP () {
 
 updateIP () {
     infile=@LMHOME@/config/config.ini
-    infile=config.ini
-
     sed -i "s%@PUBLIC_FQDN@%$IP%g" $infile 
     sed -i "s%@WEB_FQDN@%$IPwebserver%g" $infile 
     sed -i "s%@DB_FQDN@%$IPdbserver%g" $infile 
