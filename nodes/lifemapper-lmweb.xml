@@ -24,6 +24,8 @@
 	<package>opt-pylucene</package>
 
 <post>
+/opt/rocks/bin/rocks add host attr localhost LM_webserver value=true
+
 # mapserver home is for temp files    
 /bin/mkdir -p /var/www/tmp
 /bin/chown apache:apache /var/www/tmp
