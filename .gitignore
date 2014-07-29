@@ -7,6 +7,7 @@ SPECS/
 
 _os
 _arch
+.rpmmacros
 
 # ignore version* files
 rocks-version.mk
@@ -26,8 +27,9 @@ Rules.mk
 Rolls.mk
 
 # ignore src files
-src/lmserver/components-2014-03-31/
 src/lmserver/components/
-#src/lmserver/src-20140327.tar.gz
-src/lmserver/src*
-src/lmserver/src-20140508.tar.gz
+src/lmserver/*.tar.gz
+
+# ignore subversion
+src/lmserver/.subversion/
+
