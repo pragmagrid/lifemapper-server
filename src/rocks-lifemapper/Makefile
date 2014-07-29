@@ -87,6 +87,7 @@ PROGS = \
 	lmserver_init \
 	lmweb_init \
 	db_init \
+	db_define \
 	updateIP 
 
 PYFILES = __init__.py \
@@ -115,6 +116,9 @@ lmweb_init: lmweb_init.in
 	$(SED) $(SEDSPEC) $^ > $@
 
 db_init: db_init.in
+	$(SED) $(SEDSPEC) $^ > $@
+
+db_define: db_define.in
 	$(SED) $(SEDSPEC) $^ > $@
 
 updateIP: updateIP.in
@@ -161,5 +165,5 @@ install::
 	install -m 644 roles.sql.template $(ROOT)/$(PKGROOT)/rocks/sql
 
 clean::
-	rm -rf version.mk $(SCRIPTS) $(PROFILES) $(PROGBS) confconst.py
+	rm -rf version.mk $(SCRIPTS) $(PROFILES) $(PROGS) confconst.py
 	rm -rf *.pyc 
