@@ -121,9 +121,6 @@ class Baseconfig:
             files deposited by RPMs."""
         if not os.path.isfile(templ):
             self.saveOrigFile(conf, templ) #FIXME check this out
-            #shutil.copy2(conf, templ)
-            #self.getPerms(conf)
-            #os.chown(templ, self.uid, self.gid)
             print "Created template %s " % (templ)
 
     def saveOrigFile(self, orig, copy):
