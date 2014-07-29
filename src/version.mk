@@ -7,3 +7,4 @@ TEMPDIR       = /tmp
 PYTHONVER     = python2.7
 PGSQLVER      = 9.1
 LMDISK        = /share/lm
+UNIXSOCKET    = /var/run/postgresql
