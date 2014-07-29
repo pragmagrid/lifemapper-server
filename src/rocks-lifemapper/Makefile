@@ -87,7 +87,7 @@ PROGS = \
 	lmserver_init \
 	lmweb_init \
 	db_init \
-	db_define \
+	db_pipeline \
 	updateIP 
 
 PYFILES = __init__.py \
@@ -118,7 +118,7 @@ lmweb_init: lmweb_init.in
 db_init: db_init.in
 	$(SED) $(SEDSPEC) $^ > $@
 
-db_define: db_define.in
+db_pipeline: db_pipeline.in
 	$(SED) $(SEDSPEC) $^ > $@
 
 updateIP: updateIP.in

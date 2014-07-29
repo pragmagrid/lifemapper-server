@@ -1,0 +1,116 @@
+#!/bin/bash 
+
+# Purpose: define and populate lifemapper pipeline
+#
+# This scirpt is run by a superuser, it reads the @PKGROOT@/rocks/etc/users file
+# to get the password for the "admin" DB user and runs psql to execute all the sql scripts
+
+usage () 
+{
+    echo "Usage: $0"
+    echo "This script is run by the superuser. It will "
+    echo "     - run runAllSQLScripts.sql to define the databases "
+    echo "     - run initCatalog.py to populate the databases "
+    echo "     - run initTaxonomy.sql to init taxonomy"
+    echo "     - run readTaxonomy.py to add taxonomy"
+    echo "   "
+    echo "The output of the script is in /tmp/$0.log"
+}
+
+### define varibles
+SetDefaults () {
+    # db user
+    USER=admin
+    # file to get password from
+    USERSFILE=@PKGROOT@/rocks/etc/users
+    DEFINESQL=@LMHOME@/LmDbServer/dbsetup/runAllSQLScripts.sql
+    TAXONOMYSQL=@LMHOME@/LmDbServer/populate/initTaxonomy.sql
+    POPULATEPY=@LMHOME@/LmDbServer/populate/initCatalog.py
+    TAXONOMYPY=@LMHOME@/LmDbServer/populate/readTaxonomy.py
+    LOG=/tmp/$0.log
+    touch $LOG
+    TimeStamp "# Start"
+}
+
+TimeStamp () {
+    echo $1 `/bin/date` >> $LOG
+}
+
+### sets the password for db "admin" user to execute sql commands
+SetPass () {
+
+    # check if users file exists
+    if [ ! -f $USERSFILE ] ; then
+        echo "Error: missing file $USERSFILE" | tee -a $LOG
+        exit 1
+    fi
+
+    # check who is running the scipt
+    cat $USERSFILE > /dev/null
+    RETVAL=$?
+    if [ $RETVAL -ne 0 ]; then
+        echo "Error: You must be root to run this script"  | tee -a $LOG
+        exit 1
+    fi
+
+    # get the password from 'users' file
+    PASS=`grep admin $USERSFILE | awk '{print $2}'`
+    export PGPASSWORD=$PASS
+}
+
+### define databases 
+Define () {
+    if [ -f $DEFINESQL ] ; then
+        echo "Running $DEFINESQL ..." | tee -a $LOG
+        psql -U admin -d template1 -f $DEFINESQL | tee -a $LOG
+    else
+        echo "Error: missing file $DEFINESQL" | tee -a $LOG
+        exit 1
+    fi
+}
+
+### populate lifemapper DB
+Populate () {
+    if [ -f $POPULATEPY ] ; then
+        echo "Running $POPULATEPY ..." | tee -a $LOG
+        /opt/python/bin/@PYTHONVER@ $POPULATEPY | tee -a $LOG
+    else
+        echo "Error: Missing $POPULATEPY" | tee -a $LOG
+        exit 1
+    fi
+}
+
+### add taxonomy
+InitTaxonomy () {
+    if [ -f $TAXONOMYSQL ] ; then
+        echo "Running $TAXONOMYSQL ..." | tee -a $LOG
+        psql -U admin -d mal -f  $TAXONOMYSQL | tee -a $LOG
+    else
+        echo "Error: missing file $TAXONOMYSQL" | tee -a LOG
+        exit 1
+    fi
+}
+
+AddTaxonomy () {
+    if [ -f $TAXONOMYPY ] ; then
+        echo "Running $TAXONOMYPY ..." | tee -a $LOG
+        /opt/python/bin/@PYTHONVER@ $TAXONOMYPY | tee -a $LOG
+    else
+        echo "Error: missing file $TAXONOMYPY" | tee -a LOG
+        exit 1
+    fi
+}
+
+### Main ###
+if [ $# -ne 0 ]; then
+    usage
+    exit 0
+fi 
+
+SetDefaults
+SetPass
+Define
+Populate
+InitTaxonomy
+AddTaxonomy
+TimeStamp "# End"
