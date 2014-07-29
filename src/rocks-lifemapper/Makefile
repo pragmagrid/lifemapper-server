@@ -87,7 +87,7 @@ PROGS = \
 	initDbserver \
 	initWebserver \
 	initPostgis \
-	db_pipeline \
+	initPipeline \
 	updateIP 
 
 PYFILES = __init__.py \
@@ -118,7 +118,7 @@ initWebserver: initWebserver.in
 initPostgis: initPostgis.in
 	$(SED) $(SEDSPEC) $^ > $@
 
-db_pipeline: db_pipeline.in
+initPipeline: initPipeline.in
 	$(SED) $(SEDSPEC) $^ > $@
 
 updateIP: updateIP.in
