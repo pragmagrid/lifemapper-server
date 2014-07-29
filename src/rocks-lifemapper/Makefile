@@ -83,10 +83,10 @@ SCRIPTS = \
 	lifemapper-server.conf
 
 PROGS = \
-	firstBootStart \
-	lmserver_init \
-	lmweb_init \
-	db_init \
+	initLM \
+	initDbserver \
+	initWebserver \
+	initPostgis \
 	db_pipeline \
 	updateIP 
 
@@ -109,13 +109,13 @@ lifemapper.sh: lifemapper.sh.in
 lifemapper.csh: lifemapper.csh.in
 	$(SED) $(SEDSPEC) $^ > $@
 
-lmserver_init: lmserver_init.in
+initDbserver: initDbserver.in
 	$(SED) $(SEDSPEC) $^ > $@
 
-lmweb_init: lmweb_init.in
+initWebserver: initWebserver.in
 	$(SED) $(SEDSPEC) $^ > $@
 
-db_init: db_init.in
+initPostgis: initPostgis.in
 	$(SED) $(SEDSPEC) $^ > $@
 
 db_pipeline: db_pipeline.in
@@ -127,7 +127,7 @@ updateIP: updateIP.in
 lucene.cron: lucene.cron.in
 	$(SED) $(SEDSPEC) $^ > $@
 
-firstBootStart: firstBootStart.in
+initLM: initLM.in
 	$(SED) $(SEDSPEC) $^ > $@
 
 lifemapper-server.conf: lifemapper-server.conf.in

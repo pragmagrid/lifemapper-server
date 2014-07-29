@@ -73,9 +73,9 @@ PG=`basename /etc/init.d/postgresql-*`
 
 <file name="/etc/rc.d/rocksconfig.d/post-99-lifemapper-lmserver" perms="0700">
 #!/bin/bash
-# do db initialization and start services
+# do LM initialization and start services
 
-/opt/lifemapper/rocks/bin/firstBootStart
+/opt/lifemapper/rocks/bin/initLM
 /bin/rm -rf /etc/rc.d/rocksconfig.d/post-99-lifemapper-lmserver
 
 </file>

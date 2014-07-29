@@ -80,9 +80,9 @@ init_postgres () {
 
 # create lifemapper db users and roles.sql 
 # and initialize postgres db with user/postgis data
-lmserver_init() {
-    echo "-- Executing lmserver_init" >> $LOG
-    $BIN/lmserver_init >> $LOG
+dbserver_init() {
+    echo "-- Executing initDbserver" >> $LOG
+    $BIN/initDbserver >> $LOG
 
 }
 
@@ -123,7 +123,7 @@ update_config() {
 set_defaults
 stop_services
 init_postgres
-lmserver_init
+dbserver_init
 update_openssl
 start_services
 update_config

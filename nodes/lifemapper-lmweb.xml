@@ -30,11 +30,11 @@
 /bin/mkdir -p /var/www/tmp
 /bin/chown apache:apache /var/www/tmp
 
-/opt/lifemapper/rocks/bin/lmweb_init
+/opt/lifemapper/rocks/bin/initWebserver
 
 <file name="/etc/sysconfig/httpd" mode="append">
 
-# For Lifemapper lmweb server
+# Lifemapper webserver
 umask 002
 
 </file>

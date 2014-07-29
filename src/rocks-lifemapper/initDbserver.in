@@ -28,7 +28,7 @@ create_db_users() {
     $BIN/confDbconnect >> $LOG  2>&1
 
     echo "-- create roles and postgis tables" >> $LOG
-    $BIN/db_init >> $LOG  2>&1
+    $BIN/initPostgis >> $LOG  2>&1
 }
 
 # create postgres and pgbouncer config and auth files
