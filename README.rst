@@ -114,16 +114,16 @@ The 1st command removes the installed roll, the 2nd all roll RPMs that were inst
    # rocks remove roll lifemapper-server
    # (cd /export/rocks/install; rocks create distro)  
    # ./rmrpm.sh
+   # rm -rf /opt/lifemapper/lmservcer
 
 TODO 
 -----------
 
-#. These files need further decoupling from the manual deiting   
+#. Change all occurences of "DROP DATABASE X" to "DROP DATABASE X IF EXISTS".
+   Same for index, type, view, function 
 
-   * LmCommon/common/lmconstants.py  
-   * LmServerCommon/sdm/algorithm.py  
-   * LmServerCommon/db/peruser.py  
-   * LmServerCommon/db/localparams.py  
-   * LmServerCommon/common/datalocator.py  
-   * LmDbServer/pipeline/localpipeline.py  
+#. In config.ini.in  find correct settings for SMTP_SENDER and SMTP_SERVER
+   On rocks SMTP_SERVER shoudl be 'localhost'. Check how SMTP_SENDER is used.
+
+#. initTaxonomy.sql need to be created with correct time stamp.
 
