@@ -127,3 +127,4 @@ TODO
 
 #. initTaxonomy.sql need to be created with correct time stamp.
 
+#. move install from /opt/lifemapper/lmserver to /opt/lifemapper.
