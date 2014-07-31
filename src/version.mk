@@ -8,6 +8,6 @@ PYTHONVER     = python2.7
 PGSQLVER      = 9.1
 LMDISK        = /share/lm
 UNIXSOCKET    = /var/run/postgresql
-SMTPSERVER:  = localhost
-SMTPSENDER:  = no-reply-lifemapper@@PUBLIC_FQDN@
+SMTPSERVER    = localhost
+SMTPSENDER    = no-reply-lifemapper@@PUBLIC_FQDN@
 
