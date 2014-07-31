@@ -122,8 +122,7 @@ TODO
 #. Change all occurences of "DROP DATABASE X" to "DROP DATABASE X IF EXISTS".
    Same for index, type, view, function 
 
-#. In config.ini.in  find correct settings for SMTP_SENDER and SMTP_SERVER
-   On rocks SMTP_SERVER shoudl be 'localhost'. Check how SMTP_SENDER is used.
-
 #. initTaxonomy.sql need to be created with correct time stamp.
+
+#. fix last line in readTaxonomy.py (referrign non-existing var)
 
