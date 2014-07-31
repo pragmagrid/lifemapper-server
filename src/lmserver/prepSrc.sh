@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Purpose: checkout distro from lifemapper SVN and create *.tar.gz files to use in RPM. 
-# NOTE: Will be prompted for valid svn user and passwd.
+# NOTE: for svn checkout will be prompted for valid user/passwd.
 
 SRC=components
 URL=https://svn.lifemapper.org/trunk
@@ -41,14 +41,13 @@ collect_src () {
 # create distro files for lmserver and lmcompute
 create_distro () {
   if [ -d $SRC ]; then
-      #DATE=`date +%Y%m%d`
       # create lmserver src distro
       echo "Creating lmserver src archive from svn checkout"
       tar czf lifemapper-server-$REV.tar.gz $SRC/* --exclude=LmCompute --exclude=dist --exclude=public_html/dl
 
       # create lmcompute src distro
       echo "Creating lmcompute src archive from svn checkout"
-      tar czf lifemapper-lmcompute-$REV.tar.gz $SRC/LmCompute $SRC/LmCommon $SRC/config
+      tar czf lifemapper-lmcompute-$REV.tar.gz $SRC/LmCompute $SRC/LmCommon 
   else
       echo "SVN checkout directory $SRC is not present"
   fi
