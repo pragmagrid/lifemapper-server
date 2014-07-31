@@ -72,6 +72,8 @@ SEDSPEC += \
         -e 's%@LMHOME@%$(LMHOME)%g' \
         -e 's%@LMWEB@%$(LMWEB)%g' \
         -e 's%@LMUSER@%$(LMUSER)%g' \
+        -e 's%@SMTPSERVER@%$(SMTPSERVER)%g' \
+        -e 's%@SMTPSENDER@%$(SMTPSENDER)%g' \
         -e 's%@TEMPDIR@%$(TEMPDIR)%g' 
 
 SCRIPTS = buildLmLuceneIndex.cron \
