@@ -70,7 +70,7 @@ PY.PATH = /opt/python/bin/$(PYTHONVER)
 build:
 	tar xzf  $(ARCHIVENAME)-$(VERSION).tar.gz 
 	(\
- 	    export PATH=$(PGSQL):$(PATH); \
+ 	    export PATH=/usr/pgsql-$(PGSQLVER)/bin:$(PATH); \
 	    cd $(ARCHIVENAME)-$(VERSION);   \
 	    $(PY.PATH) setup.py build;      \
 	)
@@ -78,7 +78,7 @@ build:
 
 install::
 	(\
- 	    export PATH=$(PGSQL):$(PATH); \
+ 	    export PATH=/usr/pgsql-$(PGSQLVER)/bin:$(PATH); \
 	    cd $(ARCHIVENAME)-$(VERSION);   \
 	    $(PY.PATH) setup.py $@ --root=$(ROOT)/; \
 	)
