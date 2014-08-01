@@ -7,9 +7,9 @@ LifeMapper Server roll
 
 Introduction
 ----------------
-This roll installs lmserver and lmweb parts of Lifemapper.
-All prerequisite software listed below is a part of a roll and all installed
-prerequisites are configured during roll installation. 
+This roll installs dbserver and webserver parts of Lifemapper.
+All prerequisite software listed below are a part of the roll and 
+will be installed and configured during roll installation. 
 
 Prerequisites
 -----------------
@@ -32,6 +32,9 @@ Prerequisites
     
 Downloads
 ---------------
+
+This section lists all the packages that were downloaded and used in the roll. 
+The packages are a part of the roll source (or downloaded by bootstrap.sh). 
 
 #. **elgis and pgdg91 repos**  ::
 
@@ -65,6 +68,9 @@ Downloads
 Individual package dependencies
 -------------------------------
 
+This section is for information on some packages build dependencies. These dependencies are handled
+by the bootstrap.sh 
+
 :**pytables**:    Cython and numexpr python packages and hdf5, hdf5-devel RPMS   
 :**rtree**:       spatialindex, setuptools python packages  
 :**mapserver**:   elgis repo, bitstream-vera-sans-fonts RPM, bitstream-vera-fonts-common RPM  
@@ -82,10 +88,21 @@ Checkout roll distribution from git repo ::
    # cd lifemapper-server/
 
 To build a roll, first execute a script that downloads and installs some packages 
-and RPMS that are prerequisites for other packages. ::
+and RPMS that are prerequisites for other packages duirng the build stage. ::
 
    # ./bootstrap.sh  
 
+Get the lifemapper source ::  
+
+   # cd src/lmserver/
+   # make prep
+
+   This will produce lifemappser-server-X.tar.gz and lifemapper-lmcompute-X.tar.gz, the latter
+   is used for building the lifemapper roll (lmcompute part). 
+   The X is the revision number in lifemapper SVN. The X is recorded in version.mk.in
+   Assumption: X is production ready revision and is a working code.
+   The roll will be using the X revision of lifemapper code.
+ 
 To build individual packages ::
 
    # cd src/pkgname 
@@ -94,6 +111,7 @@ To build individual packages ::
 When all individual packages are building without errors build a roll (at the top level) ::
 
    # make roll
+
 
 Adding a roll
 ------------------
@@ -114,7 +132,7 @@ The 1st command removes the installed roll, the 2nd all roll RPMs that were inst
    # rocks remove roll lifemapper-server
    # (cd /export/rocks/install; rocks create distro)  
    # ./rmrpm.sh
-   # rm -rf /opt/lifemapper/lmservcer
+   # rm -rf /opt/lifemapper/*
 
 TODO 
 -----------
@@ -126,3 +144,4 @@ TODO
 
 #. fix last line in readTaxonomy.py (referrign non-existing var)
 
+#. write a section on wehre roll parts are installed
