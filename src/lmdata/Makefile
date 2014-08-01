@@ -71,9 +71,11 @@ prep:
 
 build:
 
+
 install::
-	mkdir -p $(ROOT)/$(LMHOME)
-	tar xzvf  $(ARCHIVENAME)-$(DATE).tar.gz  -C  $(ROOT)/$(LMHOME)/
+	echo "Obsolete package"
+	#mkdir -p $(ROOT)/$(LMHOME)
+	#tar xzvf  $(ARCHIVENAME)-$(DATE).tar.gz  -C  $(ROOT)/$(LMHOME)/
 
 clean::
 	rm -rf  $(ARHIVENAME) version.mk
