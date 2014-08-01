@@ -15,7 +15,7 @@ rpm -i $ELGISREPO
 (cd src/RPMS; 
 PGDGREPO=pgdg-centos91-9.1-4.noarch.rpm
 wget http://yum.postgresql.org/9.1/redhat/rhel-6-x86_64/$PGDGREPO
-rpm -i src/RPMS/$PGDGREPO
+rpm -i $PGDGREPO
 )
 
 # download needed RPMS
