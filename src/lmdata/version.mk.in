@@ -1,8 +1,0 @@
-NAME        	= lifemapper-server-data
-ARCHIVENAME     = data
-VERSION     	= 1.0
-RELEASE 	= 0
-TARBALL_POSTFIX	= tar.gz
-
-# date when checkedout from svn
-DATE            = 20140314
