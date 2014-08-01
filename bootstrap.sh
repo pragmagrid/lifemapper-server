@@ -50,10 +50,13 @@ echo "/opt/lifemapper/lib" >> /etc/ld.so.conf.d/lifemapper-server.conf
 echo "/opt/python/lib/" >> /etc/ld.so.conf.d/lifemapper-server.conf
 /sbin/ldconfig
 
-# need cmake for compiling 
+# for compiling 
 yum --enablerepo base install cmake
 
-# vera fonts for mapserver
+# for checking out lifemapper source  
+yum --enablerepo base install subversion
+
+# for mapserver
 rpm -i src/RPMS/bitstream-vera-fonts-common-1.10-18.el6.noarch.rpm
 rpm -i src/RPMS/bitstream-vera-sans-fonts-1.10-18.el6.noarch.rpm
 
@@ -70,7 +73,7 @@ compile numexpr
 install opt-numexpr 
 yum --enablerepo rpmforge install hdf5 hdf5-devel
 
-# for psycopg2
+# meed for psycopg2
 compile gdal
 install lifemapper-gdal
 /sbin/ldconfig
@@ -88,3 +91,4 @@ install lifemapper-spatialindex
 yum --enablerepo base update openssl
 yum install postgresql91
 yum install postgresql91-devel
+
