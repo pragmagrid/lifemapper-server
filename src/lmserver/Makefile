@@ -74,7 +74,8 @@ SEDSPEC += \
         -e 's%@LMUSER@%$(LMUSER)%g' \
         -e 's%@SMTPSERVER@%$(SMTPSERVER)%g' \
         -e 's%@SMTPSENDER@%$(SMTPSENDER)%g' \
-        -e 's%@TEMPDIR@%$(TEMPDIR)%g' 
+        -e 's%@TEMPDIR@%$(TEMPDIR)%g'  \
+        -e 's%@VERSION@%$(VERSION)%g' 
 
 SCRIPTS = buildLmLuceneIndex.cron \
           checkLmWeb.cron \
@@ -105,7 +106,11 @@ lmLucene.sh: $(ARCHIVENAME)/LmWebServer/lucene/lmLucene.sh.in
 runAllSQLScripts.sql: $(ARCHIVENAME)/LmDbServer/dbsetup/runAllSQLScripts.sql.in
 	$(SED) $(SEDSPEC) $^ > $(ARCHIVENAME)/LmDbServer/dbsetup/$@
 
-prep:
+prepSrc.sh: prepSrc.sh.in
+	$(SED) $(SEDSPEC) $^ > $@
+	chmod 755 $@
+
+prep: prepSrc.sh
 	./prepSrc.sh
 
 build: 
@@ -120,5 +125,6 @@ install::
 	mv $(ARCHIVENAME)/*  $(ROOT)/$(LMHOME) 
 
 clean::
-	rm -rf  $(SCRIPTS)  version.mk
+	rm -rf  $(SCRIPTS)  
 	rm -rf  $(ARCHIVENAME)
+	rm -rf version.mk prepSrc.sh

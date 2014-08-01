@@ -9,11 +9,8 @@ URL=https://svn.lifemapper.org/trunk
 # get src distro from lifemapper svn
 checkout_svn () {
       echo "Starting SVN checkout from $1:"
-      svn checkout $1/$SRC
-
-      echo "Record SVN revision for $SRC:"
+      svn checkout -r @VERSION@ $1/$SRC
       svn info $SRC > $SRC/svn-info
-      REV=`svn info $SRC | grep Revision | awk '{print $2}'`
 
       echo "Removing .svn in $SRC:"
       if [ -d $SRC ]; then
@@ -43,11 +40,11 @@ create_distro () {
   if [ -d $SRC ]; then
       # create lmserver src distro
       echo "Creating lmserver src archive from svn checkout"
-      tar czf lifemapper-server-$REV.tar.gz $SRC/* --exclude=LmCompute --exclude=dist --exclude=public_html/dl
+      tar czf lifemapper-server-@VERSION@.tar.gz $SRC/* --exclude=LmCompute --exclude=dist --exclude=public_html/dl
 
       # create lmcompute src distro
       echo "Creating lmcompute src archive from svn checkout"
-      tar czf lifemapper-lmcompute-$REV.tar.gz $SRC/LmCompute $SRC/LmCommon 
+      tar czf lifemapper-lmcompute-@VERSION@.tar.gz $SRC/LmCompute $SRC/LmCommon 
   else
       echo "SVN checkout directory $SRC is not present"
   fi
