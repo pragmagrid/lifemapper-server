@@ -107,6 +107,7 @@ runAllSQLScripts.sql: $(ARCHIVENAME)/LmDbServer/dbsetup/runAllSQLScripts.sql.in
 	$(SED) $(SEDSPEC) $^ > $(ARCHIVENAME)/LmDbServer/dbsetup/$@
 
 prepSrc.sh: prepSrc.sh.in
+	make version.mk
 	$(SED) $(SEDSPEC) $^ > $@
 	chmod 755 $@
 
