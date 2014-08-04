@@ -60,6 +60,10 @@ yum --enablerepo base install subversion
 rpm -i src/RPMS/bitstream-vera-fonts-common-1.10-18.el6.noarch.rpm
 rpm -i src/RPMS/bitstream-vera-sans-fonts-1.10-18.el6.noarch.rpm
 
+# for mysql-python, rtree, pylucene
+compile setuptools
+install opt-setuptools
+
 # for PyLucene 
 compile ant
 install lifemapper-ant
@@ -77,10 +81,6 @@ yum --enablerepo rpmforge install hdf5 hdf5-devel
 compile gdal
 install lifemapper-gdal
 /sbin/ldconfig
-
-# for mysql-python and rtree
-compile setuptools
-install opt-setuptools
 
 # for rtree
 compile spatialindex
