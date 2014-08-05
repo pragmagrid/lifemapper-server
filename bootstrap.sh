@@ -92,3 +92,7 @@ yum --enablerepo base update openssl
 yum install postgresql91
 yum install postgresql91-devel
 
+echo "You will need to checkout src from Lifemapper SVN:"
+echo "    cd src/lmserver"
+echo "    make prep "
+
