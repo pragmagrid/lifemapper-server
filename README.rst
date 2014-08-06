@@ -10,9 +10,10 @@ Introduction
 This roll installs dbserver and webserver parts of Lifemapper.
 All prerequisite software listed below are a part of the roll and 
 will be installed and configured during roll installation. 
+The roll has been tested with Rocks 6.1 and 6.1.1.
 
 Prerequisites
------------------
+~~~~~~~~~~~~~~
  
 #. RPM repos ``elgis`` and ``pgdg91`` 
 #. RPMs from standard yum repos:  
@@ -31,7 +32,7 @@ Prerequisites
                                 rtree, psycopg2,  pylucene, pytables, setuptools   
     
 Downloads
----------------
+~~~~~~~~~
 
 This section lists all the packages that were downloaded and used in the roll. 
 The packages are a part of the roll source (or downloaded by bootstrap.sh). 
@@ -66,7 +67,7 @@ The packages are a part of the roll source (or downloaded by bootstrap.sh).
     wget --no-check-certificate https://pypi.python.org/packages/source/f/faulthandler/faulthandler-2.3.tar.gz  
 
 Individual package dependencies
--------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 This section is for information on some packages build dependencies. These dependencies are handled
 by the bootstrap.sh 
@@ -78,6 +79,11 @@ by the bootstrap.sh
 :**postgis2_91**: geos  
 :**mapserver**:   geos  
 :**psycopg2**:    gdal, postgresql91  
+
+Required Rolls
+~~~~~~~~~~~~~~~~
+
+Lifemapper server roll is build with and is using python2.7 which is provided by python roll.
 
 Building a roll 
 ------------------
@@ -112,13 +118,37 @@ When all individual packages are building without errors build a roll (at the to
 
    # make roll
 
+Adding a roll 
+--------------
+The roll can be added during the initial installation of the cluster (frontend)
+or to the existing frontend.
 
-Adding a roll
-------------------
+http://central6.rocksclusters.org/roll-documentation/base/6.1.1/
+
+Adding a roll to a new server
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+#. Add roll ISO to your existing frontend that is configured to be 
+   a central server. This procesdure is documented in the section `Frontend 
+   Central Server` of Rocks Users Guide.
+
+#. During the frontend install choose the lifemapper-server roll from the list of available rolls
+when you see `Select Your Rolls` screen. 
+
+#. During the forntend install choose python roll, it is a prerequisite for lifemapper-server roll
+
+
+Adding a roll to a live frontend
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+A roll can be added to the existing frontend. 
+Make sure that the python roll is installed ( can be donwloaded from
+the `Rocks Downloads http://www.rocksclusters.org/wordpress/?page_id=80`_ 
 
 Execute all commands from top level lifemapper-server/ ::
 
    # rocks add roll lifemapper-server-6.1-0.x86_64.disk1.iso   
+   # rocks enable roll lifemapper-server
    # (cd /export/rocks/install; rocks create distro)  
    # rocks run roll lifemapper-server > add-lmserver.sh  
    # bash add-lmserver.sh  
@@ -127,11 +157,15 @@ Removing a roll
 -------------------
 
 When debugging a roll may need to remove the roll and all installled RPMs.
-The 1st command removes the installed roll, the 2nd all roll RPMs that were installed.  ::
+These commands remove the installed roll ::
 
    # rocks remove roll lifemapper-server
    # (cd /export/rocks/install; rocks create distro)  
-   # ./rmrpm.sh
+
+
+These commands remove all installed RPMs ::
+
+   # bash rmrpm.sh
    # rm -rf /opt/lifemapper/*
 
 TODO 
