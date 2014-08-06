@@ -103,11 +103,10 @@ Get the lifemapper source ::
    # cd src/lmserver/
    # make prep
 
-   This will produce lifemappser-server-X.tar.gz and lifemapper-lmcompute-X.tar.gz, the latter
-   is used for building the lifemapper roll (lmcompute part). 
-   The X is the revision number in lifemapper SVN. The X is recorded in version.mk.in
-   Assumption: X is production ready revision and is a working code.
-   The roll will be using the X revision of lifemapper code.
+This will produce lifemappser-server-X.tar.gz 
+The X is the revision number in lifemapper SVN. The X is recorded in version.mk.in
+Assumption: X is production ready revision and is a working code.
+The roll will be using the X revision of lifemapper code.
  
 To build individual packages ::
 
@@ -123,17 +122,16 @@ Adding a roll
 The roll can be added during the initial installation of the cluster (frontend)
 or to the existing frontend.
 
-http://central6.rocksclusters.org/roll-documentation/base/6.1.1/
 
 Adding a roll to a new server
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 #. Add roll ISO to your existing frontend that is configured to be 
-   a central server. This procesdure is documented in the section `Frontend 
-   Central Server` of Rocks Users Guide.
+   a central server. This procesdure is documented in the section ``Frontend 
+   Central Server`` of Rocks Users Guide.
 
 #. During the frontend install choose the lifemapper-server roll from the list of available rolls
-when you see `Select Your Rolls` screen. 
+   when you see ``Select Your Rolls`` screen. 
 
 #. During the forntend install choose python roll, it is a prerequisite for lifemapper-server roll
 
@@ -143,7 +141,7 @@ Adding a roll to a live frontend
 
 A roll can be added to the existing frontend. 
 Make sure that the python roll is installed ( can be donwloaded from
-the `Rocks Downloads http://www.rocksclusters.org/wordpress/?page_id=80`_ 
+the `Rocks Downloads <http://www.rocksclusters.org/wordpress/?page_id=80>`_ 
 
 Execute all commands from top level lifemapper-server/ ::
 
@@ -178,4 +176,6 @@ TODO
 
 #. fix last line in readTaxonomy.py (referrign non-existing var)
 
-#. write a section on wehre roll parts are installed
+#. write a section on where roll parts are installed
+
+#. update rmrpm.sh
