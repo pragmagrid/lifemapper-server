@@ -83,7 +83,7 @@ by the bootstrap.sh
 Required Rolls
 ~~~~~~~~~~~~~~~~
 
-Lifemapper server roll is build with and is using python2.7 which is provided by python roll.
+:**python**:    provides python2.7 
 
 Building a roll 
 ------------------
