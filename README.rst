@@ -148,8 +148,20 @@ Execute all commands from top level lifemapper-server/ ::
    # rocks add roll lifemapper-server-6.1-0.x86_64.disk1.iso   
    # rocks enable roll lifemapper-server
    # (cd /export/rocks/install; rocks create distro)  
+   # yum clean all
    # rocks run roll lifemapper-server > add-lmserver.sh  
-   # bash add-lmserver.sh  
+   # bash add-lmserver.sh  > add-lmserver.out 2>&1
+
+After the  last command  is finished, examine the add-lmserver.out file for errors. ::
+
+   # reboot
+
+The reboot is needed to run a few initialization commands. 
+After the frontend boots up check the /tmp/lifemapper-config.log file to check the status
+of initialization commands.
+
+At this point the  server is ready to run lifemapper-specific commands for pipeline initialization
+and data seeding. 
 
 Removing a roll
 -------------------
