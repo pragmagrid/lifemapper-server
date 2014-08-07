@@ -88,8 +88,8 @@ fi
 /bin/chmod -R g+ws /state/partition1/lmserver/data/models 
 /bin/chmod -R g+ws /state/partition1/lmserver/data/UserData
 
-for item in `/opt/lifemapper/lmserver/`; do
-    /bin/chgrp -R g+ws /opt/lifemapper/lmserver/$item
+for item in `/opt/lifemapper/`; do
+    /bin/chgrp -R g+ws /opt/lifemapper/$item
 done
 
 <file name="/etc/auto.share" mode="append">
@@ -100,7 +100,7 @@ lmserver &Kickstart_PrivateHostname;:/export/&amp;
 
 LOG=`ls /share/lmserver | grep log`
 if [ "$LOG" != "" ] ; then
-    /bin/ln -s /share/lmserver/log /opt/lifemapper/lmserver/log
+    /bin/ln -s /share/lmserver/log /opt/lifemapper/log
 else
     /bin/echo "ERROR: directory /share/lmserver/log  does not exist"
 fi
