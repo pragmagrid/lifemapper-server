@@ -28,7 +28,6 @@
         <package>postgresql91-devel</package>
         <package>postgresql91-server</package>
         <package>postgresql91-docs</package>
-        <package>mx</package>
         <package>postgresql91-python</package>
         <package>uuid</package>
         <package>postgresql91-contrib</package>
@@ -41,7 +40,7 @@
         <!-- postgis and dependencies -->
         <package>json-c</package>
         <package>geos</package>
-        <package>proj</package>
+        <package>lifemapper-proj</package>
         <package>postgis2_91</package>
 <post>
 /opt/rocks/bin/rocks add host attr localhost LM_dbserver value=true
