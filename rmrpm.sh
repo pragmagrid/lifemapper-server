@@ -3,21 +3,26 @@
 # When debugging the roll build may need to
 # rm all roll-installed RPMs. 
 
-RM="rpm -evl"
+RM="rpm -evl --nodeps"
 
 del-lifemapper() {
    $RM roll-lifemapper-server-usersguide
    $RM rocks-lifemapper
    $RM lifemapper-tiff
    $RM lifemapper-spatialindex
-   $RM lifemapper-server-data
    $RM lifemapper-server
    $RM lifemapper-proj
    $RM lifemapper-mod_python
    $RM lifemapper-geos
-   $RM --nodeps hdf5-devel hdf5
-   $RM --nodeps lifemapper-gdal
    $RM lifemapper-ant
+   $RM lifemapper-climate-data
+   $RM lifemapper-libevent
+   $RM hdf5-devel hdf5
+   $RM lifemapper-gdal
+   $RM cmake
+   $RM subversion
+   $RM screen
+   $RM fribidi
 }
 
 del-opt-python () {
@@ -51,13 +56,13 @@ del-postgres() {
    $RM pgbouncer
    $RM postgresql91-test
    $RM postgresql91-contrib
-   $RM uuid
    $RM postgresql91-python
    $RM postgresql91-docs
    $RM postgresql91-server
    $RM postgresql91-devel
    $RM postgresql91
-   $RM --nodeps postgresql91-libs
+   $RM postgresql91-libs
+   $RM uuid
 }
 
 del-sysRPM() {
@@ -70,3 +75,4 @@ del-mapserver
 del-opt-python 
 del-lifemapper
 del-sysRPM
+
