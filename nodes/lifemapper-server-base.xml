@@ -88,7 +88,7 @@ fi
 /bin/chmod -R g+ws /state/partition1/lmserver/data/models 
 /bin/chmod -R g+ws /state/partition1/lmserver/data/UserData
 
-for item in `/opt/lifemapper/`; do
+for item in `ls /opt/lifemapper/`; do
     /bin/chgrp -R g+ws /opt/lifemapper/$item
 done
 
