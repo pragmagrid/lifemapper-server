@@ -119,12 +119,12 @@ When all individual packages are building without errors build a roll (at the to
 
 Adding a roll 
 --------------
-The roll can be added during the initial installation of the cluster (frontend)
-or to the existing frontend.
+The roll can be added (1) during the initial installation of the cluster (frontend)
+or (2) to the existing frontend.
 
 
-Adding a roll to a new server
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 Adding a roll to a new server
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 #. Add roll ISO to your existing frontend that is configured to be 
    a central server. This procesdure is documented in the section ``Frontend 
@@ -136,8 +136,8 @@ Adding a roll to a new server
 #. During the forntend install choose python roll, it is a prerequisite for lifemapper-server roll
 
 
-Adding a roll to a live frontend
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+2 Adding a roll to a live frontend
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 A roll can be added to the existing frontend. 
 Make sure that the python roll is installed ( can be donwloaded from
@@ -163,21 +163,39 @@ of initialization commands.
 At this point the  server is ready to run lifemapper-specific commands for pipeline initialization
 and data seeding. 
 
+
 Removing a roll
 -------------------
 
 When debugging a roll may need to remove the roll and all installled RPMs.
+Before removing the roll stop postgres and pgbouncer services ::  
+  
+   # /etc/init.d/pgbouncer stop
+   # /etc/init.d/postgresql-9.1 stop 
+
 These commands remove the installed roll ::
 
    # rocks remove roll lifemapper-server
    # (cd /export/rocks/install; rocks create distro)  
-
 
 These commands remove all installed RPMs ::
 
    # bash rmrpm.sh
    # rm -rf /opt/lifemapper/*
 
+Clean the directories used by postgres and pgbouncer ::  
+
+   # rm -rf /var/run/postgresql
+   # rm -rf /var/lib/pgsql/
+   # rm -rf /etc/pgbouncer
+
+Remove created group and directories  ::  
+
+   # groupdel lmwriter
+   # rocks sync users
+   # rm -rf /state/partition1/lmserver/*
+
+ 
 TODO 
 -----------
 
@@ -191,3 +209,5 @@ TODO
 #. write a section on where roll parts are installed
 
 #. update rmrpm.sh
+
+#. write update roll info and some debugging
