@@ -30,6 +30,7 @@ Rolls.mk
 src/lmserver/components/
 src/lmserver/*.tar.gz
 
-# ignore subversion
+# ignore subversion everywhere
 src/lmserver/.subversion/
+.subversion/
 
