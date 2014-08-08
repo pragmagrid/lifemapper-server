@@ -73,6 +73,7 @@ build_jcc:
 	tar xzf  $(ARCHIVENAME)-$(VERSION)-src.tar.gz 
 	cd patch-files && find . -type f | grep -v CVS | cpio -pduv ..
 	(\
+	    export _JAVA_OPTIONS="-Xmx256m"; \
 	    cd $(ARCHIVENAME)-$(VERSION)/jcc;   \
 	    $(PY.PATH) setup.py build;      \
 	)
@@ -80,13 +81,15 @@ build_jcc:
 install_jcc: build_jcc
 	export ANT_HOME=$(PKGROOT) 
 	(\
-	    cd $(ARCHIVENAME)-$(VERSION)/jcc;   \
+	    export _JAVA_OPTIONS="-Xmx256m"; \
+	    cd $(ARCHIVENAME)-$(VERSION)/jcc; \
 	    $(PY.PATH) setup.py install --root=$(ROOT)/; \
 	)
 
 build: build_jcc
 	(\
 	    unset ANT_HOME; \
+	    export _JAVA_OPTIONS="-Xmx256m"; \
 	    cd $(ARCHIVENAME)-$(VERSION);   \
 	    $(MAKE); \
 	)
@@ -94,6 +97,7 @@ build: build_jcc
 install:: install_jcc
 	(\
 	    unset ANT_HOME; \
+	    export _JAVA_OPTIONS="-Xmx256m"; \
 	    cd $(ARCHIVENAME)-$(VERSION);   \
 	    $(MAKE) INSTALL_OPT="--root $(ROOT)/" install;\
 	)
