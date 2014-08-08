@@ -195,6 +195,54 @@ Remove created group and directories  ::
    # rocks sync users
    # rm -rf /state/partition1/lmserver/*
 
+
+Using a Roll
+-----------------
+
+After the roll is installed, the initial database schema, and user authentication are set up
+and postgres and pgbouncer are configured.  
+
+#. Seed the pipeline ::   
+
+   # /opt/lifemapper/rocks/bin/initDB
+
+#. Run the pipeline ::  
+
+   # TBD
+
+Notes 
+-------
+
+#. Compiling pylucene (make rpm) ::  
+
+   #. On 2Gb memory host: is barely succeeding or failing intermittently. 
+      Need to shut down  any extra daemons (like postgres and pgbouncer) and limit the java heap size. 
+      Currently, heap sie is limited by added  environment ``_JAVA_OPTIONS="-Xmx256m"`` in Makefile. 
+      May need to investigate -XX:MaxPermSize=128m and -Xms128m options in addition to -Xmx. 
+      Other solutions (excerpt from hs_err_pi*log from one of failed runs): ::   
+
+        # There is insufficient memory for the Java Runtime Environment to continue.
+        # Native memory allocation (malloc) failed to allocate 32744 bytes for ChunkPool::allocate
+        # Possible reasons:
+        #   The system is out of physical RAM or swap space
+        #   In 32 bit mode, the process size limit was hit
+        # Possible solutions:
+        #   Reduce memory load on the system
+        #   Increase physical memory or swap space
+        #   Check if swap backing store is full
+        #   Use 64 bit Java on a 64 bit OS
+        #   Decrease Java heap size (-Xmx/-Xms)
+        #   Decrease number of Java threads
+        #   Decrease Java thread stack sizes (-Xss)
+        #   Set larger code cache with -XX:ReservedCodeCacheSize=
+
+      If possible use 4Gb memory host. 
+
+   #. On 4gb memory host: compile succeeds. 
+
+#. During building a roll some java-based packages are not releasing allocated memory properly
+   which results in available memory loss. After building a roll check host memory with ``free -m`` and 
+   reboot if the free memory is too low. 
  
 TODO 
 -----------
