@@ -93,9 +93,10 @@ LUCENE=$(LUCENE_SRC)/lucene
 PREFIX_PYTHON=/opt/python
 ANT=/opt/lifemapper/bin/ant
 JAVA_HOME=/usr/java/latest
-PYTHON=$(PREFIX_PYTHON)/bin/python
+PYTHON=$(PREFIX_PYTHON)/bin/python2.7
 JCC=$(PYTHON) -m jcc --shared
 NUM_FILES=8
+# NOTE: may try this setting NUM_FILES=separate
 
 JARS=$(LUCENE_JAR)
 
