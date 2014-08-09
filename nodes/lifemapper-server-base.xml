@@ -88,7 +88,7 @@ fi
 /bin/chmod -R g+ws /state/partition1/lmserver/data/models 
 /bin/chmod -R g+ws /state/partition1/lmserver/data/UserData
 
-for item in "config Lm*" "__init__.py*" ; do
+for item in "config" "Lm*" "__init__.py*" ; do
     /bin/chgrp -R lmwriter /opt/lifemapper/$item
     /bin/chmod -R g+ws /opt/lifemapper/$item
 done
