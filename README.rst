@@ -173,28 +173,15 @@ Before removing the roll stop postgres and pgbouncer services ::
    # /etc/init.d/pgbouncer stop
    # /etc/init.d/postgresql-9.1 stop 
 
-These commands remove the installed roll ::
+These commands remove the installed roll from Rocks database and repo ::
 
    # rocks remove roll lifemapper-server
    # (cd /export/rocks/install; rocks create distro)  
 
-These commands remove all installed RPMs ::
+Run this script (from the top of roll source directory) to remove all 
+installed RPMs, directories, users, etc ::
 
-   # bash rmrpm.sh
-   # rm -rf /opt/lifemapper/*
-
-Clean the directories used by postgres and pgbouncer ::  
-
-   # rm -rf /var/run/postgresql
-   # rm -rf /var/lib/pgsql/
-   # rm -rf /etc/pgbouncer
-
-Remove created group and directories  ::  
-
-   # groupdel lmwriter
-   # rocks sync users
-   # rm -rf /state/partition1/lmserver/*
-
+   # bash cleanRoll.sh
 
 Using a Roll
 -----------------
