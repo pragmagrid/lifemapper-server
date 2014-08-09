@@ -90,6 +90,7 @@ del-directories () {
    echo "Removing data directories"
    rm -rf /state/partition1/lmserver
    rm -rf /var/www/tmp
+   rm -rf /var/lib/lm2
 }
 
 del-group () {
