@@ -14,7 +14,7 @@ usage ()
     echo "     - run initTaxonomy.sql to init taxonomy"
     echo "     - run readTaxonomy.py to add taxonomy"
     echo "   "
-    echo "The output of the script is in /tmp/$0.log"
+    echo "The output of the script is in /tmp/`/bin/basename $0`.log"
 }
 
 ### define varibles
@@ -28,7 +28,7 @@ SetDefaults () {
     POPULATEPY=@LMHOME@/LmDbServer/populate/initCatalog.py
     TAXONOMYPY=@LMHOME@/LmDbServer/populate/readTaxonomy.py
 
-    LOG=/tmp/`basename $0`.log
+    LOG=/tmp/`/bin/basename $0`.log
     touch $LOG
     TimeStamp "# Start"
 }
