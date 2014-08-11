@@ -14,6 +14,10 @@ The roll has been tested with Rocks 6.1 and 6.1.1.
 
 Prerequisites
 ~~~~~~~~~~~~~~
+
+This seciton lists all the prerequisites for lifemapper code dependencies.
+The dependencies are either build from source or installed from RPMs 
+during the roll build.
  
 #. RPM repos ``elgis`` and ``pgdg91`` 
 #. RPMs from standard yum repos:  
@@ -72,16 +76,18 @@ Individual package dependencies
 This section is for information on some packages build dependencies. These dependencies are handled
 by the bootstrap.sh 
 
-:**pytables**:    Cython and numexpr python packages and hdf5, hdf5-devel RPMS   
-:**rtree**:       spatialindex, setuptools python packages  
-:**mapserver**:   elgis repo, bitstream-vera-sans-fonts RPM, bitstream-vera-fonts-common RPM  
-:**pylucene**:    setuptools python packages  
+:**pytables**:    cython and numexpr python packages; hdf5 and hdf5-devel RPMS   
+:**rtree**:       spatialindex, setuptools
+:**mapserver**:   elgis repo, bitstream-vera-*fonts* RPMs, geos
+:**pylucene**:    setuptools, ant, jcc
 :**postgis2_91**: geos  
-:**mapserver**:   geos  
 :**psycopg2**:    gdal, postgresql91  
 
 Required Rolls
 ~~~~~~~~~~~~~~~~
+
+Required rolls must be added at the same time when the  lifemapper-server roll is isntalled. 
+See ``Adding a roll`` section for details.
 
 :**python**:    Python roll provides python2.7 
 
@@ -118,9 +124,26 @@ executing the command at the top level of the roll source tree ::
 
    # make roll
 
-
 The resulting ISO file lifemapper-server-*.iso is the roll that can be added to the
 frontend.
+
+Debugging a roll
+-----------------
+
+When need to update only a few packages that have changed one can rebuild only the RPMs
+for changed packages and use the rest of the RPMS from the previous build. 
+For example, only  rebuilding lifemapper-server RPM will involve: ::   
+  
+   # cd src/lifemapper-server
+   # make clean
+   # update version.mk.in with new revision number to check out from SVN
+   # make prep
+   # make rpm
+
+Install the resulting RPM with: ::   
+
+   # rpm -i --force path-to-lifemapper-server.rpm
+
 
 Adding a roll 
 --------------
@@ -169,8 +192,8 @@ of initialization commands.
 At this point the  server is ready to run lifemapper-specific commands for pipeline initialization
 and data seeding. 
 
-3. Where installed roll components are
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Where installed roll components are
+------------------------------------
 
 #. Created group ``lmwriter``
 
@@ -184,6 +207,8 @@ and data seeding.
 #. **/opt/lifemapper/rocks**  - scripts, templates, etc for installation management. Reequires root access for most.
 
 #. **/opt/python/lib/python2.7/site-packages** - python prerequisites
+
+#. **/etc/ld.so.conf.d/lifemapper-server.conf** - dynamic linker bindings
   
 #. **/etc/yum.repos.d** - elgis and pgdg yum repos
 
@@ -203,7 +228,7 @@ and data seeding.
 
    + **/etc/pgbouncer/** - authentication
    + **/etc/logrotate.d/pgbouncer** - logrotate script
-   + **/etc/sysconfig/pgbouncer** - , /usr/share/*** - pbbouncer. Use 
+   + **/etc/sysconfig/pgbouncer**, **/usr/share/*** - pbbouncer. Use 
      ``rpm -ql pgbouncer`` to list all files.
    + **/var/run/postgresql/** - pgbouncer socket file
    + **/etc/init.d/pgbouncer** - init script
