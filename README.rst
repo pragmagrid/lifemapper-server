@@ -169,6 +169,57 @@ of initialization commands.
 At this point the  server is ready to run lifemapper-specific commands for pipeline initialization
 and data seeding. 
 
+3. Where installed roll components are
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+#. Created group ``lmwriter``
+
+#. Created rocks attributes ``LM_dbserver`` and ``LM_webserver``, both set to true. 
+   Currently dbserver and webserver are installed on the same host - setting ``true``
+   means host's FQDN is used for configurations where needed.
+   These attributes will be used in the future for possible separation of servers to different hosts.
+
+#. **/opt/lifemapper** - prerequisites and lifemapper code
+
+#. **/opt/lifemapper/rocks**  - scripts, templates, etc for installation management. Reequires root access for most.
+
+#. **/opt/python/lib/python2.7/site-packages** - python prerequisites
+  
+#. **/etc/yum.repos.d** - elgis and pgdg yum repos
+
+#. **cmake, subversion, screen, fribidi, hdf4*, hdf5*, mapserver, readline-devel, 
+   byacc, giflib-devel, bitstrieam-vera-*fonts*, json-c, uuid**
+   - in  usual system directories /usr/bin, /usr/lib, /usr/include, etc. as required  by each RPM.
+   Use ``rpm -ql X`` to find all files for a package X.
+
+#. Postgres
+
+   + **/usr/pgsql-9.1** and **/usr/share/doc** - postgres  and postgis_2
+   + **/var/run/postgresql/** - postgres daemon socket files
+   + **/etc/init.d/postgresql*** - init script
+   + **/var/lib/pgsql/** -  database, backups, log, pid
+
+#. Pgbouncer
+
+   + **/etc/pgbouncer/** - authentication
+   + **/etc/logrotate.d/pgbouncer** - logrotate script
+   + **/etc/sysconfig/pgbouncer** - , /usr/share/*** - pbbouncer. Use 
+     ``rpm -ql pgbouncer`` to list all files.
+   + **/var/run/postgresql/** - pgbouncer socket file
+   + **/etc/init.d/pgbouncer** - init script
+   + **/var/log/pgbouncer.log** - log
+   + **/var/run/pgbouncer.pid** - pid
+
+#. **/state/partition1/lmserver/** -  mounted as /share/lmserver/
+  
+   + /share/lmserver/data/ - ClimateData/, ESRIDATA/, image/, models/, UserData/.
+   + /share/lmserver/log/ - pipeline logs 
+
+#. **/var/lib/lm2/** -  pylucene  index and sessions
+
+#. **/var/www/tmp/** - for mapserver temp files
+
+#. **/var/www/html/roll-documentation/lifemapper-server** - roll documentation, bare  minimum as a place holder.
 
 Removing a roll
 -------------------
@@ -208,7 +259,7 @@ and postgres and pgbouncer are configured.
 Notes 
 -------
 
-#. Compiling pylucene (make rpm) 
+#. **Compiling pylucene**: make rpm 
 
    #. On 2Gb memory host: is barely succeeding or failing intermittently. 
       Need to shut down  any extra daemons (like postgres and pgbouncer) and limit the java heap size. 
@@ -235,7 +286,7 @@ Notes
 
    #. On 4gb memory host: compile succeeds. 
 
-#. During building a roll some java-based packages are not releasing allocated memory properly
+#. **Free memory loss**: during building a roll some java-based packages are not releasing allocated memory properly
    which results in available memory loss. After building a roll check host memory with ``free -m`` and 
    reboot if the free memory is too low. 
  
@@ -247,10 +298,8 @@ TODO
 
 #. initTaxonomy.sql need to be created with correct time stamp.
 
-#. fix last line in readTaxonomy.py (referrign non-existing var)
-
-#. write a section on where roll parts are installed
-
-#. update rmrpm.sh
+#. fix last line in readTaxonomy.py (referring non-existing var)
 
 #. write update roll info and some debugging
+
+#. rename all python packages as opt-lifemapper-X
