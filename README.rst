@@ -83,7 +83,7 @@ by the bootstrap.sh
 Required Rolls
 ~~~~~~~~~~~~~~~~
 
-:**python**:    provides python2.7 
+:**python**:    Python roll provides python2.7 
 
 Building a roll 
 ------------------
@@ -94,11 +94,11 @@ Checkout roll distribution from git repo ::
    # cd lifemapper-server/
 
 To build a roll, first execute a script that downloads and installs some packages 
-and RPMS that are prerequisites for other packages duirng the build stage. ::
+and RPMS that are prerequisites for other packages during the roll build stage: ::
 
    # ./bootstrap.sh  
 
-Get the lifemapper source ::  
+When the scirpt finishes, it prints the next step instruciton to get the lifemapper source ::  
 
    # cd src/lmserver/
    # make prep
@@ -113,13 +113,18 @@ To build individual packages ::
    # cd src/pkgname 
    # make rpm 
 
-When all individual packages are building without errors build a roll (at the top level) ::
+When all individual packages are building without errors build a roll via 
+executing the command at the top level of the roll source tree ::
 
    # make roll
 
+
+The resulting ISO file lifemapper-server-*.iso is the roll that can be added to the
+frontend.
+
 Adding a roll 
 --------------
-The roll can be added (1) during the initial installation of the cluster (frontend)
+The roll (ISO file) can be added (1) during the initial installation of the cluster (frontend)
 or (2) to the existing frontend.
 
 
@@ -128,7 +133,7 @@ or (2) to the existing frontend.
 
 #. Add roll ISO to your existing frontend that is configured to be 
    a central server. This procesdure is documented in the section ``Frontend 
-   Central Server`` of Rocks Users Guide.
+   Central Server`` of `Rocks Users Guide <http://central6.rocksclusters.org/roll-documentation/base/6.1.1/>`_.
 
 #. During the frontend install choose the lifemapper-server roll from the list of available rolls
    when you see ``Select Your Rolls`` screen. 
@@ -140,8 +145,8 @@ or (2) to the existing frontend.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 A roll can be added to the existing frontend. 
-Make sure that the python roll is installed ( can be donwloaded from
-the `Rocks Downloads <http://www.rocksclusters.org/wordpress/?page_id=80>`_ 
+Make sure that the python roll is installed (can be downloaded from
+`Rocks Downloads <http://www.rocksclusters.org/wordpress/?page_id=80>`_ )
 
 Execute all commands from top level lifemapper-server/ ::
 
@@ -152,7 +157,8 @@ Execute all commands from top level lifemapper-server/ ::
    # rocks run roll lifemapper-server > add-lmserver.sh  
    # bash add-lmserver.sh  > add-lmserver.out 2>&1
 
-After the  last command  is finished, examine the add-lmserver.out file for errors. ::
+After the  last command  is finished, examine the add-lmserver.out file for errors
+and then reboot your frontend: ::
 
    # reboot
 
@@ -191,16 +197,18 @@ and postgres and pgbouncer are configured.
 
 #. Seed the pipeline ::   
 
-   # /opt/lifemapper/rocks/bin/initDB
+     # /opt/lifemapper/rocks/bin/initDB
+
+   The script output is in /tmp/initDB.log
 
 #. Run the pipeline ::  
 
-   # TBD
+   # Instructions TBD
 
 Notes 
 -------
 
-#. Compiling pylucene (make rpm) ::  
+#. Compiling pylucene (make rpm) 
 
    #. On 2Gb memory host: is barely succeeding or failing intermittently. 
       Need to shut down  any extra daemons (like postgres and pgbouncer) and limit the java heap size. 
