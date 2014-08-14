@@ -62,7 +62,7 @@ rpm -i src/RPMS/bitstream-vera-sans-fonts-1.10-18.el6.noarch.rpm
 
 # for mysql-python, rtree, pylucene
 compile setuptools
-install opt-setuptools
+install opt-lifemapper-setuptools
 
 # for PyLucene 
 compile ant
@@ -72,9 +72,9 @@ export ANT_HOME=/opt/lifemapper
 
 # for pytables 
 compile cython 
-install opt-cython 
+install opt-lifemapper-cython 
 compile numexpr 
-install opt-numexpr 
+install opt-lifemapper-numexpr 
 yum --enablerepo rpmforge install hdf5 hdf5-devel
 
 # meed for psycopg2
