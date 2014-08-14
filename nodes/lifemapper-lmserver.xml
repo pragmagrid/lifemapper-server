@@ -17,8 +17,8 @@
 	</changelog>
 
         <package>libxslt</package>
-        <package>opt-MySQL-python</package>
-        <package>opt-rtree</package>
+        <package>opt-lifemapper-MySQL-python</package>
+        <package>opt-lifemapper-rtree</package>
         <package>lifemapper-spatialindex</package>
         <package>strace</package>
 

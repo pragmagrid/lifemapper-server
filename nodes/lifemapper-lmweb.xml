@@ -19,9 +19,9 @@
 
 	<package>lifemapper-mod_python</package>
 	<package>lifemapper-ant</package>
-	<package>opt-cherrypy</package>
-	<package>opt-cheetah</package>
-	<package>opt-pylucene</package>
+	<package>opt-lifemapper-cherrypy</package>
+	<package>opt-lifemapper-cheetah</package>
+	<package>opt-lifemapper-pylucene</package>
 
 <post>
 /opt/rocks/bin/rocks add host attr localhost LM_webserver value=true

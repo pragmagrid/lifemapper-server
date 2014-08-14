@@ -40,13 +40,13 @@
 	<package>lifemapper-tiff</package>
 
 	<!-- python prerequisites -->
-	<package>opt-setuptools</package>
-	<package>opt-numexpr</package>
-	<package>opt-cython</package>
-	<package>opt-pytables</package>
-	<package>opt-egenix-mx-base</package>
-	<package>opt-psycopg2</package>
-	<package>opt-faulthandler</package>
+	<package>opt-lifemapper-setuptools</package>
+	<package>opt-lifemapper-numexpr</package>
+	<package>opt-lifemapper-cython</package>
+	<package>opt-lifemapper-pytables</package>
+	<package>opt-lifemapper-egenix-mx-base</package>
+	<package>opt-lifemapper-psycopg2</package>
+	<package>opt-lifemapper-faulthandler</package>
 
 	<!-- lifemapper distro -->
 	<package>lifemapper-server</package>
