@@ -318,13 +318,8 @@ Notes
 TODO 
 -----------
 
-#. Change all occurences of "DROP DATABASE X" to "DROP DATABASE X IF EXISTS".
-   Same for index, type, view, function 
+#. test webserver 
 
-#. initTaxonomy.sql need to be created with correct time stamp.
+#. tests attributes for separation of dbserver and webserver
 
-#. fix last line in readTaxonomy.py (referring non-existing var)
-
-#. write update roll info and some debugging
-
-#. rename all python packages as opt-lifemapper-X
+#. test pipeline seed/run
