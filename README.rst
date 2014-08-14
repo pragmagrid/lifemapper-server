@@ -219,6 +219,7 @@ Where installed roll components are
 
 #. Postgres
 
+   + Created user/group ``postgres``
    + **/usr/pgsql-9.1** and **/usr/share/doc** - postgres  and postgis_2
    + **/var/run/postgresql/** - postgres daemon socket files
    + **/etc/init.d/postgresql*** - init script
@@ -226,6 +227,7 @@ Where installed roll components are
 
 #. Pgbouncer
 
+   + Created user/group ``pgbouncer``, add user ``pgbouncer`` to ``postgres`` group
    + **/etc/pgbouncer/** - authentication
    + **/etc/logrotate.d/pgbouncer** - logrotate script
    + **/etc/sysconfig/pgbouncer**, **/usr/share/*** - pbbouncer. Use 
