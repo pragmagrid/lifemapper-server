@@ -10,8 +10,7 @@ usage ()
     echo "Usage: $0"
     echo "This script is run by the superuser. It will "
     echo "     - run runAllSQLScripts.sql to define the databases "
-    echo "     - run initCatalog.py to populate the databases "
-    echo "     - run initTaxonomy.sql to init taxonomy"
+    echo "     - run initCatalog.py to populate the databases and init taxonomy"
     echo "     - run readTaxonomy.py to add taxonomy"
     echo "   "
     echo "The output of the script is in /tmp/`/bin/basename $0`.log"
@@ -112,6 +111,5 @@ SetDefaults
 SetPass
 Define
 Populate
-InitTaxonomy
 AddTaxonomy
 TimeStamp "# End"
