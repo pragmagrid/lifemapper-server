@@ -6,7 +6,7 @@
 #    rocks hsot attributes
 #    user groups
 
-RM="rpm -evl --nodeps"
+RM="rpm -evl --quiet --nodeps"
 
 del-lifemapper() {
    echo "Removing lifemapper-* and prerequisite RPMS"
@@ -31,18 +31,18 @@ del-lifemapper() {
 
 del-opt-python () {
    echo "Removing opt-* RPMS"
-   $RM opt-setuptools
-   $RM opt-pytables
-   $RM opt-pylucene
-   $RM opt-psycopg2
-   $RM opt-numexpr
-   $RM opt-faulthandler
-   $RM opt-egenix-mx-base
-   $RM opt-cython
-   $RM opt-cherrypy
-   $RM opt-cheetah
-   $RM opt-MySQL-python
-   $RM opt-rtree
+   $RM opt-lifemapper-setuptools
+   $RM opt-lifemapper-pytables
+   $RM opt-lifemapper-pylucene
+   $RM opt-lifemapper-psycopg2
+   $RM opt-lifemapper-numexpr
+   $RM opt-lifemapper-faulthandler
+   $RM opt-lifemapper-egenix-mx-base
+   $RM opt-lifemapper-cython
+   $RM opt-lifemapper-cherrypy
+   $RM opt-lifemapper-cheetah
+   $RM opt-lifemapper-MySQL-python
+   $RM opt-lifemapper-rtree
 }
 
 del-mapserver(){
@@ -91,18 +91,55 @@ del-directories () {
    rm -rf /state/partition1/lmserver
    rm -rf /var/www/tmp
    rm -rf /var/lib/lm2
+
+   echo "Removing jcc installed by bootstrap"
+   rm -rf /opt/python/lib/python2.7/site-packages/jcc
+   rm -rf /opt/python/lib/python2.7/site-packages/libjcc.so 
+   rm -rf /opt/python/lib/python2.7/site-packages/JCC-2.18-py2.7.egg-info  
+
 }
 
-del-group () {
-   echo "Remove lmwriter group"
-   groupdel lmwriter
-   rocks sync users
+del-user-group () {
+   needSync=0
+   /bin/egrep -i "^lmwriter" /etc/group
+   if [ $? -eq 0 ]; then
+       echo "Remove lmwriter group"
+       groupdel lmwriter
+       needSync=1
+   fi
+
+   /bin/egrep -i "^pgbouncer" /etc/passwd
+   if [ $? -eq 0 ]; then
+       echo "Remove phgouncer user"
+       userdel pgbouncer
+       needSync=1
+   fi
+
+   /bin/egrep -i "^postgres" /etc/passwd
+   if [ $? -eq 0 ]; then
+       echo "Remove postgres user"
+       userdel postgres
+       needSync=1
+   fi
+
+   if [ "$needSync" -eq "1" ]; then
+       echo "Syncing users info"
+       rocks sync users
+   fi
 }
 
 del-attr () {
-   echo "Remove attributes"
-   rocks remove host attr localhost LM_dbserver
-   rocks remove host attr localhost LM_webserver
+   rocks list host attr localhost | /bin/egrep -i LM_dbserver
+   if [ $? -eq 0 ]; then
+   	echo "Remove attribute LM_dbserver"
+   	rocks remove host attr localhost LM_dbserver
+   fi
+
+   rocks list host attr localhost | /bin/egrep -i LM_webserver
+   if [ $? -eq 0 ]; then
+   	echo "Remove attribute LM_webserver"
+   	rocks remove host attr localhost LM_webserver
+   fi
 }
 
 ### main ###
@@ -112,5 +149,5 @@ del-opt-python
 del-lifemapper
 del-sysRPM
 del-directories
-del-group
+del-user-group
 del-attr
