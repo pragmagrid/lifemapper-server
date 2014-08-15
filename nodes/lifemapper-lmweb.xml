@@ -24,7 +24,11 @@
 	<package>opt-lifemapper-pylucene</package>
 
 <post>
-/opt/rocks/bin/rocks add host attr localhost LM_webserver value=true
+# check for attribute before setting
+attrWebserver=`/opt/rocks/bin/rocks list host attr localhost | /bin/grep LM_webserver | awk '{print $3}'`
+if [ "$attrWebserver" = "" ] ; then
+    /opt/rocks/bin/rocks add host attr localhost LM_webserver value=true
+fi
 
 # mapserver home is for temp files    
 /bin/mkdir -p /var/www/tmp

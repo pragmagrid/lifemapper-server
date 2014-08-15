@@ -42,8 +42,13 @@
         <package>geos</package>
         <package>lifemapper-proj</package>
         <package>postgis2_91</package>
+
 <post>
-/opt/rocks/bin/rocks add host attr localhost LM_dbserver value=true
+# check for attribute before setting
+attrDbserver=`/opt/rocks/bin/rocks list host attr localhost | /bin/grep LM_dbserver | /bin/awk '{print $3}'`
+if [ "$attrDbserver" = "" ] ; then
+    /opt/rocks/bin/rocks add host attr localhost LM_dbserver value=true
+fi
 
 /usr/sbin/usermod -G postgres pgbouncer
 export PATH=/usr/pgsql-9.1/bin:$PATH
