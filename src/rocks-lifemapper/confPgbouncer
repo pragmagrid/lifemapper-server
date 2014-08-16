@@ -131,7 +131,7 @@ class ConfPgbouncer(confbase.Baseconfig):
         fnew =  self.authFile 
         #fnew = "/tmp/" + os.path.basename(self.authFile)  #FIXME rm
         self.writeFile(fnew, lines)
-        os.chmod(fnew, 0600)
+        os.chmod(fnew, 0660)
         os.chown(fnew, self.uid, self.gid)
 
 
