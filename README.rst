@@ -277,7 +277,8 @@ and postgres and pgbouncer are configured.
 
      # /opt/lifemapper/rocks/bin/initDB
 
-   The script output is in /tmp/initDB.log
+   The script output is in /tmp/initDB.log.  On a host with 4Gb memory it takes ~2.5 hrs
+   to complete, on a host with 2GBb memory - ~6hrs. 
 
 #. Run the pipeline ::  
 
