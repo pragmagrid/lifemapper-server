@@ -15,7 +15,7 @@ The roll has been tested with Rocks 6.1 and 6.1.1.
 Prerequisites
 ~~~~~~~~~~~~~~
 
-This seciton lists all the prerequisites for lifemapper code dependencies.
+This section lists all the prerequisites for lifemapper code dependencies.
 The dependencies are either build from source or installed from RPMs 
 during the roll build.
  
@@ -89,7 +89,7 @@ Required Rolls
 Required rolls must be added at the same time when the  lifemapper-server roll is isntalled. 
 See ``Adding a roll`` section for details.
 
-:**python**:    Python roll provides python2.7 
+:**python**:    Python roll provides python2.7 and numpy
 
 Building a roll 
 ------------------
@@ -104,7 +104,7 @@ and RPMS that are prerequisites for other packages during the roll build stage: 
 
    # ./bootstrap.sh  
 
-When the scirpt finishes, it prints the next step instruciton to get the lifemapper source ::  
+When the scirpt finishes, it prints the next step instruction to get the lifemapper source ::  
 
    # cd src/lmserver/
    # make prep
@@ -161,7 +161,7 @@ or (2) to the existing frontend.
 #. During the frontend install choose the lifemapper-server roll from the list of available rolls
    when you see ``Select Your Rolls`` screen. 
 
-#. During the forntend install choose python roll, it is a prerequisite for lifemapper-server roll
+#. During the frontend install choose python roll, it is a prerequisite for lifemapper-server roll.
 
 
 2 Adding a roll to a live frontend
@@ -177,10 +177,10 @@ Execute all commands from top level lifemapper-server/ ::
    # rocks enable roll lifemapper-server
    # (cd /export/rocks/install; rocks create distro)  
    # yum clean all
-   # rocks run roll lifemapper-server > add-lmserver.sh  
-   # bash add-lmserver.sh  > add-lmserver.out 2>&1
+   # rocks run roll lifemapper-server > add-roll.sh  
+   # bash add-roll.sh  > add-roll.out 2>&1
 
-After the  last command  is finished, examine the add-lmserver.out file for errors
+After the  last command  is finished, examine the add-roll.out file for errors
 and then reboot your frontend: ::
 
    # reboot
