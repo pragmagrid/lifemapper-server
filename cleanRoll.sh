@@ -23,10 +23,10 @@ del-lifemapper() {
    $RM lifemapper-libevent
    $RM hdf5-devel hdf5
    $RM lifemapper-gdal
-   $RM cmake
-   $RM subversion
-   $RM screen
-   $RM fribidi
+   #$RM cmake
+   #$RM subversion
+   #$RM screen
+   #$RM fribidi
 }
 
 del-opt-python () {
@@ -49,8 +49,8 @@ del-mapserver(){
    echo "Removing mapserver and dependencies RPMS"
    $RM mapserver
    $RM hdf4-devel hdf4
-   $RM readline-devel
-   $RM byacc
+   #$RM readline-devel
+   #$RM byacc
    $RM giflib-devel
    $RM bitstream-vera-sans-fonts
    $RM bitstream-vera-fonts-common
@@ -69,7 +69,7 @@ del-postgres() {
    $RM postgresql91-devel
    $RM postgresql91
    $RM postgresql91-libs
-   $RM uuid
+   #$RM uuid
 }
 
 del-sysRPM() {
