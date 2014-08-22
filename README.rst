@@ -143,7 +143,20 @@ For example, only  rebuilding lifemapper-server RPM will involve: ::
 Install the resulting RPM with: ::   
 
    # rpm -i --force path-to-lifemapper-server.rpm
+   # /opt/lifemapper/rocks/bin/updateIP
 
+The ``updateIP`` is needed for this specfic RPM because  a newly installed config.ini file 
+needs tempalte IP addressees updated. Normally, this command is run by the roll install process. 
+
+Recreate roll ISO
+-------------------
+
+When updating only a few packages in the roll, there is no need to re-create 
+all packages anew. After re-making updated RPMs  from the top level of roll source tree ::   
+
+   # make reroll
+
+The new rpms will be inlcuded in the new ISO. 
 
 Adding a roll 
 --------------
