@@ -122,8 +122,6 @@ build:
 install::
 	mkdir -p $(ROOT)/$(LMHOME)
 	rm -rf $(ARCHIVENAME)/svn-info
-	rm -rf $(ARCHIVENAME)/LmDbServer/populate/aimee_export2.txt
-	(cd $(ARCHIVENAME)/LmDbServer/populate; mv aimee_subset.txt aimee_export2.txt)
 	mv $(ARCHIVENAME)/*  $(ROOT)/$(LMHOME) 
 
 clean::
