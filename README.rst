@@ -142,11 +142,20 @@ For example, only  rebuilding lifemapper-server RPM will involve: ::
 
 Install the resulting RPM with: ::   
 
-   # rpm -i --force path-to-lifemapper-server.rpm
+   # rpm -el lifemapper-server
+   # rpm -i  path-to-new-lifemapper-server.rpm
    # /opt/lifemapper/rocks/bin/updateIP
+   # /opt/lifemapper/rocks/bin/confDbconnect
 
 The ``updateIP`` is needed for this specfic RPM because  a newly installed config.ini file 
-needs tempalte IP addressees updated. Normally, this command is run by the roll install process. 
+needs tempalte IP addressees updated. 
+The ``confDbconnect`` rewrites connect.py lifemapper file (used to connect to a db)
+Normally, these commands are run by the roll install process. 
+
+Start using the roll: ::
+
+   # /opt/lifemapper/rocks/bin/initDB
+   # TBD
 
 Recreate roll ISO
 -------------------
