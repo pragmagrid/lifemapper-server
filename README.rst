@@ -155,7 +155,7 @@ Normally, these commands are run by the roll install process.
 Start using the roll: ::
 
    # /opt/lifemapper/rocks/bin/initDB
-   # TBD
+   # other commands
 
 Recreate roll ISO
 -------------------
@@ -302,9 +302,14 @@ and postgres and pgbouncer are configured.
    The script output is in /tmp/initDB.log.  On a host with 4Gb memory it takes ~2.5 hrs
    to complete, on a host with 2GBb memory - ~6hrs. 
 
-#. Run the pipeline ::  
+#. Start the pipeline ::  
 
-   # Instructions TBD
+     # python2.7 /opt/lifemapper/LmDbServer/pipeline/localpipeline.py
+     # other commands ...
+
+#. Stop the pipeline ::    
+
+     # touch /opt/lifemapper/pipeline.lm.die
 
 Notes 
 -------
