@@ -34,3 +34,5 @@ src/lmserver/*.tar.gz
 src/lmserver/.subversion/
 .subversion/
 
+# ignore species data
+src/lmdata-species/*.txt
