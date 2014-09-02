@@ -35,4 +35,5 @@ src/lmserver/.subversion/
 .subversion/
 
 # ignore species data
-src/lmdata-species/*.txt
+src/lmdata-species/gbif_export.txt
+src/lmdata-species/gbif_taxonomy.txt

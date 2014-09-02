@@ -62,6 +62,7 @@
 
 	<!-- lifemapper data -->
 	<package>lifemapper-climate-data</package>
+	<package>lifemapper-species-data</package>
 
 <post>
 
