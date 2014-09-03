@@ -20,6 +20,7 @@ del-lifemapper() {
    $RM lifemapper-geos
    $RM lifemapper-ant
    $RM lifemapper-climate-data
+   $RM lifemapper-species-data
    $RM lifemapper-libevent
    $RM hdf5-devel hdf5
    $RM lifemapper-gdal
@@ -105,6 +106,8 @@ del-user-group () {
    if [ $? -eq 0 ]; then
        echo "Remove lmwriter user"
        userdel lmwriter
+       /bin/rm -f /var/spool/mail/lmwriter
+       /bin/rm -rf /export/home/lmwriter
        needSync=1
    fi
 
