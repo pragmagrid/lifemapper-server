@@ -68,8 +68,8 @@
 
 /sbin/ldconfig
 
-UID=`/bin/egrep -i "^lmwriter" /etc/passwd`
-if [ "$UID" == "" ] ; then
+ID=`/bin/egrep -i "^lmwriter" /etc/passwd`
+if [ "$ID" == "" ] ; then
     /usr/sbin/useradd -c "Lifemapper user" lmwriter
 fi
 
