@@ -101,10 +101,10 @@ del-directories () {
 
 del-user-group () {
    needSync=0
-   /bin/egrep -i "^lmwriter" /etc/group
+   /bin/egrep -i "^lmwriter" /etc/passwd
    if [ $? -eq 0 ]; then
-       echo "Remove lmwriter group"
-       groupdel lmwriter
+       echo "Remove lmwriter user"
+       userdel lmwriter
        needSync=1
    fi
 

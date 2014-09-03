@@ -68,9 +68,9 @@
 
 /sbin/ldconfig
 
-GID=`grep lmwriter: /etc/group`
-if [ "$GID" == "" ] ; then
-    /usr/sbin/groupadd -g 502 lmwriter
+UID=`/bin/egrep -i "^lmwriter" /etc/passwd`
+if [ "$UID" == "" ] ; then
+    /usr/sbin/useradd -c "Lifemapper user" lmwriter
 fi
 
 </post>
