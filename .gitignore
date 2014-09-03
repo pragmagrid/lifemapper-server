@@ -4,10 +4,14 @@ RPMS/
 SOURCES/
 BUILD/
 SPECS/
+disk1/
+lifemapper-server-*disk1.iso
 
 _os
 _arch
+_distribution
 .rpmmacros
+bootstrap.py
 
 # ignore version* files
 rocks-version.mk
@@ -25,6 +29,10 @@ Rules-rcfiles.mk
 Rules-scripts.mk
 Rules.mk
 Rolls.mk
+
+# ignore roll files 
+roll-lifemapper-server.*
+roll-profile.mk
 
 # ignore src files
 src/lmserver/components/
