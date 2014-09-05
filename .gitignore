@@ -4,6 +4,8 @@ RPMS/
 SOURCES/
 BUILD/
 SPECS/
+disk1/
+lifemapper-server-*disk1.iso
 
 _os
 _arch
@@ -28,6 +30,10 @@ Rules-scripts.mk
 Rules.mk
 Rolls.mk
 roll*.mk
+
+# ignore roll files 
+roll-lifemapper-server.*
+roll-profile.mk
 
 # ignore src files
 src/lmserver/components/
