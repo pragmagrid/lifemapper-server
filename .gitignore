@@ -7,7 +7,9 @@ SPECS/
 
 _os
 _arch
+_distribution
 .rpmmacros
+bootstrap.py
 
 # ignore version* files
 rocks-version.mk
@@ -25,6 +27,7 @@ Rules-rcfiles.mk
 Rules-scripts.mk
 Rules.mk
 Rolls.mk
+roll*.mk
 
 # ignore src files
 src/lmserver/components/
@@ -35,5 +38,5 @@ src/lmserver/.subversion/
 .subversion/
 
 # ignore species data
-src/lmdata-species/gbif_export.txt
-src/lmdata-species/gbif_taxonomy.txt
+src/lmdata-species/*.txt
+src/lmdata-species/*.gz

@@ -68,7 +68,10 @@ include Rules.mk
 version.mk:
 	cat ../version.mk version.mk.in > version.mk
 
-build:
+%.txt: %.tar.gz
+	tar xzvf $<
+
+build: $(FILES)
 	echo $(EXPORTDIR)
 
 install::

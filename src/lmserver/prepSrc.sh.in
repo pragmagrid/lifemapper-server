@@ -36,19 +36,13 @@ collect_src () {
 }
 
 create_species_data () {
-  if [ -d $SRC ]; then
-    # move species data to lmdata-species/
-    echo "Move species data to ../lmdata-species"
-    FILES="gbif_export.txt gbif_orgs.txt gbif_taxonomy.txt marinelist.txt"
-    DATA=$SRC/LmDbServer/populate
-    for i in $FILES; do
-       if [ -f $DATA/$i ]; then
-         /bin/mv $DATA/$i ../lmdata-species/
-       else
-         echo "Error: file $DATA/$i is missing"
-       fi
-    done 
-  fi
+  # move species data to lmdata-species/
+  echo "Fetch species data to ../lmdata-species"
+  FILES="gbif_export.tar.gz gbif_orgs.tar.gz gbif_taxonomy.tar.gz marinelist.tar.gz"
+  LMURL="http://lifemapper.org/dl"
+  for i in $FILES; do
+    curl -L "$LMURL/$i" -o ../lmdata-species/$i
+  done 
 }
 
 # create distro files for lmserver 
