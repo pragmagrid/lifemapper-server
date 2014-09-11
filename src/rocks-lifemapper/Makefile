@@ -80,6 +80,7 @@ PROFILES = \
 SCRIPTS = \
 	lifemapper.conf \
 	lucene.cron \
+	lifemapper-sysconfig-httpd \
 	lifemapper-server.conf
 
 PROGS = \
@@ -133,6 +134,9 @@ initLM: initLM.in
 lifemapper-server.conf: lifemapper-server.conf.in
 	$(SED) $(SEDSPEC) $^ > $@
 
+lifemapper-sysconfig-httpd: lifemapper-sysconfig-httpd.in
+	$(SED) $(SEDSPEC) $^ > $@
+
 confconst.py: confconst.py.in
 	$(SED) $(SEDSPEC) $^ > $@
 
@@ -159,6 +163,7 @@ install::
 
 	mkdir -p $(ROOT)/$(PKGROOT)/rocks/etc
 	install -m 644 lucene.cron $(ROOT)/$(PKGROOT)/rocks/etc
+	install -m 644 lifemapper-sysconfig-httpd $(ROOT)/$(PKGROOT)/rocks/etc
 
 	mkdir -p $(ROOT)/$(PKGROOT)/rocks/sql
 	install -m 644 postgis.sql $(ROOT)/$(PKGROOT)/rocks/sql 

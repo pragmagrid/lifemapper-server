@@ -36,7 +36,7 @@ fi
 
 /opt/lifemapper/rocks/bin/initWebserver
 
-<file name="/etc/sysconfig/httpd" mode="append">
+<file name="/etc/sysconfig/httpd" mode="append" expr="cat /opt/lifemapper/rocks/etc/lifemapper-sysconfig-httpd">
 
 # Lifemapper webserver
 umask 002
