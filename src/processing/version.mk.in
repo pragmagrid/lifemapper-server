@@ -1,0 +1,4 @@
+NAME = opt-lifemapper-processing
+VERSION = 0.52
+ARCHIVENAME = processing
+RELEASE = 0

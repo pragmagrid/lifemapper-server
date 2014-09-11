@@ -33,7 +33,7 @@ during the roll build.
    :binaries: ant gdal proj geos libevent libspatialindex tiff  
    :python modules:         Cheetah, CherryPy, Cython,  egenix-mxDateTime (part of egenix-mx-base),   
                                 faulthandler  mod_python, mysql-python,  numexpr,   
-                                rtree, psycopg2,  pylucene, pytables, setuptools   
+                                rtree, psycopg2,  pylucene, pytables, setuptools, rdflib, isodate, processing
     
 Downloads
 ~~~~~~~~~
@@ -61,6 +61,7 @@ The packages are a part of the roll source (or downloaded by bootstrap.sh).
     wget http://download.cherrypy.org/cherrypy/3.1.2/CherryPy-3.1.2.tar.gz  
     wget http://mirror.metrocast.net/apache//ant/source/apache-ant-1.9.3-src.tar.gz  
     wget http://dist.modpython.org/dist/mod_python-3.5.0.tgz  
+    wget https://rdflib.googlecode.com/files/rdflib-3.2.0.tar.gz
     wget --no-check-certificate https://pypi.python.org/packages/source/n/numexpr/numexpr-2.3.tar.gz  
     wget --no-check-certificate https://downloads.egenix.com/python/egenix-mx-base-3.2.7.tar.gz  
     wget --no-check-certificate http://pypi.python.org/packages/source/s/setuptools/setuptools-2.1.tar.gz  
@@ -69,6 +70,8 @@ The packages are a part of the roll source (or downloaded by bootstrap.sh).
     wget --no-check-certificate https://pypi.python.org/packages/source/M/MySQL-python/MySQL-python-1.2.5.zip  
     wget --no-check-ertificate https://pypi.python.org/packages/source/C/Cheetah/Cheetah-2.4.4.tar.gz  
     wget --no-check-certificate https://pypi.python.org/packages/source/f/faulthandler/faulthandler-2.3.tar.gz  
+    wget --no-check-certificate https://pypi.python.org/packages/source/i/isodate/isodate-0.5.0.tar.gz
+    wget --no-check-certificate  https://pypi.python.org/packages/source/p/processing/processing-0.52.zip`
 
 Individual package dependencies
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -297,7 +300,7 @@ and postgres and pgbouncer are configured.
 
 #. Seed the pipeline ::   
 
-     # /opt/lifemapper/rocks/bin/initDB
+     # nohup /opt/lifemapper/rocks/bin/initDB
 
    The script output is in /tmp/initDB.log.  On a host with 4Gb memory it takes ~2.5 hrs
    to complete, on a host with 2GBb memory - ~6hrs. 
