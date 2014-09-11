@@ -1,4 +1,5 @@
 # For lifemapper-server roll
+<VirtualHost *:80>
 
 # load mod_python module
 LoadModule python_module modules/mod_python.so
@@ -7,14 +8,22 @@ LoadModule python_module modules/mod_python.so
 SetEnv MS_ERRORFILE "@MAPSERVER_TMP@/mapserver_error.txt"
 SetEnv MS_DEBUGLEVEL 5
 
+# Custom logs
+LogLevel debug
+CustomLog logs/lifemapper_access combined
+ErrorLog  logs/lifemapper_error
+
+# Enable environment for config file
+SetEnv LIFEMAPPER_CONFIG_FILE "@LMHOME@/config/config.ini"
+ 
 # Root for lifemapper content
 RewriteEngine on
 
-<LocationMatch "^/(css|changeThinking|clients|dl|findUser|hint|images|jobs|login|logout|ogc|schemas|services|robots.txt|signup|spLinks)">
+<LocationMatch "^/(css|clients|hint|images|jobs|schemas|services|robots.txt)">
    PythonPath "sys.path+['@LMHOME@/LmWebServer/public_html/services']+['@LMHOME@/']"
    SetHandler python-program
    PythonHandler cherrypy._cpmodpy::handler
    PythonOption cherrypy.setup svc::serverless
    PythonDebug On
 </LocationMatch>
-
+</VirtualHost>
