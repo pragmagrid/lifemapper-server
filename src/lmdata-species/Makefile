@@ -80,3 +80,4 @@ install::
 
 clean::
 	rm -rf version.mk
+	rm -rf $(FILES)
