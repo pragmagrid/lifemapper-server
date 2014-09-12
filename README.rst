@@ -157,7 +157,7 @@ Normally, these commands are run by the roll install process.
 
 Start using the roll: ::
 
-   # /opt/lifemapper/rocks/bin/initDB
+   # nohup /opt/lifemapper/rocks/bin/initDB
    # other commands
 
 Recreate roll ISO
@@ -295,6 +295,7 @@ installed RPMs, directories, users, etc ::
 Using a Roll
 -----------------
 
+See Using_
 After the roll is installed, the initial database schema, and user authentication are set up
 and postgres and pgbouncer are configured.  
 
@@ -356,3 +357,5 @@ TODO
 #. tests attributes for separation of dbserver and webserver
 
 #. test pipeline seed/run
+
+.. _Using: docs/Using.rst
