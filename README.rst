@@ -292,7 +292,7 @@ installed RPMs, directories, users, etc ::
 Using a Roll
 -----------------
 
-See `Using LIfemapper`_
+See `Using Lifemapper`_
 
 Notes 
 -------
