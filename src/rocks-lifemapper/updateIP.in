@@ -31,10 +31,15 @@ getAddress () {
 }
 
 updateAddress () {
-    infile=@LMHOME@/config/config.ini
-    sed -i "s%@PUBLIC_FQDN@%$Addr%g" $infile 
-    sed -i "s%@WEB_FQDN@%$AddrWebserver%g" $infile 
-    sed -i "s%@DB_FQDN@%$AddrDbserver%g" $infile 
+    infile=@LMHOME@/config/config.ini.in
+    outfile=@LMHOME@/config/config.ini
+    sed  "s%@PUBLIC_FQDN@%$Addr%g; \
+          s%@WEB_FQDN@%$AddrWebserver%g; \
+          s%@DB_FQDN@%$AddrDbserver%g" $infile > $outfile
+
+    if [ -f @LMHOME@/rocks/bin/confSysvals ]; then
+        @LMHOME@/rocks/bin/confSysvals
+    fi
 }
 
 #### Main ####
