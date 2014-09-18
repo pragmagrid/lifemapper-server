@@ -74,6 +74,9 @@ version.mk:
 build: $(FILES)
 	echo $(EXPORTDIR)
 
+prep: prepData.sh
+	./prepData.sh
+
 install::
 	mkdir -p $(ROOT)/$(EXPORTDIR)
 	cp $(FILES) $(ROOT)/$(EXPORTDIR)/

@@ -35,16 +35,6 @@ collect_src () {
   done
 }
 
-create_species_data () {
-  # move species data to lmdata-species/
-  echo "Fetch species data to ../lmdata-species"
-  FILES="gbif_export.tar.gz gbif_orgs.tar.gz gbif_taxonomy.tar.gz marinelist.tar.gz"
-  LMURL="http://lifemapper.org/dl"
-  for i in $FILES; do
-    curl -L "$LMURL/$i" -o ../lmdata-species/$i
-  done 
-}
-
 # create distro files for lmserver 
 create_distro () {
   if [ -d $SRC ]; then
@@ -63,5 +53,4 @@ create_distro () {
 ### main ###
 checkout_svn $URL
 collect_src
-create_species_data
 create_distro

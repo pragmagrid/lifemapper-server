@@ -95,4 +95,6 @@ yum install postgresql91-devel
 echo "You will need to checkout src from Lifemapper SVN:"
 echo "    cd src/lmserver"
 echo "    make prep "
+echo "    cd src/lmdata-species"
+echo "    make prep "
 
