@@ -93,7 +93,8 @@ checkLmWeb.cron: $(ARCHIVENAME)/LmWebServer/scripts/checkLmWeb.cron.in
 	chmod 755 $(ARCHIVENAME)/LmWebServer/scripts/checkLmWeb.cron
 
 config.ini: $(ARCHIVENAME)/config/config.ini.in
-	$(SED) $(SEDSPEC) $^ > $(ARCHIVENAME)/config/$@
+	$(SED) -i $(SEDSPEC) $^ 
+	cat $^ > $(ARCHIVENAME)/config/$@
 
 deleteOldAnonymous.cron: $(ARCHIVENAME)/LmDbServer/scripts/deleteOldAnonymous.cron.in
 	$(SED) $(SEDSPEC) $^ > $(ARCHIVENAME)/LmDbServer/scripts/$@
