@@ -44,6 +44,9 @@ del-opt-python () {
    $RM opt-lifemapper-cheetah
    $RM opt-lifemapper-MySQL-python
    $RM opt-lifemapper-rtree
+   $RM opt-lifemapper-processing
+   $RM opt-lifemapper-isodate
+   $RM opt-lifemapper-rdflib
 }
 
 del-mapserver(){
@@ -81,7 +84,7 @@ del-sysRPM() {
 
 del-directories () {
    echo "Removing /opt/lifemapper/*"
-   rm -rf /opt/lifemapper/*
+   rm -rf /opt/lifemapper
 
    echo "Removing  directories used by postgres and pgbouncer"
    rm -rf /var/run/postgresql
