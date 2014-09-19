@@ -37,6 +37,8 @@ set_defaults() {
     LOG=/tmp/lifemapper-config.log
     touch $LOG
     BIN=@PKGROOT@/rocks/bin
+
+    TimeStamp "# Start"
 }
 
 # stop services if running
@@ -118,6 +120,9 @@ update_config() {
     $BIN/updateIP >> $LOG  2>&1
 }
 
+TimeStamp () {
+    echo $1 `/bin/date` >> $LOG
+}
 
 ####### Main #######
 set_defaults
@@ -127,3 +132,4 @@ dbserver_init
 update_openssl
 start_services
 update_config
+TimeStamp "# End"

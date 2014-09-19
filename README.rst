@@ -173,7 +173,7 @@ The roll (ISO file) can be added (1) during the initial installation of the clus
 or (2) to the existing frontend.
 
 
-1 Adding a roll to a new server
+Adding a roll to a new server
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 #. Add roll ISO to your existing frontend that is configured to be 
@@ -186,7 +186,7 @@ or (2) to the existing frontend.
 #. During the frontend install choose python roll, it is a prerequisite for lifemapper-server roll.
 
 
-2 Adding a roll to a live frontend
+Adding a roll to a live frontend
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 A roll can be added to the existing frontend. 
@@ -212,7 +212,7 @@ After the frontend boots up check the /tmp/lifemapper-config.log file to check t
 of initialization commands.
 
 At this point the  server is ready to run lifemapper-specific commands for pipeline initialization
-and data seeding. 
+and data seeding, see `Using Lifemapper`_ 
 
 Where installed roll components are
 ------------------------------------
