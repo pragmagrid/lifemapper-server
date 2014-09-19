@@ -89,6 +89,10 @@ fi
 /bin/chmod -R g+ws /state/partition1/lmserver/data/models 
 #/bin/chmod -R g+ws /state/partition1/lmserver/data/UserData
 
+# need next 2 lines for pipeline.lm.die
+/bin/chgrp lmwriter /opt/lifemapper
+/bin/chmod g+ws /opt/lifemapper
+
 for item in "config" "Lm*" "__init__.py*" ; do
     /bin/chgrp -R lmwriter /opt/lifemapper/$item
     /bin/chmod -R g+ws /opt/lifemapper/$item
