@@ -37,6 +37,9 @@ fi
 /bin/mkdir -p /var/www/tmp
 /bin/chown apache:apache /var/www/tmp
 
+# for writing lucene logs
+/usr/bin/usermod -G lmwriter apache
+
 /opt/lifemapper/rocks/bin/initWebserver
 
 <file name="/etc/sysconfig/httpd" mode="append" expr="cat /opt/lifemapper/rocks/etc/lifemapper-sysconfig-httpd">
