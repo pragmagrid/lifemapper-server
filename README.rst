@@ -217,7 +217,9 @@ and data seeding, see `Using Lifemapper`_
 Where installed roll components are
 ------------------------------------
 
-#. Created group ``lmwriter``
+#. Created user ``lmwriter``
+
+#. Add user  ``apache`` to ``lmwriter`` group
 
 #. Created rocks attributes ``LM_dbserver`` and ``LM_webserver``, both set to true. 
    Currently dbserver and webserver are installed on the same host - setting ``true``
@@ -232,6 +234,10 @@ Where installed roll components are
 
 #. **/etc/ld.so.conf.d/lifemapper-server.conf** - dynamic linker bindings
   
+#. **/etc/httpd/conf.d/lifemapper.conf** - apache configuration
+
+#. **/etc/profile.d/lifemapper.[sh,csh]** - environment settings for all users
+
 #. **/etc/yum.repos.d** - elgis and pgdg yum repos
 
 #. **cmake, subversion, screen, fribidi, hdf4*, hdf5*, mapserver, readline-devel, 
@@ -246,6 +252,7 @@ Where installed roll components are
    + **/var/run/postgresql/** - postgres daemon socket files
    + **/etc/init.d/postgresql*** - init script
    + **/var/lib/pgsql/** -  database, backups, log, pid
+   + **/etc/sysctl.d/postgresd** - modification for memory usage
 
 #. Pgbouncer
 
@@ -261,7 +268,7 @@ Where installed roll components are
 
 #. **/state/partition1/lmserver/** -  mounted as /share/lmserver/
   
-   + /share/lmserver/data/ - ClimateData/, ESRIDATA/, image/, models/, UserData/.
+   + /share/lmserver/data/ - ClimateData/, ESRIDATA/, image/, models/, species/.
    + /share/lmserver/log/ - pipeline logs 
 
 #. **/var/lib/lm2/** -  pylucene  index and sessions
