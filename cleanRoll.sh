@@ -109,6 +109,7 @@ del-user-group () {
    if [ $? -eq 0 ]; then
        echo "Remove lmwriter user"
        userdel lmwriter
+       groupdel lmwriter
        /bin/rm -f /var/spool/mail/lmwriter
        /bin/rm -rf /export/home/lmwriter
        needSync=1
