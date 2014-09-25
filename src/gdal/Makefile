@@ -71,7 +71,7 @@ build:
 	( 							\
 		cd $(ARCHIVENAME)-$(VERSION);				\
 		export PYTHON=$(PY.PATH);             		\
-		./configure --with-python --with-ogr --prefix=$(PKGROOT);	\
+		./configure --with-python --with-ogr --with-geos=yes  --prefix=$(PKGROOT);	\
 		$(MAKE);					\
 	)
 	
