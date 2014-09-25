@@ -48,6 +48,7 @@ echo "/usr/java/latest/jre/lib/amd64" > /etc/ld.so.conf.d/lifemapper-server.conf
 echo "/usr/java/latest/jre/lib/amd64/server" >> /etc/ld.so.conf.d/lifemapper-server.conf
 echo "/opt/lifemapper/lib" >> /etc/ld.so.conf.d/lifemapper-server.conf
 echo "/opt/python/lib/" >> /etc/ld.so.conf.d/lifemapper-server.conf
+echo "/opt/rocks/fcgi/lib" >> /etc/ld.so.conf.d/lifemapper-server.conf
 /sbin/ldconfig
 
 # for compiling 
