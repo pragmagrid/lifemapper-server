@@ -77,6 +77,11 @@ compile numexpr
 install opt-lifemapper-numexpr 
 yum --enablerepo rpmforge install hdf5 hdf5-devel
 
+# meed for gdal
+compile geos
+install lifemapper-geos
+/sbin/ldconfig
+
 # meed for psycopg2
 compile gdal
 install lifemapper-gdal
