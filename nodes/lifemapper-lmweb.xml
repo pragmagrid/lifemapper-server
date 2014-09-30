@@ -44,9 +44,6 @@ fi
 
 <file name="/etc/sysconfig/httpd" mode="append" expr="cat /opt/lifemapper/rocks/etc/lifemapper-sysconfig-httpd">
 
-# Lifemapper webserver
-umask 002
-
 </file>
 
 /sbin/service httpd restart
