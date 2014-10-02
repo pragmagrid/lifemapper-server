@@ -38,6 +38,7 @@ updateAddress () {
           s%@DB_FQDN@%$AddrDbserver%g" $infile > $outfile
 
     if [ -f @LMHOME@/rocks/bin/confSysvals ]; then
+        . /etc/profile.d/lifemapper.sh
         @LMHOME@/rocks/bin/confSysvals
     fi
 }
