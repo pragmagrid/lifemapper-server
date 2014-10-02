@@ -40,7 +40,7 @@
         <!-- postgis and dependencies -->
         <package>json-c</package>
         <package>geos</package>
-        <package>lifemapper-proj</package>
+        <package>proj</package>
         <package>postgis2_91</package>
 
 <post>
