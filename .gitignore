@@ -1,6 +1,7 @@
 # build directory
 FOSSILS/
-RPMS/
+RPMS/x86_64
+RPMS/noarch
 SOURCES/
 BUILD/
 SPECS/
