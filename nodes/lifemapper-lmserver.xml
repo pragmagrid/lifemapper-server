@@ -30,6 +30,7 @@
         <package>postgresql91-docs</package>
         <package>postgresql91-python</package>
         <package>uuid</package>
+        <package>mx</package>
         <package>postgresql91-contrib</package>
         <package>postgresql91-test</package>
 
