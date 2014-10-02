@@ -70,7 +70,7 @@
 
 ID=`/bin/egrep -i "^lmwriter" /etc/passwd`
 if [ "$ID" == "" ] ; then
-    /usr/sbin/useradd -c "Lifemapper user" lmwriter
+    /usr/sbin/useradd -c "Lifemapper user" -g lmwriter lmwriter
 fi
 
 </post>
