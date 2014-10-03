@@ -23,6 +23,7 @@ The commands below must be executed as user ``lmwriter``
    These commands are executed to check if the web server is setup correctly ::  
 
      % python2.7 /opt/lifemapper/LmWebServer/scripts/createTestUser.py
+       Successfully created user  (command output if successful)
      % python2.7 /opt/lifemapper/LmWebServer/scripts/checkJobServer.py)
      % python2.7 /opt/lifemapper/LmWebServer/scripts/checkLmWeb.py
 
