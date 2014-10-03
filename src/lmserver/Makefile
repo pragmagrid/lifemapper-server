@@ -63,6 +63,8 @@ version.mk:
 	cat ../version.mk version.mk.in > version.mk
 
 PY.PATH = /opt/python/bin/$(PYTHONVER)
+EXPORTDIR=$(subst share,state/partition1,$(DATADIR))/test
+
 
 SEDSPEC += \
         -e 's%@PKGROOT@%$(PKGROOT)%g' \
@@ -121,6 +123,8 @@ build:
 	make $(SCRIPTS)
 
 install::
+	mkdir -p $(ROOT)/$(EXPORTDIR)
+	mv $(ARCHIVENAME)/LmWebServer/test/data/* $(ROOT)/$(EXPORTDIR) 
 	mkdir -p $(ROOT)/$(LMHOME)
 	rm -rf $(ARCHIVENAME)/svn-info
 	mv $(ARCHIVENAME)/*  $(ROOT)/$(LMHOME) 
