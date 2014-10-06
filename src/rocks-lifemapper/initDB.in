@@ -77,7 +77,7 @@ SetPass () {
 Define () {
     if [ -f $DEFINESQL ] ; then
         echo "Running $DEFINESQL ..." | tee -a $LOG
-        psql -U admin -d template1 -f $DEFINESQL | tee -a $LOG
+        psql -U admin -d template1 -f $DEFINESQL 2>&1 | tee -a $LOG
     else
         echo "Error: missing file $DEFINESQL" | tee -a $LOG
         exit 1
@@ -88,7 +88,7 @@ Define () {
 Populate () {
     if [ -f $POPULATEPY ] ; then
         echo "Running $POPULATEPY ..." | tee -a $LOG
-        /opt/python/bin/@PYTHONVER@ $POPULATEPY | tee -a $LOG
+        /opt/python/bin/@PYTHONVER@ $POPULATEPY 2>&1 | tee -a $LOG
     else
         echo "Error: Missing $POPULATEPY" | tee -a $LOG
         exit 1
@@ -99,7 +99,7 @@ Populate () {
 InitTaxonomy () {
     if [ -f $TAXONOMYSQL ] ; then
         echo "Running $TAXONOMYSQL ..." | tee -a $LOG
-        psql -U admin -d mal -f  $TAXONOMYSQL | tee -a $LOG
+        psql -U admin -d mal -f  $TAXONOMYSQL 2>&1 | tee -a $LOG
     else
         echo "Error: missing file $TAXONOMYSQL" | tee -a $LOG
         exit 1
@@ -109,7 +109,7 @@ InitTaxonomy () {
 AddTaxonomy () {
     if [ -f $TAXONOMYPY ] ; then
         echo "Running $TAXONOMYPY ..." | tee -a $LOG
-        /opt/python/bin/@PYTHONVER@ $TAXONOMYPY | tee -a $LOG
+        /opt/python/bin/@PYTHONVER@ $TAXONOMYPY 2>&1 | tee -a $LOG
     else
         echo "Error: missing file $TAXONOMYPY" | tee -a $LOG
         exit 1
