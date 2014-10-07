@@ -1,7 +1,7 @@
 
 .. hightlight:: rest
 
-Using LifeMapper Server roll
+Using Lifemapper Server roll
 =============================
 
 After the roll is installed, the initial database schema, and user 

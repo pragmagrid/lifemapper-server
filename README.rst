@@ -1,7 +1,7 @@
 
 .. hightlight:: rest
 
-LifeMapper Server roll
+Lifemapper Server roll
 =============================
 .. contents::  
 
