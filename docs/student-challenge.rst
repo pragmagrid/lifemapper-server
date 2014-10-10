@@ -1,10 +1,10 @@
 
 .. hightlight:: rest
 
-.. contents::  
-
-Student Challenge: 
+Student Challenge 
 ===================================
+
+.. contents::  
 
 Build Lifemapper Biodiversity Infrastructure 
 ----------------------------------------------
