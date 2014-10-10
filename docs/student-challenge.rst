@@ -90,8 +90,8 @@ The reboot is needed to run a few initialization commands.
 After the frontend boots up login as root and check the ``/tmp/lifemapper-config.log`` file 
 to check the status of initialization commands.
 
-Use Lifemapepr roll 
-------------------------
+Using Lifemapper roll
+--------------------------
 
 After the roll install is completed the frontend is ready and configured as 
 for Lifemapepr LmDbServer and LmWebServer components. To use the roll and run 
