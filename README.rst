@@ -14,7 +14,7 @@ The roll has been tested with Rocks 6.1 and 6.1.1.
 
 For PRAGMA27 student challenge please see `Lifemapper Student Challenge`_
 
-.. _Lifemapepr Student Challenge : docs/student-challenge.rst
+.. _Lifemapper Student Challenge : docs/student-challenge.rst
 
 
 Prerequisites
