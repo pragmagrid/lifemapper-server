@@ -1,10 +1,10 @@
 
 .. hightlight:: rest
 
-Student Challenge: 
-======================
-
 .. contents::  
+
+Student Challenge: 
+===================================
 
 Build Lifemapper Biodiversity Infrastructure 
 ----------------------------------------------
@@ -100,8 +100,8 @@ lifemapper-specific commands for pipeline initialization
 and data seeding, see `Using Lifemapper`_ 
 
 
-Info: Where installed roll components are
-------------------------------------
+Info: where installed roll components are
+-----------------------------------------------
 
 This secitons outlines where installed lifemapper servers components are
 installed and where to expect log files.
