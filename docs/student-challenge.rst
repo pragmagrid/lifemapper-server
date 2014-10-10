@@ -28,7 +28,6 @@ on your laptop. The main steps are :
 #. Install Lifemapper server roll (see below)  
 
 #. Start using Lifemapper server roll (see below)
-
     
 Downloads
 ~~~~~~~~~~~
@@ -91,13 +90,13 @@ The reboot is needed to run a few initialization commands.
 After the frontend boots up login as root and check the ``/tmp/lifemapper-config.log`` file 
 to check the status of initialization commands.
 
-Using Lifemapepr roll
--------------------------
+Use Lifemapepr roll 
+------------------------
 
 After the roll install is completed the frontend is ready and configured as 
 for Lifemapepr LmDbServer and LmWebServer components. To use the roll and run 
 lifemapper-specific commands for pipeline initialization
-and data seeding, see `Using Lifemapper`_ 
+and data seeding, see `Using Lifemapper <Using.rst>`_
 
 
 Info: where installed roll components are
@@ -165,4 +164,3 @@ installed and where to expect log files.
 #. **/var/www/tmp/** - for mapserver temp files
 
 
-.. _Using Lifemapper: Using.rst
