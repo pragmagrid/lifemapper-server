@@ -14,7 +14,7 @@ on your laptop. The main steps are :
 
 #. **Install VirtualBox on your laptop** 
 
-#. **Download VM image for cluster frontend **
+#. **Download VM image for cluster frontend**
 
 #. **Import VM into VirtualBox**.  Change VM settings for shared folders
    based on your laptop folders availability. Change VM settings for Virtual
