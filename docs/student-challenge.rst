@@ -12,22 +12,24 @@ Build Lifemapper Biodiversity Infrastructure
 Use VirtualBox Rocks Cluster images to install and run Lifemapper 
 on your laptop. The main steps are :
 
-#. Install VirtualBox on your laptop 
+#. **Install VirtualBox on your laptop** 
 
-#. Download VM image for cluster frontend 
+#. **Download VM image for cluster frontend **
 
-#. Import VM in VirtualBox and set shared folders
-   based on your laptop folders availability.
+#. **Import VM into VirtualBox**.  Change VM settings for shared folders
+   based on your laptop folders availability. Change VM settings for Virtual
+   memory based on your laptop memory. The VM is set for 2Gb (and works with
+   2Gb), a better setting is 4Gb.
 
-#. Download ISO image for lifemapepr-server software 
-   into the folder on your laptop that will be used as a shared folder
+#. **Download lifemapepr-server ISO image**. Make it available  in 
+   the folder on your laptop that will be used as a shared folder
    by your VM.
 
-#. Start VM and login as root
+#. **Start VM and login as root**
 
-#. Install Lifemapper server roll (see below)  
+#. **Install Lifemapper server roll** - see section below
 
-#. Start using Lifemapper server roll (see below)
+#. **Start using Lifemapper server roll** - see section below
     
 Downloads
 ~~~~~~~~~~~
@@ -35,16 +37,16 @@ All the downloads that you need for the challenge
 are av ailable from the `PRAGMA 27 Challenge  site
 <http://pragma27.pragma-grid.net/dct/page/70007>`_ and include
 
-#. **rocks611.ova**  - cluster frontend virtual image
+#. ``rocks611.ova``  - cluster frontend virtual image
 
-#. **lifemapper-server-6.1.1-0.x86_64.disk1.iso**  - lifemapper-server roll.
+#. ``lifemapper-server-6.1.1-0.x86_64.disk1.iso``  - lifemapper-server roll.
    This is an  ISO image that inlcudes all needed lifemapepr server software and configuration. 
 
 #. Instructions about VirtualBox installation and setup. 
 
 Optional 
 
-#. **rocks611-compute-0-0.ova**  - cluster compute node virtual image.
+#. ``rocks611-compute-0-0.ova``  - cluster compute node virtual image.
    This image is not needed for lifemapepr server to work but gives one an
    opportunity to explore the whole cluster setup. 
 
@@ -102,7 +104,7 @@ and data seeding, see `Using Lifemapper <Using.rst>`_
 Info: where installed roll components are
 -----------------------------------------------
 
-This secitons outlines where installed lifemapper servers components are
+This section outlines where installed lifemapper servers components are
 installed and where to expect log files.
 
 #. Created user ``lmwriter``
