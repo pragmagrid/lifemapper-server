@@ -12,6 +12,11 @@ All prerequisite software listed below are a part of the roll and
 will be installed and configured during roll installation. 
 The roll has been tested with Rocks 6.1 and 6.1.1.
 
+For PRAGMA27 student challenge please see `Lifemapper Student Challenge`_
+
+.. _Lifemapepr Student Challenge : docs/student-challenge.rst
+
+
 Prerequisites
 ~~~~~~~~~~~~~~
 
@@ -342,6 +347,6 @@ TODO
 
 #. tests attributes for separation of dbserver and webserver
 
-#. test pipeline seed/run
+#. add note about compiling gdal when psotgres/giflib RPms are present
 
 .. _Using Lifemapper: docs/Using.rst
