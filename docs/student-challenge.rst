@@ -1,14 +1,16 @@
 
 .. hightlight:: rest
 
-Student Chalelnge: build Lifemapper Biodiversity infrastructure 
-==================================================================
+Student Challenge: 
+======================
+
 .. contents::  
 
-Introduction
-----------------
+Build Lifemapper Biodiversity Infrastructure 
+----------------------------------------------
+
 Use VirtualBox Rocks Cluster images to install and run Lifemapper 
-on your laptop. How ?
+on your laptop. The main steps are :
 
 #. Install VirtualBox on your laptop 
 
@@ -23,21 +25,23 @@ on your laptop. How ?
 
 #. Start VM and login as root
 
-#. Install Lifemapper roll (see below)  
+#. Install Lifemapper server roll (see below)  
+
+#. Start using Lifemapper server roll (see below)
 
     
 Downloads
-~~~~~~~~~
+~~~~~~~~~~~
 All the downloads that you need for the challenge
 are av ailable from the `PRAGMA 27 Challenge  site
 <http://pragma27.pragma-grid.net/dct/page/70007>`_ and include
 
 #. **rocks611.ova**  - cluster frontend virtual image
 
-#. **lifemapper-server-6.1.1-0.x86_64.disk1.iso**  - lifemapper-server roll,
-   which is an  ISO image that inlcude all needed software. 
+#. **lifemapper-server-6.1.1-0.x86_64.disk1.iso**  - lifemapper-server roll.
+   This is an  ISO image that inlcudes all needed lifemapepr server software and configuration. 
 
-#. Introductions and instructions documents. 
+#. Instructions about VirtualBox installation and setup. 
 
 Optional 
 
@@ -47,11 +51,12 @@ Optional
 
 
 Install Lifemapepr roll
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-------------------------
 
 A roll can be added to the existing frontend. 
 Assume that your downloaded lifemapper-server ISO is available in the folder that
 is mounted as ``data1``.  This means that on the VM the directory with the ISO is ``/media/sf_data1``
+
 **Check the ISO md5sum signature:** ::  
 
    # md5sum /media/sf_data1/lifemapper-server-6.1.1-0.x86_64.disk1.iso 
@@ -83,15 +88,23 @@ and then reboot your frontend: ::
    # reboot
 
 The reboot is needed to run a few initialization commands. 
-After the frontend boots up check the ``/tmp/lifemapper-config.log`` file 
+After the frontend boots up login as root and check the ``/tmp/lifemapper-config.log`` file 
 to check the status of initialization commands.
 
-At this point the  server is ready to use the roll and run lifemapper-specific commands for pipeline initialization
+Using Lifemapepr roll
+-------------------------
+
+After the roll install is completed the frontend is ready and configured as 
+for Lifemapepr LmDbServer and LmWebServer components. To use the roll and run 
+lifemapper-specific commands for pipeline initialization
 and data seeding, see `Using Lifemapper`_ 
 
 
-Where installed roll components are
+Info: Where installed roll components are
 ------------------------------------
+
+This secitons outlines where installed lifemapper servers components are
+installed and where to expect log files.
 
 #. Created user ``lmwriter``
 
@@ -152,4 +165,4 @@ Where installed roll components are
 #. **/var/www/tmp/** - for mapserver temp files
 
 
-.. _Using Lifemapper: docs/Using.rst
+.. _Using Lifemapper: Using.rst
