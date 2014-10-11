@@ -51,7 +51,7 @@ Optional
    opportunity to explore the whole cluster setup. 
 
 
-Install Lifemapepr roll
+Install Lifemapper roll
 -------------------------
 
 A roll can be added to the existing frontend. 
