@@ -16,10 +16,12 @@ authentication are set up and postgres and pgbouncer are configured.
    The script output is in /tmp/initDB.log.  On a host with 4Gb memory it takes ~2.5 hrs
    to complete, on a host with 2GBb memory - ~6hrs. 
 
-The commands below must be executed as user ``lmwriter``
-
-#. **Test the LmWebServer** 
+#. **Test the LmWebServer** setup
   
+   All the commands below must be executed as user ``lmwriter``. To become lmwriter use do: ::
+
+     # su - lmwriter
+     
    These commands are executed to check if the web server is setup correctly ::  
 
      % python2.7 /opt/lifemapper/LmWebServer/scripts/createTestUser.py
@@ -27,7 +29,7 @@ The commands below must be executed as user ``lmwriter``
      % python2.7 /opt/lifemapper/LmWebServer/scripts/checkJobServer.py)
      % python2.7 /opt/lifemapper/LmWebServer/scripts/checkLmWeb.py
 
-#. **Run the pipeline**  
+#. **Run the pipeline**  as user lmwriter
 
    To start the pipeline  ::  
 
