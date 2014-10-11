@@ -13,8 +13,21 @@ authentication are set up and postgres and pgbouncer are configured.
 
      # nohup /opt/lifemapper/rocks/bin/initDB
 
-   The script output is in /tmp/initDB.log.  On a host with 4Gb memory it takes ~2.5 hrs
-   to complete, on a host with 2GBb memory - ~6hrs. 
+   The script output is in /tmp/initDB.log.  On a host with 4Gb memory the script takes ~50 min 
+   to complete. Examine the script output begininng and end (the output file is 63Mb): ::
+   
+     # head /tmp/initDB.log
+     # tail /tmp/initDB.log
+     
+   The last command shoudl give output similar to: ::
+
+     ...
+     Static Stenus flavidulus
+     Inserted 778716; updated 22
+     # End Tue Sep 30 20:18:42 PDT 2014
+     
+   with the number of inserted record as stated above.
+
 
 #. **Test the LmWebServer** setup
   
