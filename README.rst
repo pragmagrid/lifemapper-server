@@ -349,4 +349,8 @@ TODO
 
 #. add note about compiling gdal when psotgres/giflib RPms are present
 
+#. check client caracter encoding for postgres. Currently servet is set for
+   UTF8. but client appears LATIN9. See
+   http://www.postgresql.org/docs/9.1/static/multibyte.html
+
 .. _Using Lifemapper: docs/Using.rst
