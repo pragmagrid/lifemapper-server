@@ -28,7 +28,14 @@ authentication are set up and postgres and pgbouncer are configured.
      
    with the number of inserted record as stated above.
 
+#. Check the available memory: ::
 
+     # free -m
+     
+   If the output indicates 200-300 Mb, reboot the VM: ::
+     
+     # reboot
+   
 #. **Test the LmWebServer** setup
   
    All the commands below must be executed as user ``lmwriter``. To become lmwriter use do: ::
