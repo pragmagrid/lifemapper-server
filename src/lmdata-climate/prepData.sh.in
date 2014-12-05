@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# Purpose: Fetch climate data named in CLIMATESOURCE  
+
+create_climate_data () {
+  echo "Fetch climate data"
+  FILES="@CLIMATESOURCE@.tar.gz"
+  LMURL="http://lifemapper.org/dl"
+  for i in $FILES; do
+    curl -L "$LMURL/$i" -o ../lmdata-climate/$i
+  done 
+}
+
+### main ###
+create_climate_data
