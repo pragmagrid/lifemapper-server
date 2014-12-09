@@ -140,9 +140,9 @@ Debugging a roll
 
 When need to update only a few packages that have changed one can rebuild only the RPMs
 for changed packages and use the rest of the RPMS from the previous build. 
-For example, only  rebuilding lifemapper-server RPM will involve: ::   
+For example, only  rebuilding lmserver RPM will involve: ::   
   
-   # cd src/lifemapper-server
+   # cd src/lmserver
    # make clean
    # update version.mk.in with new revision number to check out from SVN
    # make prep
