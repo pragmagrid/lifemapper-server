@@ -37,7 +37,6 @@ del-opt-python () {
    $RM opt-lifemapper-egenix-mx-base
    $RM opt-lifemapper-cython
    $RM opt-lifemapper-cherrypy
-   $RM opt-lifemapper-cheetah
    $RM opt-lifemapper-MySQL-python
    $RM opt-lifemapper-rtree
    $RM opt-lifemapper-processing
