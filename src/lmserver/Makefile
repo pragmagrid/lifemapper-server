@@ -78,6 +78,7 @@ SEDSPEC += \
         -e 's%@SMTPSENDER@%$(SMTPSENDER)%g' \
         -e 's%@TEMPDIR@%$(TEMPDIR)%g'  \
         -e 's%@VERSION@%$(VERSION)%g' 
+        -e 's%@DATASOURCE@%$(DATASOURCE)%g' \
 
 SCRIPTS = buildLmLuceneIndex.cron \
           checkLmWeb.cron \
