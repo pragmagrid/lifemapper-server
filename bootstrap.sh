@@ -107,7 +107,6 @@ echo "    make prep "
 echo "and download data from Lifemapper:"
 echo "    cd src/lmdata-climate"
 echo "    make prep "
-echo "    make install "
 echo "    cd src/lmdata-species"
 echo "    make prep "
 
