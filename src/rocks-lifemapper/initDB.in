@@ -111,7 +111,7 @@ AddTaxonomy () {
         echo "Running $TAXONOMYPY ..." | tee -a $LOG
         /opt/python/bin/@PYTHONVER@ $TAXONOMYPY 2>&1 | tee -a $LOG
     else
-        echo "Error: missing file $TAXONOMYPY" | tee -a $LOG
+        echo "Notice: missing file $TAXONOMYPY" | tee -a $LOG
         exit 1
     fi
 }

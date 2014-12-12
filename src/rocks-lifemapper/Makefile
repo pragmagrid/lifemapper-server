@@ -71,7 +71,8 @@ SEDSPEC += \
         -e 's%@PYTHONVER@%$(PYTHONVER)%g' \
         -e 's%@MYSQLDB@%$(MYSQLDB)%g' \
         -e 's%@PKGROOT@%$(PKGROOT)%g' \
-        -e 's%@UNIXSOCKET@%$(UNIXSOCKET)%g'
+        -e 's%@UNIXSOCKET@%$(UNIXSOCKET)%g' \
+        -e 's%@DATASOURCE@%$(DATASOURCE)%g'
 
 PROFILES = \
 	lifemapper.sh \
