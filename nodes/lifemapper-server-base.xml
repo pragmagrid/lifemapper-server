@@ -82,17 +82,17 @@ fi
 <post>
 
 /bin/mkdir -p /state/partition1/lmserver/log
-/bin/mkdir -p /state/partition1/lmserver/data/ClimateData
+# changed from ClimateData
+/bin/mkdir -p /state/partition1/lmserver/data/climate
 /bin/mkdir -p /state/partition1/lmserver/data/ESRIDATA
 /bin/mkdir -p /state/partition1/lmserver/data/image
-/bin/mkdir -p /state/partition1/lmserver/data/models
-/bin/mkdir -p /state/partition1/lmserver/data/UserData
+# changed from models and UserData
+/bin/mkdir -p /state/partition1/lmserver/data/archive
 /bin/mkdir -p /state/partition1/lmserver/data/test
 
 /bin/chgrp -R lmwriter /state/partition1/lmserver
 /bin/chmod -R g+ws /state/partition1/lmserver/log
-/bin/chmod -R g+ws /state/partition1/lmserver/data/models 
-/bin/chmod -R g+ws /state/partition1/lmserver/data/UserData
+/bin/chmod -R g+ws /state/partition1/lmserver/data/archive 
 /bin/chmod -R g+ws /state/partition1/lmserver/data/test
 
 # need next 2 lines for pipeline.lm.die
