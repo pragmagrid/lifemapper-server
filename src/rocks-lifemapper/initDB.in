@@ -89,7 +89,7 @@ Populate () {
         echo "Running $POPULATEPY ..." | tee -a $LOG
         /opt/python/bin/@PYTHONVER@ $POPULATEPY 2>&1 | tee -a $LOG
     else
-        echo "Error: Missing $POPULATEPY" | tee -a $LOG
+        echo "Error: Missing file $POPULATEPY" | tee -a $LOG
         exit 1
     fi
 }
@@ -100,7 +100,7 @@ AddTaxonomy () {
         echo "Running $TAXONOMYPY ..." | tee -a $LOG
         /opt/python/bin/@PYTHONVER@ $TAXONOMYPY 2>&1 | tee -a $LOG
     else
-        echo "Notice: $TAXONOMYPY does not exist" | tee -a $LOG
+        echo "Notice: $TAXONOMYPY does not exist (this may be expected)" | tee -a $LOG
         exit 1
     fi
 }

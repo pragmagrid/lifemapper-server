@@ -198,7 +198,8 @@ A roll can be added to the existing frontend.
 Make sure that the python roll is installed (can be downloaded from
 `Rocks Downloads <http://www.rocksclusters.org/wordpress/?page_id=80>`_ )
 
-Execute all commands from top level lifemapper-server/ ::
+Execute all commands from top level lifemapper-server/ (Nadya: on a new installation, 
+this has not been created yet) ::
 
    # rocks add roll lifemapper-server-6.1-0.x86_64.disk1.iso   
    # rocks enable roll lifemapper-server
@@ -273,7 +274,7 @@ Where installed roll components are
 
 #. **/state/partition1/lmserver/** -  mounted as /share/lmserver/
   
-   + /share/lmserver/data/ - ClimateData/, ESRIDATA/, image/, models/, species/.
+   + /share/lmserver/data/ - climate/, ESRIDATA/, image/, archive/, species/.
    + /share/lmserver/log/ - pipeline logs 
 
 #. **/var/lib/lm2/** -  pylucene  index and sessions
@@ -296,6 +297,7 @@ These commands remove the installed roll from Rocks database and repo ::
    # rocks remove roll lifemapper-server
    # (cd /export/rocks/install; rocks create distro)  
 
+(Nadya: this script is not present on stand-alone installations of the roll)
 Run this script (from the top of roll source directory) to remove all 
 installed RPMs, directories, users, etc ::
 

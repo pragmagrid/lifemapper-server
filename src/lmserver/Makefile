@@ -133,4 +133,5 @@ install::
 clean::
 	rm -rf  $(SCRIPTS)  
 	rm -rf  $(ARCHIVENAME)
-	rm -rf version.mk prepSrc.sh
+	rm -rf  $(NAME)-$(VERSION).tar.gz
+	rm -rf  version.mk prepSrc.sh
