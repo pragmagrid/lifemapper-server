@@ -135,7 +135,7 @@ class Baseconfig:
 
     def getNetworkInfo(self):
         """ find host network info for public interface """
-        cmd = "rocks list host attr localhost | grep Kickstart_Public"
+        cmd = "/opt/rocks/bin/rocks list host attr localhost | grep Kickstart_Public"
         info, err = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()
         lines = info.split("\n")
         for line in lines:
@@ -164,8 +164,8 @@ class Baseconfig:
         cmd = '/sbin/ifconfig %s | grep Mask' % iface
 
         info, err = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()
-	if err: 
-	    print "/sbib/ifconfig returned error: %s" % err
+        if err: 
+            print "/sbib/ifconfig returned error: %s" % err
         parts = info.split()
         try:
             tmp, ip = parts[1].split(':')
