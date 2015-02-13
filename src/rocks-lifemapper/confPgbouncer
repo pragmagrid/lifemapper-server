@@ -15,7 +15,7 @@ class ConfPgbouncer(confbase.Baseconfig):
         self.ip            = None                           # host ip on public interface
         self.network       = None                           # host network 
         self.cidr          = None                           # host CIDR 
-        self.iface         = "eth1"                         # host public interface #FIXME 
+        self.iface         = None                           # host public interface #FIXME 
         self.pgbconf       = confconst.PGBINI             # pgbouncer config file
         self.pgbtempl      = confconst.PGBTEMPL           # pgbouncer config file template
         self.authFile      = confconst.PGBAUTH            # pgbouncer auth file
