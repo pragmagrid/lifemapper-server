@@ -15,7 +15,7 @@ class ConfPgbouncer(confbase.Baseconfig):
         self.ip            = None                           # host ip on public interface
         self.network       = None                           # host network 
         self.cidr          = None                           # host CIDR 
-        self.iface         = None                           # host public interface #FIXME 
+        self.iface         = None                           # host public interface 
         self.pgbconf       = confconst.PGBINI             # pgbouncer config file
         self.pgbtempl      = confconst.PGBTEMPL           # pgbouncer config file template
         self.authFile      = confconst.PGBAUTH            # pgbouncer auth file
@@ -36,7 +36,6 @@ class ConfPgbouncer(confbase.Baseconfig):
         # make a copy of orig file, use original ownership and permissions
         fname = self.pgbconf 
         fcopy = fname + self.time
-        #fcopy = "/tmp/" + os.path.basename(fname) + self.time  #FIXME rm
         self.getPerms(fname)
         shutil.copy2(fname, fcopy)
         os.chown(fcopy, self.uid, self.gid)
@@ -56,7 +55,6 @@ class ConfPgbouncer(confbase.Baseconfig):
         # create new config file, set original ownership and permissions
         newLines = self.makePGBlines()
         fnew = fname
-        #fnew = "/tmp/" + os.path.basename(fname)  #FIXME rm
 
         self.writeFile(fnew, newLines + defaultLines)
         shutil.copymode(fname, fnew)
@@ -129,7 +127,6 @@ class ConfPgbouncer(confbase.Baseconfig):
 
         # write auth file
         fnew =  self.authFile 
-        #fnew = "/tmp/" + os.path.basename(self.authFile)  #FIXME rm
         self.writeFile(fnew, lines)
         os.chmod(fnew, 0660)
         os.chown(fnew, self.uid, self.gid)
