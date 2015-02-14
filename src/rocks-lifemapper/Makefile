@@ -85,11 +85,13 @@ SCRIPTS = \
 
 PROGS = \
 	initLM \
+	checkLibs \
 	initDbserver \
 	initWebserver \
 	initPostgis \
 	initDB \
-	updateIP 
+	updateIP \
+	confconst.py
 
 PYFILES = __init__.py \
 	confconst.py \
@@ -101,46 +103,12 @@ EXECFILES = \
 	confPostgres \
 	confUsers 
 
-lifemapper.conf: lifemapper.conf.in
+%: %.in
 	$(SED) $(SEDSPEC) $^ > $@
 
-lifemapper.sh: lifemapper.sh.in
-	$(SED) $(SEDSPEC) $^ > $@
+build: $(SCRIPTS) $(PROFILES) $(PROGS) 
 
-lifemapper.csh: lifemapper.csh.in
-	$(SED) $(SEDSPEC) $^ > $@
-
-initDbserver: initDbserver.in
-	$(SED) $(SEDSPEC) $^ > $@
-
-initWebserver: initWebserver.in
-	$(SED) $(SEDSPEC) $^ > $@
-
-initPostgis: initPostgis.in
-	$(SED) $(SEDSPEC) $^ > $@
-
-initDB: initDB.in
-	$(SED) $(SEDSPEC) $^ > $@
-
-updateIP: updateIP.in
-	$(SED) $(SEDSPEC) $^ > $@
-
-lucene.cron: lucene.cron.in
-	$(SED) $(SEDSPEC) $^ > $@
-
-initLM: initLM.in
-	$(SED) $(SEDSPEC) $^ > $@
-
-lifemapper-server.conf: lifemapper-server.conf.in
-	$(SED) $(SEDSPEC) $^ > $@
-
-lifemapper-sysconfig-httpd: lifemapper-sysconfig-httpd.in
-	$(SED) $(SEDSPEC) $^ > $@
-
-confconst.py: confconst.py.in
-	$(SED) $(SEDSPEC) $^ > $@
-
-build: $(SCRIPTS) $(PROFILES) $(PROGS) confconst.py
+.SUFFIXES:
 	
 install::
 
