@@ -1,0 +1,34 @@
+#!/bin/bash 
+
+# Purpose: check if OS-provided postgresql-libs rpm is installed as a dependency 
+#          of mapserver and remove it. 
+#
+# NOTE: When yum installs mapserver rpm it installs postgresql-lib rpm which provides
+#       dependency libpq.so.5. This happens before yum installs postgresqlXX-libs (alpha 
+#       list order) which has a correct verison of libpq.so.5.   Dynamic linker will see 
+#       libpq.so.5 from a OS-provided rpm first and calling psql will fail.
+# 
+# This script must be called after mapserver rpm is installed and before lifemapper
+# init tasks are run.  It is called during roll install. 
+
+libname=libpq.so
+rpmname=postgresql-libs
+
+PSQLDIR=pgsql-@PGSQLVER@
+
+answer=`rpm -qa | grep postgresql-libs`
+if [ "$answer" != "" ] ; then
+    echo "Removing postgresql-libs rpm"
+    /usr/bin/yum remove $rpmname.x86_64
+    /sbin/ldconfig
+fi
+
+# Check if correct version of libpq.so is available
+answer=`/sbin/ldconfig -p | grep $libname | grep $PSQLDIR`
+if [ "$answer" == "" ] ; then
+    echo "ERROR: missing libpq.so from $PSQLDIR "
+else
+    echo "Have correct libpq.so"
+    /usr/$PSQLDIR/bin/psql -V
+fi
+
