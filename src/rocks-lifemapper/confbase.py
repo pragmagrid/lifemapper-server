@@ -165,7 +165,7 @@ class Baseconfig:
 
         info, err = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()
         if err: 
-            print "/sbib/ifconfig returned error: %s" % err
+            print "/sbin/ifconfig returned error: %s" % err
         parts = info.split()
         try:
             tmp, ip = parts[1].split(':')
