@@ -85,6 +85,7 @@ SCRIPTS = \
 
 PROGS = \
 	initLM \
+	reconfigureLM \
 	checkLibs \
 	initDbserver \
 	initWebserver \

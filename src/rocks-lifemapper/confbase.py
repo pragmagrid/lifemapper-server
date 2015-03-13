@@ -35,7 +35,7 @@ class Baseconfig:
         self.unixSocketDir = confconst.UNIX_SOCKET_DIR
         self.ip = None
         self.iface         = None        # need to establish for each host
-
+        self.reconfigure   = False       # indicates if need to rerun configuration
 
     def parseArgs(self):
         """ check input arguments, and print usage"""
@@ -43,6 +43,9 @@ class Baseconfig:
             return
         if self.args[0] in ('-h', '--help', 'help'):
             self.help()
+        # set flag - need to reconfigure based on new network info
+        if self.args[0] in ('reconfigure'):
+            self.reconfigure = True
 
     def help(self):
         self.printName()

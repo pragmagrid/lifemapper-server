@@ -134,7 +134,8 @@ class ConfPgbouncer(confbase.Baseconfig):
 
     def run(self):
         self.makeConfigFile()
-        self.makeAuthFile()
+        if not self.reconfigure: 
+            self.makeAuthFile()
 
 ### Main ###
 app = ConfPgbouncer(sys.argv)
