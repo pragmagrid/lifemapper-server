@@ -95,7 +95,6 @@ fi
 /bin/chmod -R g+ws /state/partition1/lmserver/log
 /bin/chmod -R g+ws /state/partition1/lmserver/data/archive 
 /bin/chmod -R g+ws /state/partition1/lmserver/data/test
-# This is also done in lmdata-species make install, which is prefered?
 /bin/chmod -R g+ws /state/partition1/lmserver/data/species
 
 # need next 2 lines for pipeline.<datasource>.die

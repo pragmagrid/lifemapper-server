@@ -60,7 +60,8 @@ RPM.ARCH = noarch
 
 REDHAT.ROOT = $(CURDIR)/../../
 
-EXPORTDIR=$(subst share,state/partition1,$(DATADIR))/$(SPECIES)
+# SPECIES_DATA_PATH also defined in LmServerCommon.common.lmconstants
+EXPORTDIR=$(subst share,state/partition1,$(DATADIR))/$(SPECIES_DATA_PATH)
 
 -include $(ROCKSROOT)/etc/Rules.mk
 include Rules.mk
@@ -77,11 +78,8 @@ build: $(FILES)
 prep: prepData.sh
 	./prepData.sh
 
-# Making directory and setting permissions are in lifemapper-server-base.xml, 
-# which is preferred?
 install::
 	mkdir -p $(ROOT)/$(EXPORTDIR)
-	chmod -R g+ws $(ROOT)/$(EXPORTDIR)
 	cp $(FILES) $(ROOT)/$(EXPORTDIR)/
 
 clean::
