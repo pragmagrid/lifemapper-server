@@ -85,8 +85,9 @@ SCRIPTS = buildLmLuceneIndex.cron \
           config.ini \
           deleteOldAnonymous.cron \
           lmLucene.sh  \
-          runAllSQLScripts.sql 
-
+          runAllSQLScripts.sql \
+          runUpdateDBScripts.sql 
+          
 buildLmLuceneIndex.cron: $(ARCHIVENAME)/LmWebServer/lucene/buildLmLuceneIndex.cron.in
 	$(SED) $(SEDSPEC) $^ > $(ARCHIVENAME)/LmWebServer/lucene/$@
 	chmod 755 $(ARCHIVENAME)/LmWebServer/lucene/buildLmLuceneIndex.cron
@@ -107,7 +108,7 @@ lmLucene.sh: $(ARCHIVENAME)/LmWebServer/lucene/lmLucene.sh.in
 	$(SED) $(SEDSPEC) $^ > $(ARCHIVENAME)/LmWebServer/lucene/$@
 	chmod 755 $(ARCHIVENAME)/LmWebServer/lucene/lmLucene.sh
 
-runAllSQLScripts.sql: $(ARCHIVENAME)/LmDbServer/dbsetup/runAllSQLScripts.sql.in
+runUpdateDBScripts.sql: $(ARCHIVENAME)/LmDbServer/dbsetup/runUpdateDBScripts.sql.in
 	$(SED) $(SEDSPEC) $^ > $(ARCHIVENAME)/LmDbServer/dbsetup/$@
 
 prepSrc.sh: prepSrc.sh.in
@@ -133,5 +134,4 @@ install::
 clean::
 	rm -rf  $(SCRIPTS)  
 	rm -rf  $(ARCHIVENAME)
-	rm -rf  $(NAME)-$(VERSION).tar.gz
 	rm -rf  version.mk prepSrc.sh
