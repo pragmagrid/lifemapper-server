@@ -34,7 +34,7 @@ class Baseconfig:
         self.roletempl     = confconst.ROLETEMPL
         self.unixSocketDir = confconst.UNIX_SOCKET_DIR
         self.ip = None
-        self.iface         = "eth1" 
+        self.iface         = None        # need to establish for each host
 
 
     def parseArgs(self):
@@ -144,6 +144,11 @@ class Baseconfig:
                 if parts[1]  == "Kickstart_PublicAddress": self.ip = parts[2]
                 if parts[1]  == "Kickstart_PublicNetwork": self.network = parts[2]
                 if parts[1]  == "Kickstart_PublicNetmaskCIDR": self.cidr = parts[2]
+                if parts[1]  == "Kickstart_PublicInterface": self.iface = parts[2]
+
+        if self.iface == None:
+            print "Missing information about public interface "
+            sys.exit(1)
 
         if self.ip == None or self.network == None or self.cidr == None:
             (self.ip, self.network, self.cidr ) = self.findIfaceVals(self.iface)
@@ -159,9 +164,15 @@ class Baseconfig:
         cmd = '/sbin/ifconfig %s | grep Mask' % iface
 
         info, err = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()
+	if err: 
+	    print "/sbib/ifconfig returned error: %s" % err
         parts = info.split()
-        tmp, ip = parts[1].split(':')
-        tmp, netmask = parts[3].split(':')
+        try:
+            tmp, ip = parts[1].split(':')
+            tmp, netmask = parts[3].split(':')
+        except:
+            print "ERROR: can't find information for %s interface" % iface
+            sys.exit(1)
 
         i = IP(ip).make_net(netmask)
         broadcast = i.broadcast().strNormal()
