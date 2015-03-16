@@ -10,8 +10,8 @@ LMDISK        = /share/lm
 UNIXSOCKET    = /var/run/postgresql
 SMTPSERVER    = localhost
 SMTPSENDER    = no-reply-lifemapper@@PUBLIC_FQDN@
-DATASOURCE    = BISON
-CLIMATESOURCE = CONUS_WC_AR4
-LMUSER        = bison
+DATASOURCE    = @DATASOURCE@
+CLIMATESOURCE = @CLIMATESOURCE@
+LMUSER        = @ARCHIVE_USER@
 
 
