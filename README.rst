@@ -154,11 +154,13 @@ Install the resulting RPM with: ::
    # rpm -i  path-to-new-lifemapper-server.rpm
    # /opt/lifemapper/rocks/bin/updateIP
    # /opt/lifemapper/rocks/bin/confDbconnect
+   # /etc/init.d/pgbouncer restart
 
 The ``updateIP`` is needed for this specfic RPM because  a newly installed config.ini file 
 needs tempalte IP addressees updated. 
 The ``confDbconnect`` rewrites connect.py lifemapper file (used to connect to a db)
 Normally, these commands are run by the roll install process. 
+The ``pgbouncer`` service must be restarted after a new connect.py file is created
 
 Start using the roll, see `Using Lifemapper`_ 
 
