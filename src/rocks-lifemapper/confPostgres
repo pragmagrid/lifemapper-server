@@ -148,7 +148,8 @@ class ConfPostgres(confbase.Baseconfig):
 
         comments = ["#", " ", "\t", "\n"]
         skipCA = ["local", "host" ]
-        skipPG = ["listen_addresses", "password_encryption", "shared_buffers", "effective_cache_size",
+        skipPG = ["listen_addresses", "max_connections", "password_encryption", 
+                    "shared_buffers", "effective_cache_size",
                     "enable_seqscan", "logging_collector", "log_directory", "log_filename",
                     "log_truncate_on_rotation", "log_rotation_age", "log_rotation_size"]
         skip = {"pg":skipPG,"ca":skipCA}
@@ -178,6 +179,7 @@ class ConfPostgres(confbase.Baseconfig):
         """ create lines to add to postgresql.conf file """
         lines = ""
         lines += "listen_addresses = '*'\n"
+        lines += "max_connections = 50\n"
         lines += "password_encryption = on\n"
         lines += "shared_buffers = %d%s\n" % (self.shared_buffers, self.memunit)
         lines += "effective_cache_size = %d%s\n" % (self.effective_cache_size, self.memunit)
