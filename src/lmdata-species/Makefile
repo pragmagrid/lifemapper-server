@@ -68,20 +68,25 @@ include Rules.mk
 
 version.mk:
 	cat ../version.mk version.mk.in > version.mk
+	
+SEDSPEC += \
+        -e 's%@SPECIES_DATA@%$(SPECIES_DATA)%g' \
+        -e 's%@SPECIES_DATA_PATH@%$(SPECIES_DATA_PATH)%g'
 
-%.txt: %.tar.gz
-	tar xzvf $<
-
-build: $(FILES)
-	echo $(EXPORTDIR)
+prepData.sh: prepData.sh.in
+	$(SED) $(SEDSPEC) $^ > $@
+	chmod 755 $@
 
 prep: prepData.sh
 	./prepData.sh
 
+build:
+	echo $(EXPORTDIR)
+
 install::
 	mkdir -p $(ROOT)/$(EXPORTDIR)
-	cp $(FILES) $(ROOT)/$(EXPORTDIR)/
+	tar xzvf  $(SPECIES_DATA).$(TARBALL_POSTFIX)  -C  $(ROOT)/$(EXPORTDIR)/
 
 clean::
 	rm -rf version.mk
-	rm -rf $(FILES)
+	rm -rf $(ROOT)/$(EXPORTDIR)

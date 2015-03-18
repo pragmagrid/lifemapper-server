@@ -69,7 +69,9 @@ include Rules.mk
 version.mk:
 	cat ../version.mk version.mk.in > version.mk
 
-SEDSPEC = -e 's%@CLIMATESOURCE@%$(CLIMATESOURCE)%g'
+SEDSPEC += \
+        -e 's%@CLIMATE_DATA@%$(CLIMATE_DATA)%g' \
+        -e 's%@ENV_DATA_PATH@%$(ENV_DATA_PATH)%g'
 
 prepData.sh: prepData.sh.in
 	$(SED) $(SEDSPEC) $^ > $@
@@ -86,7 +88,7 @@ build:
 
 install::
 	mkdir -p $(ROOT)/$(EXPORTDIR)
-	tar xzvf  $(CLIMATESOURCE).$(TARBALL_POSTFIX)  -C  $(ROOT)/$(EXPORTDIR)/
+	tar xzvf  $(CLIMATE_DATA).$(TARBALL_POSTFIX)  -C  $(ROOT)/$(EXPORTDIR)/
 
 clean::
 	rm -rf version.mk prepData.sh

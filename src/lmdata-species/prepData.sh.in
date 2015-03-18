@@ -1,14 +1,12 @@
 #!/bin/bash
 
 # Purpose: fetch species data 
+# TODO: move gbif files to version.mk.in in SPECIES_DATA variable
 
 create_species_data () {
   echo "Fetch species data"
-  FILES="gbif_export.tar.gz gbif_orgs.tar.gz gbif_taxonomy.tar.gz marinelist.tar.gz"
   LMURL="http://lifemapper.org/dl"
-  for i in $FILES; do
-    curl -L "$LMURL/$i" -o ../lmdata-species/$i
-  done 
+  curl -L "$LMURL/@SPECIES_DATA@" -o ../lmdata-species/@SPECIES_DATA@ 
 }
 
 ### main ###
