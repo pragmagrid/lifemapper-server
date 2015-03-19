@@ -162,6 +162,9 @@ The ``confDbconnect`` rewrites connect.py lifemapper file (used to connect to a 
 Normally, these commands are run by the roll install process. 
 The ``pgbouncer`` service must be restarted after a new connect.py file is created
 
+Next run any database updates with: ::
+   # /opt/lifemapper/rocks/bin/updateDB
+
 Start using the roll, see `Using Lifemapper`_ 
 
 Recreate roll ISO
