@@ -71,7 +71,8 @@ version.mk:
 
 SEDSPEC += \
         -e 's%@CLIMATE_DATA@%$(CLIMATE_DATA)%g' \
-        -e 's%@ENV_DATA_PATH@%$(ENV_DATA_PATH)%g'
+        -e 's%@ENV_DATA_PATH@%$(ENV_DATA_PATH)%g' \
+        -e 's%@TARBALL_POSTFIX@%$(TARBALL_POSTFIX)%g'
 
 prepData.sh: prepData.sh.in
 	$(SED) $(SEDSPEC) $^ > $@
@@ -92,3 +93,4 @@ install::
 
 clean::
 	rm -rf version.mk prepData.sh
+	rm -rf $(CLIMATE_DATA).$(TARBALL_POSTFIX)

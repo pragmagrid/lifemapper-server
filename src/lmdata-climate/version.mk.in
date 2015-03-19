@@ -1,6 +1,6 @@
 NAME        	= lifemapper-climate-data
 ENV_DATA_PATH  = climate
-CLIMATE_DATA   = WC_AR4_5min
+CLIMATE_DATA   = WC_AR5_5min
 
 ARCHIVENAME    = data
 
