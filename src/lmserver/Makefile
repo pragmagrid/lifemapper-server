@@ -138,4 +138,3 @@ clean::
 	rm -rf  $(SCRIPTS)  
 	rm -rf  $(ARCHIVENAME)
 	rm -rf  version.mk prepSrc.sh
-	rm -rf  lifemapper-server-$(VERSION).tar.gz
