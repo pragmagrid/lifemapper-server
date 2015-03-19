@@ -77,15 +77,15 @@ SEDSPEC += \
         -e 's%@SMTPSERVER@%$(SMTPSERVER)%g' \
         -e 's%@SMTPSENDER@%$(SMTPSENDER)%g' \
         -e 's%@TEMPDIR@%$(TEMPDIR)%g'  \
-        -e 's%@VERSION@%$(VERSION)%g' \
-        -e 's%@DATASOURCE@%$(DATASOURCE)%g'
+        -e 's%@VERSION@%$(VERSION)%g'  \
+        -e 's%@DATASOURCE@%$(DATASOURCE)%g' 
 
 SCRIPTS = buildLmLuceneIndex.cron \
           checkLmWeb.cron \
           config.ini \
           deleteOldAnonymous.cron \
           lmLucene.sh  \
-          runAllSQLScripts.sql \
+          runAllSQLScripts.sql  \
           runUpdateDBScripts.sql 
           
 buildLmLuceneIndex.cron: $(ARCHIVENAME)/LmWebServer/lucene/buildLmLuceneIndex.cron.in
@@ -107,6 +107,9 @@ deleteOldAnonymous.cron: $(ARCHIVENAME)/LmDbServer/scripts/deleteOldAnonymous.cr
 lmLucene.sh: $(ARCHIVENAME)/LmWebServer/lucene/lmLucene.sh.in
 	$(SED) $(SEDSPEC) $^ > $(ARCHIVENAME)/LmWebServer/lucene/$@
 	chmod 755 $(ARCHIVENAME)/LmWebServer/lucene/lmLucene.sh
+
+runAllSQLScripts.sql: $(ARCHIVENAME)/LmDbServer/dbsetup/runAllSQLScripts.sql.in
+	$(SED) $(SEDSPEC) $^ > $(ARCHIVENAME)/LmDbServer/dbsetup/$@
 
 runUpdateDBScripts.sql: $(ARCHIVENAME)/LmDbServer/dbsetup/runUpdateDBScripts.sql.in
 	$(SED) $(SEDSPEC) $^ > $(ARCHIVENAME)/LmDbServer/dbsetup/$@
