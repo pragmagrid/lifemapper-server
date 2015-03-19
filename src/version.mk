@@ -7,9 +7,12 @@ TEMPDIR       = /tmp
 PYTHONVER     = python2.7
 PGSQLVER      = 9.1
 LMDISK        = /share/lm
-LMUSER        = pragma
 UNIXSOCKET    = /var/run/postgresql
 SMTPSERVER    = localhost
 SMTPSENDER    = no-reply-lifemapper@@PUBLIC_FQDN@
-DATASOURCE    = IDIGBIO
+LMUSER        = idigbio
+DATASOURCE            = IDIGBIO
+ALGORITHMS            = ATT_MAXENT
+MODEL_SCENARIO        = WC-5MIN
+PROJECTION_SCENARIOS  = RCP8.5-CCSM4-2050,RCP8.5-CCSM4-2070
 

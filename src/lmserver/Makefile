@@ -77,8 +77,11 @@ SEDSPEC += \
         -e 's%@SMTPSERVER@%$(SMTPSERVER)%g' \
         -e 's%@SMTPSENDER@%$(SMTPSENDER)%g' \
         -e 's%@TEMPDIR@%$(TEMPDIR)%g'  \
-        -e 's%@VERSION@%$(VERSION)%g'  \
-        -e 's%@DATASOURCE@%$(DATASOURCE)%g' 
+        -e 's%@VERSION@%$(VERSION)%g' \
+        -e 's%@DATASOURCE@%$(DATASOURCE)%g'  \
+        -e 's%@ALGORITHMS@%$(ALGORITHMS)%g' \
+        -e 's%@MODEL_SCENARIO@%$(MODEL_SCENARIO)%g' \
+        -e 's%@PROJECTION_SCENARIOS@%$(PROJECTION_SCENARIOS)%g'
 
 SCRIPTS = buildLmLuceneIndex.cron \
           checkLmWeb.cron \
