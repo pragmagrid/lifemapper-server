@@ -71,7 +71,8 @@ version.mk:
 	
 SEDSPEC += \
         -e 's%@SPECIES_DATA@%$(SPECIES_DATA)%g' \
-        -e 's%@SPECIES_DATA_PATH@%$(SPECIES_DATA_PATH)%g'
+        -e 's%@SPECIES_DATA_PATH@%$(SPECIES_DATA_PATH)%g' \
+        -e 's%@TARBALL_POSTFIX@%$(TARBALL_POSTFIX)%g'
 
 prepData.sh: prepData.sh.in
 	$(SED) $(SEDSPEC) $^ > $@
@@ -89,4 +90,6 @@ install::
 
 clean::
 	rm -rf version.mk
+	rm -rf prepData.sh
+	rm -rf $(SPECIES_DATA).$(TARBALL_POSTFIX)
 	rm -rf $(ROOT)/$(EXPORTDIR)
