@@ -91,5 +91,4 @@ install::
 clean::
 	rm -rf version.mk
 	rm -rf prepData.sh
-	rm -rf $(SPECIES_DATA).$(TARBALL_POSTFIX)
 	rm -rf $(ROOT)/$(EXPORTDIR)

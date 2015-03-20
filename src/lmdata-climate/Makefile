@@ -93,4 +93,3 @@ install::
 
 clean::
 	rm -rf version.mk prepData.sh
-	rm -rf $(CLIMATE_DATA).$(TARBALL_POSTFIX)
