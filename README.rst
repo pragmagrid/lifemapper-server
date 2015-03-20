@@ -154,7 +154,6 @@ Install the resulting RPM with: ::
    # rpm -i  path-to-new-lifemapper-server.rpm
    # /opt/lifemapper/rocks/bin/updateIP
    # /opt/lifemapper/rocks/bin/confDbconnect
-   # /etc/init.d/pgbouncer restart
 
 The ``updateIP`` is needed for this specfic RPM because  a newly installed config.ini file 
 needs tempalte IP addressees updated. 
@@ -164,6 +163,10 @@ The ``pgbouncer`` service must be restarted after a new connect.py file is creat
 
 Next run any database updates with: ::
    # /opt/lifemapper/rocks/bin/updateDB
+
+Then restart pgbouncer and apache so they can connect to the database: ::
+   # /etc/init.d/pgbouncer restart
+   # /etc/init.d/httpd restart
 
 Start using the roll, see `Using Lifemapper`_ 
 
