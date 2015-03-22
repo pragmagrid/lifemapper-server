@@ -13,9 +13,9 @@ class ConfDbconnect(confbase.Baseconfig):
         self.descinfo = "Read user/pass info from %s file and create %s \n" % (self.users,self.connect)  
 
         self.userdict = { "mapuser": "DbUser.Map",
-			  "wsuser" : "DbUser.WebService",
-			  "sdlapp" : "DbUser.Pipeline",
-			  "jobuser": "DbUser.Job"}
+                          "wsuser" : "DbUser.WebService",
+                          "sdlapp" : "DbUser.Pipeline",
+                          "jobuser": "DbUser.Job"}
 
         # May use this later once DbUser struct is finalized in lm
         # sys.path.append("/opt/lifemapper/lmserver/")
@@ -25,8 +25,8 @@ class ConfDbconnect(confbase.Baseconfig):
         self.parseArgs()
 
     def makeSalt(self):
-	""" make salt, not used now """
-	self.salt = os.urandom(16).encode('base_64')
+        """ make salt, not used now """
+        self.salt = os.urandom(16).encode('base_64')
 
 
     def makeLines(self):
@@ -39,7 +39,7 @@ class ConfDbconnect(confbase.Baseconfig):
         for item in content:
             user, txtPassword = item.split()
             if user in self.userlist: 
-            	lines += "           %s: \'%s\',\n" % (self.userdict[user], txtPassword)
+                    lines += "           %s: \'%s\',\n" % (self.userdict[user], txtPassword)
 
         lines += "          }"
         return lines
@@ -49,7 +49,7 @@ class ConfDbconnect(confbase.Baseconfig):
         lines = self.makeLines()
 
         # make a coopy of original file
-	templ = "%s.orig" % self.connect
+        templ = "%s.orig" % self.connect
         self.saveOrigFile(self.connect, templ)
 
         # write connect.py file

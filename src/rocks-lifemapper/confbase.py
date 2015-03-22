@@ -35,7 +35,7 @@ class Baseconfig:
         self.unixSocketDir = confconst.UNIX_SOCKET_DIR
         self.ip = None
         self.iface         = None        # need to establish for each host
-
+        self.reconfigure   = False       # indicates if need to rerun configuration
 
     def parseArgs(self):
         """ check input arguments, and print usage"""
@@ -43,6 +43,9 @@ class Baseconfig:
             return
         if self.args[0] in ('-h', '--help', 'help'):
             self.help()
+        # set flag - need to reconfigure based on new network info
+        if self.args[0] in ('reconfigure'):
+            self.reconfigure = True
 
     def help(self):
         self.printName()
@@ -135,7 +138,7 @@ class Baseconfig:
 
     def getNetworkInfo(self):
         """ find host network info for public interface """
-        cmd = "rocks list host attr localhost | grep Kickstart_Public"
+        cmd = "/opt/rocks/bin/rocks list host attr localhost | grep Kickstart_Public"
         info, err = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()
         lines = info.split("\n")
         for line in lines:
@@ -164,8 +167,8 @@ class Baseconfig:
         cmd = '/sbin/ifconfig %s | grep Mask' % iface
 
         info, err = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()
-	if err: 
-	    print "/sbib/ifconfig returned error: %s" % err
+        if err: 
+            print "/sbin/ifconfig returned error: %s" % err
         parts = info.split()
         try:
             tmp, ip = parts[1].split(':')

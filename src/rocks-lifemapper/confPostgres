@@ -80,7 +80,7 @@ class ConfPostgres(confbase.Baseconfig):
 
     def getPageSize(self):
         """ find PAGE_SIZE """
-        cmd = "getconf PAGE_SIZE"
+        cmd = "/usr/bin/getconf PAGE_SIZE"
         info, err = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()
         self.page_size = int(info.split()[0])
 

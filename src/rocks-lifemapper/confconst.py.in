@@ -2,19 +2,19 @@
 # config files templates
 TEMPLDIR = "@PKGROOT@/rocks/etc/" # config files templates directory
 SQLDIR = "@PKGROOT@/rocks/sql/"   # sql files directory
-EXT = ".template"                       # template file extension
-ROLE = SQLDIR + "roles.sql"             # file for postgres DB users creation
-ROLETEMPL = ROLE + EXT                  # template file for postgres users creation
+EXT = ".template"                 # template file extension
+ROLE = SQLDIR + "roles.sql"       # file for postgres DB users creation
+ROLETEMPL = ROLE + EXT            # template file for postgres users creation
 
 # postgres configuration
-UNIX_SOCKET_DIR = "@UNIXSOCKET@" # unix socket directory
-PERCENT_SB = 0.25                       # allocation of memory to shared buffers, from 25%, to no more than 40%
-PERCENT_ECS = 0.50                      # allocation of memory to effective cache size, 1/2 of total memory is a normal conservative setting. 
-                                        # see  https://wiki.postgresql.org/wiki/Tuning_Your_PostgreSQL_Server
-PGCONF = "postgresql.conf"              # config file
-CACONF = "pg_hba.conf"                  # client auth file
-PGTEMPL = TEMPLDIR + PGCONF + EXT       # template config file
-CATEMPL = TEMPLDIR + CACONF + EXT       # template client auth file
+UNIX_SOCKET_DIR = "@UNIXSOCKET@"  # unix socket directory
+PERCENT_SB = 0.25                 # allocation of memory to shared buffers, from 25%, to no more than 40%
+PERCENT_ECS = 0.50                # allocation of memory to effective cache size, 1/2 of total memory is a normal conservative setting. 
+                                  # see  https://wiki.postgresql.org/wiki/Tuning_Your_PostgreSQL_Server
+PGCONF = "postgresql.conf"        # config file
+CACONF = "pg_hba.conf"            # client auth file
+PGTEMPL = TEMPLDIR + PGCONF + EXT # template config file
+CATEMPL = TEMPLDIR + CACONF + EXT # template client auth file
 
 # pgbouncer configuration
 PGBINI = "/etc/pgbouncer/pgbouncer.ini"     # config file
@@ -25,7 +25,7 @@ PGBTEMPL = TEMPLDIR + "pgbouncer.ini" + EXT # template config file
 USERS_FILE = "@PKGROOT@/rocks/etc/users"               # users file
 USER_LIST = ["sdlapp", "mapuser", "wsuser", "jobuser"] # postgres and pgbouncer users
 ADMIN_LIST = ["postgres", "admin"]                     # admin users
-MKPASSWD = "mkpasswd -l 12 -d 3 -s 0"                  # use to create passwd: 12c lon, 3 digits, no special chars
+MKPASSWD = "/usr/bin/mkpasswd -l 12 -d 3 -s 0"         # use to create passwd: 12c lon, 3 digits, no special chars
 
 # lifemapper db users passwords are used in this file
 DBCONNECT = "@LMHOME@/LmServerCommon/db/connect.py" 
