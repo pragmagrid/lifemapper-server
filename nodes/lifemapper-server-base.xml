@@ -97,7 +97,7 @@ fi
 /bin/chmod -R g+ws /state/partition1/lmserver/data/test
 /bin/chmod -R g+ws /state/partition1/lmserver/data/species
 
-# need next 2 lines for pipeline.<datasource>.die
+# need next 2 lines for pipeline.datasource.die
 /bin/chgrp lmwriter /opt/lifemapper
 /bin/chmod g+ws /opt/lifemapper
 
