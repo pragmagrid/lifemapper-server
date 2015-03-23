@@ -36,19 +36,11 @@ collect_src () {
 }
 
 collect_configs () {
-  conf1=$SRC/LmCompute/config/config.ini.in
-  conf2=$SRC/config/config.ini.in
-  if [ ! -f $conf1 ]; then
-      echo "ERROR: File $conf1 is missing from $SRC "
+  conf=$SRC/config/config.ini.in
+  if [ ! -f $conf ]; then
+      echo "ERROR: File $conf is missing from $SRC "
       return
   fi
-
-  if [ ! -f $conf2 ]; then
-      echo "ERROR: File $conf2 is missing from $SRC "
-      return
-  fi
-
-  cat $conf1  >> $conf2
 }
 
 # create distro files for lmserver 
