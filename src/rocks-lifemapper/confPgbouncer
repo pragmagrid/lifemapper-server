@@ -91,6 +91,9 @@ class ConfPgbouncer(confbase.Baseconfig):
         addLines += "admin_users = \n"
         addLines += "stats_users = \n"
         addLines += "stats_period = 120\n"
+        addLines += "log_connections = 0\n"
+        addLines += "log_disconnections = 0\n"
+        addLines += "log_pooler_errors = 1\n"
 
         return addLines        
 
