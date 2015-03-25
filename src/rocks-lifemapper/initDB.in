@@ -19,10 +19,10 @@ usage ()
 SetPermissions () {
    /bin/egrep -i "^lmwriter" /etc/passwd
    if [ $? -eq 0 ]; then
-       echo "Update group permissions for lmwriter on /opt/lifemapper/" | tee -a $LOG
+       echo "Update group permissions for lmwriter on @LMHOME@" | tee -a $LOG
        for item in "config" "Lm*" "__init__.py*" ; do
-           /bin/chgrp -R lmwriter /opt/lifemapper/$item
-           /bin/chmod -R g+ws /opt/lifemapper/$item
+           /bin/chgrp -R lmwriter @LMHOME@/$item
+           /bin/chmod -R g+ws @LMHOME@/$item
        done
    else
         echo "Error: user lmwriter does not exist" | tee -a $LOG
