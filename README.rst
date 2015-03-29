@@ -357,7 +357,13 @@ TODO
 
 #. tests attributes for separation of dbserver and webserver
 
-#. add note about compiling gdal when psotgres/giflib RPms are present
+#. install mapscript
+
+#. add configuration for available interfaces (EML, maps)
+
+#. configure/start lucene service 
+
+#. add note about compiling gdal when postgres/giflib RPms are present
 
 #. check client caracter encoding for postgres. Currently servet is set for
    UTF8. but client appears LATIN9. See
