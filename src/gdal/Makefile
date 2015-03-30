@@ -71,6 +71,7 @@ build:
 	( 							\
 		cd $(ARCHIVENAME)-$(VERSION);				\
 		export PYTHON=$(PY.PATH);             		\
+		export PATH=/opt/lifemapper/bin:$(PATH);		\
 		./configure --with-python --with-ogr --with-geos=yes  --prefix=$(PKGROOT);	\
 		$(MAKE);					\
 	)
@@ -80,6 +81,7 @@ install::
 	(							\
 		cd $(ARCHIVENAME)-$(VERSION);				\
 		export PYTHON=$(PY.PATH);             		\
+		export PATH=/opt/lifemapper/bin:$(PATH);		\
 		$(MAKE) prefix=$(ROOT)/$(PKGROOT) ROOT=$(ROOT)/ install; \
 	)
 
