@@ -1,3 +1,13 @@
+# prefork MPM
+<IfModule prefork.c>
+StartServers       3
+MinSpareServers    1
+MaxSpareServers    3
+ServerLimit       15
+MaxClients        10
+MaxRequestsPerChild  50
+</IfModule>
+
 # For lifemapper-server roll
 <VirtualHost *:80>
 
