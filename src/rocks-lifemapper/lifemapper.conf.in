@@ -25,6 +25,9 @@ ErrorLog  logs/lifemapper_error
 
 # Enable environment for config file
 SetEnv LIFEMAPPER_CONFIG_FILE "@LMHOME@/config/config.ini"
+
+# Make sure Mapserver finds projection files
+SetEnv PROJ_LIB "@LMHOME@/share/proj"
  
 # Root for lifemapper content
 RewriteEngine on
