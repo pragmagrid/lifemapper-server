@@ -50,6 +50,7 @@ create_distro () {
       echo "Creating lmserver src archive from svn checkout"
       tar czf lifemapper-server-@VERSION@.tar.gz $SRC/* \
           --exclude=LmCompute \
+          --exclude=LmClient \
           --exclude=dist \
           --exclude=public_html/dl
 
