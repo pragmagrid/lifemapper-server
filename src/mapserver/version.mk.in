@@ -1,5 +1,5 @@
 NAME = opt-lifemapper-mapserver-python
 VERSION = 6.0.4
-ARCHIVENAME = mapserver-python
+ARCHIVENAME = mapserver
 RELEASE = 0
 TARBALL_POSTFIX	= tar.gz

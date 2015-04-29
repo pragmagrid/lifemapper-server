@@ -67,25 +67,27 @@ version.mk:
 	cat ../version.mk version.mk.in > version.mk
 
 PY.PATH = /opt/python/bin/$(PYTHONVER)
+MAPSERVERPROGS = shp2img shptree sortshp tile4ms
 
 build:
 	tar xzf  $(ARCHIVENAME)-$(VERSION).$(TARBALL_POSTFIX)
 	(\
 	    cd $(ARCHIVENAME)-$(VERSION);     \
-	    export PYTHON=$(PY.PATH);             		\
-		 export PATH=/opt/lifemapper/bin:$(PATH);		\
 	    ./configure --with-geos --with-ogr --with-gdal --with-postgis --prefix=$(PKGROOT);  \
-	    $(MAKE);                                        \
+	    $(MAKE); \
+	    cd mapscript/python; \
+	    $(PY.PATH) setup.py build; \
 	)
 
 install::
+	mkdir -p $(ROOT)/$(PKGROOT)/bin
+	mkdir -p $(ROOT)/$(PKGROOT)/sbin
 	(\
-	    cd $(ARCHIVENAME)-$(VERSION);   \
-		 export PYTHON=$(PY.PATH);             		\
-		 export PATH=/opt/lifemapper/bin:$(PATH);		\
-	    install mapserv /var/www/cgi-bin/
-
-	    $(PY.PATH) setup.py install;      \
+	    cd $(ARCHIVENAME)-$(VERSION); \
+	    $(INSTALL) $(MAPSERVERPROGS) $(ROOT)/$(PKGROOT)/bin; \
+	    $(INSTALL) mapserv $(ROOT)/$(PKGROOT)/sbin; \
+	    cd mapscript/python; \
+	    $(PY.PATH) setup.py $@ --root=$(ROOT)/; \
 	)
 
 clean::
