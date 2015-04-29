@@ -58,7 +58,7 @@
 	<package>bitstream-vera-sans-fonts</package>
 	<package>fribidi</package>
 	<package>postgresql91-libs</package>
-	<package>mapserver</package>
+	<!-- removed mapserver, building from source for python mapscript -->
 
 	<!-- lifemapper data -->
 	<package>lifemapper-climate-data</package>
