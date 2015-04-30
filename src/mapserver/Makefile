@@ -73,7 +73,7 @@ build:
 	tar xzf  $(ARCHIVENAME)-$(VERSION).$(TARBALL_POSTFIX)
 	(\
 	    cd $(ARCHIVENAME)-$(VERSION);     \
-	    ./configure --with-geos --with-ogr --with-gdal --with-postgis --prefix=$(PKGROOT);  \
+	    ./configure --with-geos --with-ogr --with-gdal --with-postgis --with-kml --prefix=$(PKGROOT);  \
 	    $(MAKE); \
 	    cd mapscript/python; \
 	    $(PY.PATH) setup.py build; \
