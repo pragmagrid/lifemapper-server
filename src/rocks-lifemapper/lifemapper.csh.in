@@ -5,12 +5,12 @@ set LMBIN=@PKGROOT@/bin
 set PGSQLBIN=/usr/pgsql-@PGSQLVER@/bin
 
 set path = ( $PGSQLBIN $PYBIN $LMBIN $path )
-setenv PYTHON /opt/python/bin/@PYTHONVER@
+setenv PYTHON $PYBIN/@PYTHONVER@
 
 setenv PYTHON_EGG_CACHE @LMWEB@/.python-eggs
 setenv PYTHONPATH "@LMHOME@:@LMHOME@/LmClient/LmPython/lifemapper:@PKGROOT@"
 
-# Needed for apache/mapserver, is this picked up?
+# Needed for apache/mapserver, should this be here or lifemapper.conf?
 setenv PROJ_LIB=@PKGROOT@/share/proj
 
 setenv PGHOST /var/run/postgresql

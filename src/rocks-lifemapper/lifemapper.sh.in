@@ -5,11 +5,11 @@ LMBIN=@PKGROOT@/bin
 PGSQLBIN=/usr/pgsql-@PGSQLVER@/bin
 
 export PATH=$PGSQLBIN:$PYBIN:$LMBIN:$PATH
-export PYTHON=/opt/python/bin/@PYTHONVER@
+export PYTHON=$PYBIN/@PYTHONVER@
 export PYTHON_EGG_CACHE="@LMWEB@/.python-eggs"
 export PYTHONPATH=@LMHOME@:@LMHOME@/LmClient/LmPython/lifemapper:@PKGROOT@
 
-# Needed for apache/mapserver, is this picked up?
+# Needed for apache/mapserver, should this be here or lifemapper.conf?
 export PROJ_LIB=@PKGROOT@/share/proj
 
 export PGHOST=/var/run/postgresql
