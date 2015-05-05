@@ -60,6 +60,8 @@ REDHAT.ROOT = $(CURDIR)/../../
 -include $(ROCKSROOT)/etc/Rules.mk
 include Rules.mk
 
+PY.PATH = /opt/python/bin/$(PYTHONVER)
+
 version.mk:
 	cat ../version.mk version.mk.in > version.mk
 
@@ -69,6 +71,7 @@ SEDSPEC += \
         -e 's%@LMWEB@%$(LMWEB)%g' \
         -e 's%@PGSQLVER@%$(PGSQLVER)%g' \
         -e 's%@PYTHONVER@%$(PYTHONVER)%g' \
+        -e 's%@PYBIN@%$(PY.PATH)%g' \
         -e 's%@MYSQLDB@%$(MYSQLDB)%g' \
         -e 's%@PKGROOT@%$(PKGROOT)%g' \
         -e 's%@UNIXSOCKET@%$(UNIXSOCKET)%g' \
@@ -90,18 +93,18 @@ PROGS = \
 	initWebserver \
 	initPostgis \
 	initDB \
-	updateIP \
-	confconst.py
+	updateIP
 
 PYFILES = __init__.py \
 	confconst.py \
-	confbase.py \
+	confbase.py
 
 EXECFILES = \
 	confDbconnect \
 	confPgbouncer \
 	confPostgres \
-	confUsers 
+	confUsers \
+	installCronJobs
 
 %: %.in
 	$(SED) $(SEDSPEC) $^ > $@
@@ -115,7 +118,7 @@ install::
 	mkdir -p $(ROOT)/etc/profile.d
 	install -m 755 $(PROFILES) $(ROOT)/etc/profile.d
 
-	mkdir -p $(ROOT)/etc/profile.d
+	mkdir -p $(ROOT)/etc/init.d
 	install -m 755 $(PKGROOT)/LmWebServer/lucene/lmLucene $(ROOT)/etc/init.d
 
 	mkdir -p $(ROOT)/etc/sysctl.d
@@ -133,7 +136,6 @@ install::
 	install -m 755 $(EXECFILES) $(ROOT)/$(PKGROOT)/rocks/bin
 
 	mkdir -p $(ROOT)/$(PKGROOT)/rocks/etc
-	install -m 644 lucene.cron $(ROOT)/$(PKGROOT)/rocks/etc
 	install -m 644 lifemapper-sysconfig-httpd $(ROOT)/$(PKGROOT)/rocks/etc
 
 	mkdir -p $(ROOT)/$(PKGROOT)/rocks/sql
