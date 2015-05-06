@@ -1,6 +1,6 @@
 NAME        	= lifemapper-server
 ARCHIVENAME     = components
-VERSION     	= 5993
+VERSION     	= 6012
 RELEASE 	= 1
 TARBALL_POSTFIX	= tar.gz
  
