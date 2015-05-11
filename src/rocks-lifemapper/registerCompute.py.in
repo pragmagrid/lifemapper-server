@@ -1,0 +1,68 @@
+#!/opt/rocks/bin/python
+
+from LmDbServer.common.localconstants import DATASOURCE
+
+from LmServerCommon.common.localconstants import DATA_PATH
+from LmServerCommon.common.log import DebugLogger
+from LmServerCommon.common.computeResource import LMComputeResource
+from LmServerCommon.common.lmuser import LMUser
+from LmServerCommon.db.scribe import Scribe
+
+import mx.DateTime as DT
+import os
+
+compUser = {'id': '@COMPUTE_CONTACT_ID@', 
+            'email': '@COMPUTE_CONTACT_EMAIL@',
+            'password': '@COMPUTE_CONTACT_PASS@',
+            'encrypted': False, 
+            'first': '@COMPUTE_CONTACT_FIRST@', 
+            'last':  '@COMPUTE_CONTACT_LAST@', 
+            'institution': '@COMPUTE_CONTACT_INST@',
+            'addr1': '@COMPUTE_CONTACT_ADDR1@',
+            'addr2': '@COMPUTE_CONTACT_ADDR2@',
+            'addr3': '@COMPUTE_CONTACT_ADDR3@'
+            }
+
+compResource = {'name': '@COMPUTE_NAME@',
+                'ip': '@COMPUTE_FQDN@',
+                'requestPrefix': '@COMPUTE_FQDN@',
+                'userid': '@COMPUTE_CONTACT_ID@'
+                }
+
+# ...............................................
+def addComputeResource(scribe):
+   """
+   @summary Adds algorithms to the database from the algorithm dictionary
+   """
+   
+   ids = []
+   for algcode, algdict in ALGORITHM_DATA.iteritems():
+      alg = Algorithm(algcode, name=algdict['name'])
+      algid = scribe.insertAlgorithm(alg)
+      ids.append(algid)
+   return ids
+
+# ...............................................
+if __name__ == '__main__':  
+   logger = DebugLogger()
+   currtime = DT.gmt().mjd
+   crContact = LMUser(compUser['id'], 
+                  compUser['email'], compUser['password'], isEncrypted=False,
+                  firstName=compUser['first'], lastName=compUser['last'], 
+                  institution=compUser['institution'], addr1=compUser['addr1'], 
+                  addr2=compUser['addr2'], addr3=compUser['addr3'], 
+                  modTime=currtime)
+   crMachine = LMComputeResource(compResource['name'], compResource['ip'], 
+                  compResource['userid'], createTime=currtime, modTime=currtime, 
+                  hbTime=currtime)
+
+   scribe = Scribe(logger)
+   success = scribe.openConnections()
+   if success: 
+      try:
+         compResource = scribe.registerComputeResource(crMachine, crContact)
+         
+      finally:
+         scribe.closeConnections()
+       
+#    

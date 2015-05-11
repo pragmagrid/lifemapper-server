@@ -40,6 +40,7 @@ SetDefaults () {
     DEFINESQL=@LMHOME@/LmDbServer/dbsetup/runAllSQLScripts.sql
     POPULATEPY=@LMHOME@/LmDbServer/populate/initCatalog.py
     TAXONOMYPY=@LMHOME@/LmDbServer/populate/@DATASOURCE@/readTaxonomy.py
+    COMPUTEPY=@PKGROOT@/rocks/bin/registerCompute.py
 
     LOG=/tmp/`/bin/basename $0`.log
     touch $LOG
@@ -105,6 +106,17 @@ AddTaxonomy () {
     fi
 }
 
+### register LmCompute instance
+RegisterCompute () {
+    if [ -f $COMPUTEPY ] ; then
+        echo "Running $COMPUTEPY ..." | tee -a $LOG
+        $COMPUTEPY 2>&1 | tee -a $LOG
+    else
+        echo "Error: Missing file $COMPUTEPY" | tee -a $LOG
+        exit 1
+    fi
+}
+
 ### Main ###
 if [ $# -ne 0 ]; then
     usage
@@ -117,4 +129,5 @@ SetPass
 Define
 Populate
 AddTaxonomy
+RegisterCompute
 TimeStamp "# End"
