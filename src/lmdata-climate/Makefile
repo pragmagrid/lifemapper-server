@@ -70,7 +70,7 @@ version.mk:
 	cat ../version.mk version.mk.in > version.mk
 
 SEDSPEC += \
-        -e 's%@CLIMATE_DATA@%$(CLIMATE_DATA)%g' \
+        -e 's%@SCENARIO_PACKAGE@%$(SCENARIO_PACKAGE)%g' \
         -e 's%@ENV_DATA_PATH@%$(ENV_DATA_PATH)%g' \
         -e 's%@TARBALL_POSTFIX@%$(TARBALL_POSTFIX)%g'
 

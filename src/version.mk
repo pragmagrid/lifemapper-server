@@ -11,11 +11,12 @@ UNIXSOCKET    = /var/run/postgresql
 SMTPSERVER    = localhost
 SMTPSENDER    = no-reply-lifemapper@@PUBLIC_FQDN@
 
-LMUSER                = lm2
-DATASOURCE            = GBIF
-ALGORITHMS            = BIOCLIM, GARP_BS, ATT_MAXENT
-MODEL_SCENARIO        = CRU_CL_2.0_x_hadley_diff
-PROJECTION_SCENARIOS  = hadley_diff_a1f_x_CRU_CL_2.0, hadley_diff_a2c_x_CRU_CL_2.0, hadley_diff_b1a_x_CRU_CL_2.0
+LMUSER                = idigbio
+DATASOURCE            = IDIGBIO
+ALGORITHMS            = ATT_MAXENT
+MODEL_SCENARIO        = WC-5MIN 
+PROJECTION_SCENARIOS  = RCP8.5-CCSM4-2050,RCP8.5-CCSM4-2070
+SCENARIO_PACKAGE      = WC_AR5_5min
 
 COMPUTE_CONTACT_ID    = aimee.stewart@ku.edu
 COMPUTE_CONTACT_EMAIL = aimee.stewart@ku.edu
