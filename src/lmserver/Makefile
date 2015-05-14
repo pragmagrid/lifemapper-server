@@ -83,17 +83,17 @@ SEDSPEC += \
         -e 's%@MODEL_SCENARIO@%$(MODEL_SCENARIO)%g' \
         -e 's%@PROJECTION_SCENARIOS@%$(PROJECTION_SCENARIOS)%g'
 
-SCRIPTS = buildLmLuceneIndex.cron \
+SCRIPTS = buildLmLuceneIndex.sh \
           checkLmWeb.cron \
           config.ini \
           deleteOldAnonymous.cron \
-          lmLucene.sh  \
+          lmLucene  \
           runAllSQLScripts.sql  \
           runUpdateDBScripts.sql 
           
-buildLmLuceneIndex.cron: $(ARCHIVENAME)/LmWebServer/lucene/buildLmLuceneIndex.cron.in
+buildLmLuceneIndex.sh: $(ARCHIVENAME)/LmWebServer/lucene/buildLmLuceneIndex.sh.in
 	$(SED) $(SEDSPEC) $^ > $(ARCHIVENAME)/LmWebServer/lucene/$@
-	chmod 755 $(ARCHIVENAME)/LmWebServer/lucene/buildLmLuceneIndex.cron
+	chmod 755 $(ARCHIVENAME)/LmWebServer/lucene/buildLmLuceneIndex.sh
 
 checkLmWeb.cron: $(ARCHIVENAME)/LmWebServer/scripts/checkLmWeb.cron.in
 	$(SED) $(SEDSPEC) $^ > $(ARCHIVENAME)/LmWebServer/scripts/$@
@@ -107,9 +107,8 @@ deleteOldAnonymous.cron: $(ARCHIVENAME)/LmDbServer/scripts/deleteOldAnonymous.cr
 	$(SED) $(SEDSPEC) $^ > $(ARCHIVENAME)/LmDbServer/scripts/$@
 	chmod 755 $(ARCHIVENAME)/LmDbServer/scripts/deleteOldAnonymous.cron
 
-lmLucene.sh: $(ARCHIVENAME)/LmWebServer/lucene/lmLucene.sh.in
+lmLucene: $(ARCHIVENAME)/LmWebServer/lucene/lmLucene.in
 	$(SED) $(SEDSPEC) $^ > $(ARCHIVENAME)/LmWebServer/lucene/$@
-	chmod 755 $(ARCHIVENAME)/LmWebServer/lucene/lmLucene.sh
 
 runAllSQLScripts.sql: $(ARCHIVENAME)/LmDbServer/dbsetup/runAllSQLScripts.sql.in
 	$(SED) $(SEDSPEC) $^ > $(ARCHIVENAME)/LmDbServer/dbsetup/$@
@@ -133,10 +132,14 @@ build:
 install::
 	mkdir -p $(ROOT)/$(EXPORTDIR)
 	mv $(ARCHIVENAME)/LmWebServer/test/data/* $(ROOT)/$(EXPORTDIR) 
+	
 	mkdir -p $(ROOT)/$(LMHOME)
 	rm -rf $(ARCHIVENAME)/svn-info
 	mv $(ARCHIVENAME)/*  $(ROOT)/$(LMHOME) 
-
+	
+	mkdir -p $(ROOT)/etc/init.d
+	install -m 755 $(ARCHIVENAME)/LmWebServer/lucene/lmLucene $(ROOT)/etc/init.d
+	
 clean::
 	rm -rf  $(SCRIPTS)  
 	rm -rf  $(ARCHIVENAME)

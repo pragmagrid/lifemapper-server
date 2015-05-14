@@ -1,7 +1,7 @@
 NAME        		= lifemapper-species-data
 SPECIES_DATA_PATH	= species
-SPECIES_DATA      = iDigBio_20150222
+SPECIES_DATA      	= iDigBio_20150513
 
 VERSION     		= 1.0
-RELEASE 				= 0
-TARBALL_POSTFIX	= tar.gz
+RELEASE 		= 0
+ZIPFILE_POSTFIX		= zip

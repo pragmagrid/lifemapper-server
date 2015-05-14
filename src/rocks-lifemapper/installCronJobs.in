@@ -1,0 +1,40 @@
+#!/bin/bash 
+#
+# Add scripts for daily tasks to cron.daily directory  
+#
+usage () 
+{
+    echo "Usage: $0"
+    echo "This script copies maintenance scripts in @LMHOME@/LmWebServer/lucene " 
+    echo "and @LMHOME@/config/ directories to the cron.daily directory and "
+    echo "sets execute permissions."
+}
+
+### define varibles
+setDefaults () {
+    CRON_DIR=/etc/cron.daily/
+    LOG=/tmp/`/bin/basename $0`.log
+    touch $LOG
+    TimeStamp "# Start"
+}
+
+TimeStamp () {
+    echo $1 `/bin/date` >> $LOG
+}
+
+# install cron jobs
+installDailyTasks () {
+    install @LMHOME@/config/securityUpdates.sh ${CRON_DIR}
+    install @LMHOME@/LmWebServer/lucene/buildLmLuceneIndex.sh ${CRON_DIR}
+    echo "Installed tasks to ${CRON_DIR} ..." | tee -a $LOG
+}
+
+#### Main ####
+if [ $# -ne 0 ]; then
+    usage
+    exit 0
+fi 
+
+setDefaults
+installDailyTasks
+TimeStamp "# End"
