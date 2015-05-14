@@ -93,12 +93,12 @@ PROGS = \
 	initWebserver \
 	initPostgis \
 	initDB \
-	updateIP \
-	registerCompute
+	updateIP
 
 PYFILES = __init__.py \
 	confconst.py \
-	confbase.py
+	confbase.py \
+	registerCompute.py
 
 EXECFILES = \
 	confDbconnect \
@@ -112,15 +112,12 @@ EXECFILES = \
 
 .SUFFIXES:
 
-build: $(SCRIPTS) $(PROFILES) $(PROGS) 
+build: $(SCRIPTS) $(PROFILES) $(PROGS) $(PYFILES) $(EXECFILES)
 	
 install::
 
 	mkdir -p $(ROOT)/etc/profile.d
 	install -m 755 $(PROFILES) $(ROOT)/etc/profile.d
-
-	mkdir -p $(ROOT)/etc/init.d
-	install -m 755 $(PKGROOT)/LmWebServer/lucene/lmLucene $(ROOT)/etc/init.d
 
 	mkdir -p $(ROOT)/etc/sysctl.d
 	install -m 644 postgresd $(ROOT)/etc/sysctl.d
