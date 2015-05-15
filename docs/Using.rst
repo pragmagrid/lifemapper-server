@@ -34,6 +34,15 @@ authentication are set up and postgres and pgbouncer are configured.
    If the output indicates 200-300 Mb, reboot the VM: ::
      
      # reboot
+     
+#. **Register LmCompute instance(s)**  as root  
+
+   Run the script to install LmCompute instance configured for this LmServer  ::  
+
+     # $PYTHON /opt/lifemapper/bin/registerCompute.py 
+
+   Optionally, edit configured LmCompute values in the script and re-run
+
    
 #. **Test the LmWebServer** setup
   
