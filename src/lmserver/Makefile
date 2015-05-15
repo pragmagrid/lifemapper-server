@@ -133,12 +133,12 @@ install::
 	mkdir -p $(ROOT)/$(EXPORTDIR)
 	mv $(ARCHIVENAME)/LmWebServer/test/data/* $(ROOT)/$(EXPORTDIR) 
 	
+	mkdir -p $(ROOT)/etc/init.d
+	install -m 755 $(ARCHIVENAME)/LmWebServer/lucene/lmLucene $(ROOT)/etc/init.d
+	
 	mkdir -p $(ROOT)/$(LMHOME)
 	rm -rf $(ARCHIVENAME)/svn-info
 	mv $(ARCHIVENAME)/*  $(ROOT)/$(LMHOME) 
-	
-	mkdir -p $(ROOT)/etc/init.d
-	install -m 755 $(ARCHIVENAME)/LmWebServer/lucene/lmLucene $(ROOT)/etc/init.d
 	
 clean::
 	rm -rf  $(SCRIPTS)  
