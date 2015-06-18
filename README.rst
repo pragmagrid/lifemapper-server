@@ -370,7 +370,7 @@ TODO
    http://www.postgresql.org/docs/9.1/static/multibyte.html
 
 #. add site config file config/site.ini that can overwrite default values in config.config.ini
-   Changes to make:
+   Changes to make: ::
 
      #. append to the end of config/config.ini ::
 
