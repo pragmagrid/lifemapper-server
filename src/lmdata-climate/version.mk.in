@@ -1,7 +1,5 @@
 NAME        	= lifemapper-climate-data
 ENV_DATA_PATH  = climate
-# Replaced with SCENARIO_PACKAGE in lifemapper-server/src/version.mk.in
-# CLIMATE_DATA   = WC_AR5_5min
 
 ARCHIVENAME    = data
 
