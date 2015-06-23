@@ -32,7 +32,7 @@ SetEnv PROJ_LIB "@LMHOME@/share/proj"
 # Root for lifemapper content
 RewriteEngine on
 
-<LocationMatch "^/(css|clients|hint|images|jobs|schemas|services|robots.txt)">
+<LocationMatch "^/(css|clients|hint|images|jobs|login|logout|schemas|services|robots.txt)">
    PythonPath "sys.path+['@LMHOME@/LmWebServer/public_html/services']+['@LMHOME@/']"
    SetHandler python-program
    PythonHandler cherrypy._cpmodpy::handler
