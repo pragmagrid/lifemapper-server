@@ -9,12 +9,11 @@ PGSQLVER      = 9.1
 LMDISK        = /share/lm
 UNIXSOCKET    = /var/run/postgresql
 SMTPSERVER    = localhost
-SMTPSENDER    = no-reply-lifemapper@@PUBLIC_FQDN@
 
-DB_FQDN       = hera.nhm.ku.edu
-WEB_FQDN      = hermes.nhm.ku.edu
-PUBLIC_FQDN   = lifemapper.org
-SERVICE_FQDN  = svc.lifemapper.org
+DB_FQDN       = badenov.nhm.ku.edu
+WEB_FQDN      = badenov.nhm.ku.edu
+PUBLIC_FQDN   = badenov.nhm.ku.edu
+SERVICE_FQDN  = badenov.nhm.ku.edu
 
 LMUSER                = bison
 DATASOURCE            = BISON

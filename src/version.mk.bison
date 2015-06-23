@@ -9,7 +9,6 @@ PGSQLVER      = 9.1
 LMDISK        = /share/lm
 UNIXSOCKET    = /var/run/postgresql
 SMTPSERVER    = localhost
-SMTPSENDER    = no-reply-lifemapper@@PUBLIC_FQDN@
 
 DB_FQDN       = mercury.lifemapper.org
 WEB_FQDN      = mercury.lifemapper.org
