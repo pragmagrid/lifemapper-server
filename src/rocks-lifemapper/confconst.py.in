@@ -28,4 +28,4 @@ ADMIN_LIST = ["postgres", "admin"]                     # admin users
 MKPASSWD = "/usr/bin/mkpasswd -l 12 -d 3 -s 0"         # use to create passwd: 12c lon, 3 digits, no special chars
 
 # lifemapper db users passwords are used in this file
-DBCONNECT = "@LMHOME@/LmServerCommon/db/connect.py" 
+DBCONNECT = "@LMHOME@/LmServer/db/connect.py" 

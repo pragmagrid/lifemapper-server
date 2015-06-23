@@ -2,11 +2,11 @@
 
 from LmDbServer.common.localconstants import DATASOURCE
 
-from LmServerCommon.common.localconstants import DATA_PATH
-from LmServerCommon.common.log import DebugLogger
-from LmServerCommon.common.computeResource import LMComputeResource
-from LmServerCommon.common.lmuser import LMUser
-from LmServerCommon.db.scribe import Scribe
+from LmServer.common.localconstants import DATA_PATH
+from LmServer.common.log import DebugLogger
+from LmServer.common.computeResource import LMComputeResource
+from LmServer.common.lmuser import LMUser
+from LmServer.db.scribe import Scribe
 
 import mx.DateTime as DT
 import os

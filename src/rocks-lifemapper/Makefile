@@ -96,6 +96,7 @@ PROFILES = \
 SCRIPTS = \
 	lifemapper.conf \
 	lucene.cron \
+	lmLucene \
 	lifemapper-sysconfig-httpd \
 	lifemapper-server.conf
 

@@ -19,7 +19,7 @@ class ConfDbconnect(confbase.Baseconfig):
 
         # May use this later once DbUser struct is finalized in lm
         # sys.path.append("/opt/lifemapper/lmserver/")
-        # from LmServerCommon.common.lmconstants import DbUser
+        # from LmServer.common.lmconstants import DbUser
         # self.userdict = DbUser
                         
         self.parseArgs()
@@ -31,7 +31,7 @@ class ConfDbconnect(confbase.Baseconfig):
 
     def makeLines(self):
         """ create lines for connect.py file """
-        lines = "from LmServerCommon.common.lmconstants import DbUser\n\n"
+        lines = "from LmServer.common.lmconstants import DbUser\n\n"
         lines += "HL_NAME = {\n"
 
         # read user/pass list 
@@ -48,7 +48,7 @@ class ConfDbconnect(confbase.Baseconfig):
         # create auth file content
         lines = self.makeLines()
 
-        # make a coopy of original file
+        # make a copy of original file
         templ = "%s.orig" % self.connect
         self.saveOrigFile(self.connect, templ)
 

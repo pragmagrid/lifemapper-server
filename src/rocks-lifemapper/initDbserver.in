@@ -24,7 +24,7 @@ create_db_users() {
     echo "-- create lifemapper db users" >> $LOG
     $BIN/confUsers >> $LOG
 
-    echo "-- update users passwords in @LMHOME@/LmServerCommon/db/connect.py" >> $LOG
+    echo "-- update users passwords in @LMHOME@/LmServer/db/connect.py" >> $LOG
     $BIN/confDbconnect >> $LOG  2>&1
 
     echo "-- create roles and postgis tables" >> $LOG
