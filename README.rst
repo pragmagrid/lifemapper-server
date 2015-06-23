@@ -369,4 +369,23 @@ TODO
    UTF8. but client appears LATIN9. See
    http://www.postgresql.org/docs/9.1/static/multibyte.html
 
+#. add site config file config/site.ini that can overwrite default values in config.config.ini
+   Changes to make: 
+
+   #. append to the end of config/config.ini ::
+
+        ; .............................................................................
+        ; Site configuration 
+        ; .............................................................................
+        [SiteConfig]
+        siteConfig: @LMHOME@/config/site.ini 
+
+   #. append in LmCommon/common/config.py  in reload() ::
+
+        siteconfig = self.get('SiteConfig', 'siteconfig')
+        if os.path.isfile(siteconfig):
+            self.config.read(siteconfig)
+
+
+
 .. _Using Lifemapper: docs/Using.rst
