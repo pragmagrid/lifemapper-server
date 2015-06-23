@@ -48,10 +48,6 @@ class ConfDbconnect(confbase.Baseconfig):
         # create auth file content
         lines = self.makeLines()
 
-        # make a copy of original file
-        templ = "%s.orig" % self.connect
-        self.saveOrigFile(self.connect, templ)
-
         # write connect.py file
         self.writeFile(self.connect, lines)
 
