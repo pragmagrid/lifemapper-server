@@ -74,6 +74,10 @@ SEDSPEC += \
         -e 's%@LMHOME@%$(LMHOME)%g' \
         -e 's%@LMWEB@%$(LMWEB)%g' \
         -e 's%@LMUSER@%$(LMUSER)%g' \
+        -e 's%@DB_FQDN@%$(DB_FQDN)%g' \
+        -e 's%@WEB_FQDN@%$(WEB_FQDN)%g' \
+        -e 's%@PUBLIC_FQDN@%$(PUBLIC_FQDN)%g' \
+        -e 's%@SERVICE_FQDN@%$(SERVICE_FQDN)%g' \
         -e 's%@SMTPSERVER@%$(SMTPSERVER)%g' \
         -e 's%@SMTPSENDER@%$(SMTPSENDER)%g' \
         -e 's%@TEMPDIR@%$(TEMPDIR)%g'  \

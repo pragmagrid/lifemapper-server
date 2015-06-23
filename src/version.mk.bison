@@ -11,6 +11,11 @@ UNIXSOCKET    = /var/run/postgresql
 SMTPSERVER    = localhost
 SMTPSENDER    = no-reply-lifemapper@@PUBLIC_FQDN@
 
+DB_FQDN       = mercury.lifemapper.org
+WEB_FQDN      = mercury.lifemapper.org
+PUBLIC_FQDN   = mercury.lifemapper.org
+SERVICE_FQDN  = mercury.lifemapper.org
+
 LMUSER                = bison
 DATASOURCE            = BISON
 ALGORITHMS            = ATT_MAXENT

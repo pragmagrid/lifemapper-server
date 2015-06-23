@@ -11,6 +11,11 @@ UNIXSOCKET    = /var/run/postgresql
 SMTPSERVER    = localhost
 SMTPSENDER    = no-reply-lifemapper@@PUBLIC_FQDN@
 
+DB_FQDN       = hera.nhm.ku.edu
+WEB_FQDN      = hermes.nhm.ku.edu
+PUBLIC_FQDN   = lifemapper.org
+SERVICE_FQDN  = svc.lifemapper.org
+
 LMUSER                = bison
 DATASOURCE            = BISON
 ALGORITHMS            = ATT_MAXENT

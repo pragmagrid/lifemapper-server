@@ -11,6 +11,11 @@ UNIXSOCKET    = /var/run/postgresql
 SMTPSERVER    = localhost
 SMTPSENDER    = no-reply-lifemapper@@PUBLIC_FQDN@
 
+DB_FQDN       = rosie.lifemapper.org
+WEB_FQDN      = rosie.lifemapper.org
+PUBLIC_FQDN   = rosie.lifemapper.org
+SERVICE_FQDN  = rosie.lifemapper.org
+
 LMUSER                = idigbio
 DATASOURCE            = IDIGBIO
 ALGORITHMS            = ATT_MAXENT
