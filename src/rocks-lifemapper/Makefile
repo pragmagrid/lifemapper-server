@@ -140,6 +140,9 @@ install::
 
 	mkdir -p $(ROOT)/etc/ld.so.conf.d
 	install -m 644 lifemapper-server.conf $(ROOT)/etc/ld.so.conf.d
+	
+	mkdir -p $(ROOT)/etc/rc.d/init.d
+	install -m 755 lmLucene $(ROOT)/etc/rc.d/init.d
 
 	mkdir -p $(ROOT)/$(PKGROOT)/rocks/bin
 	install -m 755 $(PROGS) $(ROOT)/$(PKGROOT)/rocks/bin
@@ -156,3 +159,5 @@ install::
 clean::
 	rm -rf version.mk $(SCRIPTS) $(PROFILES) $(PROGS) confconst.py
 	rm -rf *.pyc 
+
+	

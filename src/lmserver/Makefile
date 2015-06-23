@@ -79,7 +79,6 @@ SEDSPEC += \
         -e 's%@PUBLIC_FQDN@%$(PUBLIC_FQDN)%g' \
         -e 's%@SERVICE_FQDN@%$(SERVICE_FQDN)%g' \
         -e 's%@SMTPSERVER@%$(SMTPSERVER)%g' \
-        -e 's%@SMTPSENDER@%$(SMTPSENDER)%g' \
         -e 's%@TEMPDIR@%$(TEMPDIR)%g'  \
         -e 's%@VERSION@%$(VERSION)%g' \
         -e 's%@DATASOURCE@%$(DATASOURCE)%g'  \
@@ -91,9 +90,10 @@ SCRIPTS = buildLmLuceneIndex.sh \
           checkLmWeb.cron \
           config.ini \
           deleteOldAnonymous.cron \
-          lmLucene  \
           runAllSQLScripts.sql  \
-          runUpdateDBScripts.sql 
+          runUpdateDBScripts.sql \
+          lmLucene.py
+
           
 buildLmLuceneIndex.sh: $(ARCHIVENAME)/LmWebServer/lucene/buildLmLuceneIndex.sh.in
 	$(SED) $(SEDSPEC) $^ > $(ARCHIVENAME)/LmWebServer/lucene/$@
@@ -111,7 +111,7 @@ deleteOldAnonymous.cron: $(ARCHIVENAME)/LmDbServer/scripts/deleteOldAnonymous.cr
 	$(SED) $(SEDSPEC) $^ > $(ARCHIVENAME)/LmDbServer/scripts/$@
 	chmod 755 $(ARCHIVENAME)/LmDbServer/scripts/deleteOldAnonymous.cron
 
-lmLucene: $(ARCHIVENAME)/LmWebServer/lucene/lmLucene.in
+lmLucene.py: $(ARCHIVENAME)/LmWebServer/lucene/lmLucene.py.in
 	$(SED) $(SEDSPEC) $^ > $(ARCHIVENAME)/LmWebServer/lucene/$@
 
 runAllSQLScripts.sql: $(ARCHIVENAME)/LmDbServer/dbsetup/runAllSQLScripts.sql.in
@@ -119,6 +119,7 @@ runAllSQLScripts.sql: $(ARCHIVENAME)/LmDbServer/dbsetup/runAllSQLScripts.sql.in
 
 runUpdateDBScripts.sql: $(ARCHIVENAME)/LmDbServer/dbsetup/runUpdateDBScripts.sql.in
 	$(SED) $(SEDSPEC) $^ > $(ARCHIVENAME)/LmDbServer/dbsetup/$@
+
 
 prepSrc.sh: prepSrc.sh.in
 	$(SED) $(SEDSPEC) $^ > $@
@@ -132,14 +133,11 @@ prep: prepSrc.sh
 build: 
 	tar xzvf $(NAME)-$(VERSION).tar.gz  
 	make $(SCRIPTS)
+	make $(SERVICES)
 
 install::
 	mkdir -p $(ROOT)/$(EXPORTDIR)
-	mv $(ARCHIVENAME)/LmWebServer/test/data/* $(ROOT)/$(EXPORTDIR) 
-	
-	mkdir -p $(ROOT)/etc/rc.d/init.d
-	install -m 755 $(ARCHIVENAME)/LmWebServer/lucene/lmLucene $(ROOT)/etc/rc.d/init.d
-	
+	mv $(ARCHIVENAME)/LmWebServer/test/data/* $(ROOT)/$(EXPORTDIR) 	
 	mkdir -p $(ROOT)/$(LMHOME)
 	rm -rf $(ARCHIVENAME)/svn-info
 	mv $(ARCHIVENAME)/*  $(ROOT)/$(LMHOME) 
