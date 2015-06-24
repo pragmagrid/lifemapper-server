@@ -40,7 +40,7 @@ SetDefaults () {
     DEFINESQL=@LMHOME@/LmDbServer/dbsetup/runAllSQLScripts.sql
     POPULATEPY=@LMHOME@/LmDbServer/populate/initCatalog.py
     TAXONOMYPY=@LMHOME@/LmDbServer/populate/@DATASOURCE@/readTaxonomy.py
-    COMPUTEPY=@PKGROOT@/rocks/bin/registerCompute.py
+    COMPUTEPY=@LMHOME@/LmDbServer/populate/registerCompute.py
 
     LOG=/tmp/`/bin/basename $0`.log
     touch $LOG

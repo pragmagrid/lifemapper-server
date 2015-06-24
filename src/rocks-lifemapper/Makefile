@@ -75,20 +75,8 @@ SEDSPEC += \
         -e 's%@MYSQLDB@%$(MYSQLDB)%g' \
         -e 's%@PKGROOT@%$(PKGROOT)%g' \
         -e 's%@UNIXSOCKET@%$(UNIXSOCKET)%g' \
-        -e 's%@DATASOURCE@%$(DATASOURCE)%g' \
-        -e 's%@COMPUTE_CONTACT_ID@%$(COMPUTE_CONTACT_ID)%g' \
-        -e 's%@COMPUTE_CONTACT_EMAIL@%$(COMPUTE_CONTACT_EMAIL)%g' \
-        -e 's%@COMPUTE_CONTACT_PASS@%$(COMPUTE_CONTACT_PASS)%g' \
-        -e 's%@COMPUTE_CONTACT_FIRST@%$(COMPUTE_CONTACT_FIRST)%g' \
-        -e 's%@COMPUTE_CONTACT_LAST@%$(COMPUTE_CONTACT_LAST)%g' \
-        -e 's%@COMPUTE_CONTACT_INST@%$(COMPUTE_CONTACT_INST)%g' \
-        -e 's%@COMPUTE_CONTACT_ADDR1@%$(COMPUTE_CONTACT_ADDR1)%g' \
-        -e 's%@COMPUTE_CONTACT_ADDR2@%$(COMPUTE_CONTACT_ADDR2)%g' \
-        -e 's%@COMPUTE_CONTACT_ADDR3@%$(COMPUTE_CONTACT_ADDR3)%g' \
-        -e 's%@COMPUTE_NAME@%$(COMPUTE_NAME)%g' \
-        -e 's%@COMPUTE_FQDN@%$(COMPUTE_FQDN)%g'
+        -e 's%@DATASOURCE@%$(DATASOURCE)%g'
         
-
 PROFILES = \
 	lifemapper.sh \
 	lifemapper.csh 
@@ -110,8 +98,7 @@ PROGS = \
 
 PYFILES = __init__.py \
 	confconst.py \
-	confbase.py \
-	registerCompute.py
+	confbase.py
 
 EXECFILES = \
 	confDbconnect \
