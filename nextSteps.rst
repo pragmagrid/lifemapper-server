@@ -41,14 +41,25 @@ PRAGMA 30
    #. Optionally write to a data space shared with clients, bypassing apache 
       for '''external''' communications
       
-
 Important dates
 ~~~~~~~~~~~~~~
+
+#. June 31: Aimee will email Nadya with travel suggestions for her Lawrence visit.
+
+#. July 1: Aimee/Nadya call 9:30 PDT / 11:30 CDT
+
+#. July 2: Aimee will email Reed and Nadya to discuss and request Kinabalu data 
+   for testing and demonstration (and workshop?).
 
 #. July 10, 2015: Aimee will provide 2 working LM component rolls 
    with LM SVN Version 6171 for Nadya to work with.  These rolls will not contain
    completed code improvements planned for PRAGMA 29, but will be suitable for
    testing.
+   
+#. July 3: Aimee will email Reed and Nadya to discuss and request Kinabalu data 
+   for testing and demonstration (and workshop?).
+
+#. July 23-24: PI meeting at SDSC, Nadya will talk with Peter and follow up with Reed
    
 #. July 27-29: Nadya will visit Kansas for one-on-one problem-solving
   
