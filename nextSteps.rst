@@ -16,19 +16,27 @@ PRAGMA 29
 This section lists goals for PRAGMA 29, October 2015, Bogor, Indonesia.
 
 #. Lifemapper code improvements
-   #. Further code modularization for alternate datasources.\
+
+   #. Further code modularization for alternate datasources.
+   
       #. Localization/Site file for site-specific parameters to be defined on installation  
+      
       #. Leverage subclasses for handling site-specific data within the code 
+      
    #. Formalize requirements and generalize population/pipeline code for site-specific data
    
 #. Mount Kinabalu VBE
+
    #. Enable multi-species (RAD) experiments
+   
    #. Set up pipeline between UFL (LmCompute), Indonesia (LmServer) and clients
    
 #. Virtual Lifemapper on a laptop
+
    #. Create a Virtual cluster with 2 nodes, both components (LmCompute/LmServer).
       This VM will be available for download for PRAGMA participants prior to 
       and during PRAGMA 29.  
+      
    #. Researchers can install QGIS with Lifemapper plugin to communicate with
       laptop LM installation
  
@@ -36,8 +44,10 @@ PRAGMA 30
 ~~~~~~~~~~~~~~
 
 #. Code/Configuration improvements
+
    #. Optionally write to a data space shared between LmCompute and LmServer, 
       bypassing apache for '''internal''' communications
+      
    #. Optionally write to a data space shared with clients, bypassing apache 
       for '''external''' communications
       
