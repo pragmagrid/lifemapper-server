@@ -389,5 +389,3 @@ TODO
 
 
 .. _Using Lifemapper: docs/Using.rst
-
-this is a test
