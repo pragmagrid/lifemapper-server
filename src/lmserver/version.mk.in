@@ -3,4 +3,7 @@ ARCHIVENAME     = components
 VERSION     	= 6171
 RELEASE 	= 1
 TARBALL_POSTFIX	= tar.gz
- 
+
+PATCH_VERSION	= 6181
+UPDATE_1 = components/LmCommon/src/common/config.py
+UPDATE_2 = components/config

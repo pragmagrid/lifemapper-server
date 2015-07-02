@@ -73,18 +73,9 @@ SEDSPEC += \
         -e 's%@LMDISK@%$(LMDISK)%g' \
         -e 's%@LMHOME@%$(LMHOME)%g' \
         -e 's%@LMWEB@%$(LMWEB)%g' \
-        -e 's%@LMUSER@%$(LMUSER)%g' \
-        -e 's%@DB_FQDN@%$(DB_FQDN)%g' \
-        -e 's%@WEB_FQDN@%$(WEB_FQDN)%g' \
-        -e 's%@PUBLIC_FQDN@%$(PUBLIC_FQDN)%g' \
-        -e 's%@SERVICE_FQDN@%$(SERVICE_FQDN)%g' \
         -e 's%@SMTPSERVER@%$(SMTPSERVER)%g' \
         -e 's%@TEMPDIR@%$(TEMPDIR)%g'  \
         -e 's%@VERSION@%$(VERSION)%g' \
-        -e 's%@DATASOURCE@%$(DATASOURCE)%g'  \
-        -e 's%@ALGORITHMS@%$(ALGORITHMS)%g' \
-        -e 's%@MODEL_SCENARIO@%$(MODEL_SCENARIO)%g' \
-        -e 's%@PROJECTION_SCENARIOS@%$(PROJECTION_SCENARIOS)%g'
 
 SCRIPTS = buildLmLuceneIndex.sh \
           checkLmWeb.cron \
