@@ -10,8 +10,8 @@ URL=https://svn.lifemapper.org/trunk
 checkout_svn () {
       echo "Starting SVN checkout from $1:"
       svn checkout -r @VERSION@ $1/$SRC
-      svn update @PATCH_VERSION@ $1/UPDATE_1
-      svn update @PATCH_VERSION@ $1/UPDATE_2
+      svn update @PATCH_VERSION@ $1/@UPDATE_1@
+      svn update @PATCH_VERSION@ $1/@UPDATE_2@
       svn info $SRC > $SRC/svn-info
 
       echo "Removing .svn in $SRC:"
