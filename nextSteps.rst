@@ -52,7 +52,7 @@ PRAGMA 30
       for '''external''' communications
       
 Important dates
-~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~
 
 #. June 31: Aimee will email Nadya with travel suggestions for her Lawrence visit.
 
@@ -69,8 +69,25 @@ Important dates
 #. July 3: Aimee will email Reed and Nadya to discuss and request Kinabalu data 
    for testing and demonstration (and workshop?).
 
+#. July 8: Aimee/Nadya call 9:30 PDT / 11:30 CDT
+
 #. July 23-24: PI meeting at SDSC, Nadya will talk with Peter and follow up with Reed
    
 #. July 27-29: Nadya will visit Kansas for one-on-one problem-solving
   
 #. Aug 24-29 (2/3 days TBD): Aimee will visit SDSC for one-on-one problem-solving
+
+Weekly TODO
+~~~~~~~~~~~~~
+
+#. July 1 call
+
+    #. send email to Aimee with info how to build devel-server
+       Done july 1. 
+    
+    #. verify security-updates roll for 6.2
+       Done july 1. Verified roll build and install, send email to Aimee 
+       
+    #. TODO Build new Vbox images with rocks 6.2 on laptop  
+    
+    #. TODO Follow up with Peter and Reed during their visit in SD.
