@@ -11,6 +11,7 @@ This roll installs dbserver and webserver parts of Lifemapper.
 All prerequisite software listed below are a part of the roll and 
 will be installed and configured during roll installation. 
 The roll has been tested with Rocks 6.1 and 6.1.1. And now with 6.2!
+This is Aimee's test commit.
 
 For PRAGMA27 student challenge please see `Lifemapper Student Challenge`_
 
