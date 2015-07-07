@@ -76,6 +76,9 @@ SEDSPEC += \
         -e 's%@SMTPSERVER@%$(SMTPSERVER)%g' \
         -e 's%@TEMPDIR@%$(TEMPDIR)%g'  \
         -e 's%@VERSION@%$(VERSION)%g' \
+        -e 's%@PATCH_VERSION@%$(PATCH_VERSION)%g' \
+        -e 's%@UPDATE_1@%$(UPDATE_1)%g' \
+        -e 's%@UPDATE_2@%$(UPDATE_2)%g'
 
 SCRIPTS = buildLmLuceneIndex.sh \
           checkLmWeb.cron \
