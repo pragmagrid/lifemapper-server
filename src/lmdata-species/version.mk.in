@@ -4,4 +4,5 @@ SPECIES_DATA      	= iDigBio_20150513
 
 VERSION     		= 1.0
 RELEASE 		= 0
-TARFILE_POSTFIX		= tar.gz
+TARBALL_POSTFIX		= tar.gz
+
