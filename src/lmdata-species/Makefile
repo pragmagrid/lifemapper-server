@@ -86,7 +86,7 @@ build:
 
 install::
 	mkdir -p $(ROOT)/$(EXPORTDIR)
-	tar -xzf  $(SPECIES_DATA).$(TARFILE_POSTFIX)  -d  $(ROOT)/$(EXPORTDIR)/
+	tar -xzf  $(SPECIES_DATA).$(TARFILE_POSTFIX)  -C  $(ROOT)/$(EXPORTDIR)/
 
 clean::
 	rm -rf version.mk
