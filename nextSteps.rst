@@ -8,7 +8,7 @@ PRAGMA Next Steps
 Introduction
 ----------------
 This document describes improvements planned to serve the PRAGMA project Virtual 
-Biodiversity Expedition (VBE).
+Biodiversity Expedition (VBE).  Test comments from Aimee.
 
 PRAGMA 29
 ~~~~~~~~~~~~~~
