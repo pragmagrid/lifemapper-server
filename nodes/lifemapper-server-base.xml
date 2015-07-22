@@ -82,12 +82,11 @@ fi
 <post>
 
 /bin/mkdir -p /state/partition1/lmserver/log
-# changed from ClimateData
+/bin/mkdir -p /state/partition1/lmserver/log/users
 /bin/mkdir -p /state/partition1/lmserver/data/climate
 /bin/mkdir -p /state/partition1/lmserver/data/species
 /bin/mkdir -p /state/partition1/lmserver/data/ESRIDATA
 /bin/mkdir -p /state/partition1/lmserver/data/image
-# changed from models and UserData
 /bin/mkdir -p /state/partition1/lmserver/data/archive
 /bin/mkdir -p /state/partition1/lmserver/data/test
 
