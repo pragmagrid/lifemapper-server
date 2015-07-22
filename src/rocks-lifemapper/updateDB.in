@@ -1,6 +1,6 @@
 #!/bin/bash 
 
-# Purpose: define and populate lifemapper pipeline
+# Purpose: update lifemapper database for current code
 #
 # This script is run by a superuser, it reads the @PKGROOT@/rocks/etc/users file
 # to get the password for the "admin" DB user and runs psql to execute all the sql scripts

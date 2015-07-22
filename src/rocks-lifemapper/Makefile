@@ -94,7 +94,9 @@ PROGS = \
 	initWebserver \
 	initPostgis \
 	initDB \
-	updateIP
+	updateIP \
+	updateDB \
+	updateLM
 
 PYFILES = __init__.py \
 	confconst.py \

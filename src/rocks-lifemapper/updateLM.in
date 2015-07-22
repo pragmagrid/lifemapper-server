@@ -1,0 +1,109 @@
+#!/bin/bash
+#
+# This script is creates configuration files for postgres and pgbouncer. 
+# The script can be run at any time to remove all the previous configuration
+# and create a new one. 
+
+usage () 
+{
+    echo "Usage: $0"
+    echo "This script is run after lifemapper-server and rocks-lifemapper rpm updates. It will:"
+    echo "     - initialize postgress db"
+    echo "     - create lifemapper db users"
+    echo "     - creating roles and postgis tables"
+    echo "     - update postgres tables, views, functions"
+    echo "     - update host IP in @LMHOME@/config/config.ini "
+    echo "     - rewrite db parameters in @LMHOME@/LmServer/db/connect.py "
+    echo "     - restart postgres/pgbouncer\n"
+    echo "     - inserts host IP in @LMHOME@/config/config.ini\n"
+    echo "   "
+    echo "The script can be run at any time to remove all previous configuration and to create"
+    echo "a new one. In this case, old postgres db data (/var/lib/pgsql/*/data/*) is removed."
+}
+
+if [ $# -ne 0 ]; then
+    usage
+    exit 0
+fi 
+
+set_defaults() {
+    # Source function library.
+    INITD=/etc/rc.d/init.d
+    . $INITD/functions
+
+    PG=`basename /etc/init.d/postgresql-*`
+    PROFILE=/var/lib/pgsql/.bash_profile
+    LOG=/tmp/lifemapper-update.log
+    touch $LOG
+    BIN=@PKGROOT@/rocks/bin
+}
+
+# stop services if running
+stop_services () {
+    echo "-- stop $PG and pgbouncer daemons " >> $LOG
+
+    if [ -f /var/run/pgbouncer/pgbouncer.pid ]; then
+        /sbin/service pgbouncer stop >> $LOG
+    fi
+
+    if [ -f /var/run/$PG.pid ] ; then
+        /sbin/service $PG stop >> $LOG
+    fi
+
+    prog="postmaster"
+    if [ -n "`pidof $prog`" ]; then
+        killproc  $prog
+    fi
+}
+
+# rewrite python db connection file for LM code
+write_dbConnect_file() {
+    echo "-- update users passwords in @LMHOME@/LmServer/db/connect.py" >> $LOG
+    $BIN/confDbconnect >> $LOG  2>&1
+}
+
+# update database tables, views, functions
+dbserver_update() {
+    echo "-- Executing updateDB" >> $LOG
+    $BIN/updateDB >> $LOG
+}
+
+# set unix socket; restart postgres and pgbouncer 
+start_services() {
+    # set unix socket dir
+    echo "-- update unix socket " >> $LOG
+    export PGHOST=/var/run/postgresql
+    if [ ! -f $PROFILE ] ; then
+        touch $PROFILE
+        chown postgres:postgres $PROFILE
+    fi
+    echo "export PGHOST=/var/run/postgresql" >> $PROFILE
+
+    # restart postgres 
+    echo "-- restart postgres" >> $LOG
+    /sbin/service $PG restart >> $LOG
+
+    # start pgbouncer
+    echo "-- restart pgbouncer" >> $LOG
+    /sbin/service pgbouncer start >> $LOG
+}
+
+# run updateIP to put correct IP lmserver's config.ini 
+update_config() {
+    echo "-- update host IP in @LMHOME@/config/config.ini" >> $LOG
+    $BIN/updateIP >> $LOG  2>&1
+}
+
+TimeStamp () {
+    echo $1 `/bin/date` >> $LOG
+}
+
+####### Main #######
+TimeStamp "# Start"
+set_defaults
+stop_services
+write_dbConnect_file
+dbserver_update
+update_config
+start_services
+TimeStamp "# End"
