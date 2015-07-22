@@ -1,9 +1,9 @@
 NAME        	= lifemapper-server
 ARCHIVENAME     = components
-VERSION     	= 6171
+VERSION     	= 6250
 RELEASE 	= 1
 TARBALL_POSTFIX	= tar.gz
 
-PATCH_VERSION	= 6199
-UPDATE_1 = components/LmCommon/src/common/config.py
-UPDATE_2 = components/config
+PATCH_VERSION	= 
+UPDATE_DIR1 = 
+UPDATE_DIR2 = 
