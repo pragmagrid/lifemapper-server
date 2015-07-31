@@ -1,3 +1,4 @@
 # Lifemapper lucene cron job
+# TODO: Where is this installed/used???
 
 0  */4  *  *  *  @LMHOME@/LmWebServer/lucene/buildLmLuceneIndex.sh
