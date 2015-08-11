@@ -8,14 +8,11 @@ usage ()
 {
     echo "Usage: $0"
     echo "This script is run after lifemapper-server and rocks-lifemapper rpm updates. It will:"
-    echo "     - initialize postgress db"
-    echo "     - create lifemapper db users"
-    echo "     - creating roles and postgis tables"
     echo "     - update postgres tables, views, functions"
     echo "     - update host IP in @LMHOME@/config/config.ini "
     echo "     - rewrite db parameters in @LMHOME@/LmServer/db/connect.py "
     echo "     - restart postgres/pgbouncer\n"
-    echo "     - inserts host IP in @LMHOME@/config/config.ini\n"
+    echo "     - insert host IP in @LMHOME@/config/config.ini\n"
     echo "   "
     echo "The script can be run at any time to remove all previous configuration and to create"
     echo "a new one. In this case, old postgres db data (/var/lib/pgsql/*/data/*) is removed."
@@ -99,8 +96,8 @@ TimeStamp () {
 }
 
 ####### Main #######
-TimeStamp "# Start"
 set_defaults
+TimeStamp "# Start"
 stop_services
 write_dbConnect_file
 dbserver_update
