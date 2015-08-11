@@ -8,11 +8,14 @@ MaxClients        10
 MaxRequestsPerChild  50
 </IfModule>
 
+# Need to set up the PYTHONPATH.  Cannot do this in VirtualHost declaration
+WSGIPythonPath @LMHOME:@LMHOME/LmWebServer/public_html/services
+
 # For lifemapper-server roll
 <VirtualHost *:80>
 
-# load mod_python module
-LoadModule python_module modules/mod_python.so
+# load mod_wsgi module
+LoadModule wsgi_module modules/mod_wsgi.so 
 
 # Enable MapServer debugging
 SetEnv MS_ERRORFILE "@MAPSERVER_TMP@/mapserver_error.txt"
@@ -32,11 +35,7 @@ SetEnv PROJ_LIB "@LMHOME@/share/proj"
 # Root for lifemapper content
 RewriteEngine on
 
-<LocationMatch "^/(css|clients|hint|images|jobs|login|logout|signup|schemas|services|robots.txt)">
-   PythonPath "sys.path+['@LMHOME@/LmWebServer/public_html/services']+['@LMHOME@/']"
-   SetHandler python-program
-   PythonHandler cherrypy._cpmodpy::handler
-   PythonOption cherrypy.setup svc::serverless
-   PythonDebug On
-</LocationMatch>
+# Mod_wsgi script for Lifemapper content
+WSGIScriptAliasMatch ^/(css|clients|hint|images|jobs|login|logout|signup|schemas|services|robots.txt) @LMHOME@/LmWebServer/public_html/services/svc.py/$1
+
 </VirtualHost>
