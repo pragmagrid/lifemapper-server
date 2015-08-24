@@ -21,7 +21,7 @@ checkout_svn () {
           svn update -r @PATCH_VERSION@ @UPDATE_DIR2@
       fi
 
-      svn info $SRC > $SRC/svn-info
+      svn info $SRC >> $SRC/svn-info
 
       echo "Removing .svn in $SRC:"
       if [ -d $SRC ]; then

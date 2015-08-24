@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # Purpose: Fetch climate data named in CLIMATE_DATA  
+# Note: SCENARIO_PACKAGE is defined in lifemapper-server/src/version.mk
 
 create_climate_data () {
   echo "Fetch climate data"

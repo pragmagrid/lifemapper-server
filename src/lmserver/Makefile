@@ -122,6 +122,7 @@ prepSrc.sh: prepSrc.sh.in
 prep: prepSrc.sh
 	rm -rf version.mk
 	make version.mk
+	make prepSrc.sh
 	./prepSrc.sh
 
 build: 
