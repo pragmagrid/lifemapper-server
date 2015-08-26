@@ -13,10 +13,10 @@ SMTPSENDER    = no-reply-lifemapper@@PUBLIC_FQDN@
 
 LMUSER                = idigbio
 DATASOURCE            = IDIGBIO
-SPECIES_DATA          = iDigBio_20150513
+SPECIES_DATA 	      = iDigBio_20150513
 ALGORITHMS            = BIOCLIM,ATT_MAXENT
-MODEL_SCENARIO        = WC-5MIN 
+MODEL_SCENARIO        = WC-5MIN
 PROJECTION_SCENARIOS  = RCP8.5-CCSM4-2050,RCP8.5-CCSM4-2070
-SCENARIO_PACKAGE      = WC_AR5_5min
+SCENARIO_PACKAGE      = 10min-past-present-future
 GRID_NAME             = lmgrid_1d
 GRID_CELLSIZE         = 1
