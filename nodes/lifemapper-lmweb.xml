@@ -17,7 +17,7 @@
 	<changelog>
 	</changelog>
 
-	<package>lifemapper-mod_python</package>
+	<package>lifemapper-mod_wsgi</package>
 	<package>lifemapper-ant</package>
 	<package>opt-lifemapper-cherrypy</package>
 	<package>opt-lifemapper-pylucene</package>

@@ -40,7 +40,6 @@
 	<package>lifemapper-tiff</package>
 
 	<!-- python prerequisites -->
-	<package>opt-lifemapper-setuptools</package>
 	<package>opt-lifemapper-numexpr</package>
 	<package>opt-lifemapper-cython</package>
 	<package>opt-lifemapper-pytables</package>
