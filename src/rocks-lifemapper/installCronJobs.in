@@ -13,6 +13,7 @@ usage ()
 ### define varibles
 setDefaults () {
     CRON_DIR=/etc/cron.daily/
+    CRON_DAILY_DIR=/etc/cron.daily/
     LOG=/tmp/`/bin/basename $0`.log
     touch $LOG
     TimeStamp "# Start"
@@ -24,8 +25,8 @@ TimeStamp () {
 
 # install cron jobs
 installDailyTasks () {
-    install @LMHOME@/config/securityUpdates.sh ${CRON_DIR}
-    install @LMHOME@/LmWebServer/lucene/buildLmLuceneIndex.sh ${CRON_DIR}
+    install @LMHOME@/config/securityUpdates.sh ${CRON_DAILY_DIR}
+    install @LMHOME@/rocks/etc/lucene.cron ${CRON_DIR}
     echo "Installed tasks to ${CRON_DIR} ..." | tee -a $LOG
 }
 

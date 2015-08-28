@@ -139,6 +139,7 @@ install::
 	install -m 755 $(EXECFILES) $(ROOT)/$(PKGROOT)/rocks/bin
 
 	mkdir -p $(ROOT)/$(PKGROOT)/rocks/etc
+	install -m 755 lucene.cron $(ROOT)/$(PKGROOT)/rocks/etc
 	install -m 644 lifemapper-sysconfig-httpd $(ROOT)/$(PKGROOT)/rocks/etc
 
 	mkdir -p $(ROOT)/$(PKGROOT)/rocks/sql
