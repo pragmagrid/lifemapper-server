@@ -97,6 +97,10 @@ compile spatialindex
 install lifemapper-spatialindex
 /sbin/ldconfig
 
+# for postgis
+yum --enablerepo base install json-c 
+/sbin/ldconfig
+
 # install postgresql
 yum --enablerepo base update openssl
 yum install postgresql91
