@@ -36,9 +36,9 @@ during the roll build.
 
 #. Source distributions: 
    
-   :binaries: ant gdal proj geos libevent libspatialindex tiff  
-   :python modules:         Cheetah, CherryPy, Cython,  egenix-mxDateTime (part of egenix-mx-base),   
-                                faulthandler  mod_python, mysql-python,  numexpr,   
+   :binaries: ant gdal proj geos libevent libspatialindex tiff mod_wsgi
+   :python modules:         CherryPy, Cython,  egenix-mxDateTime (part of egenix-mx-base),   
+                                faulthandler, mysql-python,  numexpr,   
                                 rtree, psycopg2,  pylucene, pytables, setuptools, rdflib, isodate, processing
     
 Downloads
@@ -222,7 +222,8 @@ and then reboot your frontend: ::
 
    # reboot
 
-The reboot is needed to run a few initialization commands. 
+The reboot is needed to run a few initialization ($PKGROOT/rocks/bin/initLM) started with 
+/etc/rc.d/rocksconfig.d/post-99-lifemapper-lmserver.
 After the frontend boots up check the /tmp/lifemapper-config.log file to check the status
 of initialization commands.
 
