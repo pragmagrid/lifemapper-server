@@ -7,17 +7,18 @@ Using Lifemapper Server roll
 After the roll is installed, the initial database schema, and user 
 authentication are set up and postgres and pgbouncer are configured.  
 
+#. **Enable public http access**.
+ 
+   Follow instructions at: localhost/roll-documentation/base/6.2/enable-www.html
+   
 #. **Populate the database**.
 
    This command must be executed as user ``root`` ::  
 
      # nohup /opt/lifemapper/rocks/bin/initDB
 
-   The script output is in /tmp/initDB.log. Examine the script output beginning and end: ::
+   The script output is in /tmp/initDB.log. Examine the script output: ::
    
-     # head /tmp/initDB.log
-     # tail /tmp/initDB.log
-     
    If (and only if) the DATASOURCE is GBIF, the script takes ~50 min to complete 
    on a host with 4Gb memory. The last command should give output similar to: ::
      ...
@@ -56,7 +57,7 @@ authentication are set up and postgres and pgbouncer are configured.
      % python2.7 /opt/lifemapper/LmWebServer/scripts/createTestUser.py
        Successfully created user
        
-     % python2.7 /opt/lifemapper/LmWebServer/scripts/checkJobServer.py)
+     % python2.7 /opt/lifemapper/LmWebServer/scripts/checkJobServer.py
        30 Mar 2015 14:17 MainThread.log.debug line 80 DEBUG    {'epsgcode': '4326', 'displayname': 'Test Chain57111.8872399', 'name': 'Test points57111.8872399', 'pointstype': 'shapefile'}
        30 Mar 2015 14:17 MainThread.log.debug line 80 DEBUG    Test Chain57111.8872399
        30 Mar 2015 14:17 MainThread.log.warning line 136 WARNING  Database connection is None! Trying to re-open ...
@@ -127,5 +128,5 @@ authentication are set up and postgres and pgbouncer are configured.
      
 #. After the pipeline has run for awhile, and there are some completed jobs, test this:
  
-     % python2.7 /opt/lifemapper/LmWebServer/scripts/checkLmWeb.py)
+     % python2.7 /opt/lifemapper/LmWebServer/scripts/checkLmWeb.py
 
