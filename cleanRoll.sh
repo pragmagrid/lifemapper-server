@@ -16,7 +16,7 @@ del-lifemapper() {
    $RM lifemapper-spatialindex
    $RM lifemapper-server
    $RM lifemapper-proj
-   $RM lifemapper-mod_python
+   $RM lifemapper-mod_wsgi
    $RM lifemapper-geos
    $RM lifemapper-ant
    $RM lifemapper-climate-data
