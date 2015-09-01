@@ -71,7 +71,7 @@ build:
 	tar xzvf  $(ARCHIVENAME)-$(VERSION).$(TARBALL_POSTFIX) 
 	( 							\
 		cd $(ARCHIVENAME)-$(VERSION);				\
-		./configure  --prefix=$(PKGROOT);	\
+		./configure --with-python=/opt/python/bin/$(PYTHONVER) --prefix=$(PKGROOT);	\
 		$(MAKE);					\
 	)
 	
