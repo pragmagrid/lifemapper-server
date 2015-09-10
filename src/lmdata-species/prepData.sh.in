@@ -4,9 +4,9 @@
 # TODO: move gbif files to version.mk.in in SPECIES_DATA variable
 
 create_species_data () {
-  echo "Fetch species data"
-  LMURL="http://lifemapper.org/dl"
-  curl -L "$LMURL/@SPECIES_DATA@.@TARBALL_POSTFIX@" -o ../lmdata-species/@SPECIES_DATA@.@TARBALL_POSTFIX@ 
+     echo "Fetch species data @SPECIES_DATA@"
+     LMURL="http://lifemapper.org/dl"
+     curl -L "$LMURL/@SPECIES_DATA@.@TARBALL_POSTFIX@" -o ../lmdata-species/@SPECIES_DATA@.@TARBALL_POSTFIX@ 
 }
 
 ### main ###
