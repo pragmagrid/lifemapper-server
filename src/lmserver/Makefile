@@ -84,6 +84,7 @@ SEDSPEC += \
         -e 's%@ALGORITHMS@%$(ALGORITHMS11)%g' \
         -e 's%@MODEL_SCENARIO@%$(MODEL_SCENARIO)%g' \
         -e 's%@PROJECTION_SCENARIOS@%$(PROJECTION_SCENARIOS)%g' \
+        -e 's%@SCENARIO_PACKAGE@%$(SCENARIO_PACKAGE)%g'
 
 SCRIPTS = buildLmLuceneIndex.sh \
           checkLmWeb.cron \
