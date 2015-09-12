@@ -3,17 +3,23 @@
 
 Updating an existing Lifemapper Server installation without losing data
 =============================
+.. contents::  
 
+Introduction
+----------------
 After the roll is installed, and the instance has been populated, you may want
 to update the code, configuration, and/or database (in lifemapper-server*.rpm) 
 and applying those changes with scripts (from rocks-lifemapper*.rpm) 
 without losing data.
 
-#. **Stop the pipeline**.
+Update code and scripts
+------------------------
+
+#. **Stop the pipeline** as lmserver.
 
    To Stop the pipeline (replace 'gbif' with the datasource name configured for this instance, i.e. bison, idigbio) ::    
 
-     % touch /opt/lifemapper/pipeline.gbif.die
+     % touch /opt/lifemapper/log/pipeline.gbif.die
      
 #. **Copy new Lifemapper RPMs to server**.
 
@@ -37,15 +43,114 @@ Install RPMs with: ::
 
    The script output is in /tmp/updateLM.log. 
      
+Update data
+------------------------
+
+#. **Stop the pipeline** as lmserver.
+
+   To Stop the pipeline (replace 'gbif' with the datasource name configured for this instance, i.e. bison, idigbio) ::    
+
+     % touch /opt/lifemapper/log/pipeline.gbif.die
+     
+Add computation server
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 #. **Register LmCompute instance(s)**  as root  
+
+   Add values to the [LmServer - registeredcompute] section of site.ini file 
+   get/copy keys from config.ini). The new record requires COMPUTE_NAME, 
+   COMPUTE_IP, and COMPUTE_CONTACT_USERID.  If the COMPUTE_CONTACT_USERID does 
+   not already exist in the database, COMPUTE_CONTACT_EMAIL is also required.
 
    Run the script to install LmCompute instance configured for this LmServer  ::  
 
-     # $PYTHON /opt/lifemapper/bin/registerCompute.py 
+     # $PYTHON /opt/lifemapper/LmDbServer/populate/registerCompute.py 
 
-   Optionally, edit configured LmCompute values in the script and re-run
+Add species data
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#. ** Change the archive user **  as ``root`` 
+
+   Add ARCHIVE_USER to the [LmCommon - common] section of site.ini file.  
    
-#. **Test the LmWebServer** setup as user lmwriter
+   The ARCHIVE_USER must own all occurrence and scenario records, so re-add 
+   new or existing climate data as this new user :: 
+
+   Run the script to download and install scenario data  ::  
+
+     # $PYTHON /opt/lifemapper/LmDbServer/populate/initCatalog.py scenario 
+
+   Run the script to download and install scenario data  ::  
+
+     # $PYTHON /opt/lifemapper/LmDbServer/populate/initCatalog.py user 
+
+#. **Start the pipeline**  as ``lmserver`` to initialize all new jobs with the new species data.
+
+   % $PYTHON /opt/lifemapper/LmDbServer/pipeline/localpipeline.py &
+
+Add climate data
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     
+#. ** Download, catalog new climate data **  as ``root``  
+
+   Add SCENARIO_PACKAGE to the [LmServer - pipeline] section of site.ini file.  
+   Available scenario packages are defined in the CLIMATE_PACKAGES dictionary in
+   LmDbServer.populate.bioclimMeta.
+   
+   To change the default scenarios used by the pipeline to new scenarios defined
+   in the package, add DEFAULT_MODEL_SCENARIO, DEFAULT_PROJECTION_SCENARIOS 
+   to the site.ini file using scenario codes documented in the CLIMATE_PACKAGES 
+   dictionary. 
+
+   Download and uncompress the data into /share/lmserver/data/climate/
+
+   Run the script to install scenario data  ::  
+
+     # $PYTHON /opt/lifemapper/LmDbServer/populate/initCatalog.py scenario 
+
+#. **Start the pipeline**  as lmserver to initialize all new jobs with the new scenarios.
+
+   % $PYTHON /opt/lifemapper/LmDbServer/pipeline/localpipeline.py &
+     
+
+Add species data
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#. ** Download, catalog new species (and taxonomy) data **  as ``root`` 
+
+   Add OCCURRENCE_FILENAME (and optionally TAXONOMY_FILENAME) to the 
+   [LmServer - pipeline] section of site.ini file.  This currently only uses 
+   Available scenario packages are defined in the CLIMATE_PACKAGES dictionary in
+   LmDbServer.populate.bioclimMeta.
+   
+   Currently only the GBIF CSV file format is recognized, and used when 
+   the DATASOURCE is GBIF.  This will change to allow researcher data with 
+   formally defined metadata (described elsewhere). 
+
+   Download and uncompress the data into /share/lmserver/data/species/
+
+   Run the script to download and install scenario data  ::  
+
+     # $PYTHON /opt/lifemapper/LmDbServer/populate/initCatalog.py species 
+
+#. **Start the pipeline**  as ``lmserver`` to initialize all new jobs with the new species data.
+
+   % $PYTHON /opt/lifemapper/LmDbServer/pipeline/localpipeline.py &
+
+Add all data
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#. ** Download, catalog new user, scenario, species, taxonomy **  as ``root`` 
+   **TODO: This is not yet working** it will do all above steps 
+   Download the data specified in site.ini variables and add metadata using 
+   
+     # /opt/lifemapper/LmDbServer/populate/addInputData
+
+#. **Start the pipeline**  as lmserver to initialize all new jobs with the new scenarios.
+
+   % $PYTHON /opt/lifemapper/LmDbServer/pipeline/localpipeline.py &
+
+Test
+------------------------
+
+#. **Test the LmWebServer** setup as user ``lmwriter``
   
    To become lmwriter use do: ::
 
