@@ -92,8 +92,9 @@ fi
 /bin/chgrp -R lmwriter /state/partition1/lmserver
 /bin/chmod -R g+ws /state/partition1/lmserver/log
 /bin/chmod -R g+ws /state/partition1/lmserver/data/archive 
-/bin/chmod -R g+ws /state/partition1/lmserver/data/test
+/bin/chmod -R g+ws /state/partition1/lmserver/data/climate 
 /bin/chmod -R g+ws /state/partition1/lmserver/data/species
+/bin/chmod -R g+ws /state/partition1/lmserver/data/test
 
 # need next 2 lines for pipeline.datasource.die
 /bin/chgrp lmwriter /opt/lifemapper
