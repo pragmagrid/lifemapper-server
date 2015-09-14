@@ -36,6 +36,6 @@ SetEnv PROJ_LIB "@LMHOME@/share/proj"
 RewriteEngine on
 
 # Mod_wsgi script for Lifemapper content
-WSGIScriptAliasMatch ^/(css|clients|hint|images|jobs|login|logout|signup|schemas|services|robots.txt) @LMHOME@/LmWebServer/public_html/services/svc.py/$1
+WSGIScriptAliasMatch ^/(css|clients|hint|images|jobs|login|logout|signup|schemas|services|species|robots.txt) @LMHOME@/LmWebServer/public_html/services/svc.py/$1
 
 </VirtualHost>
