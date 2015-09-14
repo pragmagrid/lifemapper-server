@@ -89,7 +89,8 @@ SCRIPTS = \
 	lifemapper-server.conf
 
 PROGS = \
-	initLM \
+   addInputData \
+   initLM \
 	initDbserver \
 	initWebserver \
 	initPostgis \
