@@ -1,5 +1,5 @@
 NAME        	= lifemapper-server
-ARCHIVENAME     = core
+REPONAME        = core
 COMMIT_HASH    	= 74ea412b61bbb54607d7ebd14b8171e6d7510fe9
 RELEASE 	= 1
 TARBALL_POSTFIX	= tar.gz
