@@ -1,49 +1,23 @@
 #!/bin/bash
 
-# Purpose: checkout distro from lifemapper SVN and create *.tar.gz files to use in RPM. 
-# NOTE: for svn checkout will be prompted for valid user/passwd.
+# Purpose: checkout distro from lifemapper Github repository and create *.tar.gz files to use in RPM. 
+# NOTE: for git checkout will be prompted for valid user/passwd.
 
-SRC=components
-URL=https://svn.lifemapper.org/trunk
+SRC=@REPONAME@
+URL=https://github.com/lifemapper/
 
-# get src distro from lifemapper svn and needed updates
-checkout_svn () {
-      echo "Starting SVN checkout from $1:"
-      svn checkout -r @VERSION@ $1/$SRC
-
-      if [ -d @UPDATE_DIR1@ ]; then
-          echo "Starting SVN update of @UPDATE_DIR1@ to @PATCH_VERSION@:"
-          svn update -r @PATCH_VERSION@ @UPDATE_DIR1@
-      fi
+# get distro from lifemapper git and needed updates
+checkout_git () {
+      echo "Starting GIT checkout from $URL"
+      git clone $URL/$SRC
       
-      if [ -d @UPDATE_DIR2@ ]; then
-          echo "Starting SVN update of @UPDATE_DIR2@ to @PATCH_VERSION@:"
-          svn update -r @PATCH_VERSION@ @UPDATE_DIR2@
-      fi
-
-      svn info $SRC >> $SRC/svn-info
-
-      echo "Removing .svn in $SRC:"
+      echo "Reset to version #@COMMIT_HASH@ in $SRC"
       if [ -d $SRC ]; then
-          DIRS=`find $SRC -name .svn`
-          for i in $DIRS; do
-              rm -rf $i
-          done
+          cd $SRC
+          git reset --hard @COMMIT_HASH@
       else
           echo "Error with SVN checkout from $URL/$SRC: directory $SRC is not created"
       fi
-}
-
-# move src/* in all modules one level up
-collect_src () {
-  DIRS=`find $SRC -maxdepth 1 -type d`
-  for i in $DIRS; do
-    if [ -d $i/src ] ; then
-      echo "Moving files from $i/src/ to $i"
-      mv  $i/src/* $i
-      rm -rf $i/src/
-    fi
-  done
 }
 
 collect_configs () {
@@ -58,20 +32,19 @@ collect_configs () {
 create_distro () {
   if [ -d $SRC ]; then
       # create lmserver src distro
-      echo "Creating lmserver src archive from svn checkout"
-      tar czf lifemapper-server-@VERSION@.tar.gz $SRC/* \
+      echo "Creating lmserver src archive from Github clone"
+      tar czf lifemapper-server-@COMMIT_HASH@.tar.gz $SRC/* \
           --exclude=LmCompute \
-          --exclude=LmClient \
           --exclude=dist \
-          --exclude=public_html/dl
+          --exclude=LmWebServer/public_html/dl
 
   else
-      echo "SVN checkout directory $SRC is not present"
+      echo "GIT cloned directory $SRC is not present"
   fi
 }
 
 ### main ###
-checkout_svn $URL
-collect_src
+checkout_git
 collect_configs
 create_distro
+

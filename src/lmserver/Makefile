@@ -95,30 +95,30 @@ SCRIPTS = buildLmLuceneIndex.sh \
           lmLucene.py
 
           
-buildLmLuceneIndex.sh: $(ARCHIVENAME)/LmWebServer/lucene/buildLmLuceneIndex.sh.in
-	$(SED) $(SEDSPEC) $^ > $(ARCHIVENAME)/LmWebServer/lucene/$@
-	chmod 755 $(ARCHIVENAME)/LmWebServer/lucene/buildLmLuceneIndex.sh
+buildLmLuceneIndex.sh: $(REPONAME)/LmWebServer/lucene/buildLmLuceneIndex.sh.in
+	$(SED) $(SEDSPEC) $^ > $(REPONAME)/LmWebServer/lucene/$@
+	chmod 755 $(REPONAME)/LmWebServer/lucene/buildLmLuceneIndex.sh
 
-checkLmWeb.cron: $(ARCHIVENAME)/LmWebServer/scripts/checkLmWeb.cron.in
-	$(SED) $(SEDSPEC) $^ > $(ARCHIVENAME)/LmWebServer/scripts/$@
-	chmod 755 $(ARCHIVENAME)/LmWebServer/scripts/checkLmWeb.cron
+checkLmWeb.cron: $(REPONAME)/LmWebServer/scripts/checkLmWeb.cron.in
+	$(SED) $(SEDSPEC) $^ > $(REPONAME)/LmWebServer/scripts/$@
+	chmod 755 $(REPONAME)/LmWebServer/scripts/checkLmWeb.cron
 
-config.ini: $(ARCHIVENAME)/config/config.ini.in
+config.ini: $(REPONAME)/config/config.ini.in
 	$(SED) -i $(SEDSPEC) $^ 
-	cat $^ > $(ARCHIVENAME)/config/$@
+	cat $^ > $(REPONAME)/config/$@
 
-deleteOldAnonymous.cron: $(ARCHIVENAME)/LmDbServer/scripts/deleteOldAnonymous.cron.in
-	$(SED) $(SEDSPEC) $^ > $(ARCHIVENAME)/LmDbServer/scripts/$@
-	chmod 755 $(ARCHIVENAME)/LmDbServer/scripts/deleteOldAnonymous.cron
+deleteOldAnonymous.cron: $(REPONAME)/LmDbServer/scripts/deleteOldAnonymous.cron.in
+	$(SED) $(SEDSPEC) $^ > $(REPONAME)/LmDbServer/scripts/$@
+	chmod 755 $(REPONAME)/LmDbServer/scripts/deleteOldAnonymous.cron
 
-lmLucene.py: $(ARCHIVENAME)/LmWebServer/lucene/lmLucene.py.in
-	$(SED) $(SEDSPEC) $^ > $(ARCHIVENAME)/LmWebServer/lucene/$@
+lmLucene.py: $(REPONAME)/LmWebServer/lucene/lmLucene.py.in
+	$(SED) $(SEDSPEC) $^ > $(REPONAME)/LmWebServer/lucene/$@
 
-runAllSQLScripts.sql: $(ARCHIVENAME)/LmDbServer/dbsetup/runAllSQLScripts.sql.in
-	$(SED) $(SEDSPEC) $^ > $(ARCHIVENAME)/LmDbServer/dbsetup/$@
+runAllSQLScripts.sql: $(REPONAME)/LmDbServer/dbsetup/runAllSQLScripts.sql.in
+	$(SED) $(SEDSPEC) $^ > $(REPONAME)/LmDbServer/dbsetup/$@
 
-runUpdateDBScripts.sql: $(ARCHIVENAME)/LmDbServer/dbsetup/runUpdateDBScripts.sql.in
-	$(SED) $(SEDSPEC) $^ > $(ARCHIVENAME)/LmDbServer/dbsetup/$@
+runUpdateDBScripts.sql: $(REPONAME)/LmDbServer/dbsetup/runUpdateDBScripts.sql.in
+	$(SED) $(SEDSPEC) $^ > $(REPONAME)/LmDbServer/dbsetup/$@
 
 
 prepSrc.sh: prepSrc.sh.in
@@ -138,12 +138,11 @@ build:
 
 install::
 	mkdir -p $(ROOT)/$(EXPORTDIR)
-	mv $(ARCHIVENAME)/LmWebServer/test/data/* $(ROOT)/$(EXPORTDIR) 	
+	mv $(REPONAME)/LmWebServer/test/data/* $(ROOT)/$(EXPORTDIR) 	
 	mkdir -p $(ROOT)/$(LMHOME)
-	rm -rf $(ARCHIVENAME)/svn-info
-	mv $(ARCHIVENAME)/*  $(ROOT)/$(LMHOME) 
+	mv $(REPONAME)/*  $(ROOT)/$(LMHOME) 
 	
 clean::
 	rm -rf  $(SCRIPTS)  
-	rm -rf  $(ARCHIVENAME)
+	rm -rf  $(REPONAME)
 	rm -rf  version.mk prepSrc.sh
