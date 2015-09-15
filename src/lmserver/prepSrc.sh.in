@@ -11,12 +11,20 @@ checkout_git () {
       echo "Starting GIT checkout from $URL"
       git clone $URL/$SRC
       
-      echo "Reset to version #@COMMIT_HASH@ in $SRC"
       if [ -d $SRC ]; then
+          echo "Reset to version #@COMMIT_HASH@ in $SRC"
           cd $SRC
           git reset --hard @COMMIT_HASH@
+          cd ..
+
+          echo "Removing .git in $SRC:"
+          DIRS=`find $SRC -name .git`
+          for i in $DIRS; do
+              rm -rf $i
+          done
+
       else
-          echo "Error with SVN checkout from $URL/$SRC: directory $SRC is not created"
+          echo "Error with GIT clone from $URL/$SRC: directory $SRC is not created"
       fi
 }
 
