@@ -47,4 +47,3 @@ create_distro () {
 checkout_git
 collect_configs
 create_distro
-

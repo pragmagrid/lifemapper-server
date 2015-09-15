@@ -75,10 +75,8 @@ SEDSPEC += \
         -e 's%@LMWEB@%$(LMWEB)%g' \
         -e 's%@SMTPSERVER@%$(SMTPSERVER)%g' \
         -e 's%@TEMPDIR@%$(TEMPDIR)%g'  \
-        -e 's%@VERSION@%$(VERSION)%g' \
-        -e 's%@PATCH_VERSION@%$(PATCH_VERSION)%g' \
-        -e 's%@UPDATE_1@%$(UPDATE_1)%g' \
-        -e 's%@UPDATE_2@%$(UPDATE_2)%g' \
+        -e 's%@COMMIT_HASH@%$(COMMIT_HASH)%g' \
+        -e 's%@REPONAME@%$(REPONAME)%g' \
 	-e 's%@LMUSER@%$(LMUSER)%g' \
         -e 's%@DATASOURCE@%$(DATASOURCE)%g' \
         -e 's%@ALGORITHMS@%$(ALGORITHMS11)%g' \
