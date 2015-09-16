@@ -12,9 +12,9 @@ checkout_git () {
       git clone $URL/$SRC
       
       if [ -d $SRC ]; then
-          echo "Reset to version #@COMMIT_HASH@ in $SRC"
+          echo "Reset to version #@VERSION@ in $SRC"
           cd $SRC
-          git reset --hard @COMMIT_HASH@
+          git reset --hard @VERSION@
           cd ..
 
           echo "Removing .git in $SRC:"
@@ -41,7 +41,7 @@ create_distro () {
   if [ -d $SRC ]; then
       # create lmserver src distro
       echo "Creating lmserver src archive from Github clone"
-      tar czf lifemapper-server-@COMMIT_HASH@.tar.gz $SRC/* \
+      tar czf lifemapper-server-@VERSION@.tar.gz $SRC/* \
           --exclude=LmCompute \
           --exclude=dist \
           --exclude=LmWebServer/public_html/dl

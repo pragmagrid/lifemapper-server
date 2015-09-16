@@ -75,7 +75,7 @@ SEDSPEC += \
         -e 's%@LMWEB@%$(LMWEB)%g' \
         -e 's%@SMTPSERVER@%$(SMTPSERVER)%g' \
         -e 's%@TEMPDIR@%$(TEMPDIR)%g'  \
-        -e 's%@COMMIT_HASH@%$(COMMIT_HASH)%g' \
+        -e 's%@VERSION@%$(VERSION)%g' \
         -e 's%@REPONAME@%$(REPONAME)%g' \
 	-e 's%@LMUSER@%$(LMUSER)%g' \
         -e 's%@DATASOURCE@%$(DATASOURCE)%g' \
@@ -130,7 +130,7 @@ prep: prepSrc.sh
 	./prepSrc.sh
 
 build: 
-	tar xzvf $(NAME)-$(COMMIT_HASH).tar.gz  
+	tar xzvf $(NAME)-$(VERSION).tar.gz  
 	make $(SCRIPTS)
 	make $(SERVICES)
 
