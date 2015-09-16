@@ -130,7 +130,7 @@ prep: prepSrc.sh
 	./prepSrc.sh
 
 build: 
-	tar xzvf $(NAME)-$(VERSION).tar.gz  
+	tar xzvf $(NAME)-$(COMMIT_HASH).tar.gz  
 	make $(SCRIPTS)
 	make $(SERVICES)
 
