@@ -70,6 +70,8 @@ version.mk:
 	cat ../version.mk version.mk.in > version.mk
 	
 SEDSPEC += \
+        -e 's%@DATASOURCE@%$(DATASOURCE)%g' \
+        -e 's%@GBIF_FILES@%$(GBIF_FILES)%g' \
         -e 's%@SPECIES_DATA@%$(SPECIES_DATA)%g' \
         -e 's%@SPECIES_DATA_PATH@%$(SPECIES_DATA_PATH)%g' \
         -e 's%@TARBALL_POSTFIX@%$(TARBALL_POSTFIX)%g'
@@ -81,12 +83,17 @@ prepData.sh: prepData.sh.in
 prep: prepData.sh
 	./prepData.sh
 
-build:
-	echo $(EXPORTDIR)
+build: 
+   echo $(EXPORTDIR)
 
 install::
 	mkdir -p $(ROOT)/$(EXPORTDIR)
 	tar -xzf  $(SPECIES_DATA).$(TARBALL_POSTFIX)  -C  $(ROOT)/$(EXPORTDIR)/
+	if [ $(DATASOURCE) == "GBIF" ]; then
+	   for i in $(GBIF_FILES); do
+         tar -xzf  $(i).$(TARBALL_POSTFIX)  -C  $(ROOT)/$(EXPORTDIR)/
+      done
+   fi
 
 clean::
 	rm -rf version.mk
