@@ -3,6 +3,7 @@
 
 Using Lifemapper Server roll
 =============================
+.. contents::  
 
 After the roll is installed, the initial database schema, and user 
 authentication are set up and postgres and pgbouncer are configured.  

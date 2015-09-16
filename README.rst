@@ -156,10 +156,18 @@ Install the resulting RPM with: ::
    # /opt/lifemapper/rocks/bin/updateIP
    # /opt/lifemapper/rocks/bin/confDbconnect
 
-The ``updateIP`` is needed for this specfic RPM because  a newly installed config.ini file 
-needs tempalte IP addressees updated. 
-The ``confDbconnect`` rewrites connect.py lifemapper file (used to connect to a db)
+The ``updateIP`` is needed for this specfic RPM because  a newly installed 
+config.ini file needs template IP addressees updated. **Note:** other variables 
+must also be replaced, so perhaps easiest to stash this file and replace it 
+after the rpm install.
+
+The ``confDbconnect`` rewrites /opt/lifemapper/LmServer/db/connect.py 
+file in the LM source tree (used to connect to a db).
+This file is still present from a previous install, and will not need to be 
+re-written if the template or location has not changed.
+
 Normally, these commands are run by the roll install process. 
+
 The ``pgbouncer`` service must be restarted after a new connect.py file is created
 
 Next run any database updates with: ::
@@ -370,24 +378,6 @@ TODO
 #. check client caracter encoding for postgres. Currently servet is set for
    UTF8. but client appears LATIN9. See
    http://www.postgresql.org/docs/9.1/static/multibyte.html
-
-#. add site config file config/site.ini that can overwrite default values in config.config.ini
-   Changes to make: 
-
-   #. append to the end of config/config.ini ::
-
-        ; .............................................................................
-        ; Site configuration 
-        ; .............................................................................
-        [SiteConfig]
-        siteConfig: @LMHOME@/config/site.ini 
-
-   #. append in LmCommon/common/config.py  in reload() ::
-
-        siteconfig = self.get('SiteConfig', 'siteconfig')
-        if os.path.isfile(siteconfig):
-            self.config.read(siteconfig)
-
 
 
 .. _Using Lifemapper: docs/Using.rst
