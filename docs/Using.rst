@@ -39,13 +39,27 @@ authentication are set up and postgres and pgbouncer are configured.
      
 #. **Register LmCompute instance(s)**  as root  
 
-   Run the script to install LmCompute instance configured for this LmServer  ::  
+    * Add the section [LmServer - registeredcompute].  
 
-     # $PYTHON /opt/lifemapper/bin/registerCompute.py 
+        [LmServer - registeredcompute]
+        COMPUTE_NAME: <required>
+        COMPUTE_IP:  <required>
+        COMPUTE_IP_MASK:
+        COMPUTE_CONTACT_USERID:  <required>
+        COMPUTE_CONTACT_EMAIL:  <required **if new user**>
+        COMPUTE_CONTACT_FIRSTNAME:
+        COMPUTE_CONTACT_LASTNAME:
+        COMPUTE_INSTITUTION:
+        COMPUTE_ADDR1:
+        COMPUTE_ADDR2: 
+        COMPUTE_ADDR3: 
+
+    * Run the script to install LmCompute instance configured for this LmServer  ::  
+
+     # $PYTHON /opt/lifemapper/LmDbServer/populate/registerCompute.py
 
    Optionally, edit configured LmCompute values in the script and re-run
 
-   
 #. **Test the LmWebServer** setup
   
    All the commands below must be executed as user ``lmwriter``. To become lmwriter use do: ::
