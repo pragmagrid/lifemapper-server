@@ -37,9 +37,9 @@ authentication are set up and postgres and pgbouncer are configured.
      
      # reboot
      
-#. **Register LmCompute instance(s)**  as root  
+#. **Register LmCompute instance(s)**  as root.
 
-    Add the section [LmServer - registeredcompute]: :: 
+    Add the section [LmServer - registeredcompute] :: 
 
         [LmServer - registeredcompute]
         COMPUTE_NAME: <required>
@@ -60,9 +60,9 @@ authentication are set up and postgres and pgbouncer are configured.
 
    Optionally, edit configured LmCompute values in the script and re-run
 
-#. **Download and register alternate archive data environmental data**  as root  
+#. **Download and register alternate archive data environmental data**  as root.  
 
-    Add or update the section [LmServer - pipeline] in config/site.ini to include: ::
+    Add or update the section [LmServer - pipeline] in config/site.ini to include ::
     
     [LmServer - pipeline]
     DEFAULT_MODEL_SCENARIO: WC-30sec-SEA
@@ -79,9 +79,9 @@ authentication are set up and postgres and pgbouncer are configured.
   
     # $PYTHON /opt/lifemapper/LmDbServer/populate/initCatalog scenario
     
-#. **Download and register alternate archive species data**  as root  
+#. **Download and register alternate archive species data**  as root.  
 
-    Add or update the section [LmServer - pipeline] in config/site.ini to include: ::
+    Add or update the section [LmServer - pipeline] in config/site.ini to include ::
     
     [LmServer - pipeline]
     USER_OCCURRENCE_CSV: merged_gbif_borneo_simple.csv
