@@ -39,7 +39,7 @@ authentication are set up and postgres and pgbouncer are configured.
      
 #. **Register LmCompute instance(s)**  as root  
 
-    * Add the section [LmServer - registeredcompute].  
+    Add the section [LmServer - registeredcompute]: :: 
 
         [LmServer - registeredcompute]
         COMPUTE_NAME: <required>
@@ -54,19 +54,48 @@ authentication are set up and postgres and pgbouncer are configured.
         COMPUTE_ADDR2: 
         COMPUTE_ADDR3: 
 
-    * Run the script to install LmCompute instance configured for this LmServer  ::  
+    Run the script to install LmCompute instance configured for this LmServer  ::  
 
      # $PYTHON /opt/lifemapper/LmDbServer/populate/registerCompute.py
 
    Optionally, edit configured LmCompute values in the script and re-run
 
+#. **Download and register alternate archive data environmental data**  as root  
+
+    Add or update the section [LmServer - pipeline] in config/site.ini to include: ::
+    
+    [LmServer - pipeline]
+    DEFAULT_MODEL_SCENARIO: WC-30sec-SEA
+    DEFAULT_PROJECTION_SCENARIOS: CCSM4-RCP8.5-2070-30sec-SEA,CCSM4-RCP4.5-2050-30sec-SEA,CCSM4-RCP4.5-2070-30sec-SEA,CCSM4-RCP8.5-2050-30sec-SEA
+    SCENARIO_PACKAGE: 30sec-present-future-SEA
+    
+    Use previously created metadata for the above package in 
+    LMHOME/LmDbServer/populate/bioclimMeta.py, or add new metadata entries in 
+    for user-created package.  
+    
+    Run the LMHOME/LmDbServer/populate/initCatalog script to register the new 
+    package's data and metadata.  Existing packages/metadata will create the 
+    correct scenario codes and file paths: :: 
+  
+    # $PYTHON /opt/lifemapper/LmDbServer/populate/initCatalog scenario
+    
+#. **Download and register alternate archive species data**  as root  
+
+    Add or update the section [LmServer - pipeline] in config/site.ini to include: ::
+    
+    [LmServer - pipeline]
+    USER_OCCURRENCE_CSV: merged_gbif_borneo_simple.csv
+    USER_OCCURRENCE_META: gbif_borneo_simple.meta
+    
+    The metadata for the CSV file should follow the instructions and pattern 
+    in LMHOME/LmDbServer/populate/LmDbServer/populate/userdata.meta.example. 
+    
 #. **Test the LmWebServer** setup
   
    All the commands below must be executed as user ``lmwriter``. To become lmwriter use do: ::
 
      # su - lmwriter
      
-   As lmwriter user, execute the following to check if the web server is setup correctly, 
    successful output is similar to that shown under each.   ::  
 
      % python2.7 /opt/lifemapper/LmWebServer/scripts/createTestUser.py
