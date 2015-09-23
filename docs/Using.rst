@@ -10,7 +10,7 @@ authentication are set up and postgres and pgbouncer are configured.
 
 #. **Enable public http access**.
  
-   Follow instructions at: localhost/roll-documentation/base/6.2/enable-www.html
+   Follow instructions at: ``http://localhost/roll-documentation/base/6.2/enable-www.html``
    
 #. **Populate the database**.
 
@@ -18,7 +18,7 @@ authentication are set up and postgres and pgbouncer are configured.
 
      # nohup /opt/lifemapper/rocks/bin/initDB
 
-   The script output is in /tmp/initDB.log. Examine the script output: ::
+   The script output is in ``/tmp/initDB.log``. Examine the script output: ::
    
    If (and only if) the DATASOURCE is GBIF, the script takes ~50 min to complete 
    on a host with 4Gb memory. The last command should give output similar to: ::
@@ -29,7 +29,7 @@ authentication are set up and postgres and pgbouncer are configured.
      
    with the number of inserted record as stated above.
 
-#. Check the available memory: ::
+#. **Check the available memory** ::
 
      # free -m
      
@@ -37,66 +37,66 @@ authentication are set up and postgres and pgbouncer are configured.
      
      # reboot
      
-#. **Register LmCompute instance(s)**  as root.
+#. **Register LmCompute instance(s)**
 
-    Add the section [LmServer - registeredcompute] :: 
+   As user root, add the section ``[LmServer - registeredcompute]`` in ``config/site.ini`` to include :: 
 
-        [LmServer - registeredcompute]
-        COMPUTE_NAME: <required>
-        COMPUTE_IP:  <required>
-        COMPUTE_IP_MASK:
-        COMPUTE_CONTACT_USERID:  <required>
-        COMPUTE_CONTACT_EMAIL:  <required **if new user**>
-        COMPUTE_CONTACT_FIRSTNAME:
-        COMPUTE_CONTACT_LASTNAME:
-        COMPUTE_INSTITUTION:
-        COMPUTE_ADDR1:
-        COMPUTE_ADDR2: 
-        COMPUTE_ADDR3: 
+     [LmServer - registeredcompute]
+     COMPUTE_NAME: <required>
+     COMPUTE_IP:  <required>
+     COMPUTE_IP_MASK:
+     COMPUTE_CONTACT_USERID:  <required>
+     COMPUTE_CONTACT_EMAIL:  <required **if new user**>
+     COMPUTE_CONTACT_FIRSTNAME:
+     COMPUTE_CONTACT_LASTNAME:
+     COMPUTE_INSTITUTION:
+     COMPUTE_ADDR1:
+     COMPUTE_ADDR2: 
+     COMPUTE_ADDR3: 
 
-    Run the script to install LmCompute instance configured for this LmServer  ::  
+   Run the script to install LmCompute instance configured for this LmServer  ::  
 
-     # $PYTHON /opt/lifemapper/LmDbServer/populate/registerCompute.py
+      # $PYTHON /opt/lifemapper/LmDbServer/populate/registerCompute.py
 
    Optionally, edit configured LmCompute values in the script and re-run
 
-#. **Download and register alternate archive data environmental data**  as root.  
+#. **Download and register alternate archive data environmental data**  
 
-    Add or update the section [LmServer - pipeline] in config/site.ini to include ::
+   As user root, add or update the section ``[LmServer - pipeline]`` in ``config/site.ini`` to include ::
     
-    [LmServer - pipeline]
-    DEFAULT_MODEL_SCENARIO: WC-30sec-SEA
-    DEFAULT_PROJECTION_SCENARIOS: CCSM4-RCP8.5-2070-30sec-SEA,CCSM4-RCP4.5-2050-30sec-SEA,CCSM4-RCP4.5-2070-30sec-SEA,CCSM4-RCP8.5-2050-30sec-SEA
-    SCENARIO_PACKAGE: 30sec-present-future-SEA
+       [LmServer - pipeline]
+       DEFAULT_MODEL_SCENARIO: WC-30sec-SEA
+       DEFAULT_PROJECTION_SCENARIOS: CCSM4-RCP8.5-2070-30sec-SEA,CCSM4-RCP4.5-2050-30sec-SEA,CCSM4-RCP4.5-2070-30sec-SEA,CCSM4-RCP8.5-2050-30sec-SEA
+       SCENARIO_PACKAGE: 30sec-present-future-SEA
     
-    Use previously created metadata for the above package in 
-    LMHOME/LmDbServer/populate/bioclimMeta.py, or add new metadata entries in 
-    for user-created package.  
+   Use previously created metadata for the above package in 
+   $LMHOME/LmDbServer/populate/bioclimMeta.py, or add new metadata entries in 
+   for user-created package.  
     
-    Run the LMHOME/LmDbServer/populate/initCatalog script to register the new 
-    package's data and metadata.  Existing packages/metadata will create the 
-    correct scenario codes and file paths: :: 
+   Run the *initCatalog* script to register the new 
+   package's data and metadata.  Existing packages/metadata will create the 
+   correct scenario codes and file paths: :: 
   
-    # $PYTHON /opt/lifemapper/LmDbServer/populate/initCatalog scenario
+       # $PYTHON /opt/lifemapper/LmDbServer/populate/initCatalog scenario
     
-#. **Download and register alternate archive species data**  as root.  
+#. **Download and register alternate archive species data**  
 
-    Add or update the section [LmServer - pipeline] in config/site.ini to include ::
+   As user root, add or update the section ``[LmServer - pipeline]`` in ``config/site.ini`` to include ::
     
-    [LmServer - pipeline]
-    USER_OCCURRENCE_CSV: merged_gbif_borneo_simple.csv
-    USER_OCCURRENCE_META: gbif_borneo_simple.meta
+     [LmServer - pipeline]
+     USER_OCCURRENCE_CSV: merged_gbif_borneo_simple.csv
+     USER_OCCURRENCE_META: gbif_borneo_simple.meta
     
-    The metadata for the CSV file should follow the instructions and pattern 
-    in LMHOME/LmDbServer/populate/LmDbServer/populate/userdata.meta.example. 
+   The metadata for the CSV file should follow the instructions and pattern 
+   in ``$LMHOME/LmDbServer/populate/LmDbServer/populate/userdata.meta.example``. 
     
-#. **Test the LmWebServer** setup
+#. **Test the LmWebServer setup** 
   
-   All the commands below must be executed as user ``lmwriter``. To become lmwriter use do: ::
+   All the commands below must be executed as user ``lmwriter``. To become ``lmwriter`` do: ::
 
      # su - lmwriter
      
-   successful output is similar to that shown under each.   ::  
+   Successful example output is shown under each command   ::  
 
      % python2.7 /opt/lifemapper/LmWebServer/scripts/createTestUser.py
        Successfully created user
@@ -159,18 +159,20 @@ authentication are set up and postgres and pgbouncer are configured.
        30 Mar 2015 14:18 MainThread.log.debug line 80 DEBUG    Url: http://pc-167.calit2.optiputer.net/services/sdm/layers/58/tiff
        30 Mar 2015 14:18 MainThread.log.debug line 80 DEBUG    Url: http://pc-167.calit2.optiputer.net/services/sdm/layers/58/xml
 
-#. **Run the pipeline**  as user lmwriter
+#. **Run the pipeline**  
 
-   To start the pipeline  ::  
+   To start the pipeline as user ``lmwriter`` do ::  
 
      % python2.7 /opt/lifemapper/LmDbServer/pipeline/localpipeline.py
 
-   To Stop the pipeline (replace 'gbif' with the datasource name configured for this instance, i.e. bison, idigbio) ::    
+   To Stop the pipeline (replace ``gbif`` with the datasource name configured for this instance, i.e. ``bison``, ``idigbio``) ::    
 
      % touch /opt/lifemapper/pipeline.gbif.die
      
      
-#. After the pipeline has run for awhile, and there are some completed jobs, test this:
+#. **Run checks of LmWeb**
+
+   After the pipeline has run for awhile, and there are some completed jobs, run check as user ``lmwriter``: ::
  
      % python2.7 /opt/lifemapper/LmWebServer/scripts/checkLmWeb.py
 
