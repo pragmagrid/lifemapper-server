@@ -7,10 +7,6 @@ Using Lifemapper Server roll
 
 After the roll is installed, the initial database schema, and user 
 authentication are set up and postgres and pgbouncer are configured.  
-
-#. **Enable public http access**.
- 
-   Follow instructions at: ``http://localhost/roll-documentation/base/6.2/enable-www.html``
    
 #. **Populate the database**.
 
