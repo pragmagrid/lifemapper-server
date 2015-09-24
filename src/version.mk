@@ -11,12 +11,12 @@ UNIXSOCKET    = /var/run/postgresql
 SMTPSERVER    = localhost
 SMTPSENDER    = no-reply-lifemapper@@PUBLIC_FQDN@
 
-LMUSER                = lm2
-DATASOURCE            = GBIF
+LMUSER                = pragma
+DATASOURCE            = PRAGMA
 SPECIES_DATA 	      = iDigBio_20150513
 ALGORITHMS            = BIOCLIM,ATT_MAXENT
-MODEL_SCENARIO        = WC-10min 
-PROJECTION_SCENARIOS  = CCSM4-lgm-10min,CCSM4-mid-10min,CCSM4-RCP8.5-2070-10min,CCSM4-RCP4.5-2070-10min,CCSM4-RCP8.5-2050-10min,CCSM4-RCP4.5-2050-10min
-SCENARIO_PACKAGE      = 10min-past-present-future
+MODEL_SCENARIO        = WC-30sec-SEA
+PROJECTION_SCENARIOS  = CCSM4-RCP8.5-2070-30sec-SEA,CCSM4-RCP4.5-2050-30sec-SEA,CCSM4-RCP4.5-2070-30sec-SEA,CCSM4-RCP8.5-2050-30sec-SEA 
+SCENARIO_PACKAGE      = 30sec-present-future-SEA
 GRID_NAME             = lmgrid_1d
 GRID_CELLSIZE         = 1
