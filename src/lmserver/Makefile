@@ -77,6 +77,7 @@ SEDSPEC += \
         -e 's%@TEMPDIR@%$(TEMPDIR)%g'  \
         -e 's%@VERSION@%$(VERSION)%g' \
         -e 's%@REPONAME@%$(REPONAME)%g' \
+        -e 's%@TARBALL_POSTFIX@%$(TARBALL_POSTFIX)%g' \
 	-e 's%@LMUSER@%$(LMUSER)%g' \
         -e 's%@DATASOURCE@%$(DATASOURCE)%g' \
         -e 's%@ALGORITHMS@%$(ALGORITHMS11)%g' \

@@ -41,7 +41,7 @@ create_distro () {
   if [ -d $SRC ]; then
       # create lmserver src distro
       echo "Creating lmserver src archive from Github clone"
-      tar czf lifemapper-server-@VERSION@.tar.gz $SRC/* \
+      tar czf lifemapper-server-@VERSION@.@TARBALL_POSTFIX@ $SRC/* \
           --exclude=LmCompute \
           --exclude=dist \
           --exclude=LmWebServer/public_html/dl
