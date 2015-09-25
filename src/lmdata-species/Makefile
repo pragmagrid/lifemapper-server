@@ -89,11 +89,11 @@ build:
 install::
 	mkdir -p $(ROOT)/$(EXPORTDIR)
 	tar -xzf  $(SPECIES_DATA).$(TARBALL_POSTFIX)  -C  $(ROOT)/$(EXPORTDIR)/
-	if [ $(DATASOURCE) == "GBIF" ]; then
-		for i in $(GBIF_FILES); do
-			tar -xzf  $(i).$(TARBALL_POSTFIX)  -C  $(ROOT)/$(EXPORTDIR)/
-		done
-	fi
+	#if [ $(DATASOURCE) == "GBIF" ]; then
+	#	for i in $(GBIF_FILES); do
+	#		tar -xzf  $(i).$(TARBALL_POSTFIX)  -C  $(ROOT)/$(EXPORTDIR)/
+	#	done
+	#fi
 
 clean::
 	rm -rf version.mk
