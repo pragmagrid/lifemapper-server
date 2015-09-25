@@ -52,12 +52,26 @@ Update data
 
      % touch /opt/lifemapper/log/pipeline.gbif.die
      
-Add computation server
+Add a new computation server
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 #. **Register LmCompute instance(s)**  as root  
 
-   Add values to the [LmServer - registeredcompute] section of site.ini file 
+   As user root, add the section ``[LmServer - registeredcompute]`` in ``config/site.ini`` to include :: 
+
+     [LmServer - registeredcompute]
+     COMPUTE_NAME: <required>
+     COMPUTE_IP:  <required>
+     COMPUTE_IP_MASK:
+     COMPUTE_CONTACT_USERID:  <required>
+     COMPUTE_CONTACT_EMAIL:  <required **if new user**>
+     COMPUTE_CONTACT_FIRSTNAME:
+     COMPUTE_CONTACT_LASTNAME:
+     COMPUTE_INSTITUTION:
+     COMPUTE_ADDR1:
+     COMPUTE_ADDR2: 
+     COMPUTE_ADDR3: 
+
    get/copy keys from config.ini). The new record requires COMPUTE_NAME, 
    COMPUTE_IP, and COMPUTE_CONTACT_USERID.  If the COMPUTE_CONTACT_USERID does 
    not already exist in the database, COMPUTE_CONTACT_EMAIL is also required.
@@ -66,42 +80,38 @@ Add computation server
 
      # $PYTHON /opt/lifemapper/LmDbServer/populate/registerCompute.py 
 
-Add species data
+Add/change Archive User
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #. ** Change the archive user **  as ``root`` 
 
    Add ARCHIVE_USER to the [LmCommon - common] section of site.ini file.  
    
    The ARCHIVE_USER must own all occurrence and scenario records, so re-add 
-   new or existing climate data as this new user :: 
+   existing (or new) climate data as this new user :: 
 
-   Run the script to download and install scenario data  ::  
+     # $PYTHON /opt/lifemapper/LmDbServer/populate/initCatalog.py all 
 
-     # $PYTHON /opt/lifemapper/LmDbServer/populate/initCatalog.py scenario 
-
-   Run the script to download and install scenario data  ::  
-
-     # $PYTHON /opt/lifemapper/LmDbServer/populate/initCatalog.py user 
 
 #. **Start the pipeline**  as ``lmserver`` to initialize all new jobs with the new species data.
 
    % $PYTHON /opt/lifemapper/LmDbServer/pipeline/localpipeline.py &
 
-Add climate data
+Add/change climate data
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
      
 #. ** Download, catalog new climate data **  as ``root``  
 
-   Add SCENARIO_PACKAGE to the [LmServer - pipeline] section of site.ini file.  
+   Add SCENARIO_PACKAGE to the [LmServer - pipeline] section of config/site.ini file.  
    Available scenario packages are defined in the CLIMATE_PACKAGES dictionary in
-   LmDbServer.populate.bioclimMeta.
+   LmDbServer.populate.bioclimMeta.  
    
    To change the default scenarios used by the pipeline to new scenarios defined
    in the package, add DEFAULT_MODEL_SCENARIO, DEFAULT_PROJECTION_SCENARIOS 
    to the site.ini file using scenario codes documented in the CLIMATE_PACKAGES 
    dictionary. 
 
-   Download and uncompress the data into /share/lmserver/data/climate/
+   Download the tar.gz file from http://lifemapper.org/dl and uncompress the 
+   data into /share/lmserver/data/climate/
 
    Run the script to install scenario data  ::  
 
@@ -112,21 +122,13 @@ Add climate data
    % $PYTHON /opt/lifemapper/LmDbServer/pipeline/localpipeline.py &
      
 
-Add species data
+Add/change species data
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#. ** Download, catalog new species (and taxonomy) data **  as ``root`` 
+#. ** Download, catalog new species data **  as ``root`` 
 
-   Add OCCURRENCE_FILENAME (and optionally TAXONOMY_FILENAME) to the 
-   [LmServer - pipeline] section of site.ini file.  This currently only uses 
-   Available scenario packages are defined in the CLIMATE_PACKAGES dictionary in
-   LmDbServer.populate.bioclimMeta.
+   Add OCCURRENCE_FILENAME to the [LmServer - pipeline] section of 
+   config/site.ini file.  
    
-   Currently only the GBIF CSV file format is recognized, and used when 
-   the DATASOURCE is GBIF.  This will change to allow researcher data with 
-   formally defined metadata (described elsewhere). 
-
-   Download and uncompress the data into /share/lmserver/data/species/
-
    Run the script to download and install scenario data  ::  
 
      # $PYTHON /opt/lifemapper/LmDbServer/populate/initCatalog.py species 
@@ -134,8 +136,9 @@ Add species data
 #. **Start the pipeline**  as ``lmserver`` to initialize all new jobs with the new species data.
 
    % $PYTHON /opt/lifemapper/LmDbServer/pipeline/localpipeline.py &
+   
 
-Add all data
+Add all data (unfinished)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #. ** Download, catalog new user, scenario, species, taxonomy **  as ``root`` 
    **TODO: This is not yet working** it will do all above steps 

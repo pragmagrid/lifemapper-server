@@ -33,59 +33,6 @@ authentication are set up and postgres and pgbouncer are configured.
      
      # reboot
      
-#. **Register LmCompute instance(s)**
-
-   As user root, add the section ``[LmServer - registeredcompute]`` in ``config/site.ini`` to include :: 
-
-     [LmServer - registeredcompute]
-     COMPUTE_NAME: <required>
-     COMPUTE_IP:  <required>
-     COMPUTE_IP_MASK:
-     COMPUTE_CONTACT_USERID:  <required>
-     COMPUTE_CONTACT_EMAIL:  <required **if new user**>
-     COMPUTE_CONTACT_FIRSTNAME:
-     COMPUTE_CONTACT_LASTNAME:
-     COMPUTE_INSTITUTION:
-     COMPUTE_ADDR1:
-     COMPUTE_ADDR2: 
-     COMPUTE_ADDR3: 
-
-   Run the script to install LmCompute instance configured for this LmServer  ::  
-
-      # $PYTHON /opt/lifemapper/LmDbServer/populate/registerCompute.py
-
-   Optionally, edit configured LmCompute values in the script and re-run
-
-#. **Download and register alternate archive data environmental data**  
-
-   As user root, add or update the section ``[LmServer - pipeline]`` in ``config/site.ini`` to include ::
-    
-       [LmServer - pipeline]
-       DEFAULT_MODEL_SCENARIO: WC-30sec-SEA
-       DEFAULT_PROJECTION_SCENARIOS: CCSM4-RCP8.5-2070-30sec-SEA,CCSM4-RCP4.5-2050-30sec-SEA,CCSM4-RCP4.5-2070-30sec-SEA,CCSM4-RCP8.5-2050-30sec-SEA
-       SCENARIO_PACKAGE: 30sec-present-future-SEA
-    
-   Use previously created metadata for the above package in 
-   $LMHOME/LmDbServer/populate/bioclimMeta.py, or add new metadata entries in 
-   for user-created package.  
-    
-   Run the *initCatalog* script to register the new 
-   package's data and metadata.  Existing packages/metadata will create the 
-   correct scenario codes and file paths: :: 
-  
-       # $PYTHON /opt/lifemapper/LmDbServer/populate/initCatalog scenario
-    
-#. **Download and register alternate archive species data**  
-
-   As user root, add or update the section ``[LmServer - pipeline]`` in ``config/site.ini`` to include ::
-    
-     [LmServer - pipeline]
-     USER_OCCURRENCE_CSV: merged_gbif_borneo_simple.csv
-     USER_OCCURRENCE_META: gbif_borneo_simple.meta
-    
-   The metadata for the CSV file should follow the instructions and pattern 
-   in ``$LMHOME/LmDbServer/populate/LmDbServer/populate/userdata.meta.example``. 
-    
 #. **Test the LmWebServer setup** 
   
    All the commands below must be executed as user ``lmwriter``. To become ``lmwriter`` do: ::
