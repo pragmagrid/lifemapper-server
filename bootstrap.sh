@@ -100,6 +100,8 @@ install lifemapper-spatialindex
 # for postgis
 yum --enablerepo base install json-c 
 /sbin/ldconfig
+yum --enablerepo=base,updates update json-c
+/sbin/ldconfig
 
 # install postgresql
 yum --enablerepo base update openssl

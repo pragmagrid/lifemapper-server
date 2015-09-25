@@ -83,7 +83,8 @@ PROFILES = \
 
 SCRIPTS = \
 	lifemapper.conf \
-	lucene.cron \
+   lucene.cron \
+   solr.cron \
 	lmLucene \
 	lifemapper-sysconfig-httpd \
 	lifemapper-server.conf
@@ -97,7 +98,8 @@ PROGS = \
 	initDB \
 	updateIP \
 	updateDB \
-	updateLM
+	updateLM \
+   installServerCronJobs
 
 PYFILES = __init__.py \
 	confconst.py \
@@ -108,7 +110,6 @@ EXECFILES = \
 	confPgbouncer \
 	confPostgres \
 	confUsers \
-	installCronJobs
 
 %: %.in
 	$(SED) $(SEDSPEC) $^ > $@
