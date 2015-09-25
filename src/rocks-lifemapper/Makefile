@@ -83,15 +83,15 @@ PROFILES = \
 
 SCRIPTS = \
 	lifemapper.conf \
-   lucene.cron \
-   solr.cron \
+	lucene.cron \
+	solr.cron \
 	lmLucene \
 	lifemapper-sysconfig-httpd \
 	lifemapper-server.conf
 
 PROGS = \
-   addInputData \
-   initLM \
+	addInputData \
+	initLM \
 	initDbserver \
 	initWebserver \
 	initPostgis \
@@ -99,7 +99,7 @@ PROGS = \
 	updateIP \
 	updateDB \
 	updateLM \
-   installServerCronJobs
+	installServerCronJobs
 
 PYFILES = __init__.py \
 	confconst.py \
