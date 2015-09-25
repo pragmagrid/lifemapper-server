@@ -98,7 +98,8 @@ PROGS = \
 	initDB \
 	updateIP \
 	updateDB \
-	updateLM
+	updateLM \
+   installServerCronJobs
 
 PYFILES = __init__.py \
 	confconst.py \
@@ -109,7 +110,6 @@ EXECFILES = \
 	confPgbouncer \
 	confPostgres \
 	confUsers \
-	installCronJobs
 
 %: %.in
 	$(SED) $(SEDSPEC) $^ > $@
