@@ -27,6 +27,7 @@ TimeStamp () {
 installDailyTasks () {
     install @LMHOME@/config/securityUpdates.sh ${CRON_DAILY_DIR}
     install @LMHOME@/rocks/etc/lucene.cron ${CRON_DIR}
+    install @LMHOME@/rocks/etc/solr.cron ${CRON_DIR}
     echo "Installed tasks to ${CRON_DIR} ..." | tee -a $LOG
 }
 

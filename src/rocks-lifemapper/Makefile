@@ -83,7 +83,8 @@ PROFILES = \
 
 SCRIPTS = \
 	lifemapper.conf \
-	lucene.cron \
+   lucene.cron \
+   solr.cron \
 	lmLucene \
 	lifemapper-sysconfig-httpd \
 	lifemapper-server.conf
