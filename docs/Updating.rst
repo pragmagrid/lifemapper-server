@@ -17,9 +17,9 @@ Update code and scripts
 
 #. **Stop the pipeline** as lmserver.
 
-   To Stop the pipeline (replace 'gbif' with the datasource name configured for this instance, i.e. bison, idigbio) ::    
+   To Stop the pipeline (replace 'pragma' with the datasource name configured for this instance, i.e. bison, idigbio) ::    
 
-     % touch /opt/lifemapper/log/pipeline.gbif.die
+     % touch /opt/lifemapper/log/pipeline.pragma.die
      
 #. **Copy new Lifemapper RPMs to server**.
 
@@ -48,9 +48,9 @@ Update data
 
 #. **Stop the pipeline** as lmserver.
 
-   To Stop the pipeline (replace 'gbif' with the datasource name configured for this instance, i.e. bison, idigbio) ::    
+   To Stop the pipeline (replace 'pragma' with the datasource name configured for this instance, i.e. bison, idigbio) ::    
 
-     % touch /opt/lifemapper/log/pipeline.gbif.die
+     % touch /opt/lifemapper/log/pipeline.pragma.die
      
 Add a new computation server
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -126,7 +126,11 @@ Add/change species data
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #. ** Download, catalog new species data **  as ``root`` 
 
-   As user root, add the section ``[LmServer - pipeline]`` in ``config/site.ini`` to include :: 
+   As user root, add or edit the sections ``[LmServer - environment]`` and ``[LmServer - pipeline]`` 
+   in ``config/site.ini`` to include :: 
+
+     [LmServer - environment]
+     DATASOURCE: USER
 
      [LmServer - pipeline]
      USER_OCCURRENCE_CSV: 
@@ -134,10 +138,6 @@ Add/change species data
 
    Download tar.gz files and uncompress into /share/lmserver/data/species/
    
-   Run the script to download and install species data  ::  
-
-     # $PYTHON /opt/lifemapper/LmDbServer/populate/initCatalog.py species 
-
 #. **Start the pipeline**  as ``lmserver`` to initialize all new jobs with the new species data.
 
    % $PYTHON /opt/lifemapper/LmDbServer/pipeline/localpipeline.py &
@@ -236,7 +236,7 @@ Test
 
    To Stop the pipeline  ::    
 
-     % touch /opt/lifemapper/pipeline.<datasource>.die
+     % touch /opt/lifemapper/pipeline.pragma.die
      
      
 #. After the pipeline has run for awhile, and there are some completed jobs, test this:
