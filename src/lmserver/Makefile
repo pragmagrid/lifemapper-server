@@ -78,9 +78,9 @@ SEDSPEC += \
         -e 's%@VERSION@%$(VERSION)%g' \
         -e 's%@REPONAME@%$(REPONAME)%g' \
         -e 's%@TARBALL_POSTFIX@%$(TARBALL_POSTFIX)%g' \
-	-e 's%@LMUSER@%$(LMUSER)%g' \
+        -e 's%@LMUSER@%$(LMUSER)%g' \
         -e 's%@DATASOURCE@%$(DATASOURCE)%g' \
-        -e 's%@ALGORITHMS@%$(ALGORITHMS11)%g' \
+        -e 's%@ALGORITHMS@%$(ALGORITHMS)%g' \
         -e 's%@MODEL_SCENARIO@%$(MODEL_SCENARIO)%g' \
         -e 's%@PROJECTION_SCENARIOS@%$(PROJECTION_SCENARIOS)%g' \
         -e 's%@SCENARIO_PACKAGE@%$(SCENARIO_PACKAGE)%g'

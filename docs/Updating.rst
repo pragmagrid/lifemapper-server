@@ -126,10 +126,15 @@ Add/change species data
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #. ** Download, catalog new species data **  as ``root`` 
 
-   Add OCCURRENCE_FILENAME to the [LmServer - pipeline] section of 
-   config/site.ini file.  
+   As user root, add the section ``[LmServer - pipeline]`` in ``config/site.ini`` to include :: 
+
+     [LmServer - pipeline]
+     USER_OCCURRENCE_CSV: 
+     USER_OCCURRENCE_META: 
+
+   Download tar.gz files and uncompress into /share/lmserver/data/species/
    
-   Run the script to download and install scenario data  ::  
+   Run the script to download and install species data  ::  
 
      # $PYTHON /opt/lifemapper/LmDbServer/populate/initCatalog.py species 
 

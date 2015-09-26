@@ -102,7 +102,7 @@ AddTaxonomy () {
         /opt/python/bin/@PYTHONVER@ $TAXONOMYPY 2>&1 | tee -a $LOG
     else
         echo "Notice: $TAXONOMYPY does not exist (this may be expected)" | tee -a $LOG
-        exit 1
+        return 
     fi
 }
 
@@ -110,10 +110,10 @@ AddTaxonomy () {
 RegisterCompute () {
     if [ -f $COMPUTEPY ] ; then
         echo "Running $COMPUTEPY ..." | tee -a $LOG
-        $COMPUTEPY 2>&1 | tee -a $LOG
+        /opt/python/bin/@PYTHONVER@ $COMPUTEPY 2>&1 | tee -a $LOG
     else
         echo "Error: Missing file $COMPUTEPY" | tee -a $LOG
-        exit 1
+        return
     fi
 }
 
