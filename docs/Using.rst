@@ -110,7 +110,7 @@ authentication are set up and postgres and pgbouncer are configured.
 
    To Stop the pipeline (replace ``gbif`` with the datasource name configured for this instance, i.e. ``bison``, ``idigbio``) ::    
 
-     % touch /opt/lifemapper/pipeline.gbif.die
+     % touch /opt/lifemapper/log/pipeline.gbif.die
      
      
 #. **Run checks of LmWeb**
