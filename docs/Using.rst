@@ -12,7 +12,7 @@ authentication are set up and postgres and pgbouncer are configured.
 
    This command must be executed as user ``root`` ::  
 
-     # nohup /opt/lifemapper/rocks/bin/initDB
+     # /opt/lifemapper/rocks/bin/initDB > /tmp/initDB.log 2>&1
 
    The script output is in ``/tmp/initDB.log``. Examine the script output: ::
    

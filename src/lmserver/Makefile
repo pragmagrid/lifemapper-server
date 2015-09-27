@@ -63,13 +63,13 @@ version.mk:
 	cat ../version.mk version.mk.in > version.mk
 
 PY.PATH = /opt/python/bin/$(PYTHONVER)
-EXPORTDIR=$(subst share,state/partition1,$(DATADIR))/test
+EXPORTDIR=$(subst share,state/partition1,$(DATADIR_SERVER))/test
 
 
 SEDSPEC += \
         -e 's%@PKGROOT@%$(PKGROOT)%g' \
         -e 's%@PYBIN@%$(PY.PATH)%g' \
-        -e 's%@DATADIR@%$(DATADIR)%g' \
+        -e 's%@DATADIR_SERVER@%$(DATADIR_SERVER)%g' \
         -e 's%@LMDISK@%$(LMDISK)%g' \
         -e 's%@LMHOME@%$(LMHOME)%g' \
         -e 's%@LMWEB@%$(LMWEB)%g' \
@@ -80,10 +80,12 @@ SEDSPEC += \
         -e 's%@TARBALL_POSTFIX@%$(TARBALL_POSTFIX)%g' \
         -e 's%@LMUSER@%$(LMUSER)%g' \
         -e 's%@DATASOURCE@%$(DATASOURCE)%g' \
+        -e 's%@SPECIES_DATA@%$(SPECIES_DATA)%g' \
         -e 's%@ALGORITHMS@%$(ALGORITHMS)%g' \
         -e 's%@MODEL_SCENARIO@%$(MODEL_SCENARIO)%g' \
         -e 's%@PROJECTION_SCENARIOS@%$(PROJECTION_SCENARIOS)%g' \
-        -e 's%@SCENARIO_PACKAGE@%$(SCENARIO_PACKAGE)%g'
+        -e 's%@SCENARIO_PACKAGE@%$(SCENARIO_PACKAGE)%g' \
+        -e 's%@JAVABIN@%$(JAVABIN)%g'
 
 SCRIPTS = buildLmLuceneIndex.sh \
           checkLmWeb.cron \
