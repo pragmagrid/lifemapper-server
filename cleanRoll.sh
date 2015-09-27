@@ -45,7 +45,7 @@ del-opt-python () {
 
 del-mapserver(){
    echo "Removing mapserver and dependencies RPMS"
-   $RM opt-lifemapper-mapserver-python
+   $RM opt-lifemapper-mapserver
    $RM hdf4-devel hdf4
    $RM giflib-devel
    $RM bitstream-vera-sans-fonts
