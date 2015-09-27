@@ -62,20 +62,24 @@ authentication are set up and postgres and pgbouncer are configured.
    installed formats.  ::  
 
      % python2.7 /opt/lifemapper/LmWebServer/scripts/checkLmWeb.py
-       30 Mar 2015 14:17 MainThread.log.debug line 80 DEBUG    Url: http://pc-167.calit2.optiputer.net
-       30 Mar 2015 14:17 MainThread.log.debug line 80 DEBUG    Url: http://pc-167.calit2.optiputer.net/services/
-       30 Mar 2015 14:18 MainThread.log.debug line 80 DEBUG    Url: http://pc-167.calit2.optiputer.net/services/sdm/
-       30 Mar 2015 14:18 MainThread.log.debug line 80 DEBUG    Url: http://pc-167.calit2.optiputer.net/services/sdm/experiments
-       30 Mar 2015 14:18 MainThread.log.debug line 80 DEBUG    Url: http://pc-167.calit2.optiputer.net/services/sdm/layers
-       30 Mar 2015 14:18 MainThread.log.debug line 80 DEBUG    Url: http://pc-167.calit2.optiputer.net/services/sdm/projections
-       30 Mar 2015 14:18 MainThread.log.debug line 80 DEBUG    Url: http://pc-167.calit2.optiputer.net/services/sdm/scenarios
-       30 Mar 2015 14:18 MainThread.log.debug line 80 DEBUG    Url: http://pc-167.calit2.optiputer.net/services/rad/
-       30 Mar 2015 14:18 MainThread.log.debug line 80 DEBUG    Url: http://pc-167.calit2.optiputer.net/services/rad/experiments
-       30 Mar 2015 14:18 MainThread.log.debug line 80 DEBUG    Url: http://pc-167.calit2.optiputer.net/services/rad/layers
-       30 Mar 2015 14:18 MainThread.log.debug line 80 DEBUG    Url: http://pc-167.calit2.optiputer.net/services/sdm/occurrences/117/atom
+       python2.7 /opt/lifemapper/LmWebServer/scripts/checkLmWeb.py
+       27 Sep 2015 14:38 MainThread.log.debug line 80 DEBUG    Url: http://lm.public
+       27 Sep 2015 14:38 MainThread.log.debug line 80 DEBUG    Url: http://lm.public/services/
+       27 Sep 2015 14:38 MainThread.log.debug line 80 DEBUG    Url: http://lm.public/services/sdm/
+       27 Sep 2015 14:38 MainThread.log.debug line 80 DEBUG    Url: http://lm.public/services/sdm/experiments
+       27 Sep 2015 14:38 MainThread.log.debug line 80 DEBUG    Url: http://lm.public/services/sdm/layers
+       27 Sep 2015 14:38 MainThread.log.debug line 80 DEBUG    Url: http://lm.public/services/sdm/projections
+       27 Sep 2015 14:38 MainThread.log.debug line 80 DEBUG    Url: http://lm.public/services/sdm/scenarios
+       27 Sep 2015 14:38 MainThread.log.debug line 80 DEBUG    Url: http://lm.public/services/rad/
+       27 Sep 2015 14:38 MainThread.log.debug line 80 DEBUG    Url: http://lm.public/services/rad/experiments
+       27 Sep 2015 14:38 MainThread.log.debug line 80 DEBUG    Url: http://lm.public/services/rad/layers
+       27 Sep 2015 14:38 MainThread.log.debug line 80 DEBUG    Url: http://lm.public/services/sdm/scenarios/5/atom
        ...
-       30 Mar 2015 14:18 MainThread.log.debug line 80 DEBUG    Url: http://pc-167.calit2.optiputer.net/services/sdm/scenarios/3/html
+       27 Sep 2015 14:38 MainThread.log.debug line 80 DEBUG    Url: http://lm.public/services/sdm/layers/94/ascii
+       27 Sep 2015 14:38 MainThread.log.debug line 80 DEBUG     returned HTTP code: 500
+       27 Sep 2015 14:38 MainThread.log.debug line 80 DEBUG    Url: http://lm.public/services/sdm/layers/94/atom
        ...
+
 
 #. **Run the pipeline**  
 
