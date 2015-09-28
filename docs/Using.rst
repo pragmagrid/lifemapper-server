@@ -33,6 +33,14 @@ authentication are set up and postgres and pgbouncer are configured.
      
      # reboot
      
+#. **Create a layers package** ::
+   
+   As ``lmwriter``, create a package to pre-populate a LmCompute instance with the layers that
+   will be used for jobs for this server.  You will need the SCENARIO_PACKAGE name
+   (i.e. 30sec-present-future-SEA) and the scenario ids (i.e. 1 through 5): ::
+   
+   % $PYTHON LmDbServer/populate/createScenarioPackage.py 30sec-present-future-SEA 1 2 3 4 5
+     
 #. **Test the LmWebServer setup** 
   
    All the commands below must be executed as user ``lmwriter``. To become ``lmwriter`` do: ::
@@ -108,9 +116,9 @@ authentication are set up and postgres and pgbouncer are configured.
 
      % python2.7 /opt/lifemapper/LmDbServer/pipeline/localpipeline.py
 
-   To Stop the pipeline (replace ``gbif`` with the datasource name configured for this instance, i.e. ``bison``, ``idigbio``) ::    
+   To Stop the pipeline (replace ``pragma`` with the datasource name configured for this instance, i.e. ``bison``, ``idigbio``) ::    
 
-     % touch /opt/lifemapper/pipeline.gbif.die
+     % touch /opt/lifemapper/pipeline.pragma.die
      
      
 #. **Run checks of LmWeb**
