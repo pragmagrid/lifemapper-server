@@ -41,6 +41,38 @@ authentication are set up and postgres and pgbouncer are configured.
    
    % $PYTHON LmDbServer/populate/createScenarioPackage.py 30sec-present-future-SEA 1 2 3 4 5
      
+#. **Register LmCompute instance(s)**  as root  
+
+   As user root, add the section ``[LmServer - registeredcompute]`` in ``config/site.ini`` to include :: 
+
+     [LmServer - registeredcompute]
+     COMPUTE_NAME: <required>
+     COMPUTE_IP:  <required>
+     COMPUTE_IP_MASK:
+     COMPUTE_CONTACT_USERID:  <required>
+     COMPUTE_CONTACT_EMAIL:  <required **if new user**>
+     COMPUTE_CONTACT_FIRSTNAME:
+     COMPUTE_CONTACT_LASTNAME:
+     COMPUTE_INSTITUTION:
+     COMPUTE_ADDR1:
+     COMPUTE_ADDR2: 
+     COMPUTE_ADDR3: 
+
+   The new record requires COMPUTE_NAME, COMPUTE_IP, and COMPUTE_CONTACT_USERID.  
+   If the COMPUTE_CONTACT_USERID does not already exist in the database, 
+   COMPUTE_CONTACT_EMAIL is also required.
+   
+   **IMPORTANT:** When running LmServer and LmCompute on the same cluster, 
+   nodes (in LmCompute functions) will contact the (LmServer functions on the) 
+   frontend through the private network.  In this case, make sure to put the 
+   private network in the COMPUTE_IP, and a CIDR in the COMPUTE_MASK.  TODO: 
+   Rename those variables!
+
+   Run the script (as lmwriter) to install LmCompute instance configured for this LmServer  ::  
+
+     # $PYTHON /opt/lifemapper/LmDbServer/populate/registerCompute.py 
+
+
 #. **Test the LmWebServer setup** 
   
    All the commands below must be executed as user ``lmwriter``. To become ``lmwriter`` do: ::
