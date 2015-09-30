@@ -91,6 +91,7 @@ SCRIPTS = \
 
 PROGS = \
 	addInputData \
+	buildLmSolrIndex \
 	initLM \
 	initDbserver \
 	initWebserver \
