@@ -43,7 +43,7 @@ authentication are set up and postgres and pgbouncer are configured.
      
 #. **Register LmCompute instance(s)**  as root  
 
-   As user root, add the section ``[LmServer - registeredcompute]`` in ``config/site.ini`` to include :: 
+   As user ``root``, add the section ``[LmServer - registeredcompute]`` in ``config/site.ini`` to include :: 
 
      [LmServer - registeredcompute]
      COMPUTE_NAME: <required>
@@ -68,7 +68,7 @@ authentication are set up and postgres and pgbouncer are configured.
    private network in the COMPUTE_IP, and a CIDR in the COMPUTE_MASK.  TODO: 
    Rename those variables!
 
-   Run the script (as lmwriter) to install LmCompute instance configured for this LmServer  ::  
+   As user ``lmwriter``, run the script to install LmCompute instance configured for this LmServer  ::  
 
      # $PYTHON /opt/lifemapper/LmDbServer/populate/registerCompute.py 
 
