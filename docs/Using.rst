@@ -81,10 +81,10 @@ authentication are set up and postgres and pgbouncer are configured.
      
    Successful example output is shown under each command   ::  
 
-     % python2.7 /opt/lifemapper/LmWebServer/scripts/createTestUser.py
+     % python2.7 /opt/lifemapper/LmWebServer/scripts/createTestUser.py  > /tmp/createTestUser.log 2>&1
        Successfully created user
        
-     % python2.7 /opt/lifemapper/LmWebServer/scripts/checkJobServer.py
+     % python2.7 /opt/lifemapper/LmWebServer/scripts/checkJobServer.py > /tmp/checkJobServer.log 2>&1
      
        27 Sep 2015 13:57 MainThread.log.debug line 80 DEBUG    {'epsgcode': '4326', 'displayname': 'Test Chain57292.8734326', 'name': 'Test points57292.8734326', 'pointstype': 'shapefile'}
        27 Sep 2015 13:57 MainThread.log.debug line 80 DEBUG    Test Chain57292.8734326
@@ -101,7 +101,7 @@ authentication are set up and postgres and pgbouncer are configured.
    so errors for this format may be ignored.  We will add configuration to identify 
    installed formats.  ::  
 
-     % python2.7 /opt/lifemapper/LmWebServer/scripts/checkLmWeb.py
+     % python2.7 /opt/lifemapper/LmWebServer/scripts/checkLmWeb.py  > /tmp/checkLmWeb.log 2>&1
        python2.7 /opt/lifemapper/LmWebServer/scripts/checkLmWeb.py
        27 Sep 2015 14:38 MainThread.log.debug line 80 DEBUG    Url: http://lm.public
        27 Sep 2015 14:38 MainThread.log.debug line 80 DEBUG    Url: http://lm.public/services/
