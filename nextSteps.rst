@@ -45,49 +45,32 @@ PRAGMA 30
 
 #. Code/Configuration improvements
 
+   #. Create more complete tests for LmServer, LmCompute, and LmServer-LmCompute communications.
+   
    #. Optionally write to a data space shared between LmCompute and LmServer, 
       bypassing apache for '''internal''' communications
       
    #. Optionally write to a data space shared with clients, bypassing apache 
       for '''external''' communications
       
+#. Documentation improvements
+
+   #.  Formalize instructions for setup, configuration, and post-install data changes
+   
+   #.  Add ZFS instructions for setting aside large volumes for data archive
+
+#. Data
+
+   #.  Use actual UAV data
+
+
 Important dates
 ~~~~~~~~~~~~~~~~
 
-#. June 31: Aimee will email Nadya with travel suggestions for her Lawrence visit.
+#. Oct 23: Nail down agenda and dates for Aimee's visit to SDSC
 
-#. July 1: Aimee/Nadya call 9:30 PDT / 11:30 CDT
-
-#. July 2: Aimee will email Reed and Nadya to discuss and request Kinabalu data 
-   for testing and demonstration (and workshop?).
-
-#. July 10, 2015: Aimee will provide 2 working LM component rolls 
-   with LM SVN Version 6171 for Nadya to work with.  These rolls will not contain
-   completed code improvements planned for PRAGMA 29, but will be suitable for
-   testing.
-   
-#. July 3: Aimee will email Reed and Nadya to discuss and request Kinabalu data 
-   for testing and demonstration (and workshop?).
-
-#. July 8: Aimee/Nadya call 9:30 PDT / 11:30 CDT
-
-#. July 23-24: PI meeting at SDSC, Nadya will talk with Peter and follow up with Reed
-   
-#. July 27-29: Nadya will visit Kansas for one-on-one problem-solving
-  
-#. Aug 24-29 (2/3 days TBD): Aimee will visit SDSC for one-on-one problem-solving
 
 Weekly TODO
 ~~~~~~~~~~~~~
 
-#. July 1 call
-
-    #. send email to Aimee with info how to build devel-server
-       Done july 1. 
-    
-    #. verify security-updates roll for 6.2
-       Done july 1. Verified roll build and install, send email to Aimee 
-       
-    #. TODO Build new Vbox images with rocks 6.2 on laptop  
-    
-    #. TODO Follow up with Peter and Reed during their visit in SD.
+#. 
