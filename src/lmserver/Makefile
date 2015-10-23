@@ -87,7 +87,8 @@ SEDSPEC += \
         -e 's%@SCENARIO_PACKAGE@%$(SCENARIO_PACKAGE)%g' \
         -e 's%@JAVABIN@%$(JAVABIN)%g'
 
-SCRIPTS = buildLmLuceneIndex.sh \
+SCRIPTS = buildLmLuceneIndex.cron \
+          buildLmSolrIndex.cron \
           checkLmWeb.cron \
           config.ini \
           deleteOldAnonymous.cron \
@@ -96,13 +97,17 @@ SCRIPTS = buildLmLuceneIndex.sh \
           lmLucene.py
 
           
-buildLmLuceneIndex.sh: $(REPONAME)/LmWebServer/lucene/buildLmLuceneIndex.sh.in
-	$(SED) $(SEDSPEC) $^ > $(REPONAME)/LmWebServer/lucene/$@
-	chmod 755 $(REPONAME)/LmWebServer/lucene/buildLmLuceneIndex.sh
+buildLmLuceneIndex.cron: $(REPONAME)/LmWebServer/scripts/cron/buildLmLuceneIndex.cron.in
+	$(SED) $(SEDSPEC) $^ > $(REPONAME)/LmWebServer/scripts/cron/$@
+	chmod 755 $(REPONAME)/LmWebServer/scripts/cron/$@
 
-checkLmWeb.cron: $(REPONAME)/LmWebServer/scripts/checkLmWeb.cron.in
-	$(SED) $(SEDSPEC) $^ > $(REPONAME)/LmWebServer/scripts/$@
-	chmod 755 $(REPONAME)/LmWebServer/scripts/checkLmWeb.cron
+buildLmSolrIndex.cron: $(REPONAME)/LmWebServer/scripts/cron/buildLmSolrIndex.cron.in
+	$(SED) $(SEDSPEC) $^ > $(REPONAME)/LmWebServer/scripts/cron/$@
+	chmod 755 $(REPONAME)/LmWebServer/scripts/cron/$@
+
+checkLmWeb.cron: $(REPONAME)/LmWebServer/scripts/cron/checkLmWeb.cron.in
+	$(SED) $(SEDSPEC) $^ > $(REPONAME)/LmWebServer/scripts/cron/$@
+	chmod 755 $(REPONAME)/LmWebServer/scripts/cron/$@
 
 config.ini: $(REPONAME)/config/config.ini.in
 	$(SED) -i $(SEDSPEC) $^ 
