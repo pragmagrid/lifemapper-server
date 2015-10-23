@@ -87,23 +87,12 @@ SEDSPEC += \
         -e 's%@SCENARIO_PACKAGE@%$(SCENARIO_PACKAGE)%g' \
         -e 's%@JAVABIN@%$(JAVABIN)%g'
 
-SCRIPTS = buildLmLuceneIndex.cron \
-          buildLmSolrIndex.cron \
-          checkLmWeb.cron \
+SCRIPTS = checkLmWeb.cron \
           config.ini \
           deleteOldAnonymous.cron \
           runAllSQLScripts.sql  \
           runUpdateDBScripts.sql \
           lmLucene.py
-
-          
-buildLmLuceneIndex.cron: $(REPONAME)/LmWebServer/scripts/cron/buildLmLuceneIndex.cron.in
-	$(SED) $(SEDSPEC) $^ > $(REPONAME)/LmWebServer/scripts/cron/$@
-	chmod 755 $(REPONAME)/LmWebServer/scripts/cron/$@
-
-buildLmSolrIndex.cron: $(REPONAME)/LmWebServer/scripts/cron/buildLmSolrIndex.cron.in
-	$(SED) $(SEDSPEC) $^ > $(REPONAME)/LmWebServer/scripts/cron/$@
-	chmod 755 $(REPONAME)/LmWebServer/scripts/cron/$@
 
 checkLmWeb.cron: $(REPONAME)/LmWebServer/scripts/cron/checkLmWeb.cron.in
 	$(SED) $(SEDSPEC) $^ > $(REPONAME)/LmWebServer/scripts/cron/$@

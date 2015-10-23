@@ -91,6 +91,7 @@ SCRIPTS = \
 
 PROGS = \
 	addInputData \
+	buildLmLuceneIndex \
 	buildLmSolrIndex \
 	initLM \
 	initDbserver \
