@@ -102,6 +102,10 @@ config.ini: $(REPONAME)/config/config.ini.in
 	$(SED) -i $(SEDSPEC) $^ 
 	cat $^ > $(REPONAME)/config/$@
 
+cherrypy.conf: $(REPONAME)/config/cherrypy.conf.in
+	$(SED) -i $(SEDSPEC) $^ 
+	cat $^ > $(REPONAME)/config/$@
+
 deleteOldAnonymous.cron: $(REPONAME)/LmDbServer/scripts/deleteOldAnonymous.cron.in
 	$(SED) $(SEDSPEC) $^ > $(REPONAME)/LmDbServer/scripts/$@
 	chmod 755 $(REPONAME)/LmDbServer/scripts/deleteOldAnonymous.cron
