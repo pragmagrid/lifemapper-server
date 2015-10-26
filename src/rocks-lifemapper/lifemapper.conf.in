@@ -9,7 +9,7 @@ MaxRequestsPerChild  50
 </IfModule>
 
 # Need to set up the PYTHONPATH.  Cannot do this in VirtualHost declaration
-WSGIPythonPath @LMHOME@:@LMHOME@/LmWebServer/public_html/services
+WSGIPythonPath @LMHOME@
 
 # For lifemapper-server roll
 <VirtualHost *:80>
@@ -37,6 +37,6 @@ SetEnv PROJ_LIB "@LMHOME@/share/proj"
 RewriteEngine on
 
 # Mod_wsgi script for Lifemapper content
-WSGIScriptAliasMatch ^/(css|clients|hint|images|jobs|login|logout|signup|schemas|services|robots.txt) @LMHOME@/LmWebServer/public_html/services/svc.py/$1
+WSGIScriptAliasMatch ^/(css|clients|hint|images|jobs|login|logout|signup|schemas|services|robots.txt) @LMHOME@/LmWebServer/services/common/svc.py/$1
 
 </VirtualHost>
