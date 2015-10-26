@@ -74,7 +74,7 @@ build:
 	(\
 	    cd $(ARCHIVENAME)-$(VERSION);     \
 	    export PATH=$(ROOT):$(PKGROOT)/bin:$(PATH);  \
-	    ./configure --with-proj --with-geos --with-ogr --with-gdal --with-postgis --with-kml --prefix=$(PKGROOT);  \
+	    ./configure --with-proj=$(PKGROOT) --with-geos --with-ogr --with-gdal --with-postgis --with-kml --prefix=$(PKGROOT);  \
 	    $(MAKE); \
 	    cd mapscript/python; \
 	    $(PY.PATH) setup.py build; \
