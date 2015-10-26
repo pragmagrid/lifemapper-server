@@ -16,6 +16,7 @@ WSGIPythonPath @LMHOME@:@LMHOME@/LmWebServer/public_html/services
 
 # load mod_wsgi module
 LoadModule wsgi_module modules/mod_wsgi.so 
+LoadModule status_module modules/mod_status.so
 
 # Enable MapServer debugging
 SetEnv MS_ERRORFILE "@MAPSERVER_TMP@/mapserver_error.txt"
