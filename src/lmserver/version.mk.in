@@ -1,6 +1,6 @@
 NAME        	= lifemapper-server
 REPONAME        = core
-VERSION    	= d3894e5d187c371421a2e93a973d3f773ec7def9
+VERSION    	= 86062dc920d6ff0d6a4d8674e62a699bdbbe6aa5
 RELEASE 	= 1
 TARBALL_POSTFIX	= tar.gz
 
