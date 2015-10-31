@@ -1,0 +1,11 @@
+NAME        	= lifemapper-solr
+ARCHIVENAME     = solr
+VERSION     	= 5.3.0
+RELEASE 	= 0
+TARBALL_POSTFIX	= tgz
+
+SOLRDIR=/opt/solr
+
+SOLR_DATA=$(DATADIR_SERVER)/solr
+SOLR_PORT=8983
+
