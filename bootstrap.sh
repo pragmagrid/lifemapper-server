@@ -60,6 +60,8 @@ yum --enablerepo base install cmake
 yum --enablerepo base install subversion
 
 # for mapserver
+compile proj
+install lifemapper-proj
 yum --enablerepo base install gd-devel
 rpm -i src/RPMS/bitstream-vera-fonts-common-1.10-18.el6.noarch.rpm
 rpm -i src/RPMS/bitstream-vera-sans-fonts-1.10-18.el6.noarch.rpm

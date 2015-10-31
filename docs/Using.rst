@@ -41,6 +41,38 @@ authentication are set up and postgres and pgbouncer are configured.
    
    % $PYTHON LmDbServer/populate/createScenarioPackage.py 30sec-present-future-SEA 1 2 3 4 5
      
+#. **Register LmCompute instance(s)**  as root  
+
+   As user ``root``, add the section ``[LmServer - registeredcompute]`` in ``config/site.ini`` to include :: 
+
+     [LmServer - registeredcompute]
+     COMPUTE_NAME: <required>
+     COMPUTE_IP:  <required>
+     COMPUTE_IP_MASK:
+     COMPUTE_CONTACT_USERID:  <required>
+     COMPUTE_CONTACT_EMAIL:  <required **if new user**>
+     COMPUTE_CONTACT_FIRSTNAME:
+     COMPUTE_CONTACT_LASTNAME:
+     COMPUTE_INSTITUTION:
+     COMPUTE_ADDR1:
+     COMPUTE_ADDR2: 
+     COMPUTE_ADDR3: 
+
+   The new record requires COMPUTE_NAME, COMPUTE_IP, and COMPUTE_CONTACT_USERID.  
+   If the COMPUTE_CONTACT_USERID does not already exist in the database, 
+   COMPUTE_CONTACT_EMAIL is also required.
+   
+   **IMPORTANT:** When running LmServer and LmCompute on the same cluster, 
+   nodes (in LmCompute functions) will contact the (LmServer functions on the) 
+   frontend through the private network.  In this case, make sure to put the 
+   private network in the COMPUTE_IP, and a CIDR in the COMPUTE_MASK.  TODO: 
+   Rename those variables!
+
+   As user ``lmwriter``, run the script to install LmCompute instance configured for this LmServer  ::  
+
+     # $PYTHON /opt/lifemapper/LmDbServer/populate/registerCompute.py 
+
+
 #. **Test the LmWebServer setup** 
   
    All the commands below must be executed as user ``lmwriter``. To become ``lmwriter`` do: ::
@@ -49,10 +81,10 @@ authentication are set up and postgres and pgbouncer are configured.
      
    Successful example output is shown under each command   ::  
 
-     % python2.7 /opt/lifemapper/LmWebServer/scripts/createTestUser.py
+     % python2.7 /opt/lifemapper/LmWebServer/scripts/createTestUser.py  > /tmp/createTestUser.log 2>&1
        Successfully created user
        
-     % python2.7 /opt/lifemapper/LmWebServer/scripts/checkJobServer.py
+     % python2.7 /opt/lifemapper/LmWebServer/scripts/checkJobServer.py > /tmp/checkJobServer.log 2>&1
      
        27 Sep 2015 13:57 MainThread.log.debug line 80 DEBUG    {'epsgcode': '4326', 'displayname': 'Test Chain57292.8734326', 'name': 'Test points57292.8734326', 'pointstype': 'shapefile'}
        27 Sep 2015 13:57 MainThread.log.debug line 80 DEBUG    Test Chain57292.8734326
@@ -69,7 +101,7 @@ authentication are set up and postgres and pgbouncer are configured.
    so errors for this format may be ignored.  We will add configuration to identify 
    installed formats.  ::  
 
-     % python2.7 /opt/lifemapper/LmWebServer/scripts/checkLmWeb.py
+     % python2.7 /opt/lifemapper/LmWebServer/scripts/checkLmWeb.py  > /tmp/checkLmWeb.log 2>&1
        python2.7 /opt/lifemapper/LmWebServer/scripts/checkLmWeb.py
        27 Sep 2015 14:38 MainThread.log.debug line 80 DEBUG    Url: http://lm.public
        27 Sep 2015 14:38 MainThread.log.debug line 80 DEBUG    Url: http://lm.public/services/

@@ -83,14 +83,15 @@ PROFILES = \
 
 SCRIPTS = \
 	lifemapper.conf \
-	lucene.cron \
-	solr.cron \
+	lucene \
+	solr \
 	lmLucene \
 	lifemapper-sysconfig-httpd \
 	lifemapper-server.conf
 
 PROGS = \
 	addInputData \
+	buildLmLuceneIndex \
 	buildLmSolrIndex \
 	initLM \
 	initDbserver \
@@ -142,7 +143,8 @@ install::
 	install -m 755 $(EXECFILES) $(ROOT)/$(PKGROOT)/rocks/bin
 
 	mkdir -p $(ROOT)/$(PKGROOT)/rocks/etc
-	install -m 755 lucene.cron $(ROOT)/$(PKGROOT)/rocks/etc
+	install -m 755 lucene $(ROOT)/$(PKGROOT)/rocks/etc
+	install -m 755 solr $(ROOT)/$(PKGROOT)/rocks/etc
 	install -m 644 lifemapper-sysconfig-httpd $(ROOT)/$(PKGROOT)/rocks/etc
 
 	mkdir -p $(ROOT)/$(PKGROOT)/rocks/sql
