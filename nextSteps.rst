@@ -53,6 +53,18 @@ PRAGMA 30
    #. Optionally write to a data space shared with clients, bypassing apache 
       for '''external''' communications
       
+#. Operational improvements
+
+   #.  Lay groundwork for '''lm''' commands (similar to '''rocks''' commands) 
+       that will execute any user/installer commands related to testing (checkLmWeb, 
+       checkJobServer ...), configuration (changeEnvData, seedLayers ...), 
+       updates (updateLmCode, updateLmDatabase, ...), and execution (pipeline,
+       exportUserData, ...).
+      
+#. Moving forward
+
+  #. Framework for integrating with RDA
+   
 #. Documentation improvements
 
    #.  Formalize instructions for setup, configuration, and post-install data changes

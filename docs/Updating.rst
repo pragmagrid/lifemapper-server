@@ -23,7 +23,7 @@ Update code and scripts
      
 #. **Copy new Lifemapper RPMs to server**.
 
-     # lifemapper-server-xxxx-1.x86_64.rpm 
+     # lifemapper-server-xxxxx.x86_64.rpm 
      # rocks-lifemapper-6.2-0.x86_64.rpm
      
 #. **Install changed RPMs **  as user root
@@ -31,11 +31,14 @@ Update code and scripts
 Install RPMs with: ::   
 
    # rpm -el lifemapper-server
-   # rpm -i  path-to-new-lifemapper-server.rpm
+   # rpm -i path-to-new-lifemapper-server.rpm
    # rpm -el rocks-lifemapper
    # rpm -i  path-to-new-rocks-lifemapper.rpm
    # /opt/lifemapper/rocks/bin/updateLM
 
+   If the source code rpm is on a machine with both LmServer and LmCompute rolls,
+   add the option --force to force overwriting shared code.
+   
    The ``updateLM`` script 
     * runs confDbconnect to rewrite the python db connection file for LM code
     * runs updateIP to fill in newly installed config.ini file with IP address
@@ -48,7 +51,8 @@ Update data
 
 #. **Stop the pipeline** as lmserver.
 
-   To Stop the pipeline (replace 'pragma' with the datasource name configured for this instance, i.e. bison, idigbio) ::    
+   To Stop the pipeline (replace 'pragma' with the datasource name configured for 
+   this instance, i.e. gbif, bison, idigbio) ::    
 
      % touch /opt/lifemapper/log/pipeline.pragma.die
      
@@ -57,7 +61,8 @@ Add a new computation server
 
 #. **Register LmCompute instance(s)**  as root  
 
-   As user root, add the section ``[LmServer - registeredcompute]`` in ``config/site.ini`` to include :: 
+   As user root, add the section ``[LmServer - registeredcompute]`` in 
+   ``config/site.ini`` to include :: 
 
      [LmServer - registeredcompute]
      COMPUTE_NAME: <required>
@@ -82,14 +87,14 @@ Add a new computation server
 
 Add/change Archive User
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#. ** Change the archive user **  as ``root`` 
+#. Change the archive user  as ``root`` 
 
    Add ARCHIVE_USER to the [LmCommon - common] section of site.ini file.  
    
-   The ARCHIVE_USER must own all occurrence and scenario records, so re-add 
+   The ARCHIVE_USER must own all occurrence and scenario records, so add 
    existing (or new) climate data as this new user :: 
 
-     # $PYTHON /opt/lifemapper/LmDbServer/populate/initCatalog.py all 
+     # $PYTHON /opt/lifemapper/LmDbServer/populate/initCatalog.py 
 
 
 #. **Start the pipeline**  as ``lmserver`` to initialize all new jobs with the new species data.
