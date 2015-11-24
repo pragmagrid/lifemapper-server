@@ -10,7 +10,7 @@ TOPDIR=@REPONAME@-@VERSION@
 # download archive from lifemapper git
 download_git () {
       echo "Starting GIT checkout from $URL"
-      curl -L "$URL/$SRC/archive/@VERSION@.@TARBALL_POSTFIX@" 
+      wget "$URL/$SRC/archive/@VERSION@.@TARBALL_POSTFIX@" 
       tar xzvf @VERSION@.@TARBALL_POSTFIX@
       
       
@@ -27,7 +27,7 @@ download_git () {
 }
 
 collect_configs () {
-  conf=$SRC/config/config.ini.in
+  conf=$TOPDIR/config/config.ini.in
   if [ ! -f $conf ]; then
       echo "ERROR: File $conf is missing from $SRC "
       return
@@ -40,9 +40,7 @@ create_distro () {
       # create lmserver src distro
       echo "Creating lmserver src archive from Github archive download"
       tar czf lifemapper-server-@VERSION@.@TARBALL_POSTFIX@ $TOPDIR/* \
-          --exclude=LmCompute \
-          --exclude=dist \
-          --exclude=LmWebServer/public_html/dl
+          --exclude=LmCompute 
 
   else
       echo "GIT downloaded directory $TOPDIR is not present"

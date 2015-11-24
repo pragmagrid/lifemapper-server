@@ -94,31 +94,32 @@ SCRIPTS = checkLmWeb.cron \
           runUpdateDBScripts.sql \
           lmLucene.py
           
+TOPDIR =  $(REPONAME)-$(VERSION)
 
-checkLmWeb.cron: $(REPONAME)-$(VERSION)/LmWebServer/scripts/cron/checkLmWeb.cron.in
-	$(SED) $(SEDSPEC) $^ > $(REPONAME)-$(VERSION)/LmWebServer/scripts/cron/$@
-	chmod 755 $(REPONAME)-$(VERSION)/LmWebServer/scripts/cron/$@
+checkLmWeb.cron: $(TOPDIR)/LmWebServer/scripts/cron/checkLmWeb.cron.in
+	$(SED) $(SEDSPEC) $^ > $(TOPDIR)/LmWebServer/scripts/cron/$@
+	chmod 755 $(TOPDIR)/LmWebServer/scripts/cron/$@
 
-config.ini: $(REPONAME)-$(VERSION)/config/config.ini.in
+config.ini: $(TOPDIR)/config/config.ini.in
 	$(SED) -i $(SEDSPEC) $^ 
-	cat $^ > $(REPONAME)-$(VERSION)/config/$@
+	cat $^ > $(TOPDIR)/config/$@
 
-cherrypy.conf: $(REPONAME)-$(VERSION)/config/cherrypy.conf.in
+cherrypy.conf: $(TOPDIR)/config/cherrypy.conf.in
 	$(SED) -i $(SEDSPEC) $^ 
-	cat $^ > $(REPONAME)-$(VERSION)/config/$@
+	cat $^ > $(TOPDIR)/config/$@
 
-deleteOldAnonymous.cron: $(REPONAME)-$(VERSION)/LmDbServer/scripts/deleteOldAnonymous.cron.in
-	$(SED) $(SEDSPEC) $^ > $(REPONAME)-$(VERSION)/LmDbServer/scripts/$@
-	chmod 755 $(REPONAME)-$(VERSION)/LmDbServer/scripts/deleteOldAnonymous.cron
+deleteOldAnonymous.cron: $(TOPDIR)/LmDbServer/scripts/deleteOldAnonymous.cron.in
+	$(SED) $(SEDSPEC) $^ > $(TOPDIR)/LmDbServer/scripts/$@
+	chmod 755 $(TOPDIR)/LmDbServer/scripts/deleteOldAnonymous.cron
 
-lmLucene.py: $(REPONAME)-$(VERSION)/LmWebServer/lucene/lmLucene.py.in
-	$(SED) $(SEDSPEC) $^ > $(REPONAME)-$(VERSION)/LmWebServer/lucene/$@
+lmLucene.py: $(TOPDIR)/LmWebServer/lucene/lmLucene.py.in
+	$(SED) $(SEDSPEC) $^ > $(TOPDIR)/LmWebServer/lucene/$@
 
-runAllSQLScripts.sql: $(REPONAME)-$(VERSION)/LmDbServer/dbsetup/runAllSQLScripts.sql.in
-	$(SED) $(SEDSPEC) $^ > $(REPONAME)-$(VERSION)/LmDbServer/dbsetup/$@
+runAllSQLScripts.sql: $(TOPDIR)/LmDbServer/dbsetup/runAllSQLScripts.sql.in
+	$(SED) $(SEDSPEC) $^ > $(TOPDIR)/LmDbServer/dbsetup/$@
 
-runUpdateDBScripts.sql: $(REPONAME)-$(VERSION)/LmDbServer/dbsetup/runUpdateDBScripts.sql.in
-	$(SED) $(SEDSPEC) $^ > $(REPONAME)-$(VERSION)/LmDbServer/dbsetup/$@
+runUpdateDBScripts.sql: $(TOPDIR)/LmDbServer/dbsetup/runUpdateDBScripts.sql.in
+	$(SED) $(SEDSPEC) $^ > $(TOPDIR)/LmDbServer/dbsetup/$@
 
 
 prepSrc.sh: prepSrc.sh.in
@@ -138,11 +139,11 @@ build:
 
 install::
 	mkdir -p $(ROOT)/$(EXPORTDIR)
-	mv $(REPONAME)-$(VERSION)/LmWebServer/test/data/* $(ROOT)/$(EXPORTDIR) 	
+	mv $(TOPDIR)/LmWebServer/test/data/* $(ROOT)/$(EXPORTDIR) 	
 	mkdir -p $(ROOT)/$(LMHOME)
-	mv $(REPONAME)-$(VERSION)/*  $(ROOT)/$(LMHOME) 
+	mv $(TOPDIR)/*  $(ROOT)/$(LMHOME) 
 	
 clean::
 	rm -rf  $(SCRIPTS)  
-	rm -rf  $(REPONAME)-$(VERSION)
+	rm -rf  $(TOPDIR)
 	rm -rf  version.mk prepSrc.sh
