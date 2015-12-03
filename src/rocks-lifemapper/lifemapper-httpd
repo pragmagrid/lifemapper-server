@@ -1,0 +1,8 @@
+/var/log/httpd/lifemapper_access {
+       weekly
+       missingok
+       copytruncate
+       dateext
+       rotate 4
+       compress
+}
