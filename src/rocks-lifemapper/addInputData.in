@@ -25,8 +25,8 @@ set_defaults() {
     USERSFILE=@PKGROOT@/rocks/etc/users
     LMURL="http://lifemapper.org/dl"
     SITE_CONFIG_FILE=@LMHOME@/config/site.ini
-    GETINPUTPY=@LMHOME@/LmDbServer/populate/getInputData.py
-    POPULATEPY=@LMHOME@/LmDbServer/populate/initCatalog.py
+    GETINPUTPY=@LMHOME@/LmDbServer/tools/getInputData.py
+    POPULATEPY=@LMHOME@/LmDbServer/tools/initCatalog.py
     CLIMATE_CMD=scenario
     TAXONOMY_CMD=taxonomy
     USER_CMD=user
@@ -93,7 +93,7 @@ add_user () {
 }
 
 ### Add new scenarios based on metadata in 
-### @LMHOME@/LmDbServer/populate/metadata/bioclimMeta for SCENARIO_PACKAGE
+### @LMHOME@/LmDbServer/tools/bioclimMeta for SCENARIO_PACKAGE
 add_scenarios () {
     if [ -f $POPULATEPY ] ; then        
         echo "Add metadata for $SCEN_PKG ..." | tee -a $LOG

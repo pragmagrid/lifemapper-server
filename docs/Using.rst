@@ -39,7 +39,7 @@ authentication are set up and postgres and pgbouncer are configured.
    will be used for jobs for this server.  You will need the SCENARIO_PACKAGE name
    (i.e. 30sec-present-future-SEA) and the scenario ids (i.e. 1 through 5): ::
    
-   % $PYTHON LmDbServer/populate/createScenarioPackage.py 30sec-present-future-SEA 1 2 3 4 5
+   % $PYTHON LmDbServer/tools/createScenarioPackage.py 30sec-present-future-SEA 1 2 3 4 5
      
 #. **Register LmCompute instance(s)**  as root  
 
@@ -70,7 +70,7 @@ authentication are set up and postgres and pgbouncer are configured.
 
    As user ``lmwriter``, run the script to install LmCompute instance configured for this LmServer  ::  
 
-     # $PYTHON /opt/lifemapper/LmDbServer/populate/registerCompute.py 
+     # $PYTHON /opt/lifemapper/LmDbServer/tools/registerCompute.py 
 
 
 #. **Test the LmWebServer setup** 

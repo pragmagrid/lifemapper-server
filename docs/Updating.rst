@@ -83,7 +83,7 @@ Add a new computation server
 
    Run the script to install LmCompute instance configured for this LmServer  ::  
 
-     # $PYTHON /opt/lifemapper/LmDbServer/populate/registerCompute.py 
+     # $PYTHON /opt/lifemapper/LmDbServer/tools/registerCompute.py 
 
 Add/change Archive User
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -94,7 +94,7 @@ Add/change Archive User
    The ARCHIVE_USER must own all occurrence and scenario records, so add 
    existing (or new) climate data as this new user :: 
 
-     # $PYTHON /opt/lifemapper/LmDbServer/populate/initCatalog.py 
+     # $PYTHON /opt/lifemapper/LmDbServer/tools/initCatalog.py 
 
 
 #. **Start the pipeline**  as ``lmserver`` to initialize all new jobs with the new species data.
@@ -108,7 +108,7 @@ Add/change climate data
 
    Add SCENARIO_PACKAGE to the [LmServer - pipeline] section of config/site.ini file.  
    Available scenario packages are defined in the CLIMATE_PACKAGES dictionary in
-   LmDbServer.populate.bioclimMeta.  
+   LmDbServer.tools.bioclimMeta.  
    
    To change the default scenarios used by the pipeline to new scenarios defined
    in the package, add DEFAULT_MODEL_SCENARIO, DEFAULT_PROJECTION_SCENARIOS 
@@ -120,7 +120,7 @@ Add/change climate data
 
    Run the script to install scenario data  ::  
 
-     # $PYTHON /opt/lifemapper/LmDbServer/populate/initCatalog.py scenario 
+     # $PYTHON /opt/lifemapper/LmDbServer/tools/initCatalog.py scenario 
 
 #. **Start the pipeline**  as lmserver to initialize all new jobs with the new scenarios.
 
@@ -154,7 +154,7 @@ Add all data (unfinished)
    **TODO: This is not yet working** it will do all above steps 
    Download the data specified in site.ini variables and add metadata using 
    
-     # /opt/lifemapper/LmDbServer/populate/addInputData
+     # /opt/lifemapper/LmDbServer/tools/addInputData
 
 #. **Start the pipeline**  as lmserver to initialize all new jobs with the new scenarios.
 

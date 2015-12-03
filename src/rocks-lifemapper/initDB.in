@@ -38,9 +38,9 @@ SetDefaults () {
     # file to get password from
     USERSFILE=@PKGROOT@/rocks/etc/users
     DEFINESQL=@LMHOME@/LmDbServer/dbsetup/runAllSQLScripts.sql
-    POPULATEPY=@LMHOME@/LmDbServer/populate/initCatalog.py
-    TAXONOMYPY=@LMHOME@/LmDbServer/populate/@DATASOURCE@/readTaxonomy.py
-    COMPUTEPY=@LMHOME@/LmDbServer/populate/registerCompute.py
+    POPULATEPY=@LMHOME@/LmDbServer/tools/initCatalog.py
+    TAXONOMYPY=@LMHOME@/LmDbServer/tools/readTaxonomy.py
+    COMPUTEPY=@LMHOME@/LmDbServer/tools/registerCompute.py
 
     LOG=/tmp/`/bin/basename $0`.log
     touch $LOG
@@ -97,11 +97,11 @@ Populate () {
 
 ### read and populate taxonomy table
 AddTaxonomy () {
-    if [ -f $TAXONOMYPY ] ; then
+    if [ @DATASOURCE@ = "GBIF" ] ; then
         echo "Running $TAXONOMYPY ..." | tee -a $LOG
         /opt/python/bin/@PYTHONVER@ $TAXONOMYPY 2>&1 | tee -a $LOG
     else
-        echo "Notice: $TAXONOMYPY does not exist (this may be expected)" | tee -a $LOG
+        echo "Notice: No taxonomy to ingest" | tee -a $LOG
         return 
     fi
 }
