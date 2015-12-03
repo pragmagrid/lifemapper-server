@@ -1,3 +1,0 @@
-# Lifemapper lucene cron job to be installed in /etc/cron.d
-
-@LMHOME@/rocks/bin/buildLmLuceneIndex
