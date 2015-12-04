@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# @summary: This script will call Lifemapper tests
+
+# Set environment in case it is not already set
+SHELL=/usr/local/bin/bash
+PATH=/bin:/usr/bin:/usr/local/bin
+. /etc/profile.d/lifemapper.sh
+
+export PYTHONPATH=@LMHOME@
+
+@PYBIN@ @LMHOME@/LmWebServer/tests/scripts/checkLmWeb.py

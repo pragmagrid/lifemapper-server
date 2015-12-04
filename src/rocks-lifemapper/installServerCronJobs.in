@@ -23,11 +23,12 @@ TimeStamp () {
     echo $1 `/bin/date` >> $LOG
 }
 
-# install cron jobs
+# install cron jobs (lucene and cron jobs are in initWebServer)
 installDailyTasks () {
     install @LMHOME@/config/securityUpdates.sh ${CRON_DAILY_DIR}
-    install @LMHOME@/rocks/etc/lucene.cron ${CRON_DIR}
-    install @LMHOME@/rocks/etc/solr.cron ${CRON_DIR}
+    install @LMHOME@/rocks/bin/deleteOldAnonymous ${CRON_DIR}
+    # run every 4 hours 
+    crontab -u $gname @LMHOME@/rocks/etc/callLmServerTests.cron
     echo "Installed tasks to ${CRON_DIR} ..." | tee -a $LOG
 }
 

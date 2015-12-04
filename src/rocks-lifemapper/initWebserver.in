@@ -16,6 +16,7 @@ else
     exit 1
 fi
 
-# install lucene cron job
+# install lucene/solr cron jobs, run every 4 hours 
 crontab -u $gname @PKGROOT@/rocks/etc/lucene.cron
+crontab -u $gname @PKGROOT@/rocks/etc/solr.cron
 
