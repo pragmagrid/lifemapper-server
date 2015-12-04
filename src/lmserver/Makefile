@@ -87,18 +87,12 @@ SEDSPEC += \
         -e 's%@SCENARIO_PACKAGE@%$(SCENARIO_PACKAGE)%g' \
         -e 's%@JAVABIN@%$(JAVABIN)%g'
 
-SCRIPTS = checkLmWeb.cron \
-          config.ini \
-          deleteOldAnonymous.cron \
+SCRIPTS = config.ini \
           runAllSQLScripts.sql  \
           runUpdateDBScripts.sql \
           lmLucene.py
           
 TOPDIR =  $(REPONAME)-$(VERSION)
-
-checkLmWeb.cron: $(TOPDIR)/LmWebServer/scripts/cron/checkLmWeb.cron.in
-	$(SED) $(SEDSPEC) $^ > $(TOPDIR)/LmWebServer/scripts/cron/$@
-	chmod 755 $(TOPDIR)/LmWebServer/scripts/cron/$@
 
 config.ini: $(TOPDIR)/config/config.ini.in
 	$(SED) -i $(SEDSPEC) $^ 
@@ -107,10 +101,6 @@ config.ini: $(TOPDIR)/config/config.ini.in
 cherrypy.conf: $(TOPDIR)/config/cherrypy.conf.in
 	$(SED) -i $(SEDSPEC) $^ 
 	cat $^ > $(TOPDIR)/config/$@
-
-deleteOldAnonymous.cron: $(TOPDIR)/LmDbServer/scripts/deleteOldAnonymous.cron.in
-	$(SED) $(SEDSPEC) $^ > $(TOPDIR)/LmDbServer/scripts/$@
-	chmod 755 $(TOPDIR)/LmDbServer/scripts/deleteOldAnonymous.cron
 
 lmLucene.py: $(TOPDIR)/LmWebServer/lucene/lmLucene.py.in
 	$(SED) $(SEDSPEC) $^ > $(TOPDIR)/LmWebServer/lucene/$@
