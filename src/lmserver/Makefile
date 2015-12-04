@@ -129,7 +129,7 @@ build:
 
 install::
 	mkdir -p $(ROOT)/$(EXPORTDIR)
-	mv $(TOPDIR)/LmWebServer/test/data/* $(ROOT)/$(EXPORTDIR) 	
+	mv $(TOPDIR)/LmWebServer/tests/data/* $(ROOT)/$(EXPORTDIR) 	
 	mkdir -p $(ROOT)/$(LMHOME)
 	mv $(TOPDIR)/*  $(ROOT)/$(LMHOME) 
 	
