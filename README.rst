@@ -10,7 +10,7 @@ Introduction
 This roll installs dbserver and webserver parts of Lifemapper.
 All prerequisite software listed below are a part of the roll and 
 will be installed and configured during roll installation. 
-The roll has been tested with Rocks 6.1 and 6.1.1. This is Aimee's master branch commit.
+The roll has been tested with Rocks 6.1 and 6.1.1. And now with 6.2!
 
 For PRAGMA27 student challenge please see `Lifemapper Student Challenge`_
 
@@ -35,9 +35,9 @@ during the roll build.
 
 #. Source distributions: 
    
-   :binaries: ant gdal proj geos libevent libspatialindex tiff  
-   :python modules:         Cheetah, CherryPy, Cython,  egenix-mxDateTime (part of egenix-mx-base),   
-                                faulthandler  mod_python, mysql-python,  numexpr,   
+   :binaries: ant gdal proj geos libevent libspatialindex tiff mod_wsgi
+   :python modules:         CherryPy, Cython,  egenix-mxDateTime (part of egenix-mx-base),   
+                                faulthandler, mysql-python,  numexpr,   
                                 rtree, psycopg2,  pylucene, pytables, setuptools, rdflib, isodate, processing
     
 Downloads
@@ -77,6 +77,11 @@ The packages are a part of the roll source (or downloaded by bootstrap.sh).
     wget --no-check-certificate https://pypi.python.org/packages/source/f/faulthandler/faulthandler-2.3.tar.gz  
     wget --no-check-certificate https://pypi.python.org/packages/source/i/isodate/isodate-0.5.0.tar.gz
     wget --no-check-certificate  https://pypi.python.org/packages/source/p/processing/processing-0.52.zip`
+
+    solr
+    wget http://mirror.metrocast.net/apache/lucene/solr/5.3.0/solr-5.3.0.tgz
+    wget http://www.vividsolutions.com/jts/bin/jts-1.8.0.zip
+
 
 Individual package dependencies
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -140,9 +145,9 @@ Debugging a roll
 
 When need to update only a few packages that have changed one can rebuild only the RPMs
 for changed packages and use the rest of the RPMS from the previous build. 
-For example, only  rebuilding lifemapper-server RPM will involve: ::   
+For example, only  rebuilding lmserver RPM will involve: ::   
   
-   # cd src/lifemapper-server
+   # cd src/lmserver
    # make clean
    # update version.mk.in with new revision number to check out from SVN
    # make prep
@@ -155,10 +160,26 @@ Install the resulting RPM with: ::
    # /opt/lifemapper/rocks/bin/updateIP
    # /opt/lifemapper/rocks/bin/confDbconnect
 
-The ``updateIP`` is needed for this specfic RPM because  a newly installed config.ini file 
-needs tempalte IP addressees updated. 
-The ``confDbconnect`` rewrites connect.py lifemapper file (used to connect to a db)
+The ``updateIP`` is needed for this specfic RPM because  a newly installed 
+config.ini file needs template IP addressees updated. **Note:** other variables 
+must also be replaced, so perhaps easiest to stash this file and replace it 
+after the rpm install.
+
+The ``confDbconnect`` rewrites /opt/lifemapper/LmServer/db/connect.py 
+file in the LM source tree (used to connect to a db).
+This file is still present from a previous install, and will not need to be 
+re-written if the template or location has not changed.
+
 Normally, these commands are run by the roll install process. 
+
+The ``pgbouncer`` service must be restarted after a new connect.py file is created
+
+Next run any database updates with: ::
+   # /opt/lifemapper/rocks/bin/updateDB
+
+Then restart pgbouncer and apache so they can connect to the database: ::
+   # /etc/init.d/pgbouncer restart
+   # /etc/init.d/httpd restart
 
 Start using the roll, see `Using Lifemapper`_ 
 
@@ -198,7 +219,8 @@ A roll can be added to the existing frontend.
 Make sure that the python roll is installed (can be downloaded from
 `Rocks Downloads <http://www.rocksclusters.org/wordpress/?page_id=80>`_ )
 
-Execute all commands from top level lifemapper-server/ ::
+Execute all commands from top level lifemapper-server/ (Nadya: on a new installation, 
+this has not been created yet) ::
 
    # rocks add roll lifemapper-server-6.1-0.x86_64.disk1.iso   
    # rocks enable roll lifemapper-server
@@ -212,7 +234,8 @@ and then reboot your frontend: ::
 
    # reboot
 
-The reboot is needed to run a few initialization commands. 
+The reboot is needed to run a few initialization ($PKGROOT/rocks/bin/initLM) started with 
+/etc/rc.d/rocksconfig.d/post-99-lifemapper-lmserver.
 After the frontend boots up check the /tmp/lifemapper-config.log file to check the status
 of initialization commands.
 
@@ -273,7 +296,7 @@ Where installed roll components are
 
 #. **/state/partition1/lmserver/** -  mounted as /share/lmserver/
   
-   + /share/lmserver/data/ - ClimateData/, ESRIDATA/, image/, models/, species/.
+   + /share/lmserver/data/ - climate/, ESRIDATA/, image/, archive/, species/.
    + /share/lmserver/log/ - pipeline logs 
 
 #. **/var/lib/lm2/** -  pylucene  index and sessions
@@ -291,15 +314,16 @@ Before removing the roll stop postgres and pgbouncer services ::
    # /etc/init.d/pgbouncer stop
    # /etc/init.d/postgresql-9.1 stop 
 
+(Nadya: this script is not present on stand-alone installations of the roll)
+Run this script (from the top of roll source directory) to remove all
+installed RPMs, directories, users, etc ::
+
+   # bash cleanRoll.sh
+
 These commands remove the installed roll from Rocks database and repo ::
 
    # rocks remove roll lifemapper-server
    # (cd /export/rocks/install; rocks create distro)  
-
-Run this script (from the top of roll source directory) to remove all 
-installed RPMs, directories, users, etc ::
-
-   # bash cleanRoll.sh
 
 Using a Roll
 -----------------
@@ -347,10 +371,20 @@ TODO
 
 #. tests attributes for separation of dbserver and webserver
 
-#. add note about compiling gdal when psotgres/giflib RPms are present
+#. install mapscript
+
+#. add configuration for available interfaces (EML, maps)
+
+#. configure/start lucene service 
+
+#. add note about compiling gdal when postgres/giflib RPms are present
 
 #. check client caracter encoding for postgres. Currently servet is set for
    UTF8. but client appears LATIN9. See
    http://www.postgresql.org/docs/9.1/static/multibyte.html
 
+
 .. _Using Lifemapper: docs/Using.rst
+
+Testing update JUl 26 2015
+testing update july 27 2015

@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# Purpose: Fetch climate data named in CLIMATE_DATA  
+# Note: SCENARIO_PACKAGE is defined in lifemapper-server/src/version.mk
+
+create_climate_data () {
+  echo "Fetch climate data"
+  LMURL="http://lifemapper.org/dl"
+  curl -L "$LMURL/@SCENARIO_PACKAGE@.@TARBALL_POSTFIX@" -o ../lmdata-climate/@SCENARIO_PACKAGE@.@TARBALL_POSTFIX@
+}
+
+### main ###
+create_climate_data

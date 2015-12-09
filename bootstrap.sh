@@ -60,9 +60,12 @@ yum --enablerepo base install cmake
 yum --enablerepo base install subversion
 
 # for mapserver
+compile proj
+install lifemapper-proj
+yum --enablerepo base install gd-devel
 rpm -i src/RPMS/bitstream-vera-fonts-common-1.10-18.el6.noarch.rpm
 rpm -i src/RPMS/bitstream-vera-sans-fonts-1.10-18.el6.noarch.rpm
-
+rpm -i src/RPMS/giflib-devel-4.1.6-3.1.el6.x86_64.rpm
 
 # for mysql-python, rtree, pylucene
 compile setuptools
@@ -96,6 +99,12 @@ compile spatialindex
 install lifemapper-spatialindex
 /sbin/ldconfig
 
+# for postgis
+yum --enablerepo base install json-c 
+/sbin/ldconfig
+yum --enablerepo=base,updates update json-c
+/sbin/ldconfig
+
 # install postgresql
 yum --enablerepo base update openssl
 yum install postgresql91
@@ -103,6 +112,9 @@ yum install postgresql91-devel
 
 echo "You will need to checkout src from Lifemapper SVN:"
 echo "    cd src/lmserver"
+echo "    make prep "
+echo "and download data from Lifemapper:"
+echo "    cd src/lmdata-climate"
 echo "    make prep "
 echo "    cd src/lmdata-species"
 echo "    make prep "

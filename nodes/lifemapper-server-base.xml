@@ -40,7 +40,6 @@
 	<package>lifemapper-tiff</package>
 
 	<!-- python prerequisites -->
-	<package>opt-lifemapper-setuptools</package>
 	<package>opt-lifemapper-numexpr</package>
 	<package>opt-lifemapper-cython</package>
 	<package>opt-lifemapper-pytables</package>
@@ -49,16 +48,17 @@
 	<package>opt-lifemapper-faulthandler</package>
 
 	<!-- lifemapper distro -->
-	<package>lifemapper-server</package>
+	<package>lifemapper-lmserver</package>
 	<package>rocks-lifemapper</package>
 	<package>roll-lifemapper-server-usersguide</package>
 
 	<!-- mapserver and prereq -->
+	<package>opt-lifemapper-mapserver </package>
 	<package>bitstream-vera-fonts-common</package>
 	<package>bitstream-vera-sans-fonts</package>
 	<package>fribidi</package>
 	<package>postgresql91-libs</package>
-	<package>mapserver</package>
+	<!-- removed mapserver, building from source for python mapscript -->
 
 	<!-- lifemapper data -->
 	<package>lifemapper-climate-data</package>
@@ -82,20 +82,22 @@ fi
 <post>
 
 /bin/mkdir -p /state/partition1/lmserver/log
-/bin/mkdir -p /state/partition1/lmserver/data/ClimateData
+/bin/mkdir -p /state/partition1/lmserver/log/users
+/bin/mkdir -p /state/partition1/lmserver/data/climate
+/bin/mkdir -p /state/partition1/lmserver/data/species
 /bin/mkdir -p /state/partition1/lmserver/data/ESRIDATA
 /bin/mkdir -p /state/partition1/lmserver/data/image
-/bin/mkdir -p /state/partition1/lmserver/data/models
-/bin/mkdir -p /state/partition1/lmserver/data/UserData
+/bin/mkdir -p /state/partition1/lmserver/data/archive
 /bin/mkdir -p /state/partition1/lmserver/data/test
 
 /bin/chgrp -R lmwriter /state/partition1/lmserver
 /bin/chmod -R g+ws /state/partition1/lmserver/log
-/bin/chmod -R g+ws /state/partition1/lmserver/data/models 
-/bin/chmod -R g+ws /state/partition1/lmserver/data/UserData
+/bin/chmod -R g+ws /state/partition1/lmserver/data/archive 
+/bin/chmod -R g+ws /state/partition1/lmserver/data/climate 
+/bin/chmod -R g+ws /state/partition1/lmserver/data/species
 /bin/chmod -R g+ws /state/partition1/lmserver/data/test
 
-# need next 2 lines for pipeline.lm.die
+# need next 2 lines for pipeline.datasource.die
 /bin/chgrp lmwriter /opt/lifemapper
 /bin/chmod g+ws /opt/lifemapper
 

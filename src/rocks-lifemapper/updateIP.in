@@ -25,13 +25,13 @@ getAddress () {
     fi
 
     # check for attribute for lifemapper dbserver 
-    AddrDbserver=`/opt/rocks/bin/rocks list host attr localhost | grep LM_dbserver | awk '{print $3}'`
+    AddrDbserver=`/opt/rocks/bin/rocks list host attr localhost | grep LM_dbserver | grep -v _old | awk '{print $3}'`
     if [ "$AddrDbserver" = "true" ] || [ "$AddrDbserver" = "" ] ; then
         AddrDbserver=$Addr
     fi
 
     # check for attribute for lifemapper webserver 
-    AddrWebserver=`/opt/rocks/bin/rocks list host attr localhost | grep LM_webserver | awk '{print $3}'`
+    AddrWebserver=`/opt/rocks/bin/rocks list host attr localhost | grep LM_webserver | grep -v _old | awk '{print $3}'`
     if [ "$AddrWebserver" = "true" ] ||  [ "$AddrWebserver" = "" ] ; then
         AddrWebserver=$Addr
     fi

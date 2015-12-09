@@ -17,10 +17,9 @@
 	<changelog>
 	</changelog>
 
-	<package>lifemapper-mod_python</package>
+	<package>lifemapper-mod_wsgi</package>
 	<package>lifemapper-ant</package>
 	<package>opt-lifemapper-cherrypy</package>
-	<package>opt-lifemapper-cheetah</package>
 	<package>opt-lifemapper-pylucene</package>
 	<package>opt-lifemapper-rdflib</package>
 	<package>opt-lifemapper-isodate</package>

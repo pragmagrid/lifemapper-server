@@ -60,6 +60,8 @@ REDHAT.ROOT = $(CURDIR)/../../
 -include $(ROCKSROOT)/etc/Rules.mk
 include Rules.mk
 
+PY.PATH = /opt/python/bin/$(PYTHONVER)
+
 version.mk:
 	cat ../version.mk version.mk.in > version.mk
 
@@ -69,10 +71,12 @@ SEDSPEC += \
         -e 's%@LMWEB@%$(LMWEB)%g' \
         -e 's%@PGSQLVER@%$(PGSQLVER)%g' \
         -e 's%@PYTHONVER@%$(PYTHONVER)%g' \
+        -e 's%@PYBIN@%$(PY.PATH)%g' \
         -e 's%@MYSQLDB@%$(MYSQLDB)%g' \
         -e 's%@PKGROOT@%$(PKGROOT)%g' \
-        -e 's%@UNIXSOCKET@%$(UNIXSOCKET)%g'
-
+        -e 's%@UNIXSOCKET@%$(UNIXSOCKET)%g' \
+        -e 's%@DATASOURCE@%$(DATASOURCE)%g'
+        
 PROFILES = \
 	lifemapper.sh \
 	lifemapper.csh 
@@ -80,10 +84,18 @@ PROFILES = \
 SCRIPTS = \
 	lifemapper.conf \
 	lucene.cron \
+	solr.cron \
+	callLmServerTests.cron \
+	lmLucene \
 	lifemapper-sysconfig-httpd \
 	lifemapper-server.conf
 
 PROGS = \
+	addInputData \
+	buildLmLuceneIndex \
+	buildLmSolrIndex \
+	callLmServerTests \
+	deleteOldAnonymous \
 	initLM \
 	reconfigureLM \
 	checkLibs \
@@ -92,24 +104,40 @@ PROGS = \
 	initPostgis \
 	initDB \
 	updateIP \
+<<<<<<< HEAD
 	confconst.py
+=======
+	updateDB \
+	updateLM \
+	installServerCronJobs
+>>>>>>> kutest
 
 PYFILES = __init__.py \
 	confconst.py \
-	confbase.py \
+	confbase.py
 
 EXECFILES = \
 	confDbconnect \
 	confPgbouncer \
 	confPostgres \
+<<<<<<< HEAD
 	confUsers 
+=======
+	confUsers \
+>>>>>>> kutest
 
 %: %.in
 	$(SED) $(SEDSPEC) $^ > $@
 
+<<<<<<< HEAD
 build: $(SCRIPTS) $(PROFILES) $(PROGS) 
 
 .SUFFIXES:
+=======
+.SUFFIXES:
+
+build: $(SCRIPTS) $(PROFILES) $(PROGS) $(PYFILES) $(EXECFILES)
+>>>>>>> kutest
 	
 install::
 
@@ -124,6 +152,12 @@ install::
 
 	mkdir -p $(ROOT)/etc/ld.so.conf.d
 	install -m 644 lifemapper-server.conf $(ROOT)/etc/ld.so.conf.d
+	
+	mkdir -p $(ROOT)/etc/rc.d/init.d
+	install -m 755 lmLucene $(ROOT)/etc/rc.d/init.d
+
+	mkdir -p $(ROOT)/etc/logrotate.d
+	install -m 644 lifemapper-httpd $(ROOT)/etc/logrotate.d
 
 	mkdir -p $(ROOT)/$(PKGROOT)/rocks/bin
 	install -m 755 $(PROGS) $(ROOT)/$(PKGROOT)/rocks/bin
@@ -131,7 +165,9 @@ install::
 	install -m 755 $(EXECFILES) $(ROOT)/$(PKGROOT)/rocks/bin
 
 	mkdir -p $(ROOT)/$(PKGROOT)/rocks/etc
-	install -m 644 lucene.cron $(ROOT)/$(PKGROOT)/rocks/etc
+	install -m 755 lucene.cron $(ROOT)/$(PKGROOT)/rocks/etc
+	install -m 755 solr.cron $(ROOT)/$(PKGROOT)/rocks/etc
+	install -m 755 callLmServerTests.cron $(ROOT)/$(PKGROOT)/rocks/etc
 	install -m 644 lifemapper-sysconfig-httpd $(ROOT)/$(PKGROOT)/rocks/etc
 
 	mkdir -p $(ROOT)/$(PKGROOT)/rocks/sql
@@ -141,3 +177,5 @@ install::
 clean::
 	rm -rf version.mk $(SCRIPTS) $(PROFILES) $(PROGS) confconst.py
 	rm -rf *.pyc 
+
+	

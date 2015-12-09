@@ -85,13 +85,17 @@ init_postgres () {
 dbserver_init() {
     echo "-- Executing initDbserver" >> $LOG
     $BIN/initDbserver >> $LOG
-
 }
 
 # need to update openssl for postgres
 update_openssl() {
     echo "-- yum update openssl" >> $LOG
     /usr/bin/yum --enablerepo base update openssl >> $LOG 
+}
+
+# install cron jobs for daily execution
+installCronJobs () {
+    /opt/lifemapper/rocks/bin/installServerCronJobs
 }
 
 # set unix socket; restart postgres and pgbouncer with new config
@@ -130,6 +134,7 @@ stop_services
 init_postgres
 dbserver_init
 update_openssl
+installCronJobs
 start_services
 update_config
 TimeStamp "# End"

@@ -16,7 +16,7 @@ del-lifemapper() {
    $RM lifemapper-spatialindex
    $RM lifemapper-server
    $RM lifemapper-proj
-   $RM lifemapper-mod_python
+   $RM lifemapper-mod_wsgi
    $RM lifemapper-geos
    $RM lifemapper-ant
    $RM lifemapper-climate-data
@@ -28,7 +28,6 @@ del-lifemapper() {
 
 del-opt-python () {
    echo "Removing opt-* RPMS"
-   $RM opt-lifemapper-setuptools
    $RM opt-lifemapper-pytables
    $RM opt-lifemapper-pylucene
    $RM opt-lifemapper-psycopg2
@@ -37,7 +36,6 @@ del-opt-python () {
    $RM opt-lifemapper-egenix-mx-base
    $RM opt-lifemapper-cython
    $RM opt-lifemapper-cherrypy
-   $RM opt-lifemapper-cheetah
    $RM opt-lifemapper-MySQL-python
    $RM opt-lifemapper-rtree
    $RM opt-lifemapper-processing
@@ -47,7 +45,7 @@ del-opt-python () {
 
 del-mapserver(){
    echo "Removing mapserver and dependencies RPMS"
-   $RM mapserver
+   $RM opt-lifemapper-mapserver
    $RM hdf4-devel hdf4
    $RM giflib-devel
    $RM bitstream-vera-sans-fonts

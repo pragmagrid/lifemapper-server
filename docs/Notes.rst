@@ -36,3 +36,10 @@ Use the following script to create new lifemapper-server repo ::
     git am $PATCHDIR/*.patch
     rm -rf $PATCHDIR/*.patch
 
+
+; ...............................................
+[LmCompute - Job Submitter]
+;;;; Options are local | cluster, 
+;;;; configured by roll in lifemapper-compute/src/version.mk
+JOB_SUBMITTER_TYPE: @JOB_SUBMITTER_TYPE@
+CAPACITY: @JOB_CAPACITY@

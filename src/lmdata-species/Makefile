@@ -60,27 +60,42 @@ RPM.ARCH = noarch
 
 REDHAT.ROOT = $(CURDIR)/../../
 
-EXPORTDIR=$(subst share,state/partition1,$(DATADIR))/$(SPECIES)
+# SPECIES_DATA_PATH also defined in LmServerCommon.common.lmconstants
+EXPORTDIR=$(subst share,state/partition1,$(DATADIR_SERVER))/$(SPECIES_DATA_PATH)
 
 -include $(ROCKSROOT)/etc/Rules.mk
 include Rules.mk
 
 version.mk:
 	cat ../version.mk version.mk.in > version.mk
+	
+SEDSPEC += \
+        -e 's%@DATASOURCE@%$(DATASOURCE)%g' \
+        -e 's%@GBIF_FILES@%$(GBIF_FILES)%g' \
+        -e 's%@SPECIES_DATA@%$(SPECIES_DATA)%g' \
+        -e 's%@SPECIES_DATA_PATH@%$(SPECIES_DATA_PATH)%g' \
+        -e 's%@TARBALL_POSTFIX@%$(TARBALL_POSTFIX)%g'
 
-%.txt: %.tar.gz
-	tar xzvf $<
-
-build: $(FILES)
-	echo $(EXPORTDIR)
+prepData.sh: prepData.sh.in
+	$(SED) $(SEDSPEC) $^ > $@
+	chmod 755 $@
 
 prep: prepData.sh
 	./prepData.sh
 
+build: 
+	echo $(EXPORTDIR)
+
 install::
 	mkdir -p $(ROOT)/$(EXPORTDIR)
-	cp $(FILES) $(ROOT)/$(EXPORTDIR)/
+	tar -xzf  $(SPECIES_DATA).$(TARBALL_POSTFIX)  -C  $(ROOT)/$(EXPORTDIR)/
+	#if [ $(DATASOURCE) == "GBIF" ]; then
+	#	for i in $(GBIF_FILES); do
+	#		tar -xzf  $(i).$(TARBALL_POSTFIX)  -C  $(ROOT)/$(EXPORTDIR)/
+	#	done
+	#fi
 
 clean::
 	rm -rf version.mk
-	rm -rf $(FILES)
+	rm -rf prepData.sh
+	rm -rf $(ROOT)/$(EXPORTDIR)

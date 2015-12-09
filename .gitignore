@@ -47,3 +47,5 @@ src/lmserver/.subversion/
 # ignore species data
 src/lmdata-species/*.txt
 src/lmdata-species/*.gz
+/.project
+/.pydevproject

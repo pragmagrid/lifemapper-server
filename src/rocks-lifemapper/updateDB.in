@@ -1,0 +1,77 @@
+#!/bin/bash 
+
+# Purpose: update lifemapper database for current code
+#
+# This script is run by a superuser, it reads the @PKGROOT@/rocks/etc/users file
+# to get the password for the "admin" DB user and runs psql to execute all the sql scripts
+
+usage () 
+{
+    echo "Usage: $0"
+    echo "This script is run by the superuser. It will "
+    echo "     - run runUpdateDBScripts.sql to update database tables, views, functions "
+    echo "   "
+    echo "The output of the script is in /tmp/`/bin/basename $0`.log"
+}
+
+
+### define varibles
+SetDefaults () {
+    # db user
+    USER=admin
+    # file to get password from
+    USERSFILE=@PKGROOT@/rocks/etc/users
+    UPDATESQL=@LMHOME@/LmDbServer/dbsetup/runUpdateDBScripts.sql
+
+    LOG=/tmp/`/bin/basename $0`.log
+    touch $LOG
+    TimeStamp "# Start"
+}
+
+TimeStamp () {
+    echo $1 `/bin/date` >> $LOG
+}
+
+### sets the password for db "admin" user to execute sql commands
+SetPass () {
+
+    # check if users file exists
+    if [ ! -f $USERSFILE ] ; then
+        echo "Error: missing file $USERSFILE" | tee -a $LOG
+        exit 1
+    fi
+
+    # check who is running the scipt
+    cat $USERSFILE > /dev/null
+    RETVAL=$?
+    if [ $RETVAL -ne 0 ]; then
+        echo "Error: You must be root to run this script"  | tee -a $LOG
+        exit 1
+    fi
+
+    # get the password from 'users' file
+    PASS=`grep admin $USERSFILE | awk '{print $2}'`
+    export PGPASSWORD=$PASS
+}
+
+### update databases 
+Update () {
+    if [ -f $UPDATESQL ] ; then
+        echo "Running $UPDATESQL ..." | tee -a $LOG
+        psql -U admin -d template1 -f $UPDATESQL 2>&1 | tee -a $LOG
+    else
+        echo "Error: missing file $UPDATESQL" | tee -a $LOG
+        exit 1
+    fi
+}
+
+### Main ###
+if [ $# -ne 0 ]; then
+    usage
+    exit 0
+fi 
+
+SetDefaults
+SetPass
+Update
+TimeStamp "# End"

@@ -1,7 +1,9 @@
-NAME        	= lifemapper-species-data
-SPECIES         = species
-FILES           = gbif_export.txt gbif_orgs.txt gbif_taxonomy.txt marinelist.txt
+NAME        		= lifemapper-species-data
+SPECIES_DATA_PATH	= species
 
-VERSION     	= 1.0
-RELEASE 	= 0
+GBIF_FILES        = "gbif_orgs gbif_taxonomy"
+
+VERSION     		= 1.0
+RELEASE 	      	= 0
 TARBALL_POSTFIX	= tar.gz
+

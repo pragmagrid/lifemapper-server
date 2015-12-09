@@ -60,7 +60,8 @@ RPM.ARCH = noarch
 
 REDHAT.ROOT = $(CURDIR)/../../
 
-EXPORTDIR=$(subst share,state/partition1,$(DATADIR))
+# ENV_DATA_PATH also defined in LmServerCommon.common.lmconstants
+EXPORTDIR=$(subst share,state/partition1,$(DATADIR_SERVER))/$(ENV_DATA_PATH)
 
 -include $(ROCKSROOT)/etc/Rules.mk
 include Rules.mk
@@ -68,15 +69,27 @@ include Rules.mk
 version.mk:
 	cat ../version.mk version.mk.in > version.mk
 
+SEDSPEC += \
+        -e 's%@SCENARIO_PACKAGE@%$(SCENARIO_PACKAGE)%g' \
+        -e 's%@ENV_DATA_PATH@%$(ENV_DATA_PATH)%g' \
+        -e 's%@TARBALL_POSTFIX@%$(TARBALL_POSTFIX)%g'
+
+prepData.sh: prepData.sh.in
+	$(SED) $(SEDSPEC) $^ > $@
+	chmod 755 $@
+   
+prep: 
+	rm -rf version.mk
+	make version.mk
+	make prepData.sh
+	./prepData.sh
+
 build:
 	echo $(EXPORTDIR)
 
 install::
 	mkdir -p $(ROOT)/$(EXPORTDIR)
-	tar xzvf  $(PART1).$(TARBALL_POSTFIX)  -C  $(ROOT)/$(EXPORTDIR)/
-	tar xzvf  $(PART2).$(TARBALL_POSTFIX)  -C  $(ROOT)/$(EXPORTDIR)/
-	tar xzvf  $(PART3).$(TARBALL_POSTFIX)  -C  $(ROOT)/$(EXPORTDIR)/
-	tar xzvf  $(PART4).$(TARBALL_POSTFIX)  -C  $(ROOT)/$(EXPORTDIR)/
+	tar xzvf  $(SCENARIO_PACKAGE).$(TARBALL_POSTFIX)  -C  $(ROOT)/$(EXPORTDIR)/
 
 clean::
-	rm -rf version.mk
+	rm -rf version.mk prepData.sh

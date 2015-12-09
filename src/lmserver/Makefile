@@ -63,51 +63,54 @@ version.mk:
 	cat ../version.mk version.mk.in > version.mk
 
 PY.PATH = /opt/python/bin/$(PYTHONVER)
-EXPORTDIR=$(subst share,state/partition1,$(DATADIR))/test
+EXPORTDIR=$(subst share,state/partition1,$(DATADIR_SERVER))/test
 
 
 SEDSPEC += \
         -e 's%@PKGROOT@%$(PKGROOT)%g' \
         -e 's%@PYBIN@%$(PY.PATH)%g' \
-        -e 's%@DATADIR@%$(DATADIR)%g' \
+        -e 's%@DATADIR_SERVER@%$(DATADIR_SERVER)%g' \
         -e 's%@LMDISK@%$(LMDISK)%g' \
         -e 's%@LMHOME@%$(LMHOME)%g' \
         -e 's%@LMWEB@%$(LMWEB)%g' \
-        -e 's%@LMUSER@%$(LMUSER)%g' \
         -e 's%@SMTPSERVER@%$(SMTPSERVER)%g' \
-        -e 's%@SMTPSENDER@%$(SMTPSENDER)%g' \
         -e 's%@TEMPDIR@%$(TEMPDIR)%g'  \
-        -e 's%@VERSION@%$(VERSION)%g' 
+        -e 's%@VERSION@%$(VERSION)%g' \
+        -e 's%@REPONAME@%$(REPONAME)%g' \
+        -e 's%@TARBALL_POSTFIX@%$(TARBALL_POSTFIX)%g' \
+        -e 's%@LMUSER@%$(LMUSER)%g' \
+        -e 's%@DATASOURCE@%$(DATASOURCE)%g' \
+        -e 's%@SPECIES_DATA@%$(SPECIES_DATA)%g' \
+        -e 's%@ALGORITHMS@%$(ALGORITHMS)%g' \
+        -e 's%@MODEL_SCENARIO@%$(MODEL_SCENARIO)%g' \
+        -e 's%@PROJECTION_SCENARIOS@%$(PROJECTION_SCENARIOS)%g' \
+        -e 's%@SCENARIO_PACKAGE@%$(SCENARIO_PACKAGE)%g' \
+        -e 's%@JAVABIN@%$(JAVABIN)%g'
 
-SCRIPTS = buildLmLuceneIndex.cron \
-          checkLmWeb.cron \
-          config.ini \
-          deleteOldAnonymous.cron \
-          lmLucene.sh  \
-          runAllSQLScripts.sql 
+SCRIPTS = config.ini \
+          runAllSQLScripts.sql  \
+          runUpdateDBScripts.sql \
+          lmLucene.py
+          
+TOPDIR =  $(REPONAME)-$(VERSION)
 
-buildLmLuceneIndex.cron: $(ARCHIVENAME)/LmWebServer/lucene/buildLmLuceneIndex.cron.in
-	$(SED) $(SEDSPEC) $^ > $(ARCHIVENAME)/LmWebServer/lucene/$@
-	chmod 755 $(ARCHIVENAME)/LmWebServer/lucene/buildLmLuceneIndex.cron
-
-checkLmWeb.cron: $(ARCHIVENAME)/LmWebServer/scripts/checkLmWeb.cron.in
-	$(SED) $(SEDSPEC) $^ > $(ARCHIVENAME)/LmWebServer/scripts/$@
-	chmod 755 $(ARCHIVENAME)/LmWebServer/scripts/checkLmWeb.cron
-
-config.ini: $(ARCHIVENAME)/config/config.ini.in
+config.ini: $(TOPDIR)/config/config.ini.in
 	$(SED) -i $(SEDSPEC) $^ 
-	cat $^ > $(ARCHIVENAME)/config/$@
+	cat $^ > $(TOPDIR)/config/$@
 
-deleteOldAnonymous.cron: $(ARCHIVENAME)/LmDbServer/scripts/deleteOldAnonymous.cron.in
-	$(SED) $(SEDSPEC) $^ > $(ARCHIVENAME)/LmDbServer/scripts/$@
-	chmod 755 $(ARCHIVENAME)/LmDbServer/scripts/deleteOldAnonymous.cron
+cherrypy.conf: $(TOPDIR)/config/cherrypy.conf.in
+	$(SED) -i $(SEDSPEC) $^ 
+	cat $^ > $(TOPDIR)/config/$@
 
-lmLucene.sh: $(ARCHIVENAME)/LmWebServer/lucene/lmLucene.sh.in
-	$(SED) $(SEDSPEC) $^ > $(ARCHIVENAME)/LmWebServer/lucene/$@
-	chmod 755 $(ARCHIVENAME)/LmWebServer/lucene/lmLucene.sh
+lmLucene.py: $(TOPDIR)/LmWebServer/lucene/lmLucene.py.in
+	$(SED) $(SEDSPEC) $^ > $(TOPDIR)/LmWebServer/lucene/$@
 
-runAllSQLScripts.sql: $(ARCHIVENAME)/LmDbServer/dbsetup/runAllSQLScripts.sql.in
-	$(SED) $(SEDSPEC) $^ > $(ARCHIVENAME)/LmDbServer/dbsetup/$@
+runAllSQLScripts.sql: $(TOPDIR)/LmDbServer/dbsetup/runAllSQLScripts.sql.in
+	$(SED) $(SEDSPEC) $^ > $(TOPDIR)/LmDbServer/dbsetup/$@
+
+runUpdateDBScripts.sql: $(TOPDIR)/LmDbServer/dbsetup/runUpdateDBScripts.sql.in
+	$(SED) $(SEDSPEC) $^ > $(TOPDIR)/LmDbServer/dbsetup/$@
+
 
 prepSrc.sh: prepSrc.sh.in
 	$(SED) $(SEDSPEC) $^ > $@
@@ -116,20 +119,21 @@ prepSrc.sh: prepSrc.sh.in
 prep: prepSrc.sh
 	rm -rf version.mk
 	make version.mk
+	make prepSrc.sh
 	./prepSrc.sh
 
 build: 
 	tar xzvf $(NAME)-$(VERSION).tar.gz  
 	make $(SCRIPTS)
+	make $(SERVICES)
 
 install::
 	mkdir -p $(ROOT)/$(EXPORTDIR)
-	mv $(ARCHIVENAME)/LmWebServer/test/data/* $(ROOT)/$(EXPORTDIR) 
+	mv $(TOPDIR)/LmWebServer/tests/data/* $(ROOT)/$(EXPORTDIR) 	
 	mkdir -p $(ROOT)/$(LMHOME)
-	rm -rf $(ARCHIVENAME)/svn-info
-	mv $(ARCHIVENAME)/*  $(ROOT)/$(LMHOME) 
-
+	mv $(TOPDIR)/*  $(ROOT)/$(LMHOME) 
+	
 clean::
 	rm -rf  $(SCRIPTS)  
-	rm -rf  $(ARCHIVENAME)
-	rm -rf version.mk prepSrc.sh
+	rm -rf  $(TOPDIR)
+	rm -rf  version.mk prepSrc.sh
