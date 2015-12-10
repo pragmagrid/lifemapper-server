@@ -104,13 +104,10 @@ PROGS = \
 	initPostgis \
 	initDB \
 	updateIP \
-<<<<<<< HEAD
-	confconst.py
-=======
+	confconst.py \
 	updateDB \
 	updateLM \
 	installServerCronJobs
->>>>>>> kutest
 
 PYFILES = __init__.py \
 	confconst.py \
@@ -120,24 +117,14 @@ EXECFILES = \
 	confDbconnect \
 	confPgbouncer \
 	confPostgres \
-<<<<<<< HEAD
 	confUsers 
-=======
-	confUsers \
->>>>>>> kutest
 
 %: %.in
 	$(SED) $(SEDSPEC) $^ > $@
 
-<<<<<<< HEAD
-build: $(SCRIPTS) $(PROFILES) $(PROGS) 
-
-.SUFFIXES:
-=======
 .SUFFIXES:
 
 build: $(SCRIPTS) $(PROFILES) $(PROGS) $(PYFILES) $(EXECFILES)
->>>>>>> kutest
 	
 install::
 
