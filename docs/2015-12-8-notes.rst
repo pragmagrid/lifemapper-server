@@ -1,0 +1,50 @@
+Aimee/Nadya SDSC Notes, Dec 8-9, 2015
+
+Streamline, rename, tag GIT repositories LmCompute, LmServer, Core
+ * Merged kutest into master
+ * Renamed lifemapper-compute roll, lifemapper-lmserver code rpm
+ * Tagged lifemapper-compute, lifemapper-server rolls to p29_1
+
+PRAGMA-RDA work - design LM backend support
+ * Establish PIDs for Lifemapper VM; input species data (subset GBIF dump); input climate data package. PIDs for VM, climate data, species data must be accessible on LM VM via http access (json file) 
+ * workflow: 
+   * create, populate VM 
+   * start pipeline and jobMediator on VM
+   * run for some period of time
+   * pull data/metadata for chosen occurrence sets and projections (includes local URL/guid for objects, and any inputs, i.e. prj: algorithm, mdlScenario, prjScenario)
+   * join object metadata with VM PID
+   * catalog data/metadata for chosen occurrence sets and projections
+ * Resolve switch problems with Beta compute cluster 
+   * Switch was on different IP than frontend private network
+   * Tftp used blksize parameter; changed in /etc/tftp/
+ * Built vm-containers from felix and rosie.
+   * Note to Aimee: to remove old files from /state/partition1/ on both vm-containers, (rm everything except kvm/ and lost+found/). 
+   * Resolve updated rpm distribution problem; reset data, restart jobs
+ * Create new rocks roll 'kuprod' for KU production environment
+   * Create symlinks to ZFS volume
+   * Cron job for security-updates
+   * website options
+   * other KU-specific scripts and configs
+   * Note to Aimee: I suggest to add kuprod as a new repo to your lifemapper git 
+     so you don't lose it. 
+ * Layout  'lm' commands for Lifemapper install, update, sync, test
+   * init db (options postgresql, pgbouncer, postgis, users, config, populate archive)
+   * add cron jobs
+   * update IP
+   * start/stop (options pipeline, jobMediator)
+   * build solr index
+   * list (options users archive/all, algorithms archive/all, climate archive/all, species, status occ/mdl/proj/pav) 
+   * Note to Aimee:  on a master branch of lifemapper-server there is a new 
+     directory src/lm-cmd/. Checkout master branch, make rpm for lm-cmd as usual 
+     and install resulting rpm on juno, or badenov, or whatever host has any 
+     lifemapper-server roll installed. Then execute::
+     lm help
+     lm list users
+	to see an example of how lm command  is intended to work.
+
+ * Design new lmdata-climate rpm to be shared by LmCompute/LmServer
+   * Includes data tarball, metadata json
+   * Compute PID for each layer based on shasum of metadata or data
+   * Server roll rpm install: insert metadata and PID into Postgres database
+   * Compute roll rpm install: insert data and PID into SQLite database
+
