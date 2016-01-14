@@ -37,7 +37,7 @@ build: $(SCRIPTS)
 install::
 	mkdir -p $(ROOT)/$(LMHOME)/rocks/bin
 	mkdir -p $(ROOT)/$(SOLRDIR)
-	tar -xzf  $(ARCHIVENAME)-$(VERSION).$(TARBALL_POSTFIX)  -C  $(ROOT)/$(SOLRDIR) --strip 1 --exclude docs
+	tar -xzf  $(ARCHIVENAME)-$(VERSION).$(TARBALL_POSTFIX)  -C  $(ROOT)/$(SOLRDIR) --strip 1 --exclude docs --exclude contrib
 	mkdir -p $(ROOT)/$(SOLRDIR)/etc
 	mkdir -p $(ROOT)/$(EXPORTDIR)/data
 	mkdir -p $(ROOT)/$(EXPORTDIR)/data/$(SOLRINDEX)/data
