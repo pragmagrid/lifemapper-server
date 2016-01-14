@@ -13,7 +13,6 @@ usage ()
     echo "     - creating roles and postgis tables"
     echo "     - create new config and auth files for postgres "
     echo "     - create new config for pgbouncer "
-    echo "     - update openssl (yum) "
     echo "     - set postgres unix socket PGHOST=/var/run/postgresql"
     echo "     - restart postgres/pgbouncer with new configuration\n"
     echo "     - inserts host IP in @LMHOME@/config/config.ini\n"
@@ -133,7 +132,7 @@ set_defaults
 stop_services
 init_postgres
 dbserver_init
-update_openssl
+# no longer need update_openssl
 installCronJobs
 start_services
 update_config
