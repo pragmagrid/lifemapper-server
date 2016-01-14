@@ -15,6 +15,7 @@ setDefaults () {
     CRON_DIR=/etc/cron.d/
     CRON_DAILY_DIR=/etc/cron.daily/
     LOG=/tmp/`/bin/basename $0`.log
+    gname=lmwriter
     touch $LOG
     TimeStamp "# Start"
 }
