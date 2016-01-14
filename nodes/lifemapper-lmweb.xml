@@ -42,11 +42,18 @@ fi
 
 /opt/lifemapper/rocks/bin/initWebserver
 
+# add solr index files
+/opt/lifemapper/rocks/bin/solr-index
+
 <file name="/etc/sysconfig/httpd" mode="append" expr="cat /opt/lifemapper/rocks/etc/lifemapper-sysconfig-httpd">
 
 </file>
 
 /sbin/service httpd restart
+
+chkconfig --add solr 
+chkconfig  solr on
+
 
 </post>
 
