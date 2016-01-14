@@ -56,9 +56,6 @@ echo "/opt/rocks/fcgi/lib" >> /etc/ld.so.conf.d/lifemapper-server.conf
 # for compiling 
 yum --enablerepo base install cmake
 
-# for checking out lifemapper source  
-yum --enablerepo base install subversion
-
 # for mapserver
 compile proj
 install lifemapper-proj
