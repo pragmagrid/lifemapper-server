@@ -79,6 +79,11 @@ The packages are a part of the roll source (or downloaded by bootstrap.sh).
     wget --no-check-certificate https://pypi.python.org/packages/source/i/isodate/isodate-0.5.0.tar.gz
     wget --no-check-certificate  https://pypi.python.org/packages/source/p/processing/processing-0.52.zip`
 
+    solr
+    wget http://mirror.metrocast.net/apache/lucene/solr/5.3.0/solr-5.3.0.tgz
+    wget http://www.vividsolutions.com/jts/bin/jts-1.8.0.zip
+
+
 Individual package dependencies
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

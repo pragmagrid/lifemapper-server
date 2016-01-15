@@ -48,7 +48,7 @@
 	<package>opt-lifemapper-faulthandler</package>
 
 	<!-- lifemapper distro -->
-	<package>lifemapper-server</package>
+	<package>lifemapper-lmserver</package>
 	<package>rocks-lifemapper</package>
 	<package>roll-lifemapper-server-usersguide</package>
 
