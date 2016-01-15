@@ -6,6 +6,7 @@
 SRC=@REPONAME@
 URL=https://github.com/lifemapper/
 TOPDIR=@REPONAME@-@VERSION@
+SRCNAME=@SRCNAME@
 
 # download archive from lifemapper git
 download_git () {
@@ -39,7 +40,7 @@ create_distro () {
   if [ -d $TOPDIR ]; then
       # create lmserver src distro
       echo "Creating lmserver src archive from Github archive download"
-      tar czf lifemapper-server-@VERSION@.@TARBALL_POSTFIX@ $TOPDIR/* \
+      tar czf $SRCNAME-@VERSION@.@TARBALL_POSTFIX@ $TOPDIR/* \
           --exclude=LmCompute 
 
   else
