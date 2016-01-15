@@ -129,7 +129,7 @@ authentication are set up and postgres and pgbouncer are configured.
 
    To Stop the pipeline (replace ``pragma`` with the datasource name configured for this instance, i.e. ``bison``, ``idigbio``) ::    
 
-     % touch /opt/lifemapper/pipeline.pragma.die
+     % touch /opt/lifemapper/log/pipeline.pragma.die
      
      
 #. **Run checks of LmWeb**
