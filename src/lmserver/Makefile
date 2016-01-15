@@ -90,6 +90,7 @@ SEDSPEC += \
 SCRIPTS = config.ini \
           runAllSQLScripts.sql  \
           runUpdateDBScripts.sql \
+          cherrypy.conf \
           lmLucene.py
           
 TOPDIR =  $(REPONAME)-$(VERSION)
