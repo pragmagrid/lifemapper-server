@@ -81,10 +81,10 @@ authentication are set up and postgres and pgbouncer are configured.
      
    Successful example output is shown under each command   ::  
 
-     % python2.7 /opt/lifemapper/LmWebServer/scripts/createTestUser.py  > /tmp/createTestUser.log 2>&1
+     % python2.7 /opt/lifemapper/LmWebServer/tests/scripts/createTestUser.py  > /tmp/createTestUser.log 2>&1
        Successfully created user
        
-     % python2.7 /opt/lifemapper/LmWebServer/scripts/checkJobServer.py > /tmp/checkJobServer.log 2>&1
+     % python2.7 /opt/lifemapper/LmWebServer/tests/scripts/checkJobServer.py > /tmp/checkJobServer.log 2>&1
      
        27 Sep 2015 13:57 MainThread.log.debug line 80 DEBUG    {'epsgcode': '4326', 'displayname': 'Test Chain57292.8734326', 'name': 'Test points57292.8734326', 'pointstype': 'shapefile'}
        27 Sep 2015 13:57 MainThread.log.debug line 80 DEBUG    Test Chain57292.8734326
