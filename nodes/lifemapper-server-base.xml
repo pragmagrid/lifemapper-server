@@ -27,7 +27,6 @@
 	<package>readline-devel</package>
 	<package>pakchois</package>
 	<package>neon</package>
-	<package>subversion</package>
 	<package>hdf4</package>
 	<package>hdf4-devel</package>
 	<package>hdf5</package>
