@@ -25,6 +25,20 @@ authentication are set up and postgres and pgbouncer are configured.
      
    with the number of inserted record as stated above.
 
+#. **Add the following function** ::
+
+-- ----------------------------------------------------------------------------
+CREATE OR REPLACE FUNCTION lm3.lm_getOccurrenceJobForId(occid int)
+   RETURNS lm3.lm_occJob AS
+$$
+DECLARE
+   rec lm3.lm_occJob;
+BEGIN
+   SELECT * INTO rec FROM lm3.lm_occJob WHERE occurrencesetid = occid;
+   RETURN rec;
+END;
+$$  LANGUAGE 'plpgsql' STABLE;
+
 #. **Check the available memory** ::
 
      # free -m
@@ -35,6 +49,7 @@ authentication are set up and postgres and pgbouncer are configured.
      
 #. **Create a layers package** ::
    
+   First connect to postgres and find the 
    As ``lmwriter``, create a package to pre-populate a LmCompute instance with the layers that
    will be used for jobs for this server.  You will need the SCENARIO_PACKAGE name
    (i.e. 30sec-present-future-SEA) and the scenario ids (i.e. 1 through 5): ::
@@ -81,10 +96,10 @@ authentication are set up and postgres and pgbouncer are configured.
      
    Successful example output is shown under each command   ::  
 
-     % python2.7 /opt/lifemapper/LmWebServer/tests/scripts/createTestUser.py  > /tmp/createTestUser.log 2>&1
+     % $PYTHON /opt/lifemapper/LmWebServer/tests/scripts/createTestUser.py  > /tmp/createTestUser.log 2>&1
        Successfully created user
        
-     % python2.7 /opt/lifemapper/LmWebServer/tests/scripts/checkJobServer.py > /tmp/checkJobServer.log 2>&1
+     % $PYTHON /opt/lifemapper/LmWebServer/tests/scripts/checkJobServer.py > /tmp/checkJobServer.log 2>&1
      
        27 Sep 2015 13:57 MainThread.log.debug line 80 DEBUG    {'epsgcode': '4326', 'displayname': 'Test Chain57292.8734326', 'name': 'Test points57292.8734326', 'pointstype': 'shapefile'}
        27 Sep 2015 13:57 MainThread.log.debug line 80 DEBUG    Test Chain57292.8734326
@@ -101,8 +116,7 @@ authentication are set up and postgres and pgbouncer are configured.
    so errors for this format may be ignored.  We will add configuration to identify 
    installed formats.  ::  
 
-     % python2.7 /opt/lifemapper/LmWebServer/scripts/checkLmWeb.py  > /tmp/checkLmWeb.log 2>&1
-       python2.7 /opt/lifemapper/LmWebServer/scripts/checkLmWeb.py
+     % $PYTHON /opt/lifemapper/LmWebServer/tests/scripts/checkLmWeb.py  > /tmp/checkLmWeb.log 2>&1
        27 Sep 2015 14:38 MainThread.log.debug line 80 DEBUG    Url: http://lm.public
        27 Sep 2015 14:38 MainThread.log.debug line 80 DEBUG    Url: http://lm.public/services/
        27 Sep 2015 14:38 MainThread.log.debug line 80 DEBUG    Url: http://lm.public/services/sdm/
@@ -125,7 +139,7 @@ authentication are set up and postgres and pgbouncer are configured.
 
    To start the pipeline as user ``lmwriter`` do ::  
 
-     % python2.7 /opt/lifemapper/LmDbServer/pipeline/localpipeline.py
+     % $PYTHON /opt/lifemapper/LmDbServer/pipeline/localpipeline.py
 
    To Stop the pipeline (replace ``pragma`` with the datasource name configured for this instance, i.e. ``bison``, ``idigbio``) ::    
 
@@ -136,5 +150,5 @@ authentication are set up and postgres and pgbouncer are configured.
 
    After the pipeline has run for awhile, and there are some completed jobs, run check as user ``lmwriter``: ::
  
-     % python2.7 /opt/lifemapper/LmWebServer/scripts/checkLmWeb.py
+     % $PYTHON /opt/lifemapper/LmWebServer/scripts/checkLmWeb.py
 
