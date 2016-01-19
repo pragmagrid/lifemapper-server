@@ -102,7 +102,7 @@ authentication are set up and postgres and pgbouncer are configured.
    so errors for this format may be ignored.  We will add configuration to identify 
    installed formats.  ::  
 
-     % $PYTHON /opt/lifemapper/LmWebServer/tests/scripts/checkLmWeb.py  > /tmp/checkLmWeb.log 2>&1
+     $ $PYTHON /opt/lifemapper/LmWebServer/tests/scripts/checkLmWeb.py  > /tmp/checkLmWeb.log 2>&1
        27 Sep 2015 14:38 MainThread.log.debug line 80 DEBUG    Url: http://lm.public
        27 Sep 2015 14:38 MainThread.log.debug line 80 DEBUG    Url: http://lm.public/services/
        27 Sep 2015 14:38 MainThread.log.debug line 80 DEBUG    Url: http://lm.public/services/sdm/
@@ -125,16 +125,16 @@ authentication are set up and postgres and pgbouncer are configured.
 
    To start the pipeline as user ``lmwriter`` do ::  
 
-     % $PYTHON /opt/lifemapper/LmDbServer/pipeline/localpipeline.py
+     $ $PYTHON /opt/lifemapper/LmDbServer/pipeline/localpipeline.py
 
    To Stop the pipeline (replace ``pragma`` with the datasource name configured for this instance, i.e. ``bison``, ``idigbio``) ::    
 
-     % touch /opt/lifemapper/log/pipeline.pragma.die
+     $ touch /opt/lifemapper/log/pipeline.pragma.die
      
      
 #. **Run checks of LmWeb**
 
    After the pipeline has run for awhile, and there are some completed jobs, run check as user ``lmwriter``: ::
  
-     % $PYTHON /opt/lifemapper/LmWebServer/scripts/checkLmWeb.py
+     $ $PYTHON /opt/lifemapper/LmWebServer/tests/scripts/checkLmWeb.py
 
