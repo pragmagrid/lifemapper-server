@@ -25,19 +25,10 @@ authentication are set up and postgres and pgbouncer are configured.
      
    with the number of inserted record as stated above.
 
-#. **Add the following function** ::
+#. **Replace the file LmDbServer/dbsetup/createMALExtras.sql** ::
 
--- ----------------------------------------------------------------------------
-CREATE OR REPLACE FUNCTION lm3.lm_getOccurrenceJobForId(occid int)
-   RETURNS lm3.lm_occJob AS
-$$
-DECLARE
-   rec lm3.lm_occJob;
-BEGIN
-   SELECT * INTO rec FROM lm3.lm_occJob WHERE occurrencesetid = occid;
-   RETURN rec;
-END;
-$$  LANGUAGE 'plpgsql' STABLE;
+    $ wget https://raw.githubusercontent.com/lifemapper/core/master/LmDbServer/dbsetup/createMALExtras.sql
+    $ mv createMALExtras.sql /opt/lifemapper/LmDbServer/dbsetup/
 
 #. **Check the available memory** ::
 
