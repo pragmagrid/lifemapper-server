@@ -8,6 +8,11 @@ Using Lifemapper Server roll
 After the roll is installed, the initial database schema, and user 
 authentication are set up and postgres and pgbouncer are configured.  
    
+#. **Replace the file LmDbServer/dbsetup/createMALExtras.sql** ::
+
+    $ wget https://raw.githubusercontent.com/lifemapper/core/master/LmDbServer/dbsetup/createMALExtras.sql
+    $ mv createMALExtras.sql /opt/lifemapper/LmDbServer/dbsetup/
+
 #. **Populate the database**.
 
    This command must be executed as user ``root`` ::  
@@ -24,11 +29,6 @@ authentication are set up and postgres and pgbouncer are configured.
      # End Tue Sep 30 20:18:42 PDT 2014
      
    with the number of inserted record as stated above.
-
-#. **Replace the file LmDbServer/dbsetup/createMALExtras.sql** ::
-
-    $ wget https://raw.githubusercontent.com/lifemapper/core/master/LmDbServer/dbsetup/createMALExtras.sql
-    $ mv createMALExtras.sql /opt/lifemapper/LmDbServer/dbsetup/
 
 #. **Check the available memory** ::
 
