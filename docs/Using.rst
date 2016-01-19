@@ -43,9 +43,10 @@ authentication are set up and postgres and pgbouncer are configured.
    First connect to postgres and find the 
    As ``lmwriter``, create a package to pre-populate a LmCompute instance with the layers that
    will be used for jobs for this server.  You will need the SCENARIO_PACKAGE name
-   (i.e. 30sec-present-future-SEA) and the scenario ids (i.e. 1 through 5): ::
+   (i.e. 30sec-present-future-SEA) and the scenario ids (i.e. 1 through 5).  For small pragma tests, using only
+   openModeller and NOT the ATT Maxent algorithm, add the option --fileTypes=t to reduce the size of input data: ::
    
-   % $PYTHON /opt/lifemapper/LmDbServer/tools/createScenarioPackage.py 30sec-present-future-SEA 1 2 3 4 5
+   % $PYTHON /opt/lifemapper/LmDbServer/tools/createScenarioPackage.py --fileTypes=t 30sec-present-future-SEA 1 2 3 4 5
      
 #. **Register LmCompute instance(s)**  as root  
 
