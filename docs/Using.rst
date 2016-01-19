@@ -54,15 +54,10 @@ authentication are set up and postgres and pgbouncer are configured.
      [LmServer - registeredcompute]
      COMPUTE_NAME: <required>
      COMPUTE_IP:  <required>
-     COMPUTE_IP_MASK:
+     COMPUTE_IP_MASK:  <required **if compute nodes communicating over private network**>
      COMPUTE_CONTACT_USERID:  <required>
      COMPUTE_CONTACT_EMAIL:  <required **if new user**>
-     COMPUTE_CONTACT_FIRSTNAME:
-     COMPUTE_CONTACT_LASTNAME:
-     COMPUTE_INSTITUTION:
-     COMPUTE_ADDR1:
-     COMPUTE_ADDR2: 
-     COMPUTE_ADDR3: 
+
 
    The new record requires COMPUTE_NAME, COMPUTE_IP, and COMPUTE_CONTACT_USERID.  
    If the COMPUTE_CONTACT_USERID does not already exist in the database, 
@@ -76,7 +71,7 @@ authentication are set up and postgres and pgbouncer are configured.
 
    As user ``lmwriter``, run the script to install LmCompute instance configured for this LmServer  ::  
 
-     # $PYTHON /opt/lifemapper/LmDbServer/tools/registerCompute.py 
+     $ $PYTHON /opt/lifemapper/LmDbServer/tools/registerCompute.py 
 
 
 #. **Test the LmWebServer setup** 
@@ -87,10 +82,10 @@ authentication are set up and postgres and pgbouncer are configured.
      
    Successful example output is shown under each command   ::  
 
-     % $PYTHON /opt/lifemapper/LmWebServer/tests/scripts/createTestUser.py  > /tmp/createTestUser.log 2>&1
+     $ $PYTHON /opt/lifemapper/LmWebServer/tests/scripts/createTestUser.py  > /tmp/createTestUser.log 2>&1
        Successfully created user
        
-     % $PYTHON /opt/lifemapper/LmWebServer/tests/scripts/checkJobServer.py > /tmp/checkJobServer.log 2>&1
+     $ $PYTHON /opt/lifemapper/LmWebServer/tests/scripts/checkJobServer.py > /tmp/checkJobServer.log 2>&1
      
        27 Sep 2015 13:57 MainThread.log.debug line 80 DEBUG    {'epsgcode': '4326', 'displayname': 'Test Chain57292.8734326', 'name': 'Test points57292.8734326', 'pointstype': 'shapefile'}
        27 Sep 2015 13:57 MainThread.log.debug line 80 DEBUG    Test Chain57292.8734326
