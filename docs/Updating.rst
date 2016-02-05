@@ -69,17 +69,15 @@ Add a new computation server
      COMPUTE_IP:  <required>
      COMPUTE_IP_MASK:
      COMPUTE_CONTACT_USERID:  <required>
-     COMPUTE_CONTACT_EMAIL:  <required **if new user**>
-     COMPUTE_CONTACT_FIRSTNAME:
-     COMPUTE_CONTACT_LASTNAME:
-     COMPUTE_INSTITUTION:
-     COMPUTE_ADDR1:
-     COMPUTE_ADDR2: 
-     COMPUTE_ADDR3: 
-
+     COMPUTE_CONTACT_EMAIL:  <required **only if new user**>
+ 
    get/copy keys from config.ini). The new record requires COMPUTE_NAME, 
    COMPUTE_IP, and COMPUTE_CONTACT_USERID.  If the COMPUTE_CONTACT_USERID does 
    not already exist in the database, COMPUTE_CONTACT_EMAIL is also required.
+   
+   If LmServer will be communicating with LmCompute instance installed on the 
+   same cluster, use the private IP address and CIDR to allow all compute nodes
+   access to jobs.  
 
    Run the script to install LmCompute instance configured for this LmServer  ::  
 
@@ -115,10 +113,10 @@ Add/change climate data
    to the site.ini file using scenario codes documented in the CLIMATE_PACKAGES 
    dictionary. 
 
-   Download the tar.gz file from http://lifemapper.org/dl and uncompress the 
-   data into /share/lmserver/data/climate/
+   Download data from http://lifemapper.org/dl/<SCENARIO_PACKAGE>.tar.gz. 
+   Uncompress into the /share/lmserver/data/climate/ directory.
 
-   Run the script to install scenario data  ::  
+   Run the script to install scenario data with the configured ARCHIVE_USER ::  
 
      # $PYTHON /opt/lifemapper/LmDbServer/tools/initCatalog.py scenario 
 

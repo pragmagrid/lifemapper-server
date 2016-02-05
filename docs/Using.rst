@@ -2,7 +2,7 @@
 .. hightlight:: rest
 
 Using Lifemapper Server roll
-=============================
+============================
 .. contents::  
 
 After the roll is installed, the initial database schema, and user 
@@ -41,10 +41,14 @@ authentication are set up and postgres and pgbouncer are configured.
 #. **Create a layers package** ::
    
    First connect to postgres and find the 
-   As ``lmwriter``, create a package to pre-populate a LmCompute instance with the layers that
-   will be used for jobs for this server.  You will need the SCENARIO_PACKAGE name
-   (i.e. 30sec-present-future-SEA) and the scenario ids (i.e. 1 through 5).  For small pragma tests, using only
-   openModeller and NOT the ATT Maxent algorithm, add the option --fileTypes=t to reduce the size of input data: ::
+   As ``lmwriter``, create a package to pre-populate a LmCompute instance with 
+   the layers that will be used for jobs for this server.  You will need the 
+   SCENARIO_PACKAGE variable (i.e. 30sec-present-future-SEA) and the scenario 
+   ids (i.e. 1 through 5).  For small pragma tests, using only openModeller  
+   algorithms, add the option --fileTypes=t to include only TIFFs (reducing the 
+   size of input data).  If you want to include ASCII files (needed for 
+   ATT Maxent algorithm), leave the --filetypes option out - the default will
+   include both ASCII and TIFF.::
    
    % $PYTHON /opt/lifemapper/LmDbServer/tools/createScenarioPackage.py --fileTypes=t 30sec-present-future-SEA 1 2 3 4 5
      
