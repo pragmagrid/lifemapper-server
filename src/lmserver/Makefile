@@ -96,7 +96,7 @@ SCRIPTS = config.ini \
           
 TOPDIR =  $(REPONAME)-$(VERSION)
 
-config.ini: $(TOPDIR)/config/config.ini.in
+config.ini: $(TOPDIR)/config/config.lmserver.ini.in
 	$(SED) -i $(SEDSPEC) $^ 
 	cat $^ > $(TOPDIR)/config/$@
 
