@@ -88,7 +88,7 @@ SEDSPEC += \
         -e 's%@SCENARIO_PACKAGE@%$(SCENARIO_PACKAGE)%g' \
         -e 's%@JAVABIN@%$(JAVABIN)%g'
 
-SCRIPTS = config.ini \
+SCRIPTS = config.lmserver.ini \
           runAllSQLScripts.sql  \
           runUpdateDBScripts.sql \
           cherrypy.conf \
@@ -96,7 +96,7 @@ SCRIPTS = config.ini \
           
 TOPDIR =  $(REPONAME)-$(VERSION)
 
-config.ini: $(TOPDIR)/config/config.lmserver.ini.in
+config.lmserver.ini: $(TOPDIR)/config/config.lmserver.ini.in
 	$(SED) -i $(SEDSPEC) $^ 
 	cat $^ > $(TOPDIR)/config/$@
 
