@@ -40,8 +40,10 @@ install::
 	tar -xzf  $(ARCHIVENAME)-$(VERSION).$(TARBALL_POSTFIX)  -C  $(ROOT)/$(SOLRDIR) --strip 1 --exclude docs --exclude contrib
 	mkdir -p $(ROOT)/$(SOLRDIR)/etc
 	mkdir -p $(ROOT)/$(EXPORTDIR)/data
-	mkdir -p $(ROOT)/$(EXPORTDIR)/data/$(SOLRINDEX)/data
-	mkdir -p $(ROOT)/$(EXPORTDIR)/data/$(SOLRINDEX)/conf
+	mkdir -p $(ROOT)/$(EXPORTDIR)/data/$(SOLRINDEX_1)/data
+	mkdir -p $(ROOT)/$(EXPORTDIR)/data/$(SOLRINDEX_1)/conf
+	mkdir -p $(ROOT)/$(EXPORTDIR)/data/$(SOLRINDEX_2)/data
+	mkdir -p $(ROOT)/$(EXPORTDIR)/data/$(SOLRINDEX_2)/conf
 	mkdir -p $(ROOT)/$(EXPORTDIR)/logs
 	mkdir -p $(ROOT)/etc/rc.d/init.d
 	cp $(ROOT)/$(SOLRDIR)/server/solr/solr.xml $(ROOT)/$(EXPORTDIR)/data
