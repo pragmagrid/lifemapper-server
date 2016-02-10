@@ -1,13 +1,11 @@
 #!/bin/bash
 
-# this script is run  during the post section of the roll isntallation
+# this script is run  during the post section of the roll installation
 
 SOLR_HOME=@SOLRDATA@/data
 LMHOME=@LMHOME@
 
-cp -p $LMHOME/LmWebServer/solr/schema.xml       $SOLR_HOME/data/cores/lmArchive/conf/
-cp -p $LMHOME/LmWebServer/solr/solrconfig.xml   $SOLR_HOME/data/cores/lmArchive/conf/
-cp -p $LMHOME/LmWebServer/solr/core.properties  $SOLR_HOME/data/cores/lmArchive/
+cp -rp $LMHOME/LmWebServer/config/solrcores/    $SOLR_HOME/data/cores/
 
 /bin/chown -R @SOLRUSER@:@SOLRUSER@ $SOLR_HOME
 
