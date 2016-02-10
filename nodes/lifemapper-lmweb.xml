@@ -45,6 +45,11 @@ fi
 # add solr index files
 /opt/lifemapper/rocks/bin/solr-index
 
+# for solr data
+/bin/mkdir -p /state/partition1/lmserver/data/solr
+/bin/chgrp -R lmwriter /state/partition1/lmserver/data/solr
+/bin/chmod -R g+ws /state/partition1/lmserver/data/solr
+
 <file name="/etc/sysconfig/httpd" mode="append" expr="cat /opt/lifemapper/rocks/etc/lifemapper-sysconfig-httpd">
 
 </file>
