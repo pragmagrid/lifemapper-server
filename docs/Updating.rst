@@ -2,18 +2,18 @@
 .. hightlight:: rest
 
 Updating an existing Lifemapper Server installation without losing data
-=============================
+=======================================================================
 .. contents::  
 
 Introduction
-----------------
+------------
 After the roll is installed, and the instance has been populated, you may want
 to update the code, configuration, and/or database (in lifemapper-server*.rpm) 
 and applying those changes with scripts (from rocks-lifemapper*.rpm) 
 without losing data.
 
 Update code and scripts
-------------------------
+-----------------------
 
 #. **Stop the pipeline** as lmserver.
 
@@ -41,13 +41,13 @@ Install RPMs with: ::
    
    The ``updateLM`` script 
     * runs confDbconnect to rewrite the python db connection file for LM code
-    * runs updateIP to fill in newly installed config.ini file with IP address
+    * runs updateIP to fill in newly installed config.lmserver.ini file with IP address
     * runs updateDB to make required database changes to tables, views, or functions  
 
    The script output is in /tmp/updateLM.log. 
      
 Update data
-------------------------
+-----------
 
 #. **Stop the pipeline** as lmserver.
 
@@ -71,7 +71,7 @@ Add a new computation server
      COMPUTE_CONTACT_USERID:  <required>
      COMPUTE_CONTACT_EMAIL:  <required **only if new user**>
  
-   get/copy keys from config.ini). The new record requires COMPUTE_NAME, 
+   get/copy keys from config.lmserver.ini). The new record requires COMPUTE_NAME, 
    COMPUTE_IP, and COMPUTE_CONTACT_USERID.  If the COMPUTE_CONTACT_USERID does 
    not already exist in the database, COMPUTE_CONTACT_EMAIL is also required.
    
@@ -84,7 +84,7 @@ Add a new computation server
      # $PYTHON /opt/lifemapper/LmDbServer/tools/registerCompute.py 
 
 Add/change Archive User
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
 #. Change the archive user  as ``root`` 
 
    Add ARCHIVE_USER to the [LmCommon - common] section of site.ini file.  
@@ -100,7 +100,7 @@ Add/change Archive User
    % $PYTHON /opt/lifemapper/LmDbServer/pipeline/localpipeline.py &
 
 Add/change climate data
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
      
 #. ** Download, catalog new climate data **  as ``root``  
 
@@ -126,7 +126,7 @@ Add/change climate data
      
 
 Add/change species data
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
 #. ** Download, catalog new species data **  as ``root`` 
 
    As user root, add or edit the sections ``[LmServer - environment]`` and ``[LmServer - pipeline]`` 
@@ -147,7 +147,7 @@ Add/change species data
    
 
 Add all data (unfinished)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~
 #. ** Download, catalog new user, scenario, species, taxonomy **  as ``root`` 
    **TODO: This is not yet working** it will do all above steps 
    Download the data specified in site.ini variables and add metadata using 
@@ -159,7 +159,7 @@ Add all data (unfinished)
    % $PYTHON /opt/lifemapper/LmDbServer/pipeline/localpipeline.py &
 
 Test
-------------------------
+----
 
 #. **Test the LmWebServer** setup as user ``lmwriter``
   

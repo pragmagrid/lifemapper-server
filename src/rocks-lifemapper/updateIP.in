@@ -1,13 +1,13 @@
 #!/bin/bash 
 #
-# Update @LMHOME@/config/config.ini file with correct ip info  
+# Update @LMHOME@/config/config.lmserver.ini file with correct ip info  
 #
 
 
 usage () 
 {
     echo "Usage: $0"
-    echo "This script updates IPs in @LMHOME@/config/config.ini file from"
+    echo "This script updates IPs in @LMHOME@/config/config.lmserver.ini file from"
     echo "the values set in rocks attributes LM_dbserver and LM_webserver."
     echo "If attributes are not set then the server public IP is used"
 
@@ -38,8 +38,8 @@ getAddress () {
 }
 
 updateAddress () {
-    infile=@LMHOME@/config/config.ini.in
-    outfile=@LMHOME@/config/config.ini
+    infile=@LMHOME@/LmServer/config/config.lmserver.ini.in
+    outfile=@LMHOME@/config/config.lmserver.ini
     sed  "s%@PUBLIC_FQDN@%$Addr%g; \
           s%@WEB_FQDN@%$AddrWebserver%g; \
           s%@DB_FQDN@%$AddrDbserver%g" $infile > $outfile

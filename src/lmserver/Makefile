@@ -96,11 +96,11 @@ SCRIPTS = config.lmserver.ini \
           
 TOPDIR =  $(REPONAME)-$(VERSION)
 
-config.lmserver.ini: $(TOPDIR)/config/config.lmserver.ini.in
+config.lmserver.ini: $(TOPDIR)/LmServer/config/config.lmserver.ini.in
 	$(SED) -i $(SEDSPEC) $^ 
 	cat $^ > $(TOPDIR)/config/$@
 
-cherrypy.conf: $(TOPDIR)/config/cherrypy.conf.in
+cherrypy.conf: $(TOPDIR)/LmWebServer/config/cherrypy.conf.in
 	$(SED) -i $(SEDSPEC) $^ 
 	cat $^ > $(TOPDIR)/config/$@
 

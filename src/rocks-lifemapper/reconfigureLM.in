@@ -16,7 +16,7 @@ usage ()
     echo "     - update openssl (yum) "
     echo "     - set postgres unix socket PGHOST=/var/run/postgresql"
     echo "     - restart postgres/pgbouncer with new configuration\n"
-    echo "     - inserts host IP in @LMHOME@/config/config.ini\n"
+    echo "     - inserts host IP in @LMHOME@/config/config.lmserver.ini\n"
     echo "   "
     echo "The script can be run after a VM is brought up on another network and LM configuration"
     echo "needs to be updated."
@@ -73,8 +73,8 @@ start_services() {
 
 # create postgres and pgbouncer config and auth files
 create_config_files() {
-    # put correct IP in lmserver's config.ini 
-    echo "-- update host IP in @LMHOME@/config/config.ini" >> $LOG
+    # put correct IP in lmserver's config.lmserver.ini 
+    echo "-- update host IP in @LMHOME@/config/config.lmserver.ini" >> $LOG
     $BIN/updateIP >> $LOG  2>&1
 
     # create postgres config file 
