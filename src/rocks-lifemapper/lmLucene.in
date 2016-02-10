@@ -1,7 +1,6 @@
 #!/bin/bash
 
 export PYTHONPATH=@PKGROOT@
-export LIFEMAPPER_CONFIG_FILE=@PKGROOT@/config/config.ini
 export LIFEMAPPER_SERVER_CONFIG_FILE=@PKGROOT@/config/config.lmserver.ini
 export LUCENE_DIR=@PKGROOT@/LmWebServer/lucene
 
