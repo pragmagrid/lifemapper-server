@@ -9,7 +9,7 @@ SOLRDIR=/opt/solr
 SOLRDATA=$(DATADIR_SERVER)/solr
 SOLRINDEX_1=cores/lmArchive
 SOLRINDEX_2=cores/lmSpeciesHint
-SOLRUSER=lmwriter
+SOLRUSER=solr
 
 SOLR_PORT=8983
 
