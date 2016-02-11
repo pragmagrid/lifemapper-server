@@ -34,7 +34,7 @@ apply_patches () {
 
 collect_configs () {
   conf=$TOPDIR/LmServer/config/config.lmserver.ini.in
-  webconf=$TOPDIR/LmWebServer/config/cherrypy.conf.ini.in
+  webconf=$TOPDIR/LmWebServer/config/cherrypy.conf.in
   if [ ! -f $conf ]; then
     echo "ERROR: File $conf is missing from $SRC "
     return
