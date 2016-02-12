@@ -1,4 +1,3 @@
-# $Id$
 #
 # @Copyright@
 # 
@@ -83,16 +82,14 @@ PROFILES = \
 
 SCRIPTS = \
 	lifemapper.conf \
-	lucene.cron \
 	solr.cron \
+	lmSolr \
 	callLmServerTests.cron \
-	lmLucene \
 	lifemapper-sysconfig-httpd \
 	lifemapper-server.conf
 
 PROGS = \
 	addInputData \
-	buildLmLuceneIndex \
 	buildLmSolrIndex \
 	callLmServerTests \
 	deleteOldAnonymous \
@@ -141,7 +138,7 @@ install::
 	install -m 644 lifemapper-server.conf $(ROOT)/etc/ld.so.conf.d
 	
 	mkdir -p $(ROOT)/etc/rc.d/init.d
-	install -m 755 lmLucene $(ROOT)/etc/rc.d/init.d
+	install -m 755 lmSolr $(ROOT)/etc/rc.d/init.d
 
 	mkdir -p $(ROOT)/etc/logrotate.d
 	install -m 644 lifemapper-httpd $(ROOT)/etc/logrotate.d
@@ -152,7 +149,6 @@ install::
 	install -m 755 $(EXECFILES) $(ROOT)/$(PKGROOT)/rocks/bin
 
 	mkdir -p $(ROOT)/$(PKGROOT)/rocks/etc
-	install -m 755 lucene.cron $(ROOT)/$(PKGROOT)/rocks/etc
 	install -m 755 solr.cron $(ROOT)/$(PKGROOT)/rocks/etc
 	install -m 755 callLmServerTests.cron $(ROOT)/$(PKGROOT)/rocks/etc
 	install -m 644 lifemapper-sysconfig-httpd $(ROOT)/$(PKGROOT)/rocks/etc

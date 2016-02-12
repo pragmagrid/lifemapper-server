@@ -91,8 +91,7 @@ SEDSPEC += \
 SCRIPTS = config.lmserver.ini \
           runAllSQLScripts.sql  \
           runUpdateDBScripts.sql \
-          cherrypy.conf \
-          lmLucene.py
+          cherrypy.conf
           
 TOPDIR =  $(REPONAME)-$(VERSION)
 
@@ -103,9 +102,6 @@ config.lmserver.ini: $(TOPDIR)/LmServer/config/config.lmserver.ini.in
 cherrypy.conf: $(TOPDIR)/LmWebServer/config/cherrypy.conf.in
 	$(SED) -i $(SEDSPEC) $^ 
 	cat $^ > $(TOPDIR)/config/$@
-
-lmLucene.py: $(TOPDIR)/LmWebServer/lucene/lmLucene.py.in
-	$(SED) $(SEDSPEC) $^ > $(TOPDIR)/LmWebServer/lucene/$@
 
 runAllSQLScripts.sql: $(TOPDIR)/LmDbServer/dbsetup/runAllSQLScripts.sql.in
 	$(SED) $(SEDSPEC) $^ > $(TOPDIR)/LmDbServer/dbsetup/$@
