@@ -18,7 +18,11 @@ SEDSPEC += \
         -e 's%@SOLRDATA@%$(SOLRDATA)%g' \
         -e 's%@SOLRDIR@%$(SOLRDIR)%g' \
         -e 's%@SOLRUSER@%$(SOLRUSER)%g' \
-        -e 's%@SOLR_PORT@%$(SOLR_PORT)%g' 
+        -e 's%@SOLR_PORT@%$(SOLR_PORT)%g' \
+        -e 's%@ARCHIVENAME@%$(ARCHIVENAME)%g' \
+        -e 's%@JTS@%$(JTS)%g' \
+        -e 's%@TARBALL_POSTFIX@%$(TARBALL_POSTFIX)%g' \
+        -e 's%@VERSION@%$(VERSION)%g'
 
 version.mk:
 	cat ../version.mk version.mk.in > version.mk
