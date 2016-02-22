@@ -1,0 +1,33 @@
+
+This is a listing of the needed commands that we described during Dec, 2015
+visit to SDSC.
+
+      LM command layout
+
+lm init db
+        postgress (template...)
+		pgbouncer
+		postgis
+		user
+        config
+
+lm add cronjobs
+
+lm update ip ...
+
+lm start pipeline
+         jobmediator
+
+lm stop pipeline
+        jobmediator
+
+lm build solr index
+
+lm list users
+        algorithms
+		default
+		species
+		climateData
+		status
+
+
