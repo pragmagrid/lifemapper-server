@@ -156,31 +156,28 @@ Install the resulting RPM with: ::
 
    # rpm -el lifemapper-server
    # rpm -i  path-to-new-lifemapper-server.rpm
-   # /opt/lifemapper/rocks/bin/updateIP
-   # /opt/lifemapper/rocks/bin/confDbconnect
+   # /opt/lifemapper/rocks/bin/updateLM
 
-The ``updateIP`` is needed for this specfic RPM because  a newly installed 
-config.ini file needs template IP addressees updated. **Note:** other variables 
-must also be replaced, so perhaps easiest to stash this file and replace it 
-after the rpm install.
+The ``updateLM`` command runs three processes:
 
-The ``confDbconnect`` rewrites /opt/lifemapper/LmServer/db/connect.py 
-file in the LM source tree (used to connect to a db).
-This file is still present from a previous install, and will not need to be 
-re-written if the template or location has not changed.
+- Rewrites  the /opt/lifemapper/LmServer/db/connect.py file in the LM source 
+  tree (used to connect to a db) with the /opt/lifemapper/rocks/bin/confDbconnect
+  script.  
 
-Normally, these commands are run by the roll install process. 
+- Runs database scripts to create views, types, functions, and modify tables, 
+  constraints, or indexes with the script LmDbServer/dbsetup/runUpdateDBScripts.sql.
+   
+  - If views, types, functions have not changed, this script will not only drop 
+    and recreate them.  If tables, constraints, or indexes have not changed, the 
+    LmDbServer/dbsetup/updateDatabases.sql file should be empty.
+   
+- Fills in the ``@*_FQDN@`` variables in the LmServer/config/config.lmserver.ini.in
+  file with fully qualified domain name or IP address, and moves it to 
+  config/config.lmserver.ini with the /opt/lifemapper/rocks/bin/updateIP script. 
 
-The ``pgbouncer`` service must be restarted after a new connect.py file is created
-
-Next run any database updates with: ::
-
-   # /opt/lifemapper/rocks/bin/updateDB
-
-Then restart pgbouncer and apache so they can connect to the database: ::
-
-   # /etc/init.d/pgbouncer restart
-   # /etc/init.d/httpd restart
+- Restarts postgresql, pgbouncer, and apache services.  The ``pgbouncer`` 
+  service must be restarted after a new connect.py file is created.  Apache 
+  must be restarted to pick up any code changes.
 
 Start using the roll, see `Using Lifemapper`_ 
 
