@@ -15,5 +15,7 @@ setenv PROJ_LIB=@PKGROOT@/share/proj
 
 setenv PGHOST /var/run/postgresql
 
-setenv LIFEMAPPER_CONFIG_FILE @LMHOME@/config/config.ini
+setenv JAVA_TOOL_OPTIONS=-Xmx512m
+
+setenv LIFEMAPPER_SERVER_CONFIG_FILE @LMHOME@/config/config.lmserver.ini
 

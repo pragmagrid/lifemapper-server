@@ -6,48 +6,59 @@
 SRC=@REPONAME@
 URL=https://github.com/lifemapper/
 TOPDIR=@REPONAME@-@VERSION@
+SRCNAME=@SRCNAME@
 
 # download archive from lifemapper git
 download_git () {
-      echo "Starting GIT checkout from $URL"
-      wget "$URL/$SRC/archive/@VERSION@.@TARBALL_POSTFIX@" 
-      tar xzvf @VERSION@.@TARBALL_POSTFIX@
+  echo "Starting GIT checkout from $URL"
+  wget "$URL/$SRC/archive/@VERSION@.@TARBALL_POSTFIX@" 
+  tar xzvf @VERSION@.@TARBALL_POSTFIX@
       
-      
-      if [ -d $TOPDIR ]; then
-          echo "Removing .git in $TOPDIR:"
-          DIRS=`find $TOPDIR -name .git`
-          for i in $DIRS; do
-              rm -rf $i
-          done
+  if [ -d $TOPDIR ]; then
+    echo "Removing .git in $TOPDIR:"
+    DIRS=`find $TOPDIR -name .git`
+    for i in $DIRS; do
+      rm -rf $i
+    done
+  else
+    echo "Error with GIT archive download from $URL/$SRC: directory $TOPDIR is not created"
+  fi
+}
 
-      else
-          echo "Error with GIT archive download from $URL/$SRC: directory $TOPDIR is not created"
-      fi
+apply_patches () {
+  if [ -d patch-files/core-@VERSION@ ]; then
+    echo "Applying patches for @VERSION@ "
+    (cd patch-files && find . -type f | grep -v CVS | cpio -pduv ..)
+  fi
 }
 
 collect_configs () {
-  conf=$TOPDIR/config/config.ini.in
+  conf=$TOPDIR/LmServer/config/config.lmserver.ini.in
+  webconf=$TOPDIR/LmWebServer/config/cherrypy.conf.in
   if [ ! -f $conf ]; then
-      echo "ERROR: File $conf is missing from $SRC "
-      return
+    echo "ERROR: File $conf is missing from $SRC "
+    return
+  fi
+  if [ ! -f $webconf ]; then
+    echo "ERROR: File $webconf is missing from $SRC "
+    return
   fi
 }
 
 # create distro files for lmserver 
 create_distro () {
   if [ -d $TOPDIR ]; then
-      # create lmserver src distro
-      echo "Creating lmserver src archive from Github archive download"
-      tar czf lifemapper-server-@VERSION@.@TARBALL_POSTFIX@ $TOPDIR/* \
-          --exclude=LmCompute 
-
+    # create lmserver src distro
+    echo "Creating lmserver src archive from Github archive download"
+    tar czf $SRCNAME-@VERSION@.@TARBALL_POSTFIX@ $TOPDIR/* \
+        --exclude=LmCompute 
   else
-      echo "GIT downloaded directory $TOPDIR is not present"
+    echo "GIT downloaded directory $TOPDIR is not present"
   fi
 }
 
 ### main ###
 download_git
+apply_patches
 collect_configs
 create_distro

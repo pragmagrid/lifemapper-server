@@ -1,0 +1,26 @@
+#!/bin/bash
+
+# Purpose: Fetch Solr and JTS source  
+
+JTS_URL="http://www.vividsolutions.com/jts/bin/"
+SOLR_URL="http://mirror.metrocast.net/apache/lucene/@ARCHIVENAME@/@VERSION@/"
+SOLR_PKG=@ARCHIVENAME@-@VERSION@.@TARBALL_POSTFIX@
+
+get_source_files () {
+  echo "Fetch solr and jts source code"
+  wget "$JTS_URL/@JTS@" 
+  wget "$SOLR_URL/$SOLR_PKG" 
+}
+
+get_jts_files () {
+  echo "Fetch jts source code"
+  wget "$JTS_URL/@JTS@"
+}
+
+get_solr_files () {
+  echo "Fetch solr source code"
+  wget "$SOLR_URL/$SOLR_PKG"
+}
+
+### main ###
+get_source_files

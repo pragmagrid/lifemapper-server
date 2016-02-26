@@ -77,6 +77,7 @@ SEDSPEC += \
         -e 's%@TEMPDIR@%$(TEMPDIR)%g'  \
         -e 's%@VERSION@%$(VERSION)%g' \
         -e 's%@REPONAME@%$(REPONAME)%g' \
+        -e 's%@SRCNAME@%$(SRCNAME)%g' \
         -e 's%@TARBALL_POSTFIX@%$(TARBALL_POSTFIX)%g' \
         -e 's%@LMUSER@%$(LMUSER)%g' \
         -e 's%@DATASOURCE@%$(DATASOURCE)%g' \
@@ -87,23 +88,20 @@ SEDSPEC += \
         -e 's%@SCENARIO_PACKAGE@%$(SCENARIO_PACKAGE)%g' \
         -e 's%@JAVABIN@%$(JAVABIN)%g'
 
-SCRIPTS = config.ini \
+SCRIPTS = config.lmserver.ini \
           runAllSQLScripts.sql  \
           runUpdateDBScripts.sql \
-          lmLucene.py
+          cherrypy.conf
           
 TOPDIR =  $(REPONAME)-$(VERSION)
 
-config.ini: $(TOPDIR)/config/config.ini.in
+config.lmserver.ini: $(TOPDIR)/LmServer/config/config.lmserver.ini.in
 	$(SED) -i $(SEDSPEC) $^ 
 	cat $^ > $(TOPDIR)/config/$@
 
-cherrypy.conf: $(TOPDIR)/config/cherrypy.conf.in
+cherrypy.conf: $(TOPDIR)/LmWebServer/config/cherrypy.conf.in
 	$(SED) -i $(SEDSPEC) $^ 
 	cat $^ > $(TOPDIR)/config/$@
-
-lmLucene.py: $(TOPDIR)/LmWebServer/lucene/lmLucene.py.in
-	$(SED) $(SEDSPEC) $^ > $(TOPDIR)/LmWebServer/lucene/$@
 
 runAllSQLScripts.sql: $(TOPDIR)/LmDbServer/dbsetup/runAllSQLScripts.sql.in
 	$(SED) $(SEDSPEC) $^ > $(TOPDIR)/LmDbServer/dbsetup/$@

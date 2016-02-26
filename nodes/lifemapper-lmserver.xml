@@ -80,6 +80,7 @@ PG=`basename /etc/init.d/postgresql-*`
 #!/bin/bash
 # do LM initialization and start services
 
+/opt/lifemapper/rocks/bin/checkLibs
 /opt/lifemapper/rocks/bin/initLM
 /bin/rm -rf /etc/rc.d/rocksconfig.d/post-99-lifemapper-lmserver
 

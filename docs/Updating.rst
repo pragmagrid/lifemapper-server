@@ -2,18 +2,18 @@
 .. hightlight:: rest
 
 Updating an existing Lifemapper Server installation without losing data
-=============================
+=======================================================================
 .. contents::  
 
 Introduction
-----------------
+------------
 After the roll is installed, and the instance has been populated, you may want
 to update the code, configuration, and/or database (in lifemapper-server*.rpm) 
 and applying those changes with scripts (from rocks-lifemapper*.rpm) 
 without losing data.
 
 Update code and scripts
-------------------------
+-----------------------
 
 #. **Stop the pipeline** as lmserver.
 
@@ -41,13 +41,13 @@ Install RPMs with: ::
    
    The ``updateLM`` script 
     * runs confDbconnect to rewrite the python db connection file for LM code
-    * runs updateIP to fill in newly installed config.ini file with IP address
+    * runs updateIP to fill in newly installed config.lmserver.ini file with IP address
     * runs updateDB to make required database changes to tables, views, or functions  
 
    The script output is in /tmp/updateLM.log. 
      
 Update data
-------------------------
+-----------
 
 #. **Stop the pipeline** as lmserver.
 
@@ -69,24 +69,22 @@ Add a new computation server
      COMPUTE_IP:  <required>
      COMPUTE_IP_MASK:
      COMPUTE_CONTACT_USERID:  <required>
-     COMPUTE_CONTACT_EMAIL:  <required **if new user**>
-     COMPUTE_CONTACT_FIRSTNAME:
-     COMPUTE_CONTACT_LASTNAME:
-     COMPUTE_INSTITUTION:
-     COMPUTE_ADDR1:
-     COMPUTE_ADDR2: 
-     COMPUTE_ADDR3: 
-
-   get/copy keys from config.ini). The new record requires COMPUTE_NAME, 
+     COMPUTE_CONTACT_EMAIL:  <required **only if new user**>
+ 
+   get/copy keys from config.lmserver.ini). The new record requires COMPUTE_NAME, 
    COMPUTE_IP, and COMPUTE_CONTACT_USERID.  If the COMPUTE_CONTACT_USERID does 
    not already exist in the database, COMPUTE_CONTACT_EMAIL is also required.
+   
+   If LmServer will be communicating with LmCompute instance installed on the 
+   same cluster, use the private IP address and CIDR to allow all compute nodes
+   access to jobs.  
 
    Run the script to install LmCompute instance configured for this LmServer  ::  
 
      # $PYTHON /opt/lifemapper/LmDbServer/tools/registerCompute.py 
 
 Add/change Archive User
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
 #. Change the archive user  as ``root`` 
 
    Add ARCHIVE_USER to the [LmCommon - common] section of site.ini file.  
@@ -102,7 +100,7 @@ Add/change Archive User
    % $PYTHON /opt/lifemapper/LmDbServer/pipeline/localpipeline.py &
 
 Add/change climate data
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
      
 #. ** Download, catalog new climate data **  as ``root``  
 
@@ -115,10 +113,10 @@ Add/change climate data
    to the site.ini file using scenario codes documented in the CLIMATE_PACKAGES 
    dictionary. 
 
-   Download the tar.gz file from http://lifemapper.org/dl and uncompress the 
-   data into /share/lmserver/data/climate/
+   Download data from http://lifemapper.org/dl/<SCENARIO_PACKAGE>.tar.gz. 
+   Uncompress into the /share/lmserver/data/climate/ directory.
 
-   Run the script to install scenario data  ::  
+   Run the script to install scenario data with the configured ARCHIVE_USER ::  
 
      # $PYTHON /opt/lifemapper/LmDbServer/tools/initCatalog.py scenario 
 
@@ -128,7 +126,7 @@ Add/change climate data
      
 
 Add/change species data
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
 #. ** Download, catalog new species data **  as ``root`` 
 
    As user root, add or edit the sections ``[LmServer - environment]`` and ``[LmServer - pipeline]`` 
@@ -149,7 +147,7 @@ Add/change species data
    
 
 Add all data (unfinished)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~
 #. ** Download, catalog new user, scenario, species, taxonomy **  as ``root`` 
    **TODO: This is not yet working** it will do all above steps 
    Download the data specified in site.ini variables and add metadata using 
@@ -161,7 +159,7 @@ Add all data (unfinished)
    % $PYTHON /opt/lifemapper/LmDbServer/pipeline/localpipeline.py &
 
 Test
-------------------------
+----
 
 #. **Test the LmWebServer** setup as user ``lmwriter``
   

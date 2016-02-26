@@ -1,0 +1,12 @@
+Date:            March 5, 2015
+Change:          
+  - Remove branch v1.0. Create tag v1.0
+
+Date:            February 13, 2015
+Version:         1.0
+Rocks Version:   6.1.1 
+Status:          Setup as of PRAGMA 27 in October 2014
+Changes:         
+  - February 2015: bug fix in rocks-lifemapper scripts to replace 
+    hard-coded eth1 interface with dynamically found one. 
+  - Create branch v1.0 on github

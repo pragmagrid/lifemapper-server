@@ -1,0 +1,24 @@
+#!/bin/bash
+
+export PYTHONPATH=@PKGROOT@
+export LIFEMAPPER_SERVER_CONFIG_FILE=@PKGROOT@/config/config.lmserver.ini
+export SOLR_DIR=@PKGROOT@/LmWebServer/solr
+
+case $1 in
+   start)
+      echo "Attempting to start Lifemapper Solr listener"
+      @PYBIN@ $SOLR_DIR/lmSolr.py start
+   ;;
+   stop)
+      echo "Attempting to stop Lifemapper Solr listener"
+      @PYBIN@ $SOLR_DIR/lmSolr.py stop
+   ;;
+   restart)
+      echo "Attempting to restart Lifemapper Solr listener"
+      @PYBIN@ $SOLR_DIR/lmSolr.py restart
+   ;;
+   *)
+      echo "Usage: $0 {start|stop|restart}"
+      exit 1
+   ;;
+esac

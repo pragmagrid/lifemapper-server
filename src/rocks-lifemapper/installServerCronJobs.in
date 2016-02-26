@@ -5,8 +5,7 @@
 usage () 
 {
     echo "Usage: $0"
-    echo "This script copies maintenance scripts in @LMHOME@/LmWebServer/lucene " 
-    echo "and @LMHOME@/config/ directories to the cron.daily directory and "
+    echo "This script copies maintenance scripts to the cron.daily directory and "
     echo "sets execute permissions."
 }
 
@@ -15,6 +14,7 @@ setDefaults () {
     CRON_DIR=/etc/cron.d/
     CRON_DAILY_DIR=/etc/cron.daily/
     LOG=/tmp/`/bin/basename $0`.log
+    gname=lmwriter
     touch $LOG
     TimeStamp "# Start"
 }
@@ -23,12 +23,13 @@ TimeStamp () {
     echo $1 `/bin/date` >> $LOG
 }
 
-# install cron jobs (lucene and cron jobs are in initWebServer)
+# install cron jobs (solr jobs are in initWebServer)
 installDailyTasks () {
     install @LMHOME@/config/securityUpdates.sh ${CRON_DAILY_DIR}
     install @LMHOME@/rocks/bin/deleteOldAnonymous ${CRON_DIR}
     # run every 4 hours 
     crontab -u $gname @LMHOME@/rocks/etc/callLmServerTests.cron
+    crontab -u $gname @LMHOME@/rocks/etc/solr.cron
     echo "Installed tasks to ${CRON_DIR} ..." | tee -a $LOG
 }
 

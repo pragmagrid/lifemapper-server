@@ -13,10 +13,9 @@ usage ()
     echo "     - creating roles and postgis tables"
     echo "     - create new config and auth files for postgres "
     echo "     - create new config for pgbouncer "
-    echo "     - update openssl (yum) "
     echo "     - set postgres unix socket PGHOST=/var/run/postgresql"
     echo "     - restart postgres/pgbouncer with new configuration\n"
-    echo "     - inserts host IP in @LMHOME@/config/config.ini\n"
+    echo "     - inserts host IP in @LMHOME@/config/config.lmserver.ini\n"
     echo "   "
     echo "The script can be run at any time to remove all previous configuration and to create"
     echo "a new one. In this case, old postgres db data (/var/lib/pgsql/*/data/*) is removed."
@@ -118,9 +117,9 @@ start_services() {
     /sbin/service pgbouncer start >> $LOG
 }
 
-# run updateIP to put correct IP lmserver's config.ini 
+# run updateIP to put correct IP lmserver's config.lmserver.ini 
 update_config() {
-    echo "-- update host IP in @LMHOME@/config/config.ini" >> $LOG
+    echo "-- update host IP in @LMHOME@/LmServer/config/config.lmserver.ini" >> $LOG
     $BIN/updateIP >> $LOG  2>&1
 }
 
@@ -133,7 +132,7 @@ set_defaults
 stop_services
 init_postgres
 dbserver_init
-update_openssl
+# no longer need update_openssl
 installCronJobs
 start_services
 update_config

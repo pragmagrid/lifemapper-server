@@ -9,10 +9,10 @@ usage ()
     echo "Usage: $0"
     echo "This script is run after lifemapper-server and rocks-lifemapper rpm updates. It will:"
     echo "     - update postgres tables, views, functions"
-    echo "     - update host IP in @LMHOME@/config/config.ini "
+    echo "     - update host IP in @LMHOME@/config/config.lmserver.ini "
     echo "     - rewrite db parameters in @LMHOME@/LmServer/db/connect.py "
     echo "     - restart postgres/pgbouncer\n"
-    echo "     - insert host IP in @LMHOME@/config/config.ini\n"
+    echo "     - insert host IP in @LMHOME@/config/config.lmserver.ini\n"
     echo "   "
     echo "The script can be run at any time to remove all previous configuration and to create"
     echo "a new one. In this case, old postgres db data (/var/lib/pgsql/*/data/*) is removed."
@@ -85,9 +85,9 @@ start_services() {
     /sbin/service pgbouncer start >> $LOG
 }
 
-# run updateIP to put correct IP lmserver's config.ini 
+# run updateIP to put correct IP lmserver's config.lmserver.ini 
 update_config() {
-    echo "-- update host IP in @LMHOME@/config/config.ini" >> $LOG
+    echo "-- update host IP in @LMHOME@/config/config.lmserver.ini" >> $LOG
     $BIN/updateIP >> $LOG  2>&1
 }
 

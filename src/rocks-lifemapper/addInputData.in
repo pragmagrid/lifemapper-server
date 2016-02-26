@@ -30,7 +30,7 @@ set_defaults() {
     CLIMATE_CMD=scenario
     TAXONOMY_CMD=taxonomy
     USER_CMD=user
-    CONFIG=@LMHOME@/config/config.ini
+    CONFIG=@LMHOME@/config/config.lmserver.ini
 
     PG=`basename /etc/init.d/postgresql-*`
     PROFILE=/var/lib/pgsql/.bash_profile

@@ -2,16 +2,15 @@
 .. hightlight:: rest
 
 Lifemapper Server roll
-=============================
+======================
 .. contents::  
 
 Introduction
-----------------
+------------
 This roll installs dbserver and webserver parts of Lifemapper.
 All prerequisite software listed below are a part of the roll and 
 will be installed and configured during roll installation. 
 The roll has been tested with Rocks 6.1 and 6.1.1. And now with 6.2!
-This is Aimee's test commit.
 
 For PRAGMA27 student challenge please see `Lifemapper Student Challenge`_
 
@@ -19,7 +18,7 @@ For PRAGMA27 student challenge please see `Lifemapper Student Challenge`_
 
 
 Prerequisites
-~~~~~~~~~~~~~~
+~~~~~~~~~~~~~
 
 This section lists all the prerequisites for lifemapper code dependencies.
 The dependencies are either build from source or installed from RPMs 
@@ -74,10 +73,14 @@ The packages are a part of the roll source (or downloaded by bootstrap.sh).
     wget --no-check-certificate https://pypi.python.org/packages/source/R/Rtree/Rtree-0.7.0.tar.gz  
     wget --no-check-certificate https://pypi.python.org/packages/source/p/psycopg2/psycopg2-2.5.2.tar.gz  
     wget --no-check-certificate https://pypi.python.org/packages/source/M/MySQL-python/MySQL-python-1.2.5.zip  
-    wget --no-check-ertificate https://pypi.python.org/packages/source/C/Cheetah/Cheetah-2.4.4.tar.gz  
     wget --no-check-certificate https://pypi.python.org/packages/source/f/faulthandler/faulthandler-2.3.tar.gz  
     wget --no-check-certificate https://pypi.python.org/packages/source/i/isodate/isodate-0.5.0.tar.gz
     wget --no-check-certificate  https://pypi.python.org/packages/source/p/processing/processing-0.52.zip`
+
+    solr
+    wget http://mirror.metrocast.net/apache/lucene/solr/5.3.0/solr-5.3.0.tgz
+    wget http://www.vividsolutions.com/jts/bin/jts-1.8.0.zip
+
 
 Individual package dependencies
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -93,15 +96,15 @@ by the bootstrap.sh
 :**psycopg2**:    gdal, postgresql91  
 
 Required Rolls
-~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~
 
 Required rolls must be added at the same time when the  lifemapper-server roll is isntalled. 
 See ``Adding a roll`` section for details.
 
 :**python**:    Python roll provides python2.7 and numpy
 
-Building a roll 
-------------------
+Building a roll
+---------------
 
 Checkout roll distribution from git repo :: 
 
@@ -137,7 +140,7 @@ The resulting ISO file lifemapper-server-*.iso is the roll that can be added to 
 frontend.
 
 Debugging a roll
------------------
+----------------
 
 When need to update only a few packages that have changed one can rebuild only the RPMs
 for changed packages and use the rest of the RPMS from the previous build. 
@@ -180,7 +183,7 @@ Then restart pgbouncer and apache so they can connect to the database: ::
 Start using the roll, see `Using Lifemapper`_ 
 
 Recreate roll ISO
--------------------
+-----------------
 
 When updating only a few packages in the roll, there is no need to re-create 
 all packages anew. After re-making updated RPMs  from the top level of roll source tree ::   
@@ -189,14 +192,14 @@ all packages anew. After re-making updated RPMs  from the top level of roll sour
 
 The new rpms will be inlcuded in the new ISO. 
 
-Adding a roll 
---------------
+Adding a roll
+-------------
 The roll (ISO file) can be added (1) during the initial installation of the cluster (frontend)
 or (2) to the existing frontend.
 
 
 Adding a roll to a new server
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 #. Add roll ISO to your existing frontend that is configured to be 
    a central server. This procesdure is documented in the section ``Frontend 
@@ -209,14 +212,13 @@ Adding a roll to a new server
 
 
 Adding a roll to a live frontend
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 A roll can be added to the existing frontend. 
 Make sure that the python roll is installed (can be downloaded from
 `Rocks Downloads <http://www.rocksclusters.org/wordpress/?page_id=80>`_ )
 
-Execute all commands from top level lifemapper-server/ (Nadya: on a new installation, 
-this has not been created yet) ::
+Execute first command from the location of the ISO ::
 
    # rocks add roll lifemapper-server-6.1-0.x86_64.disk1.iso   
    # rocks enable roll lifemapper-server
@@ -239,7 +241,7 @@ At this point the  server is ready to run lifemapper-specific commands for pipel
 and data seeding, see `Using Lifemapper`_ 
 
 Where installed roll components are
-------------------------------------
+-----------------------------------
 
 #. Created user ``lmwriter``
 
@@ -302,7 +304,7 @@ Where installed roll components are
 #. **/var/www/html/roll-documentation/lifemapper-server** - roll documentation, bare  minimum as a place holder.
 
 Removing a roll
--------------------
+---------------
 
 When debugging a roll may need to remove the roll and all installled RPMs.
 Before removing the roll stop postgres and pgbouncer services ::  
@@ -322,12 +324,12 @@ These commands remove the installed roll from Rocks database and repo ::
    # (cd /export/rocks/install; rocks create distro)  
 
 Using a Roll
------------------
+------------
 
 See `Using Lifemapper`_
 
-Notes 
--------
+Notes
+-----
 
 #. **Compiling pylucene**: make rpm 
 
@@ -360,8 +362,8 @@ Notes
    which results in available memory loss. After building a roll check host memory with ``free -m`` and 
    reboot if the free memory is too low. 
  
-TODO 
------------
+TODO
+----
 
 #. test webserver 
 

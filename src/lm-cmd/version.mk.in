@@ -1,0 +1,4 @@
+NAME    = lifemapper-cmd
+VERSION = 1.0
+RELEASE = 0
+RPM.ARCH = noarch

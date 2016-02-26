@@ -2,12 +2,17 @@
 .. hightlight:: rest
 
 Using Lifemapper Server roll
-=============================
+============================
 .. contents::  
 
 After the roll is installed, the initial database schema, and user 
 authentication are set up and postgres and pgbouncer are configured.  
    
+#. **Replace the file LmDbServer/dbsetup/createMALExtras.sql** ::
+
+    $ wget https://raw.githubusercontent.com/lifemapper/core/master/LmDbServer/dbsetup/createMALExtras.sql
+    $ mv createMALExtras.sql /opt/lifemapper/LmDbServer/dbsetup/
+
 #. **Populate the database**.
 
    This command must be executed as user ``root`` ::  
@@ -35,11 +40,17 @@ authentication are set up and postgres and pgbouncer are configured.
      
 #. **Create a layers package** ::
    
-   As ``lmwriter``, create a package to pre-populate a LmCompute instance with the layers that
-   will be used for jobs for this server.  You will need the SCENARIO_PACKAGE name
-   (i.e. 30sec-present-future-SEA) and the scenario ids (i.e. 1 through 5): ::
+   First connect to postgres and find the 
+   As ``lmwriter``, create a package to pre-populate a LmCompute instance with 
+   the layers that will be used for jobs for this server.  You will need the 
+   SCENARIO_PACKAGE variable (i.e. 30sec-present-future-SEA) and the scenario 
+   ids (i.e. 1 through 5).  For small pragma tests, using only openModeller  
+   algorithms, add the option --fileTypes=t to include only TIFFs (reducing the 
+   size of input data).  If you want to include ASCII files (needed for 
+   ATT Maxent algorithm), leave the --filetypes option out - the default will
+   include both ASCII and TIFF.::
    
-   % $PYTHON LmDbServer/tools/createScenarioPackage.py 30sec-present-future-SEA 1 2 3 4 5
+   % $PYTHON /opt/lifemapper/LmDbServer/tools/createScenarioPackage.py --fileTypes=t 30sec-present-future-SEA 1 2 3 4 5
      
 #. **Register LmCompute instance(s)**  as root  
 
@@ -48,15 +59,10 @@ authentication are set up and postgres and pgbouncer are configured.
      [LmServer - registeredcompute]
      COMPUTE_NAME: <required>
      COMPUTE_IP:  <required>
-     COMPUTE_IP_MASK:
+     COMPUTE_IP_MASK:  <required **if compute nodes communicating over private network**>
      COMPUTE_CONTACT_USERID:  <required>
      COMPUTE_CONTACT_EMAIL:  <required **if new user**>
-     COMPUTE_CONTACT_FIRSTNAME:
-     COMPUTE_CONTACT_LASTNAME:
-     COMPUTE_INSTITUTION:
-     COMPUTE_ADDR1:
-     COMPUTE_ADDR2: 
-     COMPUTE_ADDR3: 
+
 
    The new record requires COMPUTE_NAME, COMPUTE_IP, and COMPUTE_CONTACT_USERID.  
    If the COMPUTE_CONTACT_USERID does not already exist in the database, 
@@ -70,7 +76,7 @@ authentication are set up and postgres and pgbouncer are configured.
 
    As user ``lmwriter``, run the script to install LmCompute instance configured for this LmServer  ::  
 
-     # $PYTHON /opt/lifemapper/LmDbServer/tools/registerCompute.py 
+     $ $PYTHON /opt/lifemapper/LmDbServer/tools/registerCompute.py 
 
 
 #. **Test the LmWebServer setup** 
@@ -81,10 +87,10 @@ authentication are set up and postgres and pgbouncer are configured.
      
    Successful example output is shown under each command   ::  
 
-     % python2.7 /opt/lifemapper/LmWebServer/scripts/createTestUser.py  > /tmp/createTestUser.log 2>&1
+     $ $PYTHON /opt/lifemapper/LmWebServer/tests/scripts/createTestUser.py  > /tmp/createTestUser.log 2>&1
        Successfully created user
        
-     % python2.7 /opt/lifemapper/LmWebServer/scripts/checkJobServer.py > /tmp/checkJobServer.log 2>&1
+     $ $PYTHON /opt/lifemapper/LmWebServer/tests/scripts/checkJobServer.py > /tmp/checkJobServer.log 2>&1
      
        27 Sep 2015 13:57 MainThread.log.debug line 80 DEBUG    {'epsgcode': '4326', 'displayname': 'Test Chain57292.8734326', 'name': 'Test points57292.8734326', 'pointstype': 'shapefile'}
        27 Sep 2015 13:57 MainThread.log.debug line 80 DEBUG    Test Chain57292.8734326
@@ -101,8 +107,7 @@ authentication are set up and postgres and pgbouncer are configured.
    so errors for this format may be ignored.  We will add configuration to identify 
    installed formats.  ::  
 
-     % python2.7 /opt/lifemapper/LmWebServer/scripts/checkLmWeb.py  > /tmp/checkLmWeb.log 2>&1
-       python2.7 /opt/lifemapper/LmWebServer/scripts/checkLmWeb.py
+     $ $PYTHON /opt/lifemapper/LmWebServer/tests/scripts/checkLmWeb.py  > /tmp/checkLmWeb.log 2>&1
        27 Sep 2015 14:38 MainThread.log.debug line 80 DEBUG    Url: http://lm.public
        27 Sep 2015 14:38 MainThread.log.debug line 80 DEBUG    Url: http://lm.public/services/
        27 Sep 2015 14:38 MainThread.log.debug line 80 DEBUG    Url: http://lm.public/services/sdm/
@@ -125,16 +130,16 @@ authentication are set up and postgres and pgbouncer are configured.
 
    To start the pipeline as user ``lmwriter`` do ::  
 
-     % python2.7 /opt/lifemapper/LmDbServer/pipeline/localpipeline.py
+     $ $PYTHON /opt/lifemapper/LmDbServer/pipeline/localpipeline.py
 
    To Stop the pipeline (replace ``pragma`` with the datasource name configured for this instance, i.e. ``bison``, ``idigbio``) ::    
 
-     % touch /opt/lifemapper/pipeline.pragma.die
+     $ touch /opt/lifemapper/log/pipeline.pragma.die
      
      
 #. **Run checks of LmWeb**
 
    After the pipeline has run for awhile, and there are some completed jobs, run check as user ``lmwriter``: ::
  
-     % python2.7 /opt/lifemapper/LmWebServer/scripts/checkLmWeb.py
+     $ $PYTHON /opt/lifemapper/LmWebServer/tests/scripts/checkLmWeb.py
 

@@ -24,6 +24,7 @@
 	<package>opt-lifemapper-rdflib</package>
 	<package>opt-lifemapper-isodate</package>
 	<package>opt-lifemapper-processing</package>
+	<package>lifemapper-solr</package>
 
 <post>
 # check for attribute before setting
@@ -41,11 +42,26 @@ fi
 
 /opt/lifemapper/rocks/bin/initWebserver
 
+# add solr user
+/usr/sbin/useradd -c "Solr user" solr
+
+# create solr dirs
+/bin/mkdir -p /state/partition1/lmserver/data/solr
+/bin/chgrp -R solr:solr /state/partition1/lmserver/data/solr
+/bin/chmod -R g+ws /state/partition1/lmserver/data/solr
+
+# add solr index files
+/opt/lifemapper/rocks/bin/solr-index
+
 <file name="/etc/sysconfig/httpd" mode="append" expr="cat /opt/lifemapper/rocks/etc/lifemapper-sysconfig-httpd">
 
 </file>
 
 /sbin/service httpd restart
+
+chkconfig --add solr 
+chkconfig  solr on
+
 
 </post>
 

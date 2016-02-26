@@ -27,7 +27,6 @@
 	<package>readline-devel</package>
 	<package>pakchois</package>
 	<package>neon</package>
-	<package>subversion</package>
 	<package>hdf4</package>
 	<package>hdf4-devel</package>
 	<package>hdf5</package>
@@ -48,7 +47,7 @@
 	<package>opt-lifemapper-faulthandler</package>
 
 	<!-- lifemapper distro -->
-	<package>lifemapper-server</package>
+	<package>lifemapper-lmserver</package>
 	<package>rocks-lifemapper</package>
 	<package>roll-lifemapper-server-usersguide</package>
 

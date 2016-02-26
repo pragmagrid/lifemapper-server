@@ -14,4 +14,6 @@ export PROJ_LIB=@PKGROOT@/share/proj
 
 export PGHOST=/var/run/postgresql
 
-export LIFEMAPPER_CONFIG_FILE=@LMHOME@/config/config.ini
+export JAVA_TOOL_OPTIONS=-Xmx512m
+
+export LIFEMAPPER_SERVER_CONFIG_FILE=@LMHOME@/config/config.lmserver.ini
