@@ -87,7 +87,7 @@ Define () {
 ### populate lifemapper DB
 Populate () {
     if [ -f $POPULATEPY ] ; then
-        echo "Running $POPULATEPY ..." | tee -a $LOG
+        echo "Running '$POPULATEPY all'..." | tee -a $LOG
         /opt/python/bin/@PYTHONVER@ $POPULATEPY all 2>&1 | tee -a $LOG
     else
         echo "Error: Missing file $POPULATEPY" | tee -a $LOG

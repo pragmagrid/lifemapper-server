@@ -116,7 +116,7 @@ and RPMS that are prerequisites for other packages during the roll build stage: 
 
    # ./bootstrap.sh  
 
-When the scirpt finishes, it prints the next step instruction to get the lifemapper source ::  
+When the script finishes, it prints the next step instruction to get the lifemapper source ::  
 
    # cd src/lmserver/
    # make prep
@@ -174,9 +174,11 @@ Normally, these commands are run by the roll install process.
 The ``pgbouncer`` service must be restarted after a new connect.py file is created
 
 Next run any database updates with: ::
+
    # /opt/lifemapper/rocks/bin/updateDB
 
 Then restart pgbouncer and apache so they can connect to the database: ::
+
    # /etc/init.d/pgbouncer restart
    # /etc/init.d/httpd restart
 
