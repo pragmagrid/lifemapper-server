@@ -58,10 +58,10 @@ authentication are set up and postgres and pgbouncer are configured.
 
      [LmServer - registeredcompute]
      COMPUTE_NAME: <required>
-     COMPUTE_IP:  <required>
-     COMPUTE_IP_MASK:  <required **if compute nodes communicating over private network**>
+     COMPUTE_IP:  <required  **private IP if compute nodes from this cluster**>
+     COMPUTE_IP_MASK:  <required **CIDR if compute nodes from this cluster**>
      COMPUTE_CONTACT_USERID:  <required>
-     COMPUTE_CONTACT_EMAIL:  <required **if new user**>
+     COMPUTE_CONTACT_EMAIL:  <required **only if new user**>
 
 
    The new record requires COMPUTE_NAME, COMPUTE_IP, and COMPUTE_CONTACT_USERID.  
@@ -69,19 +69,29 @@ authentication are set up and postgres and pgbouncer are configured.
    COMPUTE_CONTACT_EMAIL is also required.
    
    **IMPORTANT:** When running LmServer and LmCompute on the same cluster, 
-   nodes (in LmCompute functions) will contact the (LmServer functions on the) 
+   nodes (in LmCompute functions) will contact the  
    frontend through the private network.  In this case, make sure to put the 
-   private network in the COMPUTE_IP, and a CIDR in the COMPUTE_MASK.  TODO: 
-   Rename those variables!
+   private network in the COMPUTE_IP, and a CIDR in the COMPUTE_MASK.  
+   **TODO: Rename those variables! **
 
-   As user ``lmwriter``, run the script to install LmCompute instance configured for this LmServer  ::  
+   As user ``root``, run the script to install LmCompute instance configured for this LmServer  ::  
 
      $ $PYTHON /opt/lifemapper/LmDbServer/tools/registerCompute.py 
 
-
 #. **Test the LmWebServer setup** 
-  
-   All the commands below must be executed as user ``lmwriter``. To become ``lmwriter`` do: ::
+
+   Begin by checking the webservices.  Open a web browser to the FQDN or IP of 
+   the server, then append '/services' to the address.  If the webserver returns
+   an error message, look at the following to determine the cause
+   
+   #. Make sure web access is enabled (instructions at 
+      http://yeti.lifemapper.org/roll-documentation/base/6.2/enable-www.html)
+   #. /var/log/httpd/lifemapper_error
+   #. /var/log/messages
+   #. /opt/lifemapper/log/cherrypyErrors.log
+   #. /opt/lifemapper/log/web.log
+    
+   The following commands must be executed as user ``lmwriter``. To become ``lmwriter`` do: ::
 
      # su - lmwriter
      
