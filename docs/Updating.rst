@@ -71,11 +71,11 @@ Update data
      
 Add a new computation server
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.. _Updating : docs/Updating.rst#id4
+.. _Using : docs/Using.rst
 
 #. **Register LmCompute instance(s)**  as root  
 
-   Instructions at `Updating`_
+   Instructions at **Add a new LmCompute** at `Using`_
 
 Add/change Archive User
 ~~~~~~~~~~~~~~~~~~~~~~~
