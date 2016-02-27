@@ -1,8 +1,8 @@
 
 .. hightlight:: rest
 
-Updating an existing Lifemapper Server installation without losing data
-=======================================================================
+Updating an existing Lifemapper Server installation
+===================================================
 .. contents::  
 
 Introduction
@@ -71,10 +71,11 @@ Update data
      
 Add a new computation server
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. _Updating : docs/Updating.rst#id4
 
 #. **Register LmCompute instance(s)**  as root  
 
-   Instructions at [Using](docs/Using.rst#id4)  
+   Instructions at `Updating`_
 
 Add/change Archive User
 ~~~~~~~~~~~~~~~~~~~~~~~
