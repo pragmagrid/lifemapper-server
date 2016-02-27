@@ -28,23 +28,38 @@ Update code and scripts
      
 #. **Install changed RPMs **  as user root
 
-Install RPMs with: ::   
+Install the resulting RPM with: ::   
 
-   # rpm -el lifemapper-server
-   # rpm -i path-to-new-lifemapper-server.rpm
-   # rpm -el rocks-lifemapper
-   # rpm -i  path-to-new-rocks-lifemapper.rpm
+   # rpm -el lifemapper-lmserver
+   # rpm -i  path-to-new-lifemapper-lmserver.rpm
+   
+If you are installing the lifemapper-lmserver rpm (Lifemapper source code), 
+update your configuration with:::
+
    # /opt/lifemapper/rocks/bin/updateLM
 
-   If the source code rpm is on a machine with both LmServer and LmCompute rolls,
-   add the option --force to force overwriting shared code.
-   
-   The ``updateLM`` script 
-    * runs confDbconnect to rewrite the python db connection file for LM code
-    * runs updateIP to fill in newly installed config.lmserver.ini file with IP address
-    * runs updateDB to make required database changes to tables, views, or functions  
+The ``updateLM`` command runs three processes:
 
-   The script output is in /tmp/updateLM.log. 
+- Rewrites  the /opt/lifemapper/LmServer/db/connect.py file in the LM source 
+  tree (used to connect to a db) with the /opt/lifemapper/rocks/bin/confDbconnect
+  script.  
+
+- Runs database scripts to create views, types, functions, and modify tables, 
+  constraints, or indexes with the script LmDbServer/dbsetup/runUpdateDBScripts.sql.
+   
+  - If views, types, functions have not changed, this script will not only drop 
+    and recreate them.  If tables, constraints, or indexes have not changed, the 
+    LmDbServer/dbsetup/updateDatabases.sql file should be empty.
+   
+- Fills in the ``@*_FQDN@`` variables in the LmServer/config/config.lmserver.ini.in
+  file with fully qualified domain name or IP address, and moves it to 
+  config/config.lmserver.ini with the /opt/lifemapper/rocks/bin/updateIP script. 
+
+- Restarts postgresql, pgbouncer, and apache services.  The ``pgbouncer`` 
+  service must be restarted after a new connect.py file is created.  Apache 
+  must be restarted to pick up any code changes.
+
+The script output is in /tmp/updateLM.log. 
      
 Update data
 -----------

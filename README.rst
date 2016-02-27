@@ -154,30 +154,13 @@ For example, only  rebuilding lmserver RPM will involve: ::
 
 Install the resulting RPM with: ::   
 
-   # rpm -el lifemapper-server
-   # rpm -i  path-to-new-lifemapper-server.rpm
-   # /opt/lifemapper/rocks/bin/updateLM
-
-The ``updateLM`` command runs three processes:
-
-- Rewrites  the /opt/lifemapper/LmServer/db/connect.py file in the LM source 
-  tree (used to connect to a db) with the /opt/lifemapper/rocks/bin/confDbconnect
-  script.  
-
-- Runs database scripts to create views, types, functions, and modify tables, 
-  constraints, or indexes with the script LmDbServer/dbsetup/runUpdateDBScripts.sql.
+   # rpm -el <rpm-name>
+   # rpm -i  <path-to-new-rpm-name>.rpm
    
-  - If views, types, functions have not changed, this script will not only drop 
-    and recreate them.  If tables, constraints, or indexes have not changed, the 
-    LmDbServer/dbsetup/updateDatabases.sql file should be empty.
-   
-- Fills in the ``@*_FQDN@`` variables in the LmServer/config/config.lmserver.ini.in
-  file with fully qualified domain name or IP address, and moves it to 
-  config/config.lmserver.ini with the /opt/lifemapper/rocks/bin/updateIP script. 
-
-- Restarts postgresql, pgbouncer, and apache services.  The ``pgbouncer`` 
-  service must be restarted after a new connect.py file is created.  Apache 
-  must be restarted to pick up any code changes.
+If you are installing the lifemapper-lmserver rpm (Lifemapper source code), 
+follow instructions at   
+https://github.com/pragmagrid/lifemapper-server/blob/kutest/docs/Updating.rst#update-code-and-scripts
+to update the configuration, database, and restart services.   
 
 Start using the roll, see `Using Lifemapper`_ 
 
