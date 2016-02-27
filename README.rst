@@ -158,8 +158,7 @@ Install the resulting RPM with: ::
    # rpm -i  <path-to-new-rpm-name>.rpm
    
 If you are installing the lifemapper-lmserver rpm (Lifemapper source code), 
-follow instructions at   
-https://github.com/pragmagrid/lifemapper-server/blob/kutest/docs/Updating.rst#update-code-and-scripts
+follow instructions at docs/Updating.rst#update-code-and-scripts
 to update the configuration, database, and restart services.   
 
 Start using the roll, see `Using Lifemapper`_ 

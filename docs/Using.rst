@@ -8,37 +8,31 @@ Using Lifemapper Server roll
 After the roll is installed, the initial database schema, and user 
 authentication are set up and postgres and pgbouncer are configured.  
    
-#. **Replace the file LmDbServer/dbsetup/createMALExtras.sql** ::
+Populate the database
+~~~~~~~~~~~~~~~~~~~~~
 
-    $ wget https://raw.githubusercontent.com/lifemapper/core/master/LmDbServer/dbsetup/createMALExtras.sql
-    $ mv createMALExtras.sql /opt/lifemapper/LmDbServer/dbsetup/
-
-#. **Populate the database**.
-
-   This command must be executed as user ``root`` ::  
+#. Initialize the database **as user root** ::  
 
      # /opt/lifemapper/rocks/bin/initDB > /tmp/initDB.log 2>&1
 
-   The script output is in ``/tmp/initDB.log``. Examine the script output: ::
+  - The script output is in ``/tmp/initDB.log``. Examine the script output: ::
    
-   If (and only if) the DATASOURCE is GBIF, the script takes ~50 min to complete 
+  - If (and only if) the DATASOURCE is GBIF, the script takes ~50 min to complete 
    on a host with 4Gb memory. The last command should give output similar to: ::
-     ...
+    
      Static Stenus flavidulus
      Inserted 778716; updated 22
      # End Tue Sep 30 20:18:42 PDT 2014
-     
-   with the number of inserted record as stated above.
-
-#. **Check the available memory** ::
+  
+  - Check the available memory** ::
 
      # free -m
      
-   If the output indicates 200-300 Mb, reboot the VM: ::
+  - If the output indicates 200-300 Mb, reboot the VM: ::
      
      # reboot
      
-#. **Create a layers package** ::
+#. **Deprecated: Create a layers package** ::
    
    First connect to postgres and find the 
    As ``lmwriter``, create a package to pre-populate a LmCompute instance with 
@@ -51,6 +45,9 @@ authentication are set up and postgres and pgbouncer are configured.
    include both ASCII and TIFF.::
    
    % $PYTHON /opt/lifemapper/LmDbServer/tools/createScenarioPackage.py --fileTypes=t 30sec-present-future-SEA 1 2 3 4 5
+     
+Add a new LmCompute
+~~~~~~~~~~~~~~~~~~~
      
 #. **Register LmCompute instance(s)**  as root  
 
@@ -78,9 +75,10 @@ authentication are set up and postgres and pgbouncer are configured.
 
      $ $PYTHON /opt/lifemapper/LmDbServer/tools/registerCompute.py 
 
-#. **Test the LmWebServer setup** 
+Test the LmWebServer setup
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-   Begin by checking the webservices.  Open a web browser to the FQDN or IP of 
+#. Begin by checking the webservices.  Open a web browser to the FQDN or IP of 
    the server, then append '/services' to the address.  If the webserver returns
    an error message, look at the following to determine the cause
    
@@ -91,15 +89,17 @@ authentication are set up and postgres and pgbouncer are configured.
    #. /opt/lifemapper/log/cherrypyErrors.log
    #. /opt/lifemapper/log/web.log
     
-   The following commands must be executed as user ``lmwriter``. To become ``lmwriter`` do: ::
+#. The following commands must be executed as user ``lmwriter``. To become ``lmwriter`` do: ::
 
      # su - lmwriter
      
-   Successful example output is shown under each command   ::  
+#. Create a test user: ::  
 
      $ $PYTHON /opt/lifemapper/LmWebServer/tests/scripts/createTestUser.py  > /tmp/createTestUser.log 2>&1
        Successfully created user
        
+#. Check job server: ::  
+
      $ $PYTHON /opt/lifemapper/LmWebServer/tests/scripts/checkJobServer.py > /tmp/checkJobServer.log 2>&1
      
        27 Sep 2015 13:57 MainThread.log.debug line 80 DEBUG    {'epsgcode': '4326', 'displayname': 'Test Chain57292.8734326', 'name': 'Test points57292.8734326', 'pointstype': 'shapefile'}
@@ -113,9 +113,9 @@ authentication are set up and postgres and pgbouncer are configured.
        Model job id: 149
        Projection job id: 150
      
-   This test shows the result of URLs on the local server.  EML is not configured, 
-   so errors for this format may be ignored.  We will add configuration to identify 
-   installed formats.  ::  
+#. Check local URLs.  This test shows the result of URLs on the local server.  
+   EML is not configured, so errors for this format may be ignored.  We will add 
+   configuration to identify installed formats.  ::  
 
      $ $PYTHON /opt/lifemapper/LmWebServer/tests/scripts/checkLmWeb.py  > /tmp/checkLmWeb.log 2>&1
        27 Sep 2015 14:38 MainThread.log.debug line 80 DEBUG    Url: http://lm.public
@@ -135,21 +135,20 @@ authentication are set up and postgres and pgbouncer are configured.
        27 Sep 2015 14:38 MainThread.log.debug line 80 DEBUG    Url: http://lm.public/services/sdm/layers/94/atom
        ...
 
+Run the pipeline
+~~~~~~~~~~~~~~~~
 
-#. **Run the pipeline**  
-
-   To start the pipeline as user ``lmwriter`` do ::  
+#. To start the pipeline as user ``lmwriter`` do ::  
 
      $ $PYTHON /opt/lifemapper/LmDbServer/pipeline/localpipeline.py
 
-   To Stop the pipeline (replace ``pragma`` with the datasource name configured for this instance, i.e. ``bison``, ``idigbio``) ::    
+#. To stop the pipeline: ::    
 
-     $ touch /opt/lifemapper/log/pipeline.pragma.die
+     $ touch /opt/lifemapper/log/pipeline.<DATASOURCE>.die
      
-     
-#. **Run checks of LmWeb**
-
-   After the pipeline has run for awhile, and there are some completed jobs, run check as user ``lmwriter``: ::
+#. Check URLs on completed jobs.  After the pipeline has run for awhile, 
+   **and LmCompute has pulled, computed, and returned some jobs**, as 
+   user ``lmwriter``, check URLs again: ::
  
      $ $PYTHON /opt/lifemapper/LmWebServer/tests/scripts/checkLmWeb.py
 

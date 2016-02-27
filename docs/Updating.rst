@@ -21,45 +21,43 @@ Update code and scripts
 
      % touch /opt/lifemapper/log/pipeline.pragma.die
      
-#. **Copy new Lifemapper RPMs to server**.
+#. **Copy new Lifemapper RPMs to server**.::
 
      # lifemapper-server-xxxxx.x86_64.rpm 
      # rocks-lifemapper-6.2-0.x86_64.rpm
      
-#. **Install changed RPMs **  as user root
-
-Install the resulting RPM with: ::   
+#. **Install the RPMs** as user root: ::   
 
    # rpm -el lifemapper-lmserver
    # rpm -i  path-to-new-lifemapper-lmserver.rpm
    
-If you are installing the lifemapper-lmserver rpm (Lifemapper source code), 
-update your configuration with:::
+#. **Update your configuration** (only if you are installing the 
+   lifemapper-lmserver (Lifemapper source code) rpm), with:::
 
    # /opt/lifemapper/rocks/bin/updateLM
 
-The ``updateLM`` command runs three processes:
+#. Script output is in /tmp/updateLM.log
 
-- Rewrites  the /opt/lifemapper/LmServer/db/connect.py file in the LM source 
-  tree (used to connect to a db) with the /opt/lifemapper/rocks/bin/confDbconnect
-  script.  
+   The ``updateLM`` command runs three processes:
 
-- Runs database scripts to create views, types, functions, and modify tables, 
-  constraints, or indexes with the script LmDbServer/dbsetup/runUpdateDBScripts.sql.
+   - Rewrites  the /opt/lifemapper/LmServer/db/connect.py file in the LM source 
+     tree (used to connect to a db) with the /opt/lifemapper/rocks/bin/confDbconnect
+     script.  
+
+   - Runs database scripts to create views, types, functions, and modify tables, 
+     constraints, or indexes with the script LmDbServer/dbsetup/runUpdateDBScripts.sql.
    
-  - If views, types, functions have not changed, this script will not only drop 
-    and recreate them.  If tables, constraints, or indexes have not changed, the 
-    LmDbServer/dbsetup/updateDatabases.sql file should be empty.
+     - If views, types, functions have not changed, this script will not only drop 
+       and recreate them.  If tables, constraints, or indexes have not changed, the 
+       LmDbServer/dbsetup/updateDatabases.sql file should be empty.
    
-- Fills in the ``@*_FQDN@`` variables in the LmServer/config/config.lmserver.ini.in
-  file with fully qualified domain name or IP address, and moves it to 
-  config/config.lmserver.ini with the /opt/lifemapper/rocks/bin/updateIP script. 
+   - Fills in the ``@*_FQDN@`` variables in the LmServer/config/config.lmserver.ini.in
+     file with fully qualified domain name or IP address, and moves it to 
+     config/config.lmserver.ini with the /opt/lifemapper/rocks/bin/updateIP script. 
 
-- Restarts postgresql, pgbouncer, and apache services.  The ``pgbouncer`` 
-  service must be restarted after a new connect.py file is created.  Apache 
-  must be restarted to pick up any code changes.
-
-The script output is in /tmp/updateLM.log. 
+   - Restarts postgresql, pgbouncer, and apache services.  The ``pgbouncer`` 
+     service must be restarted after a new connect.py file is created.  Apache 
+     must be restarted to pick up any code changes.
      
 Update data
 -----------
@@ -76,27 +74,7 @@ Add a new computation server
 
 #. **Register LmCompute instance(s)**  as root  
 
-   As user root, add the section ``[LmServer - registeredcompute]`` in 
-   ``config/site.ini`` to include :: 
-
-     [LmServer - registeredcompute]
-     COMPUTE_NAME: <required>
-     COMPUTE_IP:  <required>
-     COMPUTE_IP_MASK:
-     COMPUTE_CONTACT_USERID:  <required>
-     COMPUTE_CONTACT_EMAIL:  <required **only if new user**>
- 
-   get/copy keys from config.lmserver.ini). The new record requires COMPUTE_NAME, 
-   COMPUTE_IP, and COMPUTE_CONTACT_USERID.  If the COMPUTE_CONTACT_USERID does 
-   not already exist in the database, COMPUTE_CONTACT_EMAIL is also required.
-   
-   If LmServer will be communicating with LmCompute instance installed on the 
-   same cluster, use the private IP address and CIDR to allow all compute nodes
-   access to jobs.  
-
-   Run the script to install LmCompute instance configured for this LmServer  ::  
-
-     # $PYTHON /opt/lifemapper/LmDbServer/tools/registerCompute.py 
+   Instructions at https://github.com/pragmagrid/lifemapper-server/blob/kutest/docs/Using.rst#add-a-new-lmcompute 
 
 Add/change Archive User
 ~~~~~~~~~~~~~~~~~~~~~~~
