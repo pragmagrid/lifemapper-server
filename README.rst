@@ -157,9 +157,10 @@ Install the resulting RPM with: ::
    # rpm -el <rpm-name>
    # rpm -i  <path-to-new-rpm-name>.rpm
    
+.. _Updating : docs/Updating.rst#id2
+
 If you are installing the lifemapper-lmserver rpm (Lifemapper source code), 
-follow instructions at [Updating](docs/Updating.rst#id2)
-to update the configuration, database, and restart services.   
+see `Updating`_  to update the configuration, database, and restart services.   
 
 Start using the roll, see `Using Lifemapper`_ 
 
