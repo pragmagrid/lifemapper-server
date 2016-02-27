@@ -74,7 +74,7 @@ Add a new computation server
 
 #. **Register LmCompute instance(s)**  as root  
 
-   Instructions at docs/Using.rst#add-a-new-lmcompute 
+   Instructions at [Using](docs/Using.rst#id4)  
 
 Add/change Archive User
 ~~~~~~~~~~~~~~~~~~~~~~~
