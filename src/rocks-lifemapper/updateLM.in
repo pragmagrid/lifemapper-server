@@ -76,6 +76,10 @@ start_services() {
     fi
     echo "export PGHOST=/var/run/postgresql" >> $PROFILE
 
+    # restart apache 
+    echo "-- restart apache" >> $LOG
+    /sbin/service httpd restart >> $LOG
+
     # restart postgres 
     echo "-- restart postgres" >> $LOG
     /sbin/service $PG restart >> $LOG
