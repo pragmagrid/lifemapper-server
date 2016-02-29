@@ -35,10 +35,10 @@ during the roll build.
 
 #. Source distributions: 
    
-   :binaries: ant gdal proj geos libevent libspatialindex tiff mod_wsgi
+   :binaries: gdal proj geos libevent libspatialindex tiff mod_wsgi
    :python modules:         CherryPy, Cython,  egenix-mxDateTime (part of egenix-mx-base),   
                                 faulthandler, mysql-python,  numexpr,   
-                                rtree, psycopg2,  pylucene, pytables, setuptools, rdflib, isodate, processing
+                                rtree, psycopg2, pytables, setuptools, rdflib, isodate, processing
     
 Downloads
 ~~~~~~~~~
@@ -62,9 +62,7 @@ The packages are a part of the roll source (or downloaded by bootstrap.sh).
     wget http://www.cython.org/release/Cython-0.20.tar.gz  
     wget http://sourceforge.net/projects/pytables/files/pytables/3.1.0/tables-3.1.0rc2.tar.gz  
     wget http://download.osgeo.org/libspatialindex/spatialindex-src-1.8.1.tar.gz  
-    wget http://www.poolsaboveground.com/apache/lucene/pylucene/pylucene-4.5.1-1-src.tar.gz  
     wget http://download.cherrypy.org/cherrypy/3.1.2/CherryPy-3.1.2.tar.gz  
-    wget http://mirror.metrocast.net/apache//ant/source/apache-ant-1.9.3-src.tar.gz  
     wget http://dist.modpython.org/dist/mod_python-3.5.0.tgz  
     wget https://rdflib.googlecode.com/files/rdflib-3.2.0.tar.gz
     wget --no-check-certificate https://pypi.python.org/packages/source/n/numexpr/numexpr-2.3.tar.gz  
@@ -91,7 +89,6 @@ by the bootstrap.sh
 :**pytables**:    cython and numexpr python packages; hdf5 and hdf5-devel RPMS   
 :**rtree**:       spatialindex, setuptools
 :**mapserver**:   elgis repo, bitstream-vera-*fonts* RPMs, geos
-:**pylucene**:    setuptools, ant, jcc
 :**postgis2_91**: geos  
 :**psycopg2**:    gdal, postgresql91  
 
@@ -280,7 +277,7 @@ Where installed roll components are
    + /share/lmserver/data/ - climate/, ESRIDATA/, image/, archive/, species/.
    + /share/lmserver/log/ - pipeline logs 
 
-#. **/var/lib/lm2/** -  pylucene  index and sessions
+#. **/var/lib/lm2/** -  cherrypy sessions
 
 #. **/var/www/tmp/** - for mapserver temp files
 
@@ -314,7 +311,7 @@ See `Using Lifemapper`_
 Notes
 -----
 
-#. **Compiling pylucene**: make rpm 
+#. **Compiling pylucene**: make rpm (deprecated)
 
    #. On 2Gb memory host: is barely succeeding or failing intermittently. 
       Need to shut down  any extra daemons (like postgres and pgbouncer) and limit the java heap size. 
@@ -348,15 +345,9 @@ Notes
 TODO
 ----
 
-#. test webserver 
-
 #. tests attributes for separation of dbserver and webserver
 
-#. install mapscript
-
 #. add configuration for available interfaces (EML, maps)
-
-#. configure/start lucene service 
 
 #. add note about compiling gdal when postgres/giflib RPms are present
 
@@ -366,6 +357,3 @@ TODO
 
 
 .. _Using Lifemapper: docs/Using.rst
-
-Testing update JUl 26 2015
-testing update july 27 2015

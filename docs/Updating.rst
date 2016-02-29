@@ -121,7 +121,7 @@ Add/change climate data
 
 Add/change species data
 ~~~~~~~~~~~~~~~~~~~~~~~
-#. ** Download, catalog new species data **  as ``root`` 
+#. **Download, catalog new species data**  as ``root`` 
 
    As user root, add or edit the sections ``[LmServer - environment]`` and ``[LmServer - pipeline]`` 
    in ``config/site.ini`` to include :: 
@@ -142,9 +142,9 @@ Add/change species data
 
 Add all data (unfinished)
 ~~~~~~~~~~~~~~~~~~~~~~~~~
-#. ** Download, catalog new user, scenario, species, taxonomy **  as ``root`` 
+#. **Download, catalog new user, scenario, species, taxonomy**  as ``root`` 
    **TODO: This is not yet working** it will do all above steps 
-   Download the data specified in site.ini variables and add metadata using 
+   Download the data specified in site.ini variables and add metadata using:: 
    
      # /opt/lifemapper/LmDbServer/tools/addInputData
 
@@ -236,7 +236,7 @@ Test
      % touch /opt/lifemapper/pipeline.pragma.die
      
      
-#. After the pipeline has run for awhile, and there are some completed jobs, test this:
+#. After the pipeline has run for awhile, and there are some completed jobs, test this::
  
      % python2.7 /opt/lifemapper/LmWebServer/scripts/checkLmWeb.py)
 

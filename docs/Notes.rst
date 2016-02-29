@@ -2,7 +2,7 @@
 .. contents:: 
 
 Repo creation
-==============
+=============
 
 This repo was based on the previous lifemapper repo.  Many prerequisites 
 for lifemapper-server repo are the same as for lifemapper. 
@@ -15,10 +15,10 @@ Use the following script to create new lifemapper-server repo ::
 
     # directories from lifemapper repo to import into new lifemapper-server repo
     DIRS="
-    ant cheetah cherrypy cython egenix
+    cheetah cherrypy cython egenix
     faulthandler gdal geos lmdata lmserver
     mod-python mysql-python numexpr proj psycopg2
-    pylucene pytables rocks-lifemapper rtree setuptools
+    pytables rocks-lifemapper rtree setuptools
     spatialindex tiff usersguide
     "
     # directory for creating patches

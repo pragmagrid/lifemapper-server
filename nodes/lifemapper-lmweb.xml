@@ -18,9 +18,7 @@
 	</changelog>
 
 	<package>lifemapper-mod_wsgi</package>
-	<package>lifemapper-ant</package>
 	<package>opt-lifemapper-cherrypy</package>
-	<package>opt-lifemapper-pylucene</package>
 	<package>opt-lifemapper-rdflib</package>
 	<package>opt-lifemapper-isodate</package>
 	<package>opt-lifemapper-processing</package>
@@ -37,7 +35,7 @@ fi
 /bin/mkdir -p /var/www/tmp
 /bin/chown apache:apache /var/www/tmp
 
-# for writing lucene logs
+# for writing web logs
 /usr/sbin/usermod -G lmwriter apache
 
 /opt/lifemapper/rocks/bin/initWebserver

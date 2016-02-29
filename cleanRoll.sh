@@ -18,8 +18,8 @@ del-lifemapper() {
    $RM lifemapper-proj
    $RM lifemapper-mod_wsgi
    $RM lifemapper-geos
-   $RM lifemapper-ant
    $RM lifemapper-climate-data
+   $RM lifemapper-solr
    $RM lifemapper-species-data
    $RM lifemapper-libevent
    $RM hdf5-devel hdf5
@@ -29,7 +29,6 @@ del-lifemapper() {
 del-opt-python () {
    echo "Removing opt-* RPMS"
    $RM opt-lifemapper-pytables
-   $RM opt-lifemapper-pylucene
    $RM opt-lifemapper-psycopg2
    $RM opt-lifemapper-numexpr
    $RM opt-lifemapper-faulthandler

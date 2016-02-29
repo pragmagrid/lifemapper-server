@@ -64,15 +64,9 @@ rpm -i src/RPMS/bitstream-vera-fonts-common-1.10-18.el6.noarch.rpm
 rpm -i src/RPMS/bitstream-vera-sans-fonts-1.10-18.el6.noarch.rpm
 rpm -i src/RPMS/giflib-devel-4.1.6-3.1.el6.x86_64.rpm
 
-# for mysql-python, rtree, pylucene
+# for mysql-python, rtree
 compile setuptools
 install opt-lifemapper-setuptools
-
-# for PyLucene 
-compile ant
-install lifemapper-ant
-export ANT_HOME=/opt/lifemapper
-(cd src/pylucene;  make install_jcc)
 
 # for pytables 
 compile cython 
