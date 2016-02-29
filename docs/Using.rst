@@ -44,7 +44,7 @@ Populate the database
    ATT Maxent algorithm), leave the --filetypes option out - the default will
    include both ASCII and TIFF.::
    
-   % $PYTHON /opt/lifemapper/LmDbServer/tools/createScenarioPackage.py --fileTypes=t 30sec-present-future-SEA 1 2 3 4 5
+   % $PYTHON /opt/lifemapper/LmDbServer/tools/createScenarioPackage.py -f t 30sec-present-future-SEA 1 2 3 4 5
      
 Add a new LmCompute
 ~~~~~~~~~~~~~~~~~~~
