@@ -15,20 +15,20 @@ Populate the database
 
      # /opt/lifemapper/rocks/bin/initDB > /tmp/initDB.log 2>&1
 
-  #. The script output is in ``/tmp/initDB.log``. Examine the script output: ::
+   The script output is in ``/tmp/initDB.log``. Examine the script output: ::
    
-  #. If (and only if) the DATASOURCE is GBIF, the script takes ~50 min to complete 
+   If (and only if) the DATASOURCE is GBIF, the script takes ~50 min to complete 
      on a host with 4Gb memory. The last command should give output similar to: ::
     
      Static Stenus flavidulus
      Inserted 778716; updated 22
      # End Tue Sep 30 20:18:42 PDT 2014
   
-  #. Check the available memory ::
+   Check the available memory ::
 
      # free -m
      
-  #. If the output indicates 200-300 Mb, reboot the VM: ::
+   If the output indicates 200-300 Mb, reboot the VM: ::
      
      # reboot
      
@@ -44,7 +44,7 @@ Populate the database
    ATT Maxent algorithm), leave the --filetypes option out - the default will
    include both ASCII and TIFF.::
    
-   % $PYTHON /opt/lifemapper/LmDbServer/tools/createScenarioPackage.py --fileTypes=t 30sec-present-future-SEA 1 2 3 4 5
+   % $PYTHON /opt/lifemapper/LmDbServer/tools/createScenarioPackage.py -f t 30sec-present-future-SEA 1 2 3 4 5
      
 Add a new LmCompute
 ~~~~~~~~~~~~~~~~~~~
