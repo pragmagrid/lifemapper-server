@@ -79,6 +79,8 @@ The packages are a part of the roll source (or downloaded by bootstrap.sh).
     wget http://mirror.metrocast.net/apache/lucene/solr/5.3.0/solr-5.3.0.tgz
     wget http://www.vividsolutions.com/jts/bin/jts-1.8.0.zip
 
+    makeflow + work_queue
+    wget http://ccl.cse.nd.edu/software/files/cctools-5.4.2-source.tar.gz
 
 Individual package dependencies
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
