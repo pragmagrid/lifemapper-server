@@ -20,6 +20,8 @@ Update code and scripts
    To Stop the pipeline (replace 'pragma' with the datasource name configured for this instance, i.e. bison, idigbio) ::    
 
      % touch /opt/lifemapper/log/pipeline.pragma.die
+
+   **TODO:** Move to command **lm stop pipeline** 
      
 #. **Copy new Lifemapper RPMs to server**.::
 
@@ -35,6 +37,8 @@ Update code and scripts
    lifemapper-lmserver (Lifemapper source code) rpm), with:::
 
    # /opt/lifemapper/rocks/bin/updateLM
+
+   **TODO:** Move to command **lm update lmserver** 
 
 #. Script output is in /tmp/updateLM.log
 

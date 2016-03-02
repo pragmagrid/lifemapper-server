@@ -15,6 +15,8 @@ Populate the database
 
      # /opt/lifemapper/rocks/bin/initDB > /tmp/initDB.log 2>&1
 
+   **TODO:** Move to command **lm init db** 
+
    The script output is in ``/tmp/initDB.log``. Examine the script output: ::
    
    If (and only if) the DATASOURCE is GBIF, the script takes ~50 min to complete 
@@ -32,7 +34,7 @@ Populate the database
      
      # reboot
      
-#. **Deprecated: Create a layers package** ::
+#. **Soon to be deprecated** Create a layers package ::
    
    First connect to postgres and find the 
    As ``lmwriter``, create a package to pre-populate a LmCompute instance with 
@@ -40,11 +42,11 @@ Populate the database
    SCENARIO_PACKAGE variable (i.e. 30sec-present-future-SEA) and the scenario 
    ids (i.e. 1 through 5).  For small pragma tests, using only openModeller  
    algorithms, add the option --fileTypes=t to include only TIFFs (reducing the 
-   size of input data).  If you want to include ASCII files (needed for 
-   ATT Maxent algorithm), leave the --filetypes option out - the default will
+   size of input data).  If you only want TIFF files (leaving ASCII files out, needed for 
+   ATT Maxent algorithm), add the -f option with 't'.  The default will
    include both ASCII and TIFF.::
    
-   % $PYTHON /opt/lifemapper/LmDbServer/tools/createScenarioPackage.py -f t 30sec-present-future-SEA 1 2 3 4 5
+   % $PYTHON /opt/lifemapper/LmDbServer/tools/createScenarioPackage.py 30sec-present-future-SEA 1 2 3 4 5
      
 Add a new LmCompute
 ~~~~~~~~~~~~~~~~~~~
@@ -98,6 +100,8 @@ Test the LmWebServer setup
      $ $PYTHON /opt/lifemapper/LmWebServer/tests/scripts/createTestUser.py  > /tmp/createTestUser.log 2>&1
        Successfully created user
        
+   **TODO:** Move to command **lm test user** 
+       
 #. Check job server: ::  
 
      $ $PYTHON /opt/lifemapper/LmWebServer/tests/scripts/checkJobServer.py > /tmp/checkJobServer.log 2>&1
@@ -112,6 +116,10 @@ Test the LmWebServer setup
        Occurrence job id: 148
        Model job id: 149
        Projection job id: 150
+       
+   **TODO:** Move to command **lm test jobserver** (or 'lm test makeflow' when 
+   creating makeflow documents and starting makeflow processes replace the jobserver)
+   
      
 #. Check local URLs.  This test shows the result of URLs on the local server.  
    EML is not configured, so errors for this format may be ignored.  We will add 
@@ -135,16 +143,23 @@ Test the LmWebServer setup
        27 Sep 2015 14:38 MainThread.log.debug line 80 DEBUG    Url: http://lm.public/services/sdm/layers/94/atom
        ...
 
+   **TODO:** Move to command **lm test web** 
+   
 Run the pipeline
 ~~~~~~~~~~~~~~~~
 
 #. To start the pipeline as user ``lmwriter`` do ::  
 
      $ $PYTHON /opt/lifemapper/LmDbServer/pipeline/localpipeline.py
+     
+   **TODO:** Move to command **lm start pipeline** 
+
 
 #. To stop the pipeline: ::    
 
      $ touch /opt/lifemapper/log/pipeline.<DATASOURCE>.die
+
+   **TODO:** Move to command **lm stop pipeline** 
      
 #. Check URLs on completed jobs.  After the pipeline has run for awhile, 
    **and LmCompute has pulled, computed, and returned some jobs**, as 
