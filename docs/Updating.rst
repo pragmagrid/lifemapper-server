@@ -23,22 +23,21 @@ Update code and scripts
 
    **TODO:** Move to command **lm stop pipeline** 
      
-#. **Copy new Lifemapper RPMs to server**.::
-
-     # lifemapper-server-xxxxx.x86_64.rpm 
-     # rocks-lifemapper-6.2-0.x86_64.rpm
+#. **Copy new Lifemapper RPMs to server**, for example 
+   lifemapper-server-xxxxx.x86_64.rpm and rocks-lifemapper-6.2-0.x86_64.rpm
      
-#. **Install the RPMs** as user root: ::   
+#. **Install the RPMs** as user root, and make sure they got there: ::   
 
    # rpm -el lifemapper-lmserver
-   # rpm -i  path-to-new-lifemapper-lmserver.rpm
+   # rpm -i --force path-to-new-lifemapper-lmserver.rpm
+   # rpm -qa | grep lifemapper-lmserver
    
 #. **Update your configuration** (only if you are installing the 
    lifemapper-lmserver (Lifemapper source code) rpm), with:::
 
    # /opt/lifemapper/rocks/bin/updateLM
 
-   **TODO:** Move to command **lm update lmserver** 
+   **TODO:** Move to command **lm update config lmserver** 
 
 #. Script output is in /tmp/updateLM.log
 
@@ -75,7 +74,7 @@ Update data
      
 Add a new computation server
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.. _Using : docs/Using.rst
+.. _Using : docs/Using.rst#add-a-new-lmcompute
 
 #. **Register LmCompute instance(s)**  as root  
 
