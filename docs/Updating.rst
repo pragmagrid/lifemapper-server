@@ -39,8 +39,8 @@ Update code and scripts
 
    **TODO:** Move to command **lm update config lmserver** 
    
-#  For updating from source code version 1.0.3.lw or below to 1.0.4.lw and 
-   above, the configuration files (for lmcompute and lmserver) are newly 
+#. For updating from source code **version 1.0.3.lw or below to 1.0.4.lw and 
+   above**, the configuration files (for lmcompute and lmserver) are newly 
    separated.  This must be added to the apache configuration by ::
    
    # cat /opt/lifemapper/rocks/etc/lifemapper-sysconfig-httpd >> /etc/sysconfig/httpd
