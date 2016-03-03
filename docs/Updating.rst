@@ -23,30 +23,33 @@ Update code and scripts
      
    **TODO:** Move to command **lm stop pipeline**
      
-#. **Copy new Lifemapper RPMs to server** ::
-
-     # lifemapper-server-xxxxx.x86_64.rpm 
-     # rocks-lifemapper-6.2-0.x86_64.rpm
+#. **Copy new Lifemapper RPMs to server**, for example lifemapper-lmserver-xxxxx.x86_64.rpm 
+   and rocks-lifemapper-6.2-0.x86_64.rpm
      
-#. **Install changed RPMs **  as user root
+#. **Install changed RPMs**  as user root
 
    Install RPMs with: ::   
 
-     # rpm -el lifemapper-server
-     # rpm -i path-to-new-lifemapper-server.rpm
+     # rpm -el lifemapper-lmserver
+     # rpm -i path-to-new-lifemapper-lmserver.rpm
      # rpm -el rocks-lifemapper
      # rpm -i  path-to-new-rocks-lifemapper.rpm
-     # /opt/lifemapper/rocks/bin/updateLM
 
-   If the source code rpm is on a machine with both LmServer and LmCompute rolls,
+   **If the source code rpm is on a machine with both LmServer and LmCompute rolls**,
    add the option --force to force overwriting shared code.
    
+#. **Update configuration** with ::
+   
+     # /opt/lifemapper/rocks/bin/updateLM
+
    The ``updateLM`` script 
     * runs confDbconnect to rewrite the python db connection file for LM code
     * runs updateIP to fill in newly installed config.ini file with IP address
     * runs updateDB to make required database changes to tables, views, or functions  
 
-   The script output is in /tmp/updateLM.log. 
+   **TODO:** Move to command **lm update server config**
+   
+   Script output is in /tmp/updateLM.log. 
      
 Update data
 ------------------------
