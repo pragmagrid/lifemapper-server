@@ -148,13 +148,14 @@ Add all data (unfinished)
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 #. **Download, catalog new user, scenario, species, taxonomy**  as ``root`` 
    **TODO: This is not yet working** it will do all above steps 
-   Download the data specified in site.ini variables and add metadata using:: 
+   
+   Download the data specified in site.ini variables and add metadata using :: 
    
      # /opt/lifemapper/LmDbServer/tools/addInputData
 
-#. **Start the pipeline**  as lmserver to initialize all new jobs with the new scenarios.
+#. **Start the pipeline**  as lmserver to initialize all new jobs with the new scenarios. ::
 
-   % $PYTHON /opt/lifemapper/LmDbServer/pipeline/localpipeline.py &
+     % $PYTHON /opt/lifemapper/LmDbServer/pipeline/localpipeline.py &
 
 Test
 ----
@@ -240,7 +241,7 @@ Test
      % touch /opt/lifemapper/pipeline.pragma.die
      
      
-#. After the pipeline has run for awhile, and there are some completed jobs, test this::
+#. After the pipeline has run for awhile, and there are some completed jobs, test this ::
  
      % python2.7 /opt/lifemapper/LmWebServer/scripts/checkLmWeb.py)
 
