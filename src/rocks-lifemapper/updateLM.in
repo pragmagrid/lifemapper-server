@@ -104,7 +104,7 @@ set_defaults
 TimeStamp "# Start"
 stop_services
 write_dbConnect_file
-dbserver_update
 update_config
 start_services
+dbserver_update
 TimeStamp "# End"
