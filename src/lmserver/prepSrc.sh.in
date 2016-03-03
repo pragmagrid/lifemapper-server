@@ -25,8 +25,9 @@ download_git () {
   fi
 }
 
+# patch directory must contain patch files in relative paths under $TOPDIR for proper placement 
 apply_patches () {
-  if [ -d patch-files/core-@VERSION@ ]; then
+  if [ -d patch-files/$TOPDIR ]; then
     echo "Applying patches for @VERSION@ "
     (cd patch-files && find . -type f | grep -v CVS | cpio -pduv ..)
   fi
