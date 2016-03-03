@@ -23,10 +23,8 @@ Update code and scripts
 
    **TODO:** Move to command **lm stop pipeline** 
      
-#. **Copy new Lifemapper RPMs to server**.::
-
-     # lifemapper-server-xxxxx.x86_64.rpm 
-     # rocks-lifemapper-6.2-0.x86_64.rpm
+#. **Copy new Lifemapper RPMs to server**, for example lifemapper-server-xxxxx.x86_64.rpm 
+   and rocks-lifemapper-6.2-0.x86_64.rpm
      
 #. **Install the RPMs** as user root: ::   
 
