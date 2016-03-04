@@ -285,6 +285,16 @@ Where installed roll components are
 
 #. **/var/www/html/roll-documentation/lifemapper-server** - roll documentation, bare  minimum as a place holder.
 
+Updating parts of a roll
+------------------------
+
+.. _Updating : docs/Updating.rst
+
+If you are re-installing the lifemapper-lmserver rpm (Lifemapper source code), 
+and/or the rocks-lifemapper rpm, see **Update code and scripts** at `Updating`_  
+to update the configuration, database, and restart services.   
+
+
 Removing a roll
 ---------------
 
