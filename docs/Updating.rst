@@ -20,6 +20,7 @@ Update code and scripts
    To Stop the pipeline (replace 'pragma' with the datasource name configured for this instance, i.e. bison, idigbio) ::    
 
      % touch /opt/lifemapper/log/pipeline.pragma.die
+<<<<<<< HEAD
 
    **TODO:** Move to command **lm stop pipeline** 
      
@@ -67,6 +68,38 @@ Update code and scripts
    - Restarts postgresql, pgbouncer, and apache services.  The ``pgbouncer`` 
      service must be restarted after a new connect.py file is created.  Apache 
      must be restarted to pick up any code changes.
+=======
+     
+   **TODO:** Move to command **lm stop pipeline**
+     
+#. **Copy new Lifemapper RPMs to server**, for example lifemapper-lmserver-xxxxx.x86_64.rpm 
+   and rocks-lifemapper-6.2-0.x86_64.rpm
+     
+#. **Install changed RPMs**  as user root
+
+   Install RPMs with: ::   
+
+     # rpm -el lifemapper-lmserver
+     # rpm -i path-to-new-lifemapper-lmserver.rpm
+     # rpm -el rocks-lifemapper
+     # rpm -i  path-to-new-rocks-lifemapper.rpm
+
+   **If the source code rpm is on a machine with both LmServer and LmCompute rolls**,
+   add the option --force to force overwriting shared code.
+   
+#. **Update configuration** with ::
+   
+     # /opt/lifemapper/rocks/bin/updateLM
+
+   The ``updateLM`` script 
+    * runs confDbconnect to rewrite the python db connection file for LM code
+    * runs updateIP to fill in newly installed config.ini file with IP address
+    * runs updateDB to make required database changes to tables, views, or functions  
+
+   **TODO:** Move to command **lm update server config**
+   
+   Script output is in /tmp/updateLM.log. 
+>>>>>>> e9268ed58a1cfba140e4fc649ed91142c23b0736
      
 Update data
 -----------
@@ -78,13 +111,20 @@ Update data
 
      % touch /opt/lifemapper/log/pipeline.pragma.die
      
+   **TODO:** Move to command **lm stop pipeline**  
+     
 Add a new computation server
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .. _Using : docs/Using.rst#add-a-new-lmcompute
 
-#. **Register LmCompute instance(s)**  as root  
+.. _Add a new LmCompute : docs/Using.rst#add-a-new-lmcompute
 
+<<<<<<< HEAD
    Instructions at **Add a new LmCompute** at `Using`_
+=======
+#. Follow instructions at  `Add a new LmCompute`_
+
+>>>>>>> e9268ed58a1cfba140e4fc649ed91142c23b0736
 
 Add/change Archive User
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -97,10 +137,13 @@ Add/change Archive User
 
      # $PYTHON /opt/lifemapper/LmDbServer/tools/initCatalog.py 
 
+   **TODO:** Move to command **lm init catalog**
 
-#. **Start the pipeline**  as ``lmserver`` to initialize all new jobs with the new species data.
+#. **Start the pipeline**  as ``lmserver`` to initialize all new jobs with the new species data.::
 
-   % $PYTHON /opt/lifemapper/LmDbServer/pipeline/localpipeline.py &
+     % $PYTHON /opt/lifemapper/LmDbServer/pipeline/localpipeline.py &
+   
+   **TODO:** Move to command **lm start pipeline**
 
 Add/change climate data
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -122,12 +165,15 @@ Add/change climate data
    Run the script to install scenario data with the configured ARCHIVE_USER ::  
 
      # $PYTHON /opt/lifemapper/LmDbServer/tools/initCatalog.py scenario 
-
-#. **Start the pipeline**  as lmserver to initialize all new jobs with the new scenarios.
-
-   % $PYTHON /opt/lifemapper/LmDbServer/pipeline/localpipeline.py &
      
+   **TODO:** Move to command **lm init catalog scenario**
 
+#. **Start the pipeline**  as lmserver to initialize all new jobs with the new scenarios. ::
+
+     % $PYTHON /opt/lifemapper/LmDbServer/pipeline/localpipeline.py &
+     
+   **TODO:** Move to command **lm start pipeline**
+   
 Add/change species data
 ~~~~~~~~~~~~~~~~~~~~~~~
 #. **Download, catalog new species data**  as ``root`` 
@@ -144,10 +190,11 @@ Add/change species data
 
    Download tar.gz files and uncompress into /share/lmserver/data/species/
    
-#. **Start the pipeline**  as ``lmserver`` to initialize all new jobs with the new species data.
+#. **Start the pipeline**  as ``lmserver`` to initialize all new jobs with the new species data.::
 
-   % $PYTHON /opt/lifemapper/LmDbServer/pipeline/localpipeline.py &
+     % $PYTHON /opt/lifemapper/LmDbServer/pipeline/localpipeline.py &
    
+   **TODO:** Move to command **lm start pipeline**
 
 Add all data (unfinished)
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -158,10 +205,17 @@ Add all data (unfinished)
    
      # /opt/lifemapper/LmDbServer/tools/addInputData
 
+<<<<<<< HEAD
 #. **Start the pipeline**  as lmserver to initialize all new jobs with the new scenarios. ::
+=======
+   **TODO:** Move to command **lm add input**
+
+#. **Start the pipeline**  as lmserver to initialize all new jobs with the new scenarios.
 
      % $PYTHON /opt/lifemapper/LmDbServer/pipeline/localpipeline.py &
 
+   **TODO:** Move to command **lm start pipeline**
+   
 Test
 ----
 
@@ -234,7 +288,9 @@ Test
        30 Mar 2015 14:18 MainThread.log.debug line 80 DEBUG    Url: http://pc-167.calit2.optiputer.net/services/sdm/layers/58/raw
        30 Mar 2015 14:18 MainThread.log.debug line 80 DEBUG    Url: http://pc-167.calit2.optiputer.net/services/sdm/layers/58/tiff
        30 Mar 2015 14:18 MainThread.log.debug line 80 DEBUG    Url: http://pc-167.calit2.optiputer.net/services/sdm/layers/58/xml
-
+       
+  **TODO:** Move to commands **lm test <user | jobserver | web>**
+  
 #. **Run the pipeline**  as user lmwriter
 
    To start the pipeline  ::  
@@ -246,7 +302,10 @@ Test
      % touch /opt/lifemapper/pipeline.pragma.die
      
      
-#. After the pipeline has run for awhile, and there are some completed jobs, test this ::
+   **TODO:** Move to commands **lm start/stop pipeline**
+   
+#. After the pipeline has run for awhile, and there are some completed jobs, test this:
  
-     % python2.7 /opt/lifemapper/LmWebServer/scripts/checkLmWeb.py)
+     % python2.7 /opt/lifemapper/LmWebServer/scripts/checkLmWeb.py
 
+   **TODO:** Move to command **lm test web**
