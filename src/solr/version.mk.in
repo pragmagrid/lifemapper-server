@@ -7,8 +7,8 @@ TARBALL_POSTFIX	= tgz
 
 SOLRDIR=/opt/solr
 SOLRDATA=$(DATADIR_SERVER)/solr
-SOLRINDEX_1=cores/lmArchive
-SOLRINDEX_2=cores/lmSpeciesHint
+SOLRINDEX_1=lmArchive
+SOLRINDEX_2=lmSpeciesHint
 SOLRUSER=solr
 
 SOLR_PORT=8983
