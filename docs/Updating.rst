@@ -20,57 +20,8 @@ Update code and scripts
    To Stop the pipeline (replace 'pragma' with the datasource name configured for this instance, i.e. bison, idigbio) ::    
 
      % touch /opt/lifemapper/log/pipeline.pragma.die
-<<<<<<< HEAD
 
    **TODO:** Move to command **lm stop pipeline** 
-     
-#. **Copy new Lifemapper RPMs to server**, for example 
-   lifemapper-server-xxxxx.x86_64.rpm and rocks-lifemapper-6.2-0.x86_64.rpm
-     
-#. **Install the RPMs** as user root, and make sure they got there: ::   
-
-   # rpm -el lifemapper-lmserver
-   # rpm -i --force path-to-new-lifemapper-lmserver.rpm
-   # rpm -qa | grep lifemapper-lmserver
-   
-#. **Update your configuration** (only if you are installing the 
-   lifemapper-lmserver (Lifemapper source code) rpm), with:::
-
-   # /opt/lifemapper/rocks/bin/updateLM
-
-   **TODO:** Move to command **lm update config lmserver** 
-   
-#. For updating from source code **version 1.0.3.lw or below to 1.0.4.lw and 
-   above**, the configuration files (for lmcompute and lmserver) are newly 
-   separated.  This must be added to the apache configuration by ::
-   
-   # cat /opt/lifemapper/rocks/etc/lifemapper-sysconfig-httpd >> /etc/sysconfig/httpd
-
-#. Script output is in /tmp/updateLM.log
-
-   The ``updateLM`` command runs three processes:
-
-   - Rewrites  the /opt/lifemapper/LmServer/db/connect.py file in the LM source 
-     tree (used to connect to a db) with the /opt/lifemapper/rocks/bin/confDbconnect
-     script.  
-
-   - Runs database scripts to create views, types, functions, and modify tables, 
-     constraints, or indexes with the script LmDbServer/dbsetup/runUpdateDBScripts.sql.
-   
-     - If views, types, functions have not changed, this script will not only drop 
-       and recreate them.  If tables, constraints, or indexes have not changed, the 
-       LmDbServer/dbsetup/updateDatabases.sql file should be empty.
-   
-   - Fills in the ``@*_FQDN@`` variables in the LmServer/config/config.lmserver.ini.in
-     file with fully qualified domain name or IP address, and moves it to 
-     config/config.lmserver.ini with the /opt/lifemapper/rocks/bin/updateIP script. 
-
-   - Restarts postgresql, pgbouncer, and apache services.  The ``pgbouncer`` 
-     service must be restarted after a new connect.py file is created.  Apache 
-     must be restarted to pick up any code changes.
-=======
-     
-   **TODO:** Move to command **lm stop pipeline**
      
 #. **Copy new Lifemapper RPMs to server**, for example lifemapper-lmserver-xxxxx.x86_64.rpm 
    and rocks-lifemapper-6.2-0.x86_64.rpm
@@ -91,43 +42,51 @@ Update code and scripts
    
      # /opt/lifemapper/rocks/bin/updateLM
 
-   The ``updateLM`` script 
-    * runs confDbconnect to rewrite the python db connection file for LM code
-    * runs updateIP to fill in newly installed config.ini file with IP address
-    * runs updateDB to make required database changes to tables, views, or functions  
+   The ``updateLM`` script:: 
+
+    * runs rocks/bin/confDbconnect to rewrite the python db 
+      connection file, /opt/lifemapper/LmServer/db/connect.py for LM code
+
+    * runs rocks/bin/updateIP to edit the 
+      LmServer/config/config.lmserver.ini.in file with fully qualified domain 
+      name or IP address, and move it to config/config.lmserver.ini
+
+    * runs rocks/bin/updateDB to make required database changes to tables, 
+      views, indexes, constraints, or functions (using the script 
+      LmDbServer/dbsetup/runUpdateDBScripts.sql).  If views, types, functions 
+      have not changed, this script will not only drop and recreate them.  
+      If tables, constraints, or indexes have not changed, the 
+      LmDbServer/dbsetup/updateDatabases.sql file should be empty.
+   
+    * restarts postgresql, pgbouncer, and apache services.  The ``pgbouncer`` 
+      service must be restarted after a new connect.py file is created.  Apache 
+      must be restarted to pick up any code changes.
 
    **TODO:** Move to command **lm update server config**
    
    Script output is in /tmp/updateLM.log. 
->>>>>>> e9268ed58a1cfba140e4fc649ed91142c23b0736
-     
-Update data
------------
+   
+#. For updating from source code **version 1.0.3.lw or below to 1.0.4.lw and 
+   above**, the configuration files (for lmcompute and lmserver) are newly 
+   separated.  The environment variable holding configuration file must be 
+   added to the apache configuration by ::
+   
+   # cat /opt/lifemapper/rocks/etc/lifemapper-sysconfig-httpd >> /etc/sysconfig/httpd
 
-#. **Stop the pipeline** as lmserver.
-
-   To Stop the pipeline (replace 'pragma' with the datasource name configured for 
-   this instance, i.e. gbif, bison, idigbio) ::    
-
-     % touch /opt/lifemapper/log/pipeline.pragma.die
-     
-   **TODO:** Move to command **lm stop pipeline**  
-     
 Add a new computation server
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------
+
 .. _Using : docs/Using.rst#add-a-new-lmcompute
 
 .. _Add a new LmCompute : docs/Using.rst#add-a-new-lmcompute
 
-<<<<<<< HEAD
    Instructions at **Add a new LmCompute** at `Using`_
-=======
 #. Follow instructions at  `Add a new LmCompute`_
 
->>>>>>> e9268ed58a1cfba140e4fc649ed91142c23b0736
 
 Add/change Archive User
-~~~~~~~~~~~~~~~~~~~~~~~
+-----------------------
+
 #. Change the archive user  as ``root`` 
 
    Add ARCHIVE_USER to the [LmCommon - common] section of site.ini file.  
@@ -145,6 +104,19 @@ Add/change Archive User
    
    **TODO:** Move to command **lm start pipeline**
 
+          
+Update data
+-----------
+
+#. **Stop the pipeline** as lmserver.
+
+   To Stop the pipeline (replace 'pragma' with the datasource name configured for 
+   this instance, i.e. gbif, bison, idigbio) ::    
+
+     % touch /opt/lifemapper/log/pipeline.pragma.die
+     
+   **TODO:** Move to command **lm stop pipeline**  
+     
 Add/change climate data
 ~~~~~~~~~~~~~~~~~~~~~~~
      
@@ -176,6 +148,7 @@ Add/change climate data
    
 Add/change species data
 ~~~~~~~~~~~~~~~~~~~~~~~
+
 #. **Download, catalog new species data**  as ``root`` 
 
    As user root, add or edit the sections ``[LmServer - environment]`` and ``[LmServer - pipeline]`` 
@@ -198,6 +171,7 @@ Add/change species data
 
 Add all data (unfinished)
 ~~~~~~~~~~~~~~~~~~~~~~~~~
+
 #. **Download, catalog new user, scenario, species, taxonomy**  as ``root`` 
    **TODO: This is not yet working** it will do all above steps 
    
@@ -205,16 +179,6 @@ Add all data (unfinished)
    
      # /opt/lifemapper/LmDbServer/tools/addInputData
 
-<<<<<<< HEAD
-#. **Start the pipeline**  as lmserver to initialize all new jobs with the new scenarios. ::
-=======
-   **TODO:** Move to command **lm add input**
-
-#. **Start the pipeline**  as lmserver to initialize all new jobs with the new scenarios.
-
-     % $PYTHON /opt/lifemapper/LmDbServer/pipeline/localpipeline.py &
-
-   **TODO:** Move to command **lm start pipeline**
    
 Test
 ----
