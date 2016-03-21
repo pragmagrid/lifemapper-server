@@ -67,13 +67,21 @@
 
 /sbin/ldconfig
 
+# set up lmwriter user
 ID=`/bin/egrep -i "^lmwriter" /etc/group`
 if [ "$ID" == "" ] ; then
     # adding lmwriter user
     /usr/sbin/useradd -c "Lifemapper user" lmwriter
 else
-    # adding lmwriter user, group already exists (from lifemapper roll)
+    # adding lmwriter user, group already exists (from lifemapper-compute roll)
     /usr/sbin/useradd -c "Lifemapper user" -g lmwriter lmwriter
+fi
+
+# set up solr user
+ID=`/bin/egrep -i "^solr" /etc/group`
+if [ "$ID" == "" ] ; then
+    # adding solr user
+    /usr/sbin/useradd -c "Solr user" solr
 fi
 
 </post>
