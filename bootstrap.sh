@@ -104,9 +104,12 @@ yum install postgresql91-devel
 echo "You will need to checkout src from Lifemapper SVN:"
 echo "    cd src/lmserver"
 echo "    make prep "
-echo "and download data from Lifemapper:"
+echo "then download data from Lifemapper:"
 echo "    cd src/lmdata-climate"
 echo "    make prep "
 echo "    cd src/lmdata-species"
+echo "    make prep "
+echo "finally download Solr source code:"
+echo "    cd src/solr"
 echo "    make prep "
 

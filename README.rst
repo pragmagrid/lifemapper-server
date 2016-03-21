@@ -121,8 +121,8 @@ When the script finishes, it prints the next step instruction to get the lifemap
    # make prep
 
 This will produce lifemappser-server-X.tar.gz 
-The X is the revision number in lifemapper SVN. The X is recorded in version.mk.in
-Assumption: X is production ready revision and is a working code.
+The X is the tag in lifemapper's core Github repository . The X is recorded in 
+version.mk.in.  Assumption: X is production ready revision and is a working code.
 The roll will be using the X revision of lifemapper code.
  
 To build individual packages ::
