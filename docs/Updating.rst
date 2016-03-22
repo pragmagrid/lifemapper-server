@@ -26,17 +26,29 @@ Update code and scripts
 #. **Copy new Lifemapper RPMs to server**, for example lifemapper-lmserver-xxxxx.x86_64.rpm 
    and rocks-lifemapper-6.2-0.x86_64.rpm
      
-#. **Install changed RPMs**  as user root
+#. **Install changed RPMs**  as user root.  If both LmServer and LmCompute are 
+   installed on this machine, you must also uninstall the LmCompute source code 
+   rpm (lifemapper-lmcompute), then install the new lmcompute rpm.
+   
+   Remove existing RPMs with::   
+
+     # rpm -el lifemapper-lmserver
+     # rpm -el lifemapper-lmserver # ONLY if this rpm is installed
+     # rpm -el rocks-lifemapper
 
    Install RPMs with: ::   
 
-     # rpm -el lifemapper-lmserver
      # rpm -i path-to-new-lifemapper-lmserver.rpm
-     # rpm -el rocks-lifemapper
+     # rpm -i path-to-new-lifemapper-lmcompute.rpm  # ONLY if the old version was installed
      # rpm -i  path-to-new-rocks-lifemapper.rpm
 
    **If the source code rpm is on a machine with both LmServer and LmCompute rolls**,
    add the option --force to force overwriting shared code.
+   
+#. **Temporary** (this has been added to the rocks-lifemapper "make install").
+   Read the new profile file to update any environment variables::
+   
+     # source /etc/profile.d/lifemapper.sh
    
 #. **Update configuration** with ::
    
@@ -62,9 +74,25 @@ Update code and scripts
       service must be restarted after a new connect.py file is created.  Apache 
       must be restarted to pick up any code changes.
 
+    * Logs results in /tmp/updateLM.log (pre 1.0.9.lw, lifemapper-update.log)
+    
    **TODO:** Move to command **lm update server config**
    
-   Script output is in /tmp/updateLM.log. 
+#. **Check results** 
+   
+   #. If pgbouncer failed to restart, causing the database updates to fail
+   
+      #. Check for lock files in /var/run/pgbouncer/, /var/lock/subsys/ , and
+         /var/run/postgresql/ (owned by pgbouncer).
+      #. Double check that pgbouncer is not running
+      #. Delete lock files
+      #. Restart pgbouncer
+      #. Re-run the failed command  (from updateLM)::
+          
+         # /rocks/bin/updateDB
+         
+      #. Check the output in /tmp/updateDB.log
+     
    
 #. For updating from source code **version 1.0.3.lw or below to 1.0.4.lw and 
    above**, the configuration files (for lmcompute and lmserver) are newly 
