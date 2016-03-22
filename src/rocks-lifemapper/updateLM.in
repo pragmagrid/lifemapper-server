@@ -30,7 +30,7 @@ set_defaults() {
 
     PG=`basename /etc/init.d/postgresql-*`
     PROFILE=/var/lib/pgsql/.bash_profile
-    LOG=/tmp/lifemapper-update.log
+    LOG=/tmp/`/bin/basename $0`.log
     touch $LOG
     BIN=@PKGROOT@/rocks/bin
 }
@@ -93,6 +93,9 @@ start_services() {
 update_config() {
     echo "-- update host IP in @LMHOME@/config/config.lmserver.ini" >> $LOG
     $BIN/updateIP >> $LOG  2>&1
+
+    # Source profile for environment
+    . /etc/profile.d/lifemapper.sh
 }
 
 TimeStamp () {
@@ -103,8 +106,8 @@ TimeStamp () {
 set_defaults
 TimeStamp "# Start"
 stop_services
-write_dbConnect_file
 update_config
+write_dbConnect_file
 start_services
 dbserver_update
 TimeStamp "# End"
