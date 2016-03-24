@@ -33,18 +33,15 @@ Update code and scripts
    Remove existing RPMs with::   
 
      # rpm -el lifemapper-lmserver
-     # rpm -el lifemapper-lmserver # ONLY if this rpm is installed
+     # rpm -el lifemapper-lmcompute # ONLY if this rpm is installed
      # rpm -el rocks-lifemapper
 
    Install RPMs with: ::   
 
-     # rpm -i path-to-new-lifemapper-lmserver.rpm
-     # rpm -i path-to-new-lifemapper-lmcompute.rpm  # ONLY if the old version was installed
-     # rpm -i  path-to-new-rocks-lifemapper.rpm
+     # rpm -i --force path-to-new-lifemapper-lmserver.rpm
+     # rpm -i --force path-to-new-lifemapper-lmcompute.rpm  # ONLY if the old version was installed
+     # rpm -i --force  path-to-new-rocks-lifemapper.rpm
 
-   **If the source code rpm is on a machine with both LmServer and LmCompute rolls**,
-   add the option --force to force overwriting shared code.
-   
 #. **Temporary** (this has been added to the rocks-lifemapper "make install").
    Read the new profile file to update any environment variables::
    
