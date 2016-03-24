@@ -33,7 +33,7 @@ set_defaults() {
 
     PG=`basename /etc/init.d/postgresql-*`
     PROFILE=/var/lib/pgsql/.bash_profile
-    LOG=/tmp/lifemapper-config.log
+    LOG=/tmp/`/bin/basename $0`.log
     touch $LOG
     BIN=@PKGROOT@/rocks/bin
 
