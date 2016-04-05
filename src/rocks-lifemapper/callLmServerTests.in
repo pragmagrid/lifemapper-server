@@ -9,4 +9,4 @@ PATH=/bin:/usr/bin:/usr/local/bin
 
 export PYTHONPATH=@LMHOME@
 
-@PYBIN@ @LMHOME@/LmWebServer/tests/scripts/checkLmWeb.py
+@PYBIN@ @LMHOME@/LmWebServer/tests/scripts/checkLmWeb.py -t 4

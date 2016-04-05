@@ -25,11 +25,13 @@ TimeStamp () {
 
 # install cron jobs (solr jobs are in initWebServer)
 installDailyTasks () {
+    # run daily 
     install @LMHOME@/config/securityUpdates.sh ${CRON_DAILY_DIR}
-    install @LMHOME@/rocks/bin/deleteOldAnonymous ${CRON_DIR}
-    # run every 4 hours 
-    crontab -u $gname @LMHOME@/rocks/etc/callLmServerTests.cron
-    crontab -u $gname @LMHOME@/rocks/etc/solr.cron
+    install @LMHOME@/rocks/bin/deleteOldAnonymous ${CRON_DAILY_DIR}
+    echo "Installed tasks to ${CRON_DAILY_DIR} ..." | tee -a $LOG
+    # run every X hours 
+    install @LMHOME@/rocks/bin/callLmServerTests ${CRON_DIR}
+    install  @LMHOME@/rocks/bin/buildLmSolrIndex ${CRON_DIR}
     echo "Installed tasks to ${CRON_DIR} ..." | tee -a $LOG
 }
 

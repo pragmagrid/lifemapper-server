@@ -82,9 +82,7 @@ PROFILES = \
 
 SCRIPTS = \
 	lifemapper.conf \
-	solr.cron \
 	lmSolr \
-	callLmServerTests.cron \
 	lifemapper-sysconfig-httpd \
 	lifemapper-server.conf
 
@@ -150,8 +148,6 @@ install::
 	install -m 755 $(EXECFILES) $(ROOT)/$(PKGROOT)/rocks/bin
 
 	mkdir -p $(ROOT)/$(PKGROOT)/rocks/etc
-	install -m 755 solr.cron $(ROOT)/$(PKGROOT)/rocks/etc
-	install -m 755 callLmServerTests.cron $(ROOT)/$(PKGROOT)/rocks/etc
 	install -m 644 lifemapper-sysconfig-httpd $(ROOT)/$(PKGROOT)/rocks/etc
 
 	mkdir -p $(ROOT)/$(PKGROOT)/rocks/sql
