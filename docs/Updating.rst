@@ -42,6 +42,11 @@ Update code and scripts
      # rpm -i --force path-to-new-lifemapper-lmcompute.rpm  # ONLY if the old version was installed
      # rpm -i --force  path-to-new-rocks-lifemapper.rpm
 
+   Rebuild distribution with: ::   
+
+     # (cd /export/rocks/install/; rocks create distro)
+     # yum clean all
+
 #. **Temporary** (this has been added to the rocks-lifemapper "make install").
    Read the new profile file to update any environment variables::
    
