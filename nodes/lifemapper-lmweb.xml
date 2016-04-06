@@ -45,7 +45,7 @@ fi
 
 # create solr dirs
 /bin/mkdir -p /state/partition1/lmserver/data/solr
-/bin/chgrp -R solr:solr /state/partition1/lmserver/data/solr
+/bin/chown -R solr:solr /state/partition1/lmserver/data/solr
 /bin/chmod -R g+ws /state/partition1/lmserver/data/solr
 
 # add solr index files
