@@ -3,6 +3,7 @@
 # Create directory for cherrypy sessions
 gname=lmwriter
 GID=`grep $gname: /etc/group`
+CRON_DIR=/etc/cron.d/
 
 if [ "$GID" != "" ] ; then
     mkdir -p @LMWEB@
@@ -14,7 +15,3 @@ else
     echo "ERROR: group $gname does not exist"
     exit 1
 fi
-
-# install solr cron job, run every 4 hours 
-crontab -u $gname @PKGROOT@/rocks/etc/solr.cron
-

@@ -1,11 +1,12 @@
 #!/bin/bash 
 #
-# Add scripts for daily tasks to cron.daily directory  
+# Add scripts for scheduled tasks to cron.daily, cron.d directories. 
+# Called by initLM.
 #
 usage () 
 {
     echo "Usage: $0"
-    echo "This script copies maintenance scripts to the cron.daily directory and "
+    echo "This script copies maintenance scripts to the cron directories and "
     echo "sets execute permissions."
 }
 
@@ -23,16 +24,20 @@ TimeStamp () {
     echo $1 `/bin/date` >> $LOG
 }
 
-# install cron jobs (solr jobs are in initWebServer)
+# install cron jobs (security, cleanup)
 installDailyTasks () {
     # run daily 
     install @LMHOME@/config/securityUpdates.sh ${CRON_DAILY_DIR}
     install @LMHOME@/rocks/bin/deleteOldAnonymous ${CRON_DAILY_DIR}
-    echo "Installed tasks to ${CRON_DAILY_DIR} ..." | tee -a $LOG
-    # run every X hours 
+    echo "Installed daily tasks to ${CRON_DAILY_DIR} ..." | tee -a $LOG
+}
+
+# install scheduled cron jobs (tests, solr)
+installSchedTasks () {
+    # run every X hours (hour interval in scripts)
     install @LMHOME@/rocks/bin/callLmServerTests ${CRON_DIR}
     install  @LMHOME@/rocks/bin/buildLmSolrIndex ${CRON_DIR}
-    echo "Installed tasks to ${CRON_DIR} ..." | tee -a $LOG
+    echo "Installed scheduled tasks to ${CRON_DIR} ..." | tee -a $LOG
 }
 
 #### Main ####
@@ -43,4 +48,5 @@ fi
 
 setDefaults
 installDailyTasks
+installSchedTasks
 TimeStamp "# End"

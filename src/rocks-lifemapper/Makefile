@@ -82,7 +82,6 @@ PROFILES = \
 
 SCRIPTS = \
 	lifemapper.conf \
-	lmSolr \
 	lifemapper-sysconfig-httpd \
 	lifemapper-server.conf
 
@@ -136,9 +135,6 @@ install::
 	mkdir -p $(ROOT)/etc/ld.so.conf.d
 	install -m 644 lifemapper-server.conf $(ROOT)/etc/ld.so.conf.d
 	
-	mkdir -p $(ROOT)/etc/rc.d/init.d
-	install -m 755 lmSolr $(ROOT)/etc/rc.d/init.d
-
 	mkdir -p $(ROOT)/etc/logrotate.d
 	install -m 644 lifemapper-httpd $(ROOT)/etc/logrotate.d
 
