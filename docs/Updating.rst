@@ -5,41 +5,41 @@ Updating an existing Lifemapper Server installation
 ===================================================
 .. contents::  
 
+.. _Update Combined System : docs/UpdatingCombinedSystem.rst
+
 Introduction
 ------------
 After the roll is installed, and the instance has been populated, you may want
 to update the code, configuration, and/or database (in lifemapper-server*.rpm) 
 and applying those changes with scripts (from rocks-lifemapper*.rpm) 
-without losing data.
+without losing data.  If both LmServer and LmCompute are installed on this 
+machine, use **Update Combined System** instructions at `Update Combined System`_
 
 Update code and scripts
 -----------------------
 
-#. **Stop the pipeline** as lmserver.
-
-   To Stop the pipeline (replace 'pragma' with the datasource name configured for this instance, i.e. bison, idigbio) ::    
+#. **Stop the pipeline** as lmwriter (replace 'pragma' with the datasource name 
+   configured for this instance, i.e. bison, idigbio) ::    
 
      % touch /opt/lifemapper/log/pipeline.pragma.die
 
    **TODO:** Move to command **lm stop pipeline** 
      
-#. **Copy new Lifemapper RPMs to server**, for example lifemapper-lmserver-xxxxx.x86_64.rpm 
-   and rocks-lifemapper-6.2-0.x86_64.rpm
+#. **Copy new Lifemapper RPMs to server**::
+
+   # scp lifemapper-lmserver-<version>-1.x86_64.rpm  server.lifemapper.org:
+   # scp rocks-lifemapper-6.2-0.x86_64.rpm           server.lifemapper.org:
      
-#. **Install changed RPMs**  as user root.  If both LmServer and LmCompute are 
-   installed on this machine, you must also uninstall the LmCompute source code 
-   rpm (lifemapper-lmcompute), then install the new lmcompute rpm.
+#. **Install changed RPMs**  as user root.  
    
    Remove existing RPMs with::   
 
      # rpm -el lifemapper-lmserver
-     # rpm -el lifemapper-lmcompute # ONLY if this rpm is installed
      # rpm -el rocks-lifemapper
 
    Install RPMs with: ::   
 
      # rpm -i --force path-to-new-lifemapper-lmserver.rpm
-     # rpm -i --force path-to-new-lifemapper-lmcompute.rpm  # ONLY if the old version was installed
      # rpm -i --force  path-to-new-rocks-lifemapper.rpm
 
    Rebuild distribution with: ::   
@@ -47,10 +47,9 @@ Update code and scripts
      # (cd /export/rocks/install/; rocks create distro)
      # yum clean all
 
-#. **Temporary** (this has been added to the rocks-lifemapper "make install").
-   Read the new profile file to update any environment variables::
+#. Reboot front-end::
    
-     # source /etc/profile.d/lifemapper.sh
+     # reboot
    
 #. **Update configuration** with ::
    
