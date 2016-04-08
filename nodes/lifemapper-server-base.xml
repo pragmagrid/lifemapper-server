@@ -45,6 +45,7 @@
 	<package>opt-lifemapper-egenix-mx-base</package>
 	<package>opt-lifemapper-psycopg2</package>
 	<package>opt-lifemapper-faulthandler</package>
+	<package>opt-lifemapper-requests</package>
 
 	<!-- lifemapper distro -->
 	<package>lifemapper-lmserver</package>
