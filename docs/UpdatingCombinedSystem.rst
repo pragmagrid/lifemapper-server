@@ -34,8 +34,8 @@ Stop processes
      root# service pgbouncer stop
      root# service postgresql stop
 
-Update roll
------------
+Update everything
+-----------------
 
 #. **Copy new LmCompute roll and LmServer RPMs to server**, for example::
 
