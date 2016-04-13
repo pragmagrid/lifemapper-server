@@ -65,7 +65,7 @@ set_pass () {
 add_taxonomy () {
     if [ -f $POPULATEPY ] ; then
         echo "Running $POPULATEPY ..." | tee -a $LOG
-        /opt/python/bin/@PYTHONVER@ $POPULATEPY $ TAXONOMY_CMD 2>&1 | tee -a $LOG
+        /opt/python/bin/@PYTHONVER@ $POPULATEPY $TAXONOMY_CMD 2>&1 | tee -a $LOG
     else
         "Error: Missing file $POPULATEPY" | tee -a $LOG
         exit 1
@@ -84,7 +84,7 @@ add_taxonomy () {
 add_user () {
     if [ -f $POPULATEPY ] ; then
         echo "Running $POPULATEPY ..." | tee -a $LOG
-        /opt/python/bin/@PYTHONVER@ $POPULATEPY $ USER_CMD 2>&1 | tee -a $LOG
+        /opt/python/bin/@PYTHONVER@ $POPULATEPY $USER_CMD 2>&1 | tee -a $LOG
         
     else
         echo "Error: Missing file $POPULATEPY" | tee -a $LOG
@@ -97,7 +97,7 @@ add_user () {
 add_scenarios () {
     if [ -f $POPULATEPY ] ; then        
         echo "Add metadata for $SCEN_PKG ..." | tee -a $LOG
-        /opt/python/bin/@PYTHONVER@ $POPULATEPY $ CLIMATE_CMD 2>&1 | tee -a $LOG
+        /opt/python/bin/@PYTHONVER@ $POPULATEPY $CLIMATE_CMD 2>&1 | tee -a $LOG
         
     else
         echo "Error: Missing file $POPULATEPY" | tee -a $LOG
