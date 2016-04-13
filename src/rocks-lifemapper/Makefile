@@ -96,7 +96,7 @@ PROGS = \
 	initDbserver \
 	initWebserver \
 	initPostgis \
-	initDB \
+	fillDB \
 	updateIP \
 	confconst.py \
 	updateDB \

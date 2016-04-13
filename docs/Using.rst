@@ -13,11 +13,11 @@ Populate the database
 
 #. Initialize the database **as user root** ::  
 
-     # /opt/lifemapper/rocks/bin/initDB > /tmp/initDB.log 2>&1
+     # /opt/lifemapper/rocks/bin/fillDB
 
    **TODO:** Move to command **lm init db** 
 
-   The script output is in ``/tmp/initDB.log``. Examine the script output: ::
+   The script output is in ``/tmp/fillDB.log``. Examine the script output: ::
    
    If (and only if) the DATASOURCE is GBIF, the script takes ~50 min to complete 
      on a host with 4Gb memory. The last command should give output similar to: ::

@@ -38,15 +38,8 @@ getAddress () {
 }
 
 updateAddress () {
-    # infile=@LMHOME@/LmServer/config/config.lmserver.ini.in
-    # outfile=@LMHOME@/config/config.lmserver.ini
-
-    ext=`/bin/date +%F`
-    infile=@LMHOME@/config/config.lmserver.ini.$ext
+    infile=@LMHOME@/LmServer/config/config.lmserver.ini.in
     outfile=@LMHOME@/config/config.lmserver.ini
-    
-    # backup file
-    mv $outfile $infile
     
     # replace variables
     sed  "s%@PUBLIC_FQDN@%$Addr%g; \
