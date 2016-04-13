@@ -33,7 +33,9 @@ set_defaults() {
 
     if [ -d /var/lib/pgsql/@PGSQLVER@/data ]; then
        echo "postgres db exists" >> $LOG
-	    INIT_DB=0
+	    EXISTING_DB=true
+	 else
+	    EXISTING_DB=false
     fi
 
     PG=`basename /etc/init.d/postgresql-*`
@@ -91,19 +93,18 @@ dbserver_init() {
     $BIN/initDbserver >> $LOG
 }
 
-# initialize postgres db or update user/password file for python
-init_or_update_db() {
-    if [ -d /var/lib/pgsql/@PGSQLVER@/data ]; then
-        echo "postgres db exists" >> $LOG
-        echo "-- update users passwords in @LMHOME@/LmServer/db/connect.py" >> $LOG
-        $BIN/confDbconnect >> $LOG  2>&1
-        echo "-- update database tables, views, functions" >> $LOG
-        $BIN/updateDB >> $LOG  2>&1
-else
+# initialize postgres db
+init_db() {
     init_postgres
     dbserver_init
-fi
+}
 
+# update db tables, views, scripts and user/password file for python
+update_db() {
+    echo "-- update users passwords in @LMHOME@/LmServer/db/connect.py" >> $LOG
+    $BIN/confDbconnect >> $LOG  2>&1
+    echo "-- update database tables, views, functions" >> $LOG
+    $BIN/updateDB >> $LOG  2>&1
 }
 
 # need to update openssl for postgres
@@ -149,10 +150,16 @@ TimeStamp () {
 
 ####### Main #######
 set_defaults
-stop_services
-init_or_update_db
-# no longer need update_openssl
+
+if $EXISTING_DB ; then
+    update_db
+else
+    stop_services
+    init_db
+    start_services
+fi
+
 installCronJobs
-start_services
+
 update_config
 TimeStamp "# End"
