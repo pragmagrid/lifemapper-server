@@ -120,10 +120,11 @@ Add/change Archive User
 
    Add ARCHIVE_USER to the [LmCommon - common] section of site.ini file.  
    
-   The ARCHIVE_USER must own all occurrence and scenario records, so add 
-   existing (or new) climate data as this new user :: 
+   The ARCHIVE_USER must own all occurrence and scenario records; so you must 
+   insert new or re-insert existing climate data as this user.  The user will 
+   be added automatically when running this script :: 
 
-     # $PYTHON /opt/lifemapper/LmDbServer/tools/initCatalog.py 
+     # $PYTHON /opt/lifemapper/LmDbServer/tools/initCatalog.py scenario 
 
    **TODO:** Move to command **lm init catalog**
 
@@ -149,7 +150,7 @@ Update data
 Add/change climate data
 ~~~~~~~~~~~~~~~~~~~~~~~
      
-#. ** Download, catalog new climate data **  as ``root``  
+#. **Download, catalog new climate data**  as ``root``  
 
    Add SCENARIO_PACKAGE to the [LmServer - pipeline] section of config/site.ini file.  
    Available scenario packages are defined in the CLIMATE_PACKAGES dictionary in
@@ -160,8 +161,12 @@ Add/change climate data
    to the site.ini file using scenario codes documented in the CLIMATE_PACKAGES 
    dictionary. 
 
-   Download data from http://lifemapper.org/dl/<SCENARIO_PACKAGE>.tar.gz. 
-   Uncompress into the /share/lmserver/data/climate/ directory.
+   Download data from http://lifemapper.org/dl/<SCENARIO_PACKAGE>.tar.gz, and 
+   uncompress into the /share/lmserver/data/climate/ directory, for example::
+   
+     # cd /share/lmserver/data/climate
+     # wget svc.lifemapper.org/dl/10min-past-present-future.tar.gz
+     # tar -xzvf 10min-past-present-future.tar.gz
 
    Run the script to install scenario data with the configured ARCHIVE_USER ::  
 
@@ -169,7 +174,7 @@ Add/change climate data
      
    **TODO:** Move to command **lm init catalog scenario**
 
-#. **Start the pipeline**  as lmserver to initialize all new jobs with the new scenarios. ::
+#. **Start the pipeline**  as lmserver to initialize all new jobs with the new scenarios::
 
      % $PYTHON /opt/lifemapper/LmDbServer/pipeline/localpipeline.py &
      
