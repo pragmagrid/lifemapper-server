@@ -9,14 +9,55 @@ Updating an existing Lifemapper Server installation
 
 Introduction
 ------------
-After the roll is installed, and the instance has been populated, you may want
-to update the code, configuration, and/or database (in lifemapper-server*.rpm) 
-and applying those changes with scripts (from rocks-lifemapper*.rpm) 
-without losing data.  If both LmServer and LmCompute are installed on this 
-machine, use **Update Combined System** instructions at `Update Combined System`_
+After the roll is installed, and the instance has been populated, you will want
+to update the code, default data, configuration, or database at some point from 
+the lifemapper-server roll.  You can apply those changes without losing data.  
+If both LmServer and LmCompute are installed on this machine, use 
+**Update Combined System** instructions at `Update Combined System`_
 
-Update code and scripts
------------------------
+Stop processes
+--------------
+
+#. **Stop the pipeline** as lmwriter (replace 'pragma' with the datasource name 
+   configured for this instance, i.e. bison, idigbio) ::    
+
+     % touch /opt/lifemapper/log/pipeline.pragma.die
+
+   **TODO:** Move to command **lm stop pipeline** 
+
+Update roll
+-----------
+
+#. **Copy new Lifemapper roll with updated RPMs to server**, for example::
+
+   # scp lifemapper-server-6.2-0.x86_64.disk1.iso server.lifemapper.org:
+
+#. **Temporary** Remove rocks-lifemapper manually.  Previously, this rpm did
+   not have a version, and defaulted to rocks version 6.2.  Rocks reads the new
+   version, 1.0.0, as older than the previous one named 6.2::
+
+   # rpm -el rocks-lifemapper
+
+#. **Add a new version of the roll**, using **clean=1** to ensure that 
+   old rpms/files are deleted::
+
+   # rocks add roll lifemapper-server-6.2-0.x86_64.disk1.iso clean=1
+   # rocks enable roll lifemapper-server
+   # (cd /export/rocks/install; rocks create distro)
+   # yum clean all
+   # rocks run roll lifemapper-server > add-server.sh 
+   # bash add-server.sh > add-server.out 2>&1
+    
+#. **Reboot front end** ::  
+
+   # reboot
+   
+
+Update code and scripts (deprecated)
+------------------------------------
+
+Note: You may now install a new roll without losing data instead of updating
+individual packages.
 
 #. **Stop the pipeline** as lmwriter (replace 'pragma' with the datasource name 
    configured for this instance, i.e. bison, idigbio) ::    
