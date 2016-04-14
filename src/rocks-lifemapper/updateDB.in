@@ -21,7 +21,8 @@ SetDefaults () {
     USER=admin
     # file to get password from
     USERSFILE=@PKGROOT@/rocks/etc/users
-    UPDATESQL=@LMHOME@/LmDbServer/dbsetup/runUpdateDBScripts.sql
+    UPDATE_TABLES_SQL=@LMHOME@/LmDbServer/dbsetup/updateDBTables.sql
+    UPDATE_FUNCTIONS_SQL=@LMHOME@/LmDbServer/dbsetup/addDBFunctions.sql
 
     LOG=/tmp/`/bin/basename $0`.log
     touch $LOG
@@ -56,13 +57,22 @@ SetPass () {
 
 ### update databases 
 Update () {
-    if [ -f $UPDATESQL ] ; then
-        echo "Running $UPDATESQL ..." | tee -a $LOG
-        psql -U admin -d template1 -f $UPDATESQL 2>&1 | tee -a $LOG
+    if [ -f $UPDATE_TABLES_SQL ] ; then
+        echo "Running $UPDATE_TABLES_SQL ..." | tee -a $LOG
+        psql -U admin -d template1 -f $UPDATE_TABLES_SQL 2>&1 | tee -a $LOG
     else
-        echo "Error: missing file $UPDATESQL" | tee -a $LOG
+        echo "Error: missing file $UPDATE_TABLES_SQL" | tee -a $LOG
         exit 1
     fi
+    
+    if [ -f $UPDATE_FUNCTIONS_SQL ] ; then
+        echo "Running $UPDATE_FUNCTIONS_SQL ..." | tee -a $LOG
+        psql -U admin -d template1 -f $UPDATE_FUNCTIONS_SQL 2>&1 | tee -a $LOG
+    else
+        echo "Error: missing file $UPDATE_FUNCTIONS_SQL" | tee -a $LOG
+        exit 1
+    fi
+    
 }
 
 ### Main ###

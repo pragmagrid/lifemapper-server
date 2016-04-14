@@ -27,9 +27,16 @@ if [ $# -ne 0 ]; then
 fi 
 
 set_defaults() {
+    PG=`basename /etc/init.d/postgresql-*`
+    PROFILE=/var/lib/pgsql/.bash_profile
+    BIN=@PKGROOT@/rocks/bin
     # Source function library.
     INITD=/etc/rc.d/init.d
     . $INITD/functions
+
+    LOG=/tmp/`/bin/basename $0`.log
+    touch $LOG
+    TimeStamp "# Start"
 
     if [ -d /var/lib/pgsql/@PGSQLVER@/data ]; then
        echo "postgres db exists" >> $LOG
@@ -37,14 +44,6 @@ set_defaults() {
 	 else
 	    EXISTING_DB=false
     fi
-
-    PG=`basename /etc/init.d/postgresql-*`
-    PROFILE=/var/lib/pgsql/.bash_profile
-    LOG=/tmp/`/bin/basename $0`.log
-    touch $LOG
-    BIN=@PKGROOT@/rocks/bin
-
-    TimeStamp "# Start"
 }
 
 # stop services if running
@@ -65,13 +64,16 @@ stop_services () {
     fi
 }
 
-# rm old db data, run initdb, start postgres daemon
-init_postgres () {
+# rm old db data
+clear_postgres () {
     if [ -d /var/lib/pgsql/@PGSQLVER@/data ]; then
             echo "-- removing postgres db data" >> $LOG
 	    rm -rf /var/lib/pgsql/@PGSQLVER@/data/*
     fi
+}
 
+# run initdb, start postgres daemon
+init_postgres () {
     # initdb creates postgres data/*
     echo "-- run postgres initdb" >> $LOG
     # this option will not work via "service"
@@ -115,7 +117,7 @@ update_openssl() {
 
 # install cron jobs for daily execution
 installCronJobs () {
-    /opt/lifemapper/rocks/bin/installServerCronJobs
+    @LMHOME@/rocks/bin/installServerCronJobs
 }
 
 # set unix socket; restart postgres and pgbouncer with new config
@@ -160,6 +162,5 @@ else
 fi
 
 installCronJobs
-
 update_config
 TimeStamp "# End"

@@ -103,10 +103,10 @@ cherrypy.conf: $(TOPDIR)/LmWebServer/config/cherrypy.conf.in
 	$(SED) -i $(SEDSPEC) $^ 
 	cat $^ > $(TOPDIR)/config/$@
 
-runAllSQLScripts.sql: $(TOPDIR)/LmDbServer/dbsetup/runAllSQLScripts.sql.in
+addDBFunctions.sql: $(TOPDIR)/LmDbServer/dbsetup/addDBFunctions.sql.in
 	$(SED) $(SEDSPEC) $^ > $(TOPDIR)/LmDbServer/dbsetup/$@
 
-runUpdateDBScripts.sql: $(TOPDIR)/LmDbServer/dbsetup/runUpdateDBScripts.sql.in
+createDBTables.sql: $(TOPDIR)/LmDbServer/dbsetup/createDBTables.sql.in
 	$(SED) $(SEDSPEC) $^ > $(TOPDIR)/LmDbServer/dbsetup/$@
 
 

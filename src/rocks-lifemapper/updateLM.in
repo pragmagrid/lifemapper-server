@@ -33,6 +33,7 @@ set_defaults() {
     LOG=/tmp/`/bin/basename $0`.log
     touch $LOG
     BIN=@PKGROOT@/rocks/bin
+    TimeStamp "# Start"
 }
 
 # stop services if running
@@ -89,6 +90,11 @@ start_services() {
     /sbin/service pgbouncer start >> $LOG
 }
 
+# install cron jobs for daily execution
+installCronJobs () {
+    @LMHOME@/rocks/bin/installServerCronJobs
+}
+
 # run updateIP to put correct IP lmserver's config.lmserver.ini 
 update_config() {
     echo "-- update host IP in @LMHOME@/config/config.lmserver.ini" >> $LOG
@@ -104,10 +110,10 @@ TimeStamp () {
 
 ####### Main #######
 set_defaults
-TimeStamp "# Start"
-stop_services
 update_config
+stop_services
 write_dbConnect_file
 start_services
+installCronJobs
 dbserver_update
 TimeStamp "# End"
