@@ -45,7 +45,6 @@ updateAddress () {
     sed  "s%@PUBLIC_FQDN@%$Addr%g; \
           s%@WEB_FQDN@%$AddrWebserver%g; \
           s%@DB_FQDN@%$AddrDbserver%g" $infile > $outfile
-    fi
 }
 
 #### Main ####
