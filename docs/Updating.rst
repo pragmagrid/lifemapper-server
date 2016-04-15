@@ -32,6 +32,31 @@ Update roll
 
    # scp lifemapper-server-6.2-0.x86_64.disk1.iso server.lifemapper.org:
 
+#. **If** this is a development machine:
+
+   #. Clone or update lifemapper workspace git repository ::  
+
+      # cd /state/partition1/workspace
+      # git clone https://github.com/lifemapper/core
+
+   #. Remove symlinks to lifemapper workspace git repository directories ::  
+
+      # cd /opt/lifemapper
+      # rm -f Lm*
+
+   #. Replace variables in *.in files within the source code into new files 
+      (if not already in your workspace).  These can be found with the `find`
+      command.  Config files will be created in the non-linked config directory
+      correctly without intervention::  
+
+      # cd /state/partition1/workspace/core
+      # find . -name "*.in" | grep -v LmCompute | grep -v config 
+        ./LmDbServer/dbsetup/defineDBTables.sql.in
+        ./LmDbServer/dbsetup/addDBFunctions.sql.in
+      # cd LmDbServer/dbsetup/
+      # sed -e 's%@LMHOME@%/opt/lifemapper%g' addDBFunctions.sql.in > addDBFunctions.sql
+      # sed -e 's%@LMHOME@%/opt/lifemapper%g' defineDBTables.sql.in > defineDBTables.sql
+
 #. **Add a new version of the roll**, using **clean=1** to ensure that 
    old rpms/files are deleted::
 
@@ -56,26 +81,6 @@ Update roll
 
    **Note**: Make sure to change rocks-lifemapper version when building roll to 
    make sure that the rpm is replaced and scripts are run.
-
-#. **If** this is a development machine
-
-   #. Remove symlinks to lifemapper workspace git repository directories ::  
-
-      # cd /opt/lifemapper
-      # rm -f Lm*
-
-   #. Replace variables in *.in files within the source code into new files 
-      (if not already in your workspace).  These can be found with the `find`
-      command.  Config files will be created in the non-linked config directory
-      correctly without intervention::  
-
-      # cd /state/partition1/workspace/core
-      # find . -name "*.in" | grep -v LmCompute | grep -v config 
-        ./LmDbServer/dbsetup/defineDBTables.sql.in
-        ./LmDbServer/dbsetup/addDBFunctions.sql.in
-      # cd LmDbServer/dbsetup/
-      # sed -e 's%@LMHOME@%/opt/lifemapper%g' addDBFunctions.sql.in > addDBFunctions.sql
-      # sed -e 's%@LMHOME@%/opt/lifemapper%g' defineDBTables.sql.in > defineDBTables.sql
 
 #. **Install roll**::
 

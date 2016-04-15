@@ -41,6 +41,12 @@ updateAddress () {
     infile=@LMHOME@/LmServer/config/config.lmserver.ini.in
     outfile=@LMHOME@/config/config.lmserver.ini
     
+    if [ ! -f $outfile ] ; then
+        bakext=`/bin/date +%F`
+        mv $(outfile) $(outfile).$(bakext)
+        infile=$outfile.$bakext
+    fi
+    
     # replace variables
     sed  "s%@PUBLIC_FQDN@%$Addr%g; \
           s%@WEB_FQDN@%$AddrWebserver%g; \
