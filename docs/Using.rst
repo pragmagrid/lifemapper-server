@@ -15,7 +15,7 @@ Populate the database
 
      # /opt/lifemapper/rocks/bin/fillDB
 
-   **TODO:** Move to command **lm init db** 
+   **TODO:** Move to command **lm fill db** 
 
    The script output is in ``/tmp/fillDB.log``. Examine the script output: ::
    

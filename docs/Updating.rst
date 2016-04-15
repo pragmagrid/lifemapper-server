@@ -32,22 +32,73 @@ Update roll
 
    # scp lifemapper-server-6.2-0.x86_64.disk1.iso server.lifemapper.org:
 
-#. **Temporary** Remove rocks-lifemapper manually.  Previously, this rpm did
-   not have a version, and defaulted to rocks version 6.2.  Rocks reads the new
-   version, 1.0.0, as older than the previous one named 6.2::
-
-   # rpm -el rocks-lifemapper
-
 #. **Add a new version of the roll**, using **clean=1** to ensure that 
    old rpms/files are deleted::
 
    # rocks add roll lifemapper-server-6.2-0.x86_64.disk1.iso clean=1
+
+#. **Remove some rpms manually** 
+   
+   #. If the **lifemapper-lmserver** rpm is new, the larger version git tag will  
+      force the new rpm to be installed. If the rpm has not changed, you will  
+      need to remove it to ensure that the rpm is installed and installation  
+      scripts are run.::  
+
+      # rpm -el lifemapper-lmserver
+   
+   #. Previously, the **rocks-lifemapper** rpm did not have a version, and so 
+      defaulted to rocks version 6.2 (rocks-lifemapper-6.2-0.x86_64.rpm).  
+      The new version, 1.0.0 (rocks-lifemapper-1.0.0-0.x86_64.rpm) has a lower 
+      revision number than the previous rpm, so 1.0.0 will not be installed 
+      unless 6.2 is removed.::
+
+      # rpm -el rocks-lifemapper
+
+   **Note**: Make sure to change rocks-lifemapper version when building roll to 
+   make sure that the rpm is replaced and scripts are run.
+
+#. **If** this is a development machine
+
+   #. Remove symlinks to lifemapper workspace git repository directories ::  
+
+      # cd /opt/lifemapper
+      # rm -f Lm*
+
+   #. Replace variables in *.in files within the source code into new files 
+      (if not already in your workspace).  These can be found with the `find`
+      command.  Config files will be created in the non-linked config directory
+      correctly without intervention::  
+
+      # cd /state/partition1/workspace/core
+      # find . -name "*.in" | grep -v LmCompute | grep -v config 
+        ./LmDbServer/dbsetup/defineDBTables.sql.in
+        ./LmDbServer/dbsetup/addDBFunctions.sql.in
+      # cd LmDbServer/dbsetup/
+      # sed -e 's%@LMHOME@%/opt/lifemapper%g' addDBFunctions.sql.in > addDBFunctions.sql
+      # sed -e 's%@LMHOME@%/opt/lifemapper%g' defineDBTables.sql.in > defineDBTables.sql
+
+#. **Install roll**::
+
    # rocks enable roll lifemapper-server
    # (cd /export/rocks/install; rocks create distro)
    # yum clean all
    # rocks run roll lifemapper-server > add-server.sh 
    # bash add-server.sh > add-server.out 2>&1
     
+#. **If** this is a development machine, move or remove installed lifemapper  
+   component directories and symlink to your git repository ::  
+
+   # cd /opt/lifemapper
+   # mkdir installed-1.0.8.lw
+   # mv Lm* installed-1.0.8.lw/
+   # ln -s /state/partition1/workspace/core/LmBackend
+   # ln -s /state/partition1/workspace/core/LmCommon
+   # ln -s /state/partition1/workspace/core/LmCompute
+   # ln -s /state/partition1/workspace/core/LmDbServer
+   # ln -s /state/partition1/workspace/core/LmDebug
+   # ln -s /state/partition1/workspace/core/LmServer
+   # ln -s /state/partition1/workspace/core/LmWebServer
+
 #. **Reboot front end** ::  
 
    # reboot
@@ -59,13 +110,6 @@ Update code and scripts (deprecated)
 Note: You may now install a new roll without losing data instead of updating
 individual packages.
 
-#. **Stop the pipeline** as lmwriter (replace 'pragma' with the datasource name 
-   configured for this instance, i.e. bison, idigbio) ::    
-
-     % touch /opt/lifemapper/log/pipeline.pragma.die
-
-   **TODO:** Move to command **lm stop pipeline** 
-     
 #. **Copy new Lifemapper RPMs to server**::
 
    # scp lifemapper-lmserver-<version>-1.x86_64.rpm  server.lifemapper.org:
