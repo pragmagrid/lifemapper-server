@@ -63,6 +63,9 @@ include Rules.mk
 
 RPM.EXTRAS += "AutoReq: 0"
 
+version.mk:
+	cat ../version.mk version.mk.in > version.mk
+
 PY.PATH = /opt/python/bin/$(PYTHONVER)
 
 build:
