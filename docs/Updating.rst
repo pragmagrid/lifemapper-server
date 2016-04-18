@@ -42,12 +42,12 @@ Update roll
    #. Remove symlinks to lifemapper workspace git repository directories ::  
 
       # cd /opt/lifemapper
-      # rm -f Lm*
+      # rm Lm*
 
-   #. Replace variables in *.in files within the source code into new files 
-      (if not already in your workspace).  These can be found with the `find`
+   #. **If not already done** in your workspace, replace variables in *.in files 
+      within the source code into new files.  These can be found with the `find`
       command.  Config files will be created in the non-linked config directory
-      correctly without intervention::  
+      correctly without intervention.  This **must** be done before rebooting::  
 
       # cd /state/partition1/workspace/core
       # find . -name "*.in" | grep -v LmCompute | grep -v config 
@@ -73,9 +73,9 @@ Update roll
    
    #. Previously, the **rocks-lifemapper** rpm did not have a version, and so 
       defaulted to rocks version 6.2 (rocks-lifemapper-6.2-0.x86_64.rpm).  
-      The new version, 1.0.0 (rocks-lifemapper-1.0.0-0.x86_64.rpm) has a lower 
+      The new version, 1.0.x (i.e. rocks-lifemapper-1.0.0-0.x86_64.rpm) has a lower 
       revision number than the previous rpm, so 1.0.0 will not be installed 
-      unless 6.2 is removed.::
+      unless 6.2 is forcibly removed.::
 
       # rpm -el rocks-lifemapper
 
