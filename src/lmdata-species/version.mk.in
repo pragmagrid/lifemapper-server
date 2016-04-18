@@ -2,8 +2,8 @@ NAME        		= lifemapper-species-data
 SPECIES_DATA_PATH	= species
 
 GBIF_FILES        = "gbif_orgs gbif_taxonomy"
+IDIG_FILENAME     = idig_gbifids.txt
 
 VERSION     		= 1.0
 RELEASE 	      	= 0
 TARBALL_POSTFIX	= tar.gz
-
