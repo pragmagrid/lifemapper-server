@@ -87,9 +87,9 @@ SCRIPTS = \
 
 PROGS = \
 	addInputData \
-	buildLmSolrIndex \
-	callLmServerTests \
-	deleteOldAnonymous \
+	buildLmSolrIndex.cron \
+	callLmServerTests.cron \
+	deleteOldAnonymous.cron \
 	initLM \
 	reconfigureLM \
 	checkLibs \

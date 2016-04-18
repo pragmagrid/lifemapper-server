@@ -89,9 +89,9 @@ SEDSPEC += \
         -e 's%@JAVABIN@%$(JAVABIN)%g'
 
 SCRIPTS = config.lmserver.ini \
-          runAllSQLScripts.sql  \
-          runUpdateDBScripts.sql \
-          cherrypy.conf
+          cherrypy.conf  \
+          addDBFunctions.sql  \
+          createDBTables.sql
           
 TOPDIR =  $(REPONAME)-$(VERSION)
 

@@ -1,6 +1,6 @@
 #!/bin/bash 
 #
-# Add scripts for scheduled tasks to cron.daily, cron.d directories. 
+# Add scripts for scheduled tasks to cron.daily, cron.hourly directories. 
 # Called by initLM.
 #
 usage () 
@@ -12,7 +12,7 @@ usage ()
 
 ### define varibles
 setDefaults () {
-    CRON_DIR=/etc/cron.d/
+    CRON_HOURLY_DIR=/etc/cron.hourly/
     CRON_DAILY_DIR=/etc/cron.daily/
     LOG=/tmp/`/bin/basename $0`.log
     gname=lmwriter
@@ -24,20 +24,20 @@ TimeStamp () {
     echo $1 `/bin/date` >> $LOG
 }
 
-# install cron jobs (security, cleanup)
+# install hourly cron jobs (solr)
+installHourlyTasks () {
+    # run hourly 
+    install @LMHOME@/rocks/bin/buildLmSolrIndex.cron ${CRON_HOURLY_DIR}
+    echo "Installed hourly tasks to ${CRON_HOURLY_DIR} ..." | tee -a $LOG
+}
+
+# install daily cron jobs (security, cleanup, tests)
 installDailyTasks () {
     # run daily 
     install @LMHOME@/config/securityUpdates.sh ${CRON_DAILY_DIR}
-    install @LMHOME@/rocks/bin/deleteOldAnonymous ${CRON_DAILY_DIR}
+    install @LMHOME@/rocks/bin/deleteOldAnonymous.cron ${CRON_DAILY_DIR}
+    install @LMHOME@/rocks/bin/callLmServerTests.cron ${CRON_DAILY_DIR}
     echo "Installed daily tasks to ${CRON_DAILY_DIR} ..." | tee -a $LOG
-}
-
-# install scheduled cron jobs (tests, solr)
-installSchedTasks () {
-    # run every X hours (hour interval in scripts)
-    install @LMHOME@/rocks/bin/callLmServerTests ${CRON_DIR}
-    install  @LMHOME@/rocks/bin/buildLmSolrIndex ${CRON_DIR}
-    echo "Installed scheduled tasks to ${CRON_DIR} ..." | tee -a $LOG
 }
 
 #### Main ####
@@ -47,6 +47,6 @@ if [ $# -ne 0 ]; then
 fi 
 
 setDefaults
+installHourlyTasks
 installDailyTasks
-installSchedTasks
 TimeStamp "# End"
