@@ -18,13 +18,6 @@ Populate the database
    **TODO:** Move to command **lm fill db** 
 
    The script output is in ``/tmp/fillDB.log``. Examine the script output: ::
-   
-   If (and only if) the DATASOURCE is GBIF, the script takes ~50 min to complete 
-     on a host with 4Gb memory. The last command should give output similar to: ::
-    
-     Static Stenus flavidulus
-     Inserted 778716; updated 22
-     # End Tue Sep 30 20:18:42 PDT 2014
   
    Check the available memory ::
 
