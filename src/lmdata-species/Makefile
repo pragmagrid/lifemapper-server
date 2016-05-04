@@ -71,7 +71,7 @@ version.mk:
 	
 SEDSPEC += \
         -e 's%@DATASOURCE@%$(DATASOURCE)%g' \
-        -e 's%@GBIF_FILES@%$(GBIF_FILES)%g' \
+        -e 's%@GBIF_META@%$(GBIF_META)%g' \
         -e 's%@SPECIES_DATA@%$(SPECIES_DATA)%g' \
         -e 's%@SPECIES_DATA_PATH@%$(SPECIES_DATA_PATH)%g' \
         -e 's%@TARBALL_POSTFIX@%$(TARBALL_POSTFIX)%g'
