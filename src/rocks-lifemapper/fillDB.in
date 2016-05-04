@@ -150,6 +150,5 @@ if [ ! $EXISTING_DB ] ; then
 fi
 AddFunctions
 Populate
-AddTaxonomy
 RegisterCompute
 TimeStamp "# End"
