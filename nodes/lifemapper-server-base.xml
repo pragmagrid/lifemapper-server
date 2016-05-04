@@ -34,6 +34,7 @@
 	<package>cmake</package>
 	<package>screen</package>
 	<package>lifemapper-cctools</package>
+	<package>lifemapper-cmd</package>
 	<package>lifemapper-proj</package>
 	<package>lifemapper-geos</package>
 	<package>lifemapper-gdal</package>
