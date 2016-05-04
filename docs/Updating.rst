@@ -2,13 +2,13 @@
 .. hightlight:: rest
 
 Updating an existing Lifemapper Server installation
-===================================================
+###################################################
 .. contents::  
 
 .. _Update Combined System : docs/UpdatingCombinedSystem.rst
 
 Introduction
-------------
+************
 After the roll is installed, and the instance has been populated, you will want
 to update the code, default data, configuration, or database at some point from 
 the lifemapper-server roll.  You can apply those changes without losing data.  
@@ -16,7 +16,7 @@ If both LmServer and LmCompute are installed on this machine, use
 **Update Combined System** instructions at `Update Combined System`_
 
 Stop processes
---------------
+**************
 
 #. **Stop the pipeline** as lmwriter (replace 'pragma' with the datasource name 
    configured for this instance, i.e. bison, idigbio) ::    
@@ -26,7 +26,7 @@ Stop processes
    **TODO:** Move to command **lm stop pipeline** 
 
 Update roll
------------
+***********
 
 #. **Copy new Lifemapper roll with updated RPMs to server**, for example::
 
@@ -90,19 +90,25 @@ Update roll
    # rocks run roll lifemapper-server > add-server.sh 
    # bash add-server.sh > add-server.out 2>&1
     
-#. **If** this is a development machine, move or remove installed lifemapper  
-   component directories and symlink to your git repository ::  
+#. **If** this is a development machine
 
-   # cd /opt/lifemapper
-   # mkdir installed-1.0.8.lw
-   # mv Lm* installed-1.0.8.lw/
-   # ln -s /state/partition1/workspace/core/LmBackend
-   # ln -s /state/partition1/workspace/core/LmCommon
-   # ln -s /state/partition1/workspace/core/LmCompute
-   # ln -s /state/partition1/workspace/core/LmDbServer
-   # ln -s /state/partition1/workspace/core/LmDebug
-   # ln -s /state/partition1/workspace/core/LmServer
-   # ln -s /state/partition1/workspace/core/LmWebServer
+   #. If there are changes to the config files, modify those in the 
+      /opt/lifemapper/config/ directory
+
+   #. Move or remove installed lifemapper component directories and symlink to 
+      your git repository ::  
+
+      # cd /opt/lifemapper
+      # mkdir installed-1.0.8.lw
+      # mv Lm* installed-1.0.8.lw/
+      # ln -s /state/partition1/workspace/core/LmBackend
+      # ln -s /state/partition1/workspace/core/LmCommon
+      # ln -s /state/partition1/workspace/core/LmCompute
+      # ln -s /state/partition1/workspace/core/LmDbServer
+      # ln -s /state/partition1/workspace/core/LmDebug
+      # ln -s /state/partition1/workspace/core/LmServer
+      # ln -s /state/partition1/workspace/core/LmWebServer
+
 
 #. **Reboot front end** ::  
 
@@ -110,7 +116,7 @@ Update roll
    
 
 Update code and scripts (deprecated)
-------------------------------------
+************************************
 
 Note: You may now install a new roll without losing data instead of updating
 individual packages.
@@ -193,7 +199,7 @@ individual packages.
    # cat /opt/lifemapper/rocks/etc/lifemapper-sysconfig-httpd >> /etc/sysconfig/httpd
 
 Add a new computation server
-----------------------------
+****************************
 
 .. _Using : docs/Using.rst#add-a-new-lmcompute
 
@@ -204,7 +210,7 @@ Add a new computation server
 
 
 Add/change Archive User
------------------------
+***********************
 
 #. Change the archive user  as ``root`` 
 
@@ -225,8 +231,8 @@ Add/change Archive User
    **TODO:** Move to command **lm start pipeline**
 
           
-Update data
------------
+Update input data
+*****************
 
 #. **Stop the pipeline** as lmserver.
 
@@ -238,7 +244,7 @@ Update data
    **TODO:** Move to command **lm stop pipeline**  
      
 Add/change climate data
-~~~~~~~~~~~~~~~~~~~~~~~
+=======================
      
 #. **Download, catalog new climate data**  as ``root``  
 
@@ -271,7 +277,7 @@ Add/change climate data
    **TODO:** Move to command **lm start pipeline**
    
 Add/change species data
-~~~~~~~~~~~~~~~~~~~~~~~
+=======================
 
 #. **Download, catalog new species data**  as ``root`` 
 
@@ -294,7 +300,7 @@ Add/change species data
    **TODO:** Move to command **lm start pipeline**
 
 Add all data (unfinished)
-~~~~~~~~~~~~~~~~~~~~~~~~~
+=========================
 
 #. **Download, catalog new user, scenario, species, taxonomy**  as ``root`` 
    **TODO: This is not yet working** it will do all above steps 
@@ -305,7 +311,7 @@ Add all data (unfinished)
 
    
 Test
-----
+****
 
 #. **Test the LmWebServer** setup as user ``lmwriter``
   

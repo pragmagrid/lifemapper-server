@@ -3,17 +3,13 @@
 # Purpose: fetch species data 
 
 create_species_data () {
-   echo "Fetch species data @SPECIES_DATA@"
    LMURL="http://lifemapper.org/dl"
+
+   echo "Fetch species data @SPECIES_DATA@"
    curl -L "$LMURL/@SPECIES_DATA@.@TARBALL_POSTFIX@" -o ../lmdata-species/@SPECIES_DATA@.@TARBALL_POSTFIX@
-     
-   if [ @DATASOURCE@ == "GBIF" ]; then
-      echo "Fetch gbif supporting data"
-      LMURL="http://lifemapper.org/dl"
-      for i in @GBIF_FILES@; do
-         curl -L "$LMURL/$i.@TARBALL_POSTFIX@" -o ../lmdata-species/$i.@TARBALL_POSTFIX@
-      done
-   fi
+
+   echo "Fetch gbif supporting data"
+   curl -L "$LMURL/@GBIF_META@.@TARBALL_POSTFIX@" -o ../lmdata-species/@GBIF_META@.@TARBALL_POSTFIX@     
 }
 
 ### main ###
