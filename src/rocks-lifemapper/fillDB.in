@@ -82,7 +82,7 @@ SetPass () {
 }
 
 ### define databases 
-Define () {
+DefineDatabase () {
     if [ -f $DEFINE_TABLES_SQL ] ; then
         echo "Running $DEFINE_TABLES_SQL ..." | tee -a $LOG
         psql -U admin -d template1 -f $DEFINE_TABLES_SQL 2>&1 | tee -a $LOG
@@ -146,7 +146,7 @@ SetDefaults
 SetPermissions
 SetPass
 if [ ! $EXISTING_DB ] ; then
-    Define
+    DefineDatabase
 fi
 AddFunctions
 Populate
