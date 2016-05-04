@@ -1,8 +1,8 @@
 NAME        		= lifemapper-species-data
 SPECIES_DATA_PATH	= species
 
-GBIF_META        = gbif_meta
-IDIG_FILENAME     = idig_gbifids.txt
+GBIF_META         = gbif_meta
+IDIG_LIST         = idig_gbifids
 
 VERSION     		= 1.0
 RELEASE 	      	= 0

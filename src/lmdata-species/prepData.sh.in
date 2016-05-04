@@ -10,6 +10,9 @@ create_species_data () {
 
    echo "Fetch gbif supporting data"
    curl -L "$LMURL/@GBIF_META@.@TARBALL_POSTFIX@" -o ../lmdata-species/@GBIF_META@.@TARBALL_POSTFIX@     
+
+   echo "Fetch iDigBio list of GBIF-taxonIDs"
+   curl -L "$LMURL/@IDIG_LIST@.@TARBALL_POSTFIX@" -o ../lmdata-species/@IDIG_LIST@.@TARBALL_POSTFIX@     
 }
 
 ### main ###

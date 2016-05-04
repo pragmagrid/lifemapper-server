@@ -72,6 +72,7 @@ version.mk:
 SEDSPEC += \
         -e 's%@DATASOURCE@%$(DATASOURCE)%g' \
         -e 's%@GBIF_META@%$(GBIF_META)%g' \
+        -e 's%@IDIG_LIST@%$(IDIG_LIST)%g' \
         -e 's%@SPECIES_DATA@%$(SPECIES_DATA)%g' \
         -e 's%@SPECIES_DATA_PATH@%$(SPECIES_DATA_PATH)%g' \
         -e 's%@TARBALL_POSTFIX@%$(TARBALL_POSTFIX)%g'
@@ -90,12 +91,7 @@ install::
 	mkdir -p $(ROOT)/$(EXPORTDIR)
 	tar -xzf  $(SPECIES_DATA).$(TARBALL_POSTFIX)  -C  $(ROOT)/$(EXPORTDIR)/
 	tar -xzf  $(GBIF_META).$(TARBALL_POSTFIX)  -C  $(ROOT)/$(EXPORTDIR)/
-	cp  -p    $(IDIG_FILENAME)  $(ROOT)/$(EXPORTDIR)/
-	#if [ $(DATASOURCE) == "GBIF" ]; then
-	#	for i in $(GBIF_FILES); do
-	#		tar -xzf  $(i).$(TARBALL_POSTFIX)  -C  $(ROOT)/$(EXPORTDIR)/
-	#	done
-	#fi
+	tar -xzf  $(IDIG_LIST).$(TARBALL_POSTFIX)  -C  $(ROOT)/$(EXPORTDIR)/
 
 clean::
 	rm -rf version.mk
