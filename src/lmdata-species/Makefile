@@ -89,6 +89,7 @@ build:
 install::
 	mkdir -p $(ROOT)/$(EXPORTDIR)
 	tar -xzf  $(SPECIES_DATA).$(TARBALL_POSTFIX)  -C  $(ROOT)/$(EXPORTDIR)/
+	tar -xzf  $(GBIF_META).$(TARBALL_POSTFIX)  -C  $(ROOT)/$(EXPORTDIR)/
 	cp  -p    $(IDIG_FILENAME)  $(ROOT)/$(EXPORTDIR)/
 	#if [ $(DATASOURCE) == "GBIF" ]; then
 	#	for i in $(GBIF_FILES); do
