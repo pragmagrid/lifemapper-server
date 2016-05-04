@@ -1,11 +1,8 @@
 NAME        	= lifemapper-lmserver
 SRCNAME         = $(NAME)
 REPONAME        = core
-VERSION    	= 1.0.8.lw
+VERSION    	= 1.0.9.lw
 RELEASE 	= 1
 TARBALL_POSTFIX	= tar.gz
 
 RPM.EXTRAS  = %define __os_install_post /usr/lib/rpm/brp-python-bytecompile  $(PY.PATH)
-#RPM.EXTRAS  = %define __os_install_post /usr/lib/rpm/brp-python-bytecompile  /opt/python/bin/python2.7
-
-
