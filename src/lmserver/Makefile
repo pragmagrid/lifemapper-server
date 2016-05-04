@@ -91,7 +91,8 @@ SEDSPEC += \
 SCRIPTS = config.lmserver.ini \
           cherrypy.conf  \
           addDBFunctions.sql  \
-          createDBTables.sql
+          createDBTables.sql \
+          buildBoom.py
           
 TOPDIR =  $(REPONAME)-$(VERSION)
 
@@ -109,6 +110,8 @@ addDBFunctions.sql: $(TOPDIR)/LmDbServer/dbsetup/addDBFunctions.sql.in
 createDBTables.sql: $(TOPDIR)/LmDbServer/dbsetup/createDBTables.sql.in
 	$(SED) $(SEDSPEC) $^ > $(TOPDIR)/LmDbServer/dbsetup/$@
 
+buildBoom.py: $(TOPDIR)/LmDbServer/pipeline/buildBoom.py.in
+	$(SED) $(SEDSPEC) $^ > $(TOPDIR)/LmDbServer/pipeline/$@
 
 prepSrc.sh: prepSrc.sh.in
 	$(SED) $(SEDSPEC) $^ > $@
