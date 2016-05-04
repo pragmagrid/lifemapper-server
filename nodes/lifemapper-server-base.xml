@@ -97,6 +97,7 @@ fi
 /bin/mkdir -p /state/partition1/lmserver/data/image
 /bin/mkdir -p /state/partition1/lmserver/data/archive
 /bin/mkdir -p /state/partition1/lmserver/data/test
+/bin/mkdir -p /state/partition1/lmserver/data/tmpUpload
 
 /bin/chgrp -R lmwriter /state/partition1/lmserver
 /bin/chmod -R g+ws /state/partition1/lmserver/log
