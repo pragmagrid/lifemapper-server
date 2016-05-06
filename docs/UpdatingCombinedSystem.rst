@@ -32,7 +32,7 @@ Stop processes
 #. **Stop database processes** as root::
 
      root# service pgbouncer stop
-     root# service postgresql stop
+     root# service postgresql-9.1 stop
 
 Update everything
 -----------------
