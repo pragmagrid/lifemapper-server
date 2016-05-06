@@ -5,7 +5,7 @@
 SOLR_HOME=@SOLRDATA@/data
 LMHOME=@LMHOME@
 
-cp -rp $LMHOME/LmWebServer/config/solrcores/    $SOLR_HOME/data/cores/
+cp -rp $LMHOME/LmWebServer/config/solrcores/    $SOLR_HOME/cores/
 
 # owner of @SOLRDATA@ is set in nodes/lifemapper-lmweb.xml
 #/bin/chown -R @SOLRUSER@:@SOLRUSER@ $SOLR_HOME
