@@ -93,11 +93,11 @@ fi
 
 /bin/mkdir -p /state/partition1/lmserver/log
 /bin/mkdir -p /state/partition1/lmserver/log/users
+/bin/mkdir -p /state/partition1/lmserver/data/archive
 /bin/mkdir -p /state/partition1/lmserver/data/climate
 /bin/mkdir -p /state/partition1/lmserver/data/species
 /bin/mkdir -p /state/partition1/lmserver/data/ESRIDATA
 /bin/mkdir -p /state/partition1/lmserver/data/image
-/bin/mkdir -p /state/partition1/lmserver/data/archive
 /bin/mkdir -p /state/partition1/lmserver/data/test
 /bin/mkdir -p /state/partition1/lmserver/data/tmpUpload
 
@@ -107,6 +107,7 @@ fi
 /bin/chmod -R g+ws /state/partition1/lmserver/data/climate 
 /bin/chmod -R g+ws /state/partition1/lmserver/data/species
 /bin/chmod -R g+ws /state/partition1/lmserver/data/test
+/bin/chmod -R g+ws /state/partition1/lmserver/data/tmpUpload
 
 # need next 2 lines for pipeline.datasource.die
 /bin/chgrp lmwriter /opt/lifemapper
