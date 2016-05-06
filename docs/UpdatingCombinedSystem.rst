@@ -55,7 +55,7 @@ Update everything
       is installed and installation scripts are run.::  
 
       # rpm -el lifemapper-lmserver
-      # rpm -el lifemapper-compute
+      # rpm -el lifemapper-lmcompute
    
    #. Previously, the **rocks-lifemapper** and **rocks-lmcompute** rpms did not 
       have a version, and so defaulted to rocks version 6.2 
@@ -87,10 +87,6 @@ Update everything
 #. **Reboot front end** ::  
 
    # reboot
-
-#. **Update LmServer configuration** with ::
-   
-     # /opt/lifemapper/rocks/bin/initLM
    
 #. **Rebuild the compute nodes** ::  
 
