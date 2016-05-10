@@ -154,6 +154,8 @@ TimeStamp () {
 set_defaults
 
 if $EXISTING_DB ; then
+    stop_services
+    start_services
     update_db
 else
     stop_services
