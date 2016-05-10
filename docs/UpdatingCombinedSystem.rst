@@ -28,11 +28,6 @@ Stop processes
      lmwriter$ $PYTHON /opt/lifemapper/LmCompute/tools/jobMediator.py stop
 
    **TODO:** Move to command **lm stop jobs** 
-   
-#. **Stop database processes** as root::
-
-     root# service pgbouncer stop
-     root# service postgresql-9.1 stop
 
 Update everything
 -----------------
@@ -57,7 +52,10 @@ Update everything
       # rpm -el lifemapper-lmserver
       # rpm -el lifemapper-lmcompute
    
-   #. Previously, the **rocks-lifemapper** and **rocks-lmcompute** rpms did not 
+   #. The roll builder must be sure to update the version on rocks-lmcompute and
+      rocks-lifemapper rpms in the rolls, otherwise a new rpm with the same 
+      version number will be ignored on install.  
+      Previously, the **rocks-lifemapper** and **rocks-lmcompute** rpms did not 
       have a version, and so defaulted to rocks version 6.2 
       (rocks-lifemapper-6.2-0.x86_64.rpm, rocks-lmcompute-6.2-0.x86_64.rpm).  
       The new version, 1.0.x (i.e. rocks-lifemapper-1.0.0-0.x86_64.rpm) has a 
@@ -66,9 +64,6 @@ Update everything
 
       # rpm -el rocks-lifemapper
       # rpm -el rocks-lmcompute
-
-   **Note**: Make sure to change the rpm version when modifying scripts  
-   to make sure that the rpm is replaced and scripts are run.
 
 #. **Create distribution**::
 
@@ -80,8 +75,8 @@ Update everything
 #. **Create and run LmServer/LmCompute scripts**::
 
    # rocks run roll lifemapper-server > add-server.sh 
-   # bash add-server.sh > add-server.out 2>&1
    # rocks run roll lifemapper-compute > add-compute.sh 
+   # bash add-server.sh > add-server.out 2>&1
    # bash add-compute.sh > add-compute.out 2>&1
     
 #. **Reboot front end** ::  
