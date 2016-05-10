@@ -72,7 +72,11 @@ version.mk:
 SEDSPEC += \
         -e 's%@SCENARIO_PACKAGE@%$(SCENARIO_PACKAGE)%g' \
         -e 's%@ENV_DATA_PATH@%$(ENV_DATA_PATH)%g' \
+        -e 's%@DATADIR_SERVER@%$(DATADIR_SERVER)%g' \
         -e 's%@TARBALL_POSTFIX@%$(TARBALL_POSTFIX)%g'
+
+updateClimateData: updateClimateData.in
+	$(SED) $(SEDSPEC) $^ > $@
 
 prepData.sh: prepData.sh.in
 	$(SED) $(SEDSPEC) $^ > $@
@@ -85,11 +89,14 @@ prep:
 	./prepData.sh
 
 build:
+	make updateClimateData
 	echo $(EXPORTDIR)
 
 install::
 	mkdir -p $(ROOT)/$(EXPORTDIR)
 	tar xzvf  $(SCENARIO_PACKAGE).$(TARBALL_POSTFIX)  -C  $(ROOT)/$(EXPORTDIR)/
+	mkdir -p $(ROOT)/$(PKGROOT)/rocks/bin
+	install -m 755 updateClimateData $(ROOT)/$(PKGROOT)/rocks/bin
 
 clean::
 	rm -rf version.mk prepData.sh
