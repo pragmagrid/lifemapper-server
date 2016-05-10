@@ -86,7 +86,6 @@ SCRIPTS = \
 	lifemapper-server.conf
 
 PROGS = \
-	addInputData \
 	buildLmSolrIndex.cron \
 	callLmServerTests.cron \
 	deleteOldAnonymous.cron \

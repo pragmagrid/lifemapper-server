@@ -75,7 +75,7 @@ SEDSPEC += \
         -e 's%@DATADIR_SERVER@%$(DATADIR_SERVER)%g' \
         -e 's%@TARBALL_POSTFIX@%$(TARBALL_POSTFIX)%g'
 
-updateClimateData: updateClimateData.in
+updateArchiveInput: updateArchiveInput.in
 	$(SED) $(SEDSPEC) $^ > $@
 
 prepData.sh: prepData.sh.in
@@ -89,14 +89,14 @@ prep:
 	./prepData.sh
 
 build:
-	make updateClimateData
+	make updateArchiveInput
 	echo $(EXPORTDIR)
 
 install::
 	mkdir -p $(ROOT)/$(EXPORTDIR)
 	tar xzvf  $(SCENARIO_PACKAGE).$(TARBALL_POSTFIX)  -C  $(ROOT)/$(EXPORTDIR)/
 	mkdir -p $(ROOT)/$(PKGROOT)/rocks/bin
-	install -m 755 updateClimateData $(ROOT)/$(PKGROOT)/rocks/bin
+	install -m 755 updateArchiveInput $(ROOT)/$(PKGROOT)/rocks/bin
 
 clean::
-	rm -rf version.mk prepData.sh
+	rm -rf version.mk prepData.sh updateArchiveInput

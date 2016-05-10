@@ -1,16 +1,21 @@
 #!/bin/bash
 #
-# This script is creates configuration files for postgres and pgbouncer. 
-# The script can be run at any time to remove all the previous configuration
-# and create a new one. 
+# This script downloads a climate data package, installs it, and catalogs it 
+# in the database for the current default user.
+# The script can be run at any time to override the previous configuration
+# with a new one. 
 
 usage () 
 {
     echo "Usage: $0"
     echo "This script is run after lifemapper-server installation. It will:"
-    echo "     - download and install data named in configuration file"
+    echo "     - download and install SCENARIO_PACKAGE data named in configuration file"
+    echo "     - catalog climate data with the ARCHIVE_USER named in configuration file"
+    echo "If the data and/or database records are present, the script will make only needed changes."
     echo "   "
-    echo "The script can be run at any time to add data and override configuration."
+    echo "The script can be run at any time to override configuration with a "
+    echo "different user or climate package."
+    echo "   "
 }
 
 if [ $# -ne 0 ]; then
@@ -45,7 +50,7 @@ add_inputs () {
     fi
 }
 
-### Retrieve climate data named in SCENARIO_PACKAGE, catalog if successful
+### Retrieve climate data named in SCENARIO_PACKAGE
 get_climate_data () {
     # get the SCENARIO_PACKAGE value from site.ini or config.lmserver.ini file
     SCEN_PKG=`grep SCENARIO_PACKAGE $SITE_CONFIG_FILE | grep -v ';' | awk '{print $2}'`
@@ -65,7 +70,7 @@ get_climate_data () {
             echo "Fetch climate data $SCEN_PKG" | tee -a $LOG
             curl -L "$LMURL/$SCEN_PKG.@TARBALL_POSTFIX@" -o @CLIMATE_DIR@/$SCEN_PKG.@TARBALL_POSTFIX@ 
   
-            # uncompress and add to database
+            # uncompress 
             if [ -f @CLIMATE_DIR@/$SCEN_PKG.@TARBALL_POSTFIX@ ] ; then
                 tar xzf @CLIMATE_DIR@/$SCEN_PKG.@TARBALL_POSTFIX@ 
             else
