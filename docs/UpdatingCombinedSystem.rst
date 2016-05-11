@@ -44,24 +44,15 @@ Update everything
    
 #. **Remove some rpms manually** 
    
-   #. If the **lifemapper-lmserver** and **lifemapper-compute** rpms are new, 
-      the larger version git tag will force the new rpm to be installed. If the 
-      rpm has not changed, you will need to remove it to ensure that the new rpm 
-      is installed and installation scripts are run.::  
+   #. If the source code (lifemapper-lmserver and lifemapper-compute) or 
+      configuration (rocks-lifemapper, rocks-lmcompute) rpms are new, 
+      the larger version git tag will force the new rpm to be installed, 
+      **but if the rpm versions have not changed**, you must remove them (the
+      ones you want to force re-install) to ensure that the new rpm is installed 
+      and installation scripts are run.::  
 
       # rpm -el lifemapper-lmserver
       # rpm -el lifemapper-lmcompute
-   
-   #. The roll builder must be sure to update the version on rocks-lmcompute and
-      rocks-lifemapper rpms in the rolls, otherwise a new rpm with the same 
-      version number will be ignored on install.  
-      Previously, the **rocks-lifemapper** and **rocks-lmcompute** rpms did not 
-      have a version, and so defaulted to rocks version 6.2 
-      (rocks-lifemapper-6.2-0.x86_64.rpm, rocks-lmcompute-6.2-0.x86_64.rpm).  
-      The new version, 1.0.x (i.e. rocks-lifemapper-1.0.0-0.x86_64.rpm) has a 
-      lower revision number than the previous rpm, so 1.0.x will not be 
-      installed unless 6.2 is forcibly removed.::
-
       # rpm -el rocks-lifemapper
       # rpm -el rocks-lmcompute
 
@@ -91,10 +82,9 @@ Update everything
 #. **Temporary** On EACH node fix permissions.  Note: this is run on FE by 
    script created by run roll. Commands are in lifemapper-compute-base.xml::
 
-   # /bin/chgrp -R lmwriter /state/partition1/lm
-   # /bin/chmod -R g+ws /state/partition1/lm
-
-   # /bin/chgrp -R lmwriter /opt/lifemapper/.java
-   # /bin/chmod -R g+ws /opt/lifemapper/.java
+   # rocks run host compute "chgrp -R lmwriter /state/partition1/lm"
+   # rocks run host compute "chmod -R g+ws /state/partition1/lm"
+   # rocks run host compute "chgrp -R lmwriter /opt/lifemapper/.java"
+   # rocks run host compute "chmod -R g+ws /opt/lifemapper/.java"
 
 
