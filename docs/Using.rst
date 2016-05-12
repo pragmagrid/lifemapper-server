@@ -26,21 +26,7 @@ Populate the database
    If the output indicates 200-300 Mb, reboot the VM: ::
      
      # reboot
-     
-#. **Soon to be deprecated** Create a layers package ::
-   
-   First connect to postgres and find the 
-   As ``lmwriter``, create a package to pre-populate a LmCompute instance with 
-   the layers that will be used for jobs for this server.  You will need the 
-   SCENARIO_PACKAGE variable (i.e. 30sec-present-future-SEA) and the scenario 
-   ids (i.e. 1 through 5).  For small pragma tests, using only openModeller  
-   algorithms, add the option --fileTypes=t to include only TIFFs (reducing the 
-   size of input data).  If you only want TIFF files (leaving ASCII files out, needed for 
-   ATT Maxent algorithm), add the -f option with 't'.  The default will
-   include both ASCII and TIFF.::
-   
-   % $PYTHON /opt/lifemapper/LmDbServer/tools/createScenarioPackage.py 30sec-present-future-SEA 1 2 3 4 5
-     
+          
 Add a new LmCompute
 ~~~~~~~~~~~~~~~~~~~
      
@@ -124,39 +110,33 @@ Test the LmWebServer setup
        27 Sep 2015 14:38 MainThread.log.debug line 80 DEBUG    Url: http://lm.public/services/sdm/
        27 Sep 2015 14:38 MainThread.log.debug line 80 DEBUG    Url: http://lm.public/services/sdm/experiments
        27 Sep 2015 14:38 MainThread.log.debug line 80 DEBUG    Url: http://lm.public/services/sdm/layers
-       27 Sep 2015 14:38 MainThread.log.debug line 80 DEBUG    Url: http://lm.public/services/sdm/projections
-       27 Sep 2015 14:38 MainThread.log.debug line 80 DEBUG    Url: http://lm.public/services/sdm/scenarios
-       27 Sep 2015 14:38 MainThread.log.debug line 80 DEBUG    Url: http://lm.public/services/rad/
-       27 Sep 2015 14:38 MainThread.log.debug line 80 DEBUG    Url: http://lm.public/services/rad/experiments
-       27 Sep 2015 14:38 MainThread.log.debug line 80 DEBUG    Url: http://lm.public/services/rad/layers
-       27 Sep 2015 14:38 MainThread.log.debug line 80 DEBUG    Url: http://lm.public/services/sdm/scenarios/5/atom
        ...
-       27 Sep 2015 14:38 MainThread.log.debug line 80 DEBUG    Url: http://lm.public/services/sdm/layers/94/ascii
        27 Sep 2015 14:38 MainThread.log.debug line 80 DEBUG     returned HTTP code: 500
        27 Sep 2015 14:38 MainThread.log.debug line 80 DEBUG    Url: http://lm.public/services/sdm/layers/94/atom
        ...
 
    **TODO:** Move to command **lm test web** 
    
-Run the pipeline
-~~~~~~~~~~~~~~~~
+   
+Run the archivist
+~~~~~~~~~~~~~~~~~
 
-#. To start the pipeline as user ``lmwriter`` do ::  
+#. To start the archivist as user ``lmwriter`` do ::  
 
-     $ $PYTHON /opt/lifemapper/LmDbServer/pipeline/localpipeline.py
+     $ $PYTHON /opt/lifemapper/LmDbServer/pipeline/archivist.py start
      
-   **TODO:** Move to command **lm start pipeline** 
+   **TODO:** Move to command **lm start archivist** 
 
 
-#. To stop the pipeline: ::    
+#. To stop the archivist: ::    
 
-     $ touch /opt/lifemapper/log/pipeline.<DATASOURCE>.die
-
-   **TODO:** Move to command **lm stop pipeline** 
+     $ $PYTHON /opt/lifemapper/LmDbServer/pipeline/archivist.py stop
      
-#. Check URLs on completed jobs.  After the pipeline has run for awhile, 
-   **and LmCompute has pulled, computed, and returned some jobs**, as 
-   user ``lmwriter``, check URLs again: ::
+   **TODO:** Move to command **lm stop archivist** 
+     
+#. After the archivist has run for awhile
+   **and LmCompute has pulled, computed, and returned some jobs**, 
+   check URLs on completed jobs (as user ``lmwriter``) ::
  
      $ $PYTHON /opt/lifemapper/LmWebServer/tests/scripts/checkLmWeb.py
 

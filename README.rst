@@ -206,8 +206,8 @@ Execute first command from the location of the ISO ::
    # rocks enable roll lifemapper-server
    # (cd /export/rocks/install; rocks create distro)  
    # yum clean all
-   # rocks run roll lifemapper-server > add-roll.sh  
-   # bash add-roll.sh  > add-roll.out 2>&1
+   # rocks run roll lifemapper-server > add-server.sh  
+   # bash add-server.sh  > add-server.out 2>&1
 
 After the  last command  is finished, examine the add-roll.out file for errors
 and then reboot your frontend: ::
@@ -216,8 +216,12 @@ and then reboot your frontend: ::
 
 The reboot is needed to run a few initialization ($PKGROOT/rocks/bin/initLM) started with 
 /etc/rc.d/rocksconfig.d/post-99-lifemapper-lmserver.
-After the frontend boots up check the /tmp/lifemapper-config.log file to check the status
-of initialization commands.
+After the frontend boots up, check the success of initialization commands in 
+log files in /tmp:
+  * initLM.log
+  * updateDB.log,
+  * installServerCronJobs.log
+  * post-99-lifemapper-lmserver.debug 
 
 At this point the  server is ready to run lifemapper-specific commands for pipeline initialization
 and data seeding, see `Using Lifemapper`_ 
