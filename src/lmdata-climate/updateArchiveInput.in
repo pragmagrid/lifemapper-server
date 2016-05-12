@@ -62,17 +62,17 @@ get_climate_data () {
     if [ "$SCEN_PKG" ] ; then
     
         # find metadata files, pkgname.py and pkgname.csv
-        filecount=`ls -l @CLIMATE_DIR@/$SCEN_PKG | wc -l`
+        filecount=`ls -l $CLIMATE_DIR/$SCEN_PKG* | wc -l`
         if [ "$filecount" > 1 ]; then
             echo "Climate metadata for $SCEN_PKG already present" | tee -a $LOG
             
         else  
             echo "Fetch climate data $SCEN_PKG" | tee -a $LOG
-            curl -L "$LMURL/$SCEN_PKG.@TARBALL_POSTFIX@" -o @CLIMATE_DIR@/$SCEN_PKG.@TARBALL_POSTFIX@ 
+            curl -L "$LMURL/$SCEN_PKG.@TARBALL_POSTFIX@" -o $CLIMATE_DIR/$SCEN_PKG.@TARBALL_POSTFIX@ 
   
             # uncompress 
-            if [ -f @CLIMATE_DIR@/$SCEN_PKG.@TARBALL_POSTFIX@ ] ; then
-                tar xzf @CLIMATE_DIR@/$SCEN_PKG.@TARBALL_POSTFIX@ 
+            if [ -f $CLIMATE_DIR/$SCEN_PKG.@TARBALL_POSTFIX@ ] ; then
+                tar xzf $CLIMATE_DIR/$SCEN_PKG.@TARBALL_POSTFIX@ 
             else
                 echo "Failed to retrieve $SCEN_PKG ..." | tee -a $LOG
             fi
