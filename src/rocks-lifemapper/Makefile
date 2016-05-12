@@ -99,7 +99,6 @@ PROGS = \
 	updateIP \
 	confconst.py \
 	updateDB \
-	updateLM \
 	installServerCronJobs
 
 PYFILES = __init__.py \

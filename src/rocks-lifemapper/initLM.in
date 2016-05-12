@@ -153,15 +153,14 @@ TimeStamp () {
 ####### Main #######
 set_defaults
 
+stop_services
 if $EXISTING_DB ; then
-    stop_services
-    start_services
-    update_db
+    echo "Database exists" >> $LOG
 else
-    stop_services
     init_db
-    start_services
 fi
+start_services
+update_db
 
 installCronJobs
 update_config
