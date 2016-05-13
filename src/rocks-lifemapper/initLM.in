@@ -30,6 +30,7 @@ set_defaults() {
     PG=`basename /etc/init.d/postgresql-*`
     PROFILE=/var/lib/pgsql/.bash_profile
     BIN=@PKGROOT@/rocks/bin
+    USERSFILE=@PKGROOT@/rocks/etc/users
     DEFINE_TABLES_SQL=@LMHOME@/LmDbServer/dbsetup/defineDBTables.sql
     UPDATE_TABLES_SQL=@LMHOME@/LmDbServer/dbsetup/updateDBTables.sql
     ADD_FUNCTIONS_SQL=@LMHOME@/LmDbServer/dbsetup/addDBFunctions.sql
@@ -52,10 +53,9 @@ set_defaults() {
 
 ### sets the password for db "admin" user to execute sql commands
 set_password () {
-
     # check if users file exists
     if [ ! -f $USERSFILE ] ; then
-        echo "Error: missing file $USERSFILE" | tee -a $LOG
+        echo "Error: missing file $USERSFILE" >> $LOG
         exit 1
     fi
 
@@ -63,11 +63,12 @@ set_password () {
     cat $USERSFILE > /dev/null
     RETVAL=$?
     if [ $RETVAL -ne 0 ]; then
-        echo "Error: You must be root to run this script"  | tee -a $LOG
+        echo "Error: You must be root to run this script" >> $LOG
         exit 1
     fi
 
     # get the password from 'users' file
+    echo "-- setting postgres password" >> $LOG
     PASS=`grep admin $USERSFILE | awk '{print $2}'`
     export PGPASSWORD=$PASS
 }
@@ -142,10 +143,10 @@ update_connect_file() {
 ### define databases 
 define_lm_database () {
     if [ -f $DEFINE_TABLES_SQL ] ; then
-        echo "Running $DEFINE_TABLES_SQL ..." | tee -a $LOG
+        echo "Running $DEFINE_TABLES_SQL ..." >> $LOG
         psql -U admin -d template1 -f $DEFINE_TABLES_SQL 2>&1 | tee -a $LOG
     else
-        echo "Error: missing file $DEFINE_TABLES_SQL" | tee -a $LOG
+        echo "Error: missing file $DEFINE_TABLES_SQL" >> $LOG
         exit 1
     fi
 }
@@ -153,10 +154,10 @@ define_lm_database () {
 ### add database views, types, functions 
 update_lm_tables () {
     if [ -f $UPDATE_TABLES_SQL ] ; then
-        echo "Running $UPDATE_TABLES_SQL ..." | tee -a $LOG
+        echo "Running $UPDATE_TABLES_SQL ..." >> $LOG
         psql -U admin -d template1 -f $UPDATE_TABLES_SQL 2>&1 | tee -a $LOG
     else
-        echo "Error: missing file $UPDATE_TABLES_SQL" | tee -a $LOG
+        echo "Error: missing file $UPDATE_TABLES_SQL" >> $LOG
         exit 1
     fi
 }
@@ -164,10 +165,10 @@ update_lm_tables () {
 ### add database views, types, functions 
 add_lm_functions () {
     if [ -f $ADD_FUNCTIONS_SQL ] ; then
-        echo "Running $ADD_FUNCTIONS_SQL ..." | tee -a $LOG
+        echo "Running $ADD_FUNCTIONS_SQL ..." >> $LOG
         psql -U admin -d template1 -f $ADD_FUNCTIONS_SQL 2>&1 | tee -a $LOG
     else
-        echo "Error: missing file $ADD_FUNCTIONS_SQL" | tee -a $LOG
+        echo "Error: missing file $ADD_FUNCTIONS_SQL" >> $LOG
         exit 1
     fi
 }
@@ -216,8 +217,8 @@ TimeStamp () {
 ####### Main #######
 set_defaults
 update_connect_file
-
 stop_services
+
 if [ $EXISTING_DB = false ] ; then
     echo "Creating new database" >> $LOG
     init_db
