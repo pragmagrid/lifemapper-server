@@ -37,8 +37,6 @@ SetDefaults () {
     USER=admin
     # file to get password from
     USERSFILE=@PKGROOT@/rocks/etc/users
-    DEFINE_TABLES_SQL=@LMHOME@/LmDbServer/dbsetup/defineDBTables.sql
-    ADD_FUNCTIONS_SQL=@LMHOME@/LmDbServer/dbsetup/addDBFunctions.sql
     POPULATEPY=@LMHOME@/LmDbServer/tools/initCatalog.py
     TAXONOMYPY=@LMHOME@/LmDbServer/tools/readTaxonomy.py
     COMPUTEPY=@LMHOME@/LmDbServer/tools/registerCompute.py
@@ -81,33 +79,11 @@ SetPass () {
     export PGPASSWORD=$PASS
 }
 
-### define databases 
-DefineDatabase () {
-    if [ -f $DEFINE_TABLES_SQL ] ; then
-        echo "Running $DEFINE_TABLES_SQL ..." | tee -a $LOG
-        psql -U admin -d template1 -f $DEFINE_TABLES_SQL 2>&1 | tee -a $LOG
-    else
-        echo "Error: missing file $DEFINE_TABLES_SQL" | tee -a $LOG
-        exit 1
-    fi
-}
-
-### add database views, types, functions 
-AddFunctions () {
-    if [ -f $ADD_FUNCTIONS_SQL ] ; then
-        echo "Running $ADD_FUNCTIONS_SQL ..." | tee -a $LOG
-        psql -U admin -d template1 -f $ADD_FUNCTIONS_SQL 2>&1 | tee -a $LOG
-    else
-        echo "Error: missing file $ADD_FUNCTIONS_SQL" | tee -a $LOG
-        exit 1
-    fi
-}
-
 ### populate lifemapper DB
 Populate () {
     if [ -f $POPULATEPY ] ; then
         echo "Running '$POPULATEPY all'..." | tee -a $LOG
-        /opt/python/bin/@PYTHONVER@ $POPULATEPY all 2>&1 | tee -a $LOG
+        /opt/python/bin/@PYTHONVER@ $POPULATEPY -m all 2>&1 | tee -a $LOG
     else
         echo "Error: Missing file $POPULATEPY" | tee -a $LOG
         exit 1
@@ -145,10 +121,6 @@ fi
 SetDefaults
 SetPermissions
 SetPass
-if [ ! $EXISTING_DB ] ; then
-    DefineDatabase
-fi
-AddFunctions
 Populate
 RegisterCompute
 TimeStamp "# End"

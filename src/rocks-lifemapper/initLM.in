@@ -30,6 +30,9 @@ set_defaults() {
     PG=`basename /etc/init.d/postgresql-*`
     PROFILE=/var/lib/pgsql/.bash_profile
     BIN=@PKGROOT@/rocks/bin
+    DEFINE_TABLES_SQL=@LMHOME@/LmDbServer/dbsetup/defineDBTables.sql
+    UPDATE_TABLES_SQL=@LMHOME@/LmDbServer/dbsetup/updateDBTables.sql
+    ADD_FUNCTIONS_SQL=@LMHOME@/LmDbServer/dbsetup/addDBFunctions.sql
     # Source function library.
     INITD=/etc/rc.d/init.d
     . $INITD/functions
@@ -38,12 +41,35 @@ set_defaults() {
     touch $LOG
     TimeStamp "# Start"
 
-    if [ -d /var/lib/pgsql/@PGSQLVER@/data ]; then
+    filecount=`ls -l /var/lib/pgsql/@PGSQLVER@/data/ | wc -l` 
+    if [ $filecount = 0 ] || [ $filecount = 1 ]; then
        echo "postgres db exists" >> $LOG
 	    EXISTING_DB=true
 	 else
 	    EXISTING_DB=false
     fi
+}
+
+### sets the password for db "admin" user to execute sql commands
+set_password () {
+
+    # check if users file exists
+    if [ ! -f $USERSFILE ] ; then
+        echo "Error: missing file $USERSFILE" | tee -a $LOG
+        exit 1
+    fi
+
+    # check who is running the scipt
+    cat $USERSFILE > /dev/null
+    RETVAL=$?
+    if [ $RETVAL -ne 0 ]; then
+        echo "Error: You must be root to run this script"  | tee -a $LOG
+        exit 1
+    fi
+
+    # get the password from 'users' file
+    PASS=`grep admin $USERSFILE | awk '{print $2}'`
+    export PGPASSWORD=$PASS
 }
 
 # stop services if running
@@ -101,12 +127,49 @@ init_db() {
     dbserver_init
 }
 
-# update db tables, views, scripts and user/password file for python
-update_db() {
+# define/populate Lifemapper tables
+fill_db() {
+    echo "-- Executing fillDB" >> $LOG
+    $BIN/fillDB >> $LOG
+}
+
+# update user/password file for python
+update_connect_file() {
     echo "-- update users passwords in @LMHOME@/LmServer/db/connect.py" >> $LOG
     $BIN/confDbconnect >> $LOG  2>&1
-    echo "-- update database tables, views, functions" >> $LOG
-    $BIN/updateDB >> $LOG  2>&1
+}
+
+### define databases 
+define_lm_database () {
+    if [ -f $DEFINE_TABLES_SQL ] ; then
+        echo "Running $DEFINE_TABLES_SQL ..." | tee -a $LOG
+        psql -U admin -d template1 -f $DEFINE_TABLES_SQL 2>&1 | tee -a $LOG
+    else
+        echo "Error: missing file $DEFINE_TABLES_SQL" | tee -a $LOG
+        exit 1
+    fi
+}
+
+### add database views, types, functions 
+update_lm_tables () {
+    if [ -f $UPDATE_TABLES_SQL ] ; then
+        echo "Running $UPDATE_TABLES_SQL ..." | tee -a $LOG
+        psql -U admin -d template1 -f $UPDATE_TABLES_SQL 2>&1 | tee -a $LOG
+    else
+        echo "Error: missing file $UPDATE_TABLES_SQL" | tee -a $LOG
+        exit 1
+    fi
+}
+
+### add database views, types, functions 
+add_lm_functions () {
+    if [ -f $ADD_FUNCTIONS_SQL ] ; then
+        echo "Running $ADD_FUNCTIONS_SQL ..." | tee -a $LOG
+        psql -U admin -d template1 -f $ADD_FUNCTIONS_SQL 2>&1 | tee -a $LOG
+    else
+        echo "Error: missing file $ADD_FUNCTIONS_SQL" | tee -a $LOG
+        exit 1
+    fi
 }
 
 # need to update openssl for postgres
@@ -152,15 +215,27 @@ TimeStamp () {
 
 ####### Main #######
 set_defaults
+update_connect_file
 
 stop_services
-if $EXISTING_DB ; then
-    echo "Database exists" >> $LOG
-else
+if [ $EXISTING_DB = false ] ; then
+    echo "Creating new database" >> $LOG
     init_db
+    start_services
+    set_password
+    define_lm_database
+else
+    echo "Database exists" >> $LOG
+    start_services
+    set_password 
 fi
-start_services
-update_db
+
+update_lm_tables
+add_lm_functions
+
+if [ $EXISTING_DB = false ] ; then
+    fill_db
+fi
 
 installCronJobs
 update_config

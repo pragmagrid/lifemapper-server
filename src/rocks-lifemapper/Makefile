@@ -98,7 +98,6 @@ PROGS = \
 	fillDB \
 	updateIP \
 	confconst.py \
-	updateDB \
 	installServerCronJobs
 
 PYFILES = __init__.py \
