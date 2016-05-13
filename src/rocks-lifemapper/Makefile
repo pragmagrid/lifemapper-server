@@ -90,7 +90,6 @@ PROGS = \
 	callLmServerTests.cron \
 	deleteOldAnonymous.cron \
 	initLM \
-	reconfigureLM \
 	checkLibs \
 	initDbserver \
 	initWebserver \
