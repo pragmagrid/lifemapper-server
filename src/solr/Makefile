@@ -49,25 +49,26 @@ prep: prepSrc.sh
 build: $(SCRIPTS)
 
 install::
-	mkdir -p $(ROOT)/$(LMHOME)/rocks/bin
 	mkdir -p $(ROOT)/$(SOLRDIR)
-	tar -xzf  $(ARCHIVENAME)-$(VERSION).$(TARBALL_POSTFIX)  -C  $(ROOT)/$(SOLRDIR) --strip 1 --exclude docs --exclude contrib
-	mkdir -p $(ROOT)/$(SOLRDIR)/etc
-	mkdir -p $(ROOT)/$(EXPORTDIR)/data
-	mkdir -p $(ROOT)/$(EXPORTDIR)/data/cores
-	mkdir -p $(ROOT)/$(EXPORTDIR)/data/cores/$(SOLRINDEX_1)/data
-	mkdir -p $(ROOT)/$(EXPORTDIR)/data/cores/$(SOLRINDEX_1)/conf
-	mkdir -p $(ROOT)/$(EXPORTDIR)/data/cores/$(SOLRINDEX_2)/data
-	mkdir -p $(ROOT)/$(EXPORTDIR)/data/cores/$(SOLRINDEX_2)/conf
+	tar -xzf  $(ARCHIVENAME)-$(VERSION).$(TARBALL_POSTFIX)  -C  $(ROOT)/$(SOLRDIR) --strip 1 --exclude docs --exclude contrib	
+
 	mkdir -p $(ROOT)/$(EXPORTDIR)/logs
+
+	mkdir -p $(ROOT)/$(EXPORTDIR)/data/cores
 	chown -R $(SOLRUSER):$(SOLRUSER) $(ROOT)/$(EXPORTDIR)/data
-	mkdir -p $(ROOT)/etc/rc.d/init.d
 	cp $(ROOT)/$(SOLRDIR)/server/solr/solr.xml $(ROOT)/$(EXPORTDIR)/data
+
+	mkdir -p $(ROOT)/$(SOLRDIR)/etc
 	cat $(ROOT)/$(SOLRDIR)/bin/solr.in.sh solr.txt | sed -e "s%SOLR_HEAP%#SOLR_HEAP%" \
 	    > $(ROOT)/$(SOLRDIR)/etc/solrenv.sh
 	cat $(ROOT)/$(SOLRDIR)/server/resources/log4j.properties  | sed -e "s#solr.log=.*#solr.log=\$${solr.solr.home}/../logs#" > $(ROOT)/$(SOLRDIR)/etc/log4j.properties
+
 	unzip -j -d $(ROOT)/$(SOLRDIR)/server/lib $(JTS) lib/*.jar
+
+	mkdir -p $(ROOT)/etc/rc.d/init.d
 	$(INSTALL) -m 755 solr $(ROOT)/etc/rc.d/init.d
+
+	mkdir -p $(ROOT)/$(LMHOME)/rocks/bin
 	$(INSTALL) -m 755 solr-index  $(ROOT)/$(LMHOME)/rocks/bin
 
 clean::

@@ -12,15 +12,5 @@ get_source_files () {
   wget "$SOLR_URL/$SOLR_PKG" 
 }
 
-get_jts_files () {
-  echo "Fetch jts source code"
-  wget "$JTS_URL/@JTS@"
-}
-
-get_solr_files () {
-  echo "Fetch solr source code"
-  wget "$SOLR_URL/$SOLR_PKG"
-}
-
 ### main ###
 get_source_files
