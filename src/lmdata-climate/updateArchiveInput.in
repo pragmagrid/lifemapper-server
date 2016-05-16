@@ -24,7 +24,7 @@ if [ $# -ne 0 ]; then
 fi 
 
 set_defaults() {
-    LMURL="http://lifemapper.org/dl"
+    LMURL=@LMURL@
     
     CLIMATE_DIR=@DATADIR_SERVER@/@ENV_DATA_PATH@
     
@@ -61,9 +61,8 @@ get_climate_data () {
     echo "Looking for climate data $SCEN_PKG"   | tee -a $LOG  
     if [ "$SCEN_PKG" ] ; then
     
-        # find metadata files, pkgname.py and pkgname.csv
-        filecount=`ls -l $CLIMATE_DIR/$SCEN_PKG* | wc -l`
-        if [ "$filecount" > 1 ]; then
+        # find metadata file pkgname.py
+        if [ -f $CLIMATE_DIR/$SCEN_PKG.py ]; then
             echo "Climate metadata for $SCEN_PKG already present" | tee -a $LOG
             
         else  

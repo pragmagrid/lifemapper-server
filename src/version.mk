@@ -2,6 +2,7 @@ PKGROOT       = /opt/lifemapper
 LMHOME        = /opt/lifemapper
 MAPSERVER_TMP = /var/www/tmp
 LMWEB         = /var/lib/lm2
+LMURL			  = http://lifemapper.org/dl
 DATADIR_SERVER       = /share/lmserver/data
 TEMPDIR       = /tmp
 PYTHONVER     = python2.7
