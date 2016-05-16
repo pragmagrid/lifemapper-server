@@ -104,6 +104,21 @@ class Baseconfig:
             sys.exit(1)
 
 
+    def backupFile(self, fname):
+        """ backup file """
+        if os.path.exists(fname):
+            self.findTime()
+            basename, ext = os.path.splitext(fname)
+            bakname = basename + self.time
+            content = self.readFileText(fname)
+            self.writeFile(bakname, content)
+            try:
+                os.remove(fname)
+            except IOError as e:
+                print "ERROR: ", e.strerror, "%s" % fname
+                sys.exit(1)
+
+
     def findTime(self):
         """ create a time stamp of running the script. 
             Time stamp is used as a  suffix for saved files """

@@ -44,10 +44,10 @@ set_defaults() {
 
     filecount=`ls -l /var/lib/pgsql/@PGSQLVER@/data/ | wc -l` 
     if [ $filecount = 0 ] || [ $filecount = 1 ]; then
+	    EXISTING_DB=false
+	 else
        echo "postgres db exists" >> $LOG
 	    EXISTING_DB=true
-	 else
-	    EXISTING_DB=false
     fi
 }
 
@@ -131,6 +131,7 @@ init_db() {
 # define/populate Lifemapper tables
 fill_db() {
     echo "-- Executing fillDB" >> $LOG
+    . /etc/profile.d/lifemapper.sh
     $BIN/fillDB >> $LOG
 }
 
@@ -216,7 +217,6 @@ TimeStamp () {
 
 ####### Main #######
 set_defaults
-update_connect_file
 stop_services
 
 if [ $EXISTING_DB = false ] ; then
@@ -233,11 +233,11 @@ fi
 
 update_lm_tables
 add_lm_functions
+installCronJobs
+update_config
 
 if [ $EXISTING_DB = false ] ; then
     fill_db
 fi
 
-installCronJobs
-update_config
 TimeStamp "# End"

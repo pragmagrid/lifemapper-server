@@ -37,7 +37,7 @@ class ConfUser(confbase.Baseconfig):
         """ create users file """
         lines = self.makeAuthLines()
         fname = self.users
-        #fname = "/tmp/" + os.path.basename(fname)  #FIXME rm
+        self.backupFile(fname)
         self.writeFile(fname, lines)
         os.chmod(fname, 0600)
 
