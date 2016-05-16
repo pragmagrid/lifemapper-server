@@ -16,12 +16,11 @@ without losing data.
 Stop processes
 --------------
 
-#. **Stop the pipeline** as lmwriter (replace 'pragma' with the datasource name 
-   configured for this instance, i.e. bison, idigbio) ::    
+#. **Stop the archivist** as lmwriter ::    
 
-     % touch /opt/lifemapper/log/pipeline.pragma.die
+     % $PYTHON /opt/lifemapper/LmDbServer/pipeline/archivist.py stop
 
-   **TODO:** Move to command **lm stop pipeline** 
+   **TODO:** Move to command **lm stop archivist** 
      
 #. **Stop the jobMediator** as lmwriter::
 
@@ -44,7 +43,9 @@ Update everything
    
 #. **Remove some rpms manually** 
    
-   #. If the source code (lifemapper-lmserver and lifemapper-compute) or 
+   #. Do this just in case the rpm versions have not changed, to ensure that
+      scripts are run.  Even if this is unnecessary, it will not harm anything.
+      If the source code (lifemapper-lmserver and lifemapper-compute) or 
       configuration (rocks-lifemapper, rocks-lmcompute) rpms are new, 
       the larger version git tag will force the new rpm to be installed, 
       **but if the rpm versions have not changed**, you must remove them (the
@@ -60,8 +61,7 @@ Update everything
 
    # rocks enable roll lifemapper-compute
    # rocks enable roll lifemapper-server
-   # (cd /export/rocks/install; rocks create distro)
-   # yum clean all
+   # (cd /export/rocks/install; rocks create distro; yum clean all)
 
 #. **Create and run LmServer/LmCompute scripts**::
 
@@ -79,8 +79,8 @@ Update everything
    # rocks set host boot compute action=install
    # rocks run host compute reboot 
 
-#. **Temporary** On EACH node fix permissions.  Note: this is run on FE by 
-   script created by run roll. Commands are in lifemapper-compute-base.xml::
+#. **Temporary** If necessary, fix permissions on nodes.  Note: this should be 
+   run during the post process on reboot (nodes/lifemapper-compute-base.xml)::
 
    # rocks run host compute "chgrp -R lmwriter /state/partition1/lm"
    # rocks run host compute "chmod -R g+ws /state/partition1/lm"
