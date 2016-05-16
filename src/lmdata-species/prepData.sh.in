@@ -3,8 +3,6 @@
 # Purpose: fetch species data 
 
 create_species_data () {
-   LMURL="http://lifemapper.org/dl"
-
    echo "Fetch species data @SPECIES_DATA@"
    curl -L "$LMURL/@SPECIES_DATA@.@TARBALL_POSTFIX@" -o ../lmdata-species/@SPECIES_DATA@.@TARBALL_POSTFIX@
 
