@@ -6,7 +6,7 @@
 create_climate_data () {
   echo "Fetch climate data"
   LMURL="http://lifemapper.org/dl"
-  curl -L "$LMURL/@SCENARIO_PACKAGE@.@TARBALL_POSTFIX@" -o ../lmdata-climate/@SCENARIO_PACKAGE@.@TARBALL_POSTFIX@
+  curl -L "@LMURL@/@SCENARIO_PACKAGE@.@TARBALL_POSTFIX@" -o ../lmdata-climate/@SCENARIO_PACKAGE@.@TARBALL_POSTFIX@
 }
 
 ### main ###
