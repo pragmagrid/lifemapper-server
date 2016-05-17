@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# Set environment in case it is not already set
+. /etc/profile.d/lifemapper.sh
+
+# Have to export PYTHONPATH or the modules will not be found
+export PYTHONPATH=@LMHOME@
+
+@PYBIN@ @LMHOME@/LmDbServer/tools/troubleshoot.py

@@ -89,6 +89,7 @@ PROGS = \
 	buildLmSolrIndex.cron \
 	callLmServerTests.cron \
 	deleteOldAnonymous.cron \
+	troubleshootPipeline.cron \
 	initLM \
 	checkLibs \
 	initDbserver \

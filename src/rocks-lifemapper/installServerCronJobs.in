@@ -28,6 +28,7 @@ TimeStamp () {
 installHourlyTasks () {
     # run hourly 
     install @LMHOME@/rocks/bin/buildLmSolrIndex.cron ${CRON_HOURLY_DIR}
+    install @LMHOME@/rocks/bin/troubleshootPipeline.cron ${CRON_HOURLY_DIR}
     echo "Installed hourly tasks to ${CRON_HOURLY_DIR} ..." | tee -a $LOG
 }
 
