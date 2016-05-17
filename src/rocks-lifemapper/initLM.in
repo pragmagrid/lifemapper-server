@@ -235,6 +235,7 @@ update_lm_tables
 add_lm_functions
 installCronJobs
 update_config
+update_connect_file
 
 if [ $EXISTING_DB = false ] ; then
     fill_db

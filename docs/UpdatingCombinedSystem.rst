@@ -44,18 +44,14 @@ Update everything
 #. **Remove some rpms manually** 
    
    #. Do this just in case the rpm versions have not changed, to ensure that
-      scripts are run.  Even if this is unnecessary, it will not harm anything.
-      If the source code (lifemapper-lmserver and lifemapper-compute) or 
-      configuration (rocks-lifemapper, rocks-lmcompute) rpms are new, 
-      the larger version git tag will force the new rpm to be installed, 
-      **but if the rpm versions have not changed**, you must remove them (the
-      ones you want to force re-install) to ensure that the new rpm is installed 
-      and installation scripts are run.::  
+      scripts are run.  If the configuration (rocks-lifemapper, rocks-lmcompute) 
+      rpms are new, the larger version git tag will force the new rpm to be 
+      installed, **but if the rpm versions have not changed**, you must remove 
+      them to ensure that the installation scripts are run.  Even if the source 
+      code rpms (lifemapper-lmserver and lifemapper-compute) have changed, 
+      removing them avoids error messages about file conflicts.::  
 
-      # rpm -el lifemapper-lmserver
-      # rpm -el lifemapper-lmcompute
-      # rpm -el rocks-lifemapper
-      # rpm -el rocks-lmcompute
+      # rpm -el lifemapper-lmserver lifemapper-lmcompute rocks-lifemapper rocks-lmcompute
 
 #. **Create distribution**::
 
