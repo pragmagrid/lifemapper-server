@@ -51,12 +51,11 @@ Update everything
       code rpms (lifemapper-lmserver and lifemapper-compute) have changed, 
       removing them avoids error messages about file conflicts.::  
 
-      # rpm -el lifemapper-lmserver lifemapper-lmcompute rocks-lifemapper rocks-lmcompute
+      # rpm -el lifemapper-lmserver rocks-lifemapper lifemapper-lmcompute rocks-lmcompute
 
 #. **Create distribution**::
 
-   # rocks enable roll lifemapper-compute
-   # rocks enable roll lifemapper-server
+   # rocks enable roll lifemapper-compute lifemapper-server
    # (cd /export/rocks/install; rocks create distro; yum clean all)
 
 #. **Create and run LmServer/LmCompute scripts**::
