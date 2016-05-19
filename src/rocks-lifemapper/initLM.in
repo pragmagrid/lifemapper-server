@@ -42,12 +42,11 @@ set_defaults() {
     touch $LOG
     TimeStamp "# Start"
 
-    filecount=`ls -l /var/lib/pgsql/@PGSQLVER@/data/ | wc -l` 
-    if [ $filecount = 0 ] || [ $filecount = 1 ]; then
-	    EXISTING_DB=false
-	 else
-       echo "postgres db exists" >> $LOG
+    if [ -d /var/lib/pgsql/@PGSQLVER@/data ]; then
+	    echo "postgres db exists" >> $LOG
 	    EXISTING_DB=true
+	 else
+	    EXISTING_DB=false
     fi
 }
 
@@ -229,13 +228,13 @@ else
     echo "Database exists" >> $LOG
     start_services
     set_password 
+    update_connect_file
 fi
 
 update_lm_tables
 add_lm_functions
 installCronJobs
 update_config
-update_connect_file
 
 if [ $EXISTING_DB = false ] ; then
     fill_db
