@@ -92,7 +92,6 @@ prep:
 	./prepData.sh
 
 build:
-	make updateArchiveInput
 	echo $(EXPORTDIR)
 
 install::

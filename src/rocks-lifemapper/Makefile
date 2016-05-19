@@ -74,6 +74,11 @@ SEDSPEC += \
         -e 's%@MYSQLDB@%$(MYSQLDB)%g' \
         -e 's%@PKGROOT@%$(PKGROOT)%g' \
         -e 's%@UNIXSOCKET@%$(UNIXSOCKET)%g' \
+        -e 's%@SCENARIO_PACKAGE@%$(SCENARIO_PACKAGE)%g' \
+        -e 's%@ENV_DATA_PATH@%$(ENV_DATA_PATH)%g' \
+        -e 's%@DATADIR_SERVER@%$(DATADIR_SERVER)%g' \
+        -e 's%@LMURL@%$(LMURL)%g' \
+        -e 's%@TARBALL_POSTFIX@%$(TARBALL_POSTFIX)%g' \
         -e 's%@DATASOURCE@%$(DATASOURCE)%g'
         
 PROFILES = \
@@ -98,6 +103,7 @@ PROGS = \
 	fillDB \
 	updateIP \
 	confconst.py \
+	updateArchiveInput \
 	installServerCronJobs
 
 PYFILES = __init__.py \
