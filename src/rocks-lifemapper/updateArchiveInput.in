@@ -71,7 +71,7 @@ get_climate_data () {
   
             # uncompress 
             if [ -f $CLIMATE_DIR/$SCEN_PKG.@TARBALL_POSTFIX@ ] ; then
-                tar xzf $CLIMATE_DIR/$SCEN_PKG.@TARBALL_POSTFIX@ 
+                tar xzf $CLIMATE_DIR/$SCEN_PKG.@TARBALL_POSTFIX@ -C $CLIMATE_DIR/ 
             else
                 echo "Failed to retrieve $SCEN_PKG ..." | tee -a $LOG
             fi
