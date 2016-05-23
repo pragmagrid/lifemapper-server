@@ -98,7 +98,6 @@ install::
 	mkdir -p $(ROOT)/$(EXPORTDIR)
 	tar xzvf  $(SCENARIO_PACKAGE).$(TARBALL_POSTFIX)  -C  $(ROOT)/$(EXPORTDIR)/
 	mkdir -p $(ROOT)/$(PKGROOT)/rocks/bin
-	install -m 755 updateArchiveInput $(ROOT)/$(PKGROOT)/rocks/bin
 
 clean::
-	rm -rf version.mk prepData.sh updateArchiveInput
+	rm -rf version.mk prepData.sh
