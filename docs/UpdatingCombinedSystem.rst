@@ -69,6 +69,13 @@ Update everything
 
    # reboot
    
+#. **Remove some compute-node rpms manually** 
+   
+   #. Do this just in case the rpm versions have not changed, to ensure that
+      scripts are run.::  
+
+      # rocks run host compute 'rpm -el lifemapper-lmcompute rocks-lmcompute'
+
 #. **Rebuild the compute nodes** ::  
 
    # rocks set host boot compute action=install
