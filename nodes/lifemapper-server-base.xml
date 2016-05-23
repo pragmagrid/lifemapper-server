@@ -127,9 +127,9 @@ lmserver &Kickstart_PrivateHostname;:/export/&amp;
 
 LOG=`ls /share/lmserver | grep log`
 if [ "$LOG" != "" ] ; then
-    /bin/ln -s /share/lmserver/log /opt/lifemapper/log
+    /bin/echo "INFO: directory /share/lmserver/log exists"
 else
-    /bin/echo "ERROR: directory /share/lmserver/log  does not exist"
+    /bin/ln -s /share/lmserver/log /opt/lifemapper/log
 fi
 
 </post>
