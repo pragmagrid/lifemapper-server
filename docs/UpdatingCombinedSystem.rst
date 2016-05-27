@@ -51,7 +51,9 @@ Update everything
       code rpms (lifemapper-lmserver and lifemapper-compute) have changed, 
       removing them avoids error messages about file conflicts.::  
 
-      # rpm -el lifemapper-lmserver rocks-lifemapper lifemapper-lmcompute rocks-lmcompute
+      # rpm -el lifemapper-lmserver rocks-lifemapper \
+                lifemapper-lmcompute rocks-lmcompute \
+                lifemapper-climate-data lifemapper-seed-data
 
 #. **Create distribution**::
 
@@ -89,4 +91,9 @@ Update everything
    # rocks run host compute "chgrp -R lmwriter /opt/lifemapper/.java"
    # rocks run host compute "chmod -R g+ws /opt/lifemapper/.java"
 
+#. **Test database population** ::  
+
+   # export PGPASSWORD=`grep sdlapp /opt/lifemapper/rocks/etc/users | awk '{print $2}'`
+   # psql -U sdlapp -d mal
+   # select scenariocode, userid from scenario;
 

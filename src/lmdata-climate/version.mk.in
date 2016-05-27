@@ -4,5 +4,5 @@ ENV_DATA_PATH  = climate
 ARCHIVENAME    = data
 
 VERSION     	= 1.2
-RELEASE 	= 0
+RELEASE 	= 1
 TARBALL_POSTFIX	= tar.gz

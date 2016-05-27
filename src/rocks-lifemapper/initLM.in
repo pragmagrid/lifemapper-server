@@ -31,9 +31,14 @@ set_defaults() {
     PROFILE=/var/lib/pgsql/.bash_profile
     BIN=@PKGROOT@/rocks/bin
     USERSFILE=@PKGROOT@/rocks/etc/users
+
     DEFINE_TABLES_SQL=@LMHOME@/LmDbServer/dbsetup/defineDBTables.sql
     UPDATE_TABLES_SQL=@LMHOME@/LmDbServer/dbsetup/updateDBTables.sql
     ADD_FUNCTIONS_SQL=@LMHOME@/LmDbServer/dbsetup/addDBFunctions.sql
+
+    MAP_BACKGROUND=@LMHOME@/LmWebServer/public_html/images/BMNG.geotiff
+    IMAGE_DIR=@DATADIR_SERVER@/image/
+    
     # Source function library.
     INITD=/etc/rc.d/init.d
     . $INITD/functions
@@ -180,8 +185,13 @@ update_openssl() {
 }
 
 # install cron jobs for daily execution
-installCronJobs () {
+install_cron_jobs () {
     @LMHOME@/rocks/bin/installServerCronJobs
+}
+
+# install background imagery for mapfiles
+install_map_background () {   
+    install $MAP_BACKGROUND $IMAGE_DIR
 }
 
 # set unix socket; restart postgres and pgbouncer with new config
@@ -233,7 +243,8 @@ fi
 
 update_lm_tables
 add_lm_functions
-installCronJobs
+install_cron_jobs
+install_map_background
 update_config
 
 if [ $EXISTING_DB = false ] ; then
