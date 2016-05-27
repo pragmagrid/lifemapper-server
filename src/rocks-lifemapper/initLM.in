@@ -7,7 +7,7 @@
 usage () 
 {
     echo "Usage: $0"
-    echo "This script is run during the roll install it will:"
+    echo "This script is run during the roll install and will:"
     echo "     - initialize postgress db"
     echo "     - create lifemapper db users"
     echo "     - creating roles and postgis tables"
@@ -16,6 +16,8 @@ usage ()
     echo "     - set postgres unix socket PGHOST=/var/run/postgresql"
     echo "     - restart postgres/pgbouncer with new configuration\n"
     echo "     - inserts host IP in @LMHOME@/config/config.lmserver.ini\n"
+    echo "     - installs cron files\n"
+    echo "     - installs mapfile imagery\n"
     echo "   "
     echo "The script can be run at any time to remove all previous configuration and to create"
     echo "a new one. In this case, old postgres db data (/var/lib/pgsql/*/data/*) is removed."
