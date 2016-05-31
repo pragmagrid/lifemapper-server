@@ -14,6 +14,6 @@ SMTPSENDER    = no-reply-lifemapper@@PUBLIC_FQDN@
 JAVABIN       = /usr/java/latest/bin/java
 
 SPECIES_DATA 	       = sorted_seasia_gbif
-SCENARIO_PACKAGE      = 30sec-present-future-SEA
+SCENARIO_PACKAGE      = 10min-past-present-future
 GRID_NAME             = lmgrid_1d
 GRID_CELLSIZE         = 1
