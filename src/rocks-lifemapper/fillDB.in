@@ -124,8 +124,8 @@ if [ $# -ne 0 ]; then
     exit 0
 fi 
 
-TimeStamp "# Start"
 SetDefaults
+TimeStamp "# Start"
 SetPermissions
 SetPass
 Populate

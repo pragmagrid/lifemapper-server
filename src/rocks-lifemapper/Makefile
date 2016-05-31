@@ -90,10 +90,10 @@ SCRIPTS = \
 	lifemapper-server.conf
 
 PROGS = \
-	buildLmSolrIndex.cron \
-	callLmServerTests.cron \
-	deleteOldAnonymous.cron \
-	troubleshootPipeline.cron \
+	lm_build_solr_index.cron \
+	lm_run_server_tests.cron \
+	lm_delete_old_anon.cron \
+	lm_troubleshoot_jobs.cron \
 	initLM \
 	checkLibs \
 	initDbserver \
