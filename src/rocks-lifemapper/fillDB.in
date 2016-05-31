@@ -43,7 +43,6 @@ SetDefaults () {
 
     LOG=/tmp/`/bin/basename $0`.log
     touch $LOG
-    TimeStamp "# Start"
 
     if [ -d /var/lib/pgsql/@PGSQLVER@/data ]; then
        echo "postgres db exists" >> $LOG
@@ -92,11 +91,18 @@ Populate () {
 
 ### read and populate taxonomy table
 AddTaxonomy () {
-    if [ @DATASOURCE@ = "GBIF" ] ; then
+    # get the DATASOURCE value from site.ini or config.lmserver.ini file
+    echo "Looking for DATASOURCE"   | tee -a $LOG  
+    DATASOURCE=`grep DATASOURCE $SITE_CONFIG_FILE | grep -v ';' | awk '{print $2}'`
+    if [ ! "$DATASOURCE" ] ; then 
+        DATASOURCE=`grep DATASOURCE $CONFIG_FILE | grep -v ';' | awk '{print $2}'`
+    fi
+
+    if [ $DATASOURCE = "GBIF" ] ; then
         echo "Running $TAXONOMYPY ..." | tee -a $LOG
         /opt/python/bin/@PYTHONVER@ $TAXONOMYPY 2>&1 | tee -a $LOG
     else
-        echo "Notice: No taxonomy to ingest" | tee -a $LOG
+        echo "Notice: DATASOURCE=$DATASOURCE: No taxonomy to ingest" | tee -a $LOG
         return 
     fi
 }
@@ -118,6 +124,7 @@ if [ $# -ne 0 ]; then
     exit 0
 fi 
 
+TimeStamp "# Start"
 SetDefaults
 SetPermissions
 SetPass

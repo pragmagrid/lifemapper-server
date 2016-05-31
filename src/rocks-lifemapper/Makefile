@@ -78,8 +78,7 @@ SEDSPEC += \
         -e 's%@ENV_DATA_PATH@%$(ENV_DATA_PATH)%g' \
         -e 's%@DATADIR_SERVER@%$(DATADIR_SERVER)%g' \
         -e 's%@LMURL@%$(LMURL)%g' \
-        -e 's%@TARBALL_POSTFIX@%$(TARBALL_POSTFIX)%g' \
-        -e 's%@DATASOURCE@%$(DATASOURCE)%g'
+        -e 's%@TARBALL_POSTFIX@%$(TARBALL_POSTFIX)%g'
         
 PROFILES = \
 	lifemapper.sh \

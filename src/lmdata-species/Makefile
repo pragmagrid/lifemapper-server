@@ -70,7 +70,6 @@ version.mk:
 	cat ../version.mk version.mk.in > version.mk
 	
 SEDSPEC += \
-        -e 's%@DATASOURCE@%$(DATASOURCE)%g' \
         -e 's%@GBIF_META@%$(GBIF_META)%g' \
         -e 's%@IDIG_LIST@%$(IDIG_LIST)%g' \
         -e 's%@SPECIES_DATA@%$(SPECIES_DATA)%g' \

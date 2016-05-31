@@ -13,12 +13,7 @@ SMTPSERVER    = localhost
 SMTPSENDER    = no-reply-lifemapper@@PUBLIC_FQDN@
 JAVABIN       = /usr/java/latest/bin/java
 
-LMUSER                = pragma
-DATASOURCE            = PRAGMA
 SPECIES_DATA 	       = sorted_seasia_gbif
-ALGORITHMS            = BIOCLIM,ATT_MAXENT
-MODEL_SCENARIO        = WC-30sec-SEA
-PROJECTION_SCENARIOS  = CCSM4-RCP8.5-2070-30sec-SEA,CCSM4-RCP4.5-2050-30sec-SEA,CCSM4-RCP4.5-2070-30sec-SEA,CCSM4-RCP8.5-2050-30sec-SEA 
 SCENARIO_PACKAGE      = 30sec-present-future-SEA
 GRID_NAME             = lmgrid_1d
 GRID_CELLSIZE         = 1

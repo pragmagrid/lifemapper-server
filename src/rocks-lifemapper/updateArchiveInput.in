@@ -34,6 +34,17 @@ set_defaults() {
 
     LOG=/tmp/`/bin/basename $0`.log
     touch $LOG
+
+    # get the SCENARIO_PACKAGE value from site.ini or config.lmserver.ini file
+    echo "Looking for climate data $SCEN_PKG"   | tee -a $LOG  
+    SCEN_PKG=`grep SCENARIO_PACKAGE $SITE_CONFIG_FILE | grep -v ';' | awk '{print $2}'`
+    if [ ! "$SCEN_PKG" ] ; then 
+        SCEN_PKG=`grep SCENARIO_PACKAGE $CONFIG_FILE | grep -v ';' | awk '{print $2}'`
+    fi
+    if [ ! "$SCEN_PKG" ] ; then
+        echo "SCENARIO_PACKAGE not set in $SITE_CONFIG_FILE or $CONFIG_FILE" | tee -a $LOG
+        exit 1
+    fi    
 }
 
 
@@ -52,32 +63,19 @@ add_inputs () {
 
 ### Retrieve climate data named in SCENARIO_PACKAGE
 get_climate_data () {
-    # get the SCENARIO_PACKAGE value from site.ini or config.lmserver.ini file
-    SCEN_PKG=`grep SCENARIO_PACKAGE $SITE_CONFIG_FILE | grep -v ';' | awk '{print $2}'`
-    if [ ! "$SCEN_PKG" ] ; then 
-        SCEN_PKG=`grep SCENARIO_PACKAGE $CONFIG_FILE | grep -v ';' | awk '{print $2}'`
-    fi
+    # find metadata file pkgname.py
+    if [ -f $CLIMATE_DIR/$SCEN_PKG.py ]; then
+        echo "Climate metadata for $SCEN_PKG already present" | tee -a $LOG
+    else  
+        echo "Fetch climate data $SCEN_PKG" | tee -a $LOG
+        curl -L "$LMURL/$SCEN_PKG.@TARBALL_POSTFIX@" -o $CLIMATE_DIR/$SCEN_PKG.@TARBALL_POSTFIX@ 
   
-    echo "Looking for climate data $SCEN_PKG"   | tee -a $LOG  
-    if [ "$SCEN_PKG" ] ; then
-    
-        # find metadata file pkgname.py
-        if [ -f $CLIMATE_DIR/$SCEN_PKG.py ]; then
-            echo "Climate metadata for $SCEN_PKG already present" | tee -a $LOG
-            
-        else  
-            echo "Fetch climate data $SCEN_PKG" | tee -a $LOG
-            curl -L "$LMURL/$SCEN_PKG.@TARBALL_POSTFIX@" -o $CLIMATE_DIR/$SCEN_PKG.@TARBALL_POSTFIX@ 
-  
-            # uncompress 
-            if [ -f $CLIMATE_DIR/$SCEN_PKG.@TARBALL_POSTFIX@ ] ; then
-                tar xzf $CLIMATE_DIR/$SCEN_PKG.@TARBALL_POSTFIX@ -C $CLIMATE_DIR/ 
-            else
-                echo "Failed to retrieve $SCEN_PKG ..." | tee -a $LOG
-            fi
+        # uncompress 
+        if [ -f $CLIMATE_DIR/$SCEN_PKG.@TARBALL_POSTFIX@ ] ; then
+            tar xzf $CLIMATE_DIR/$SCEN_PKG.@TARBALL_POSTFIX@ -C $CLIMATE_DIR/ 
+        else
+            echo "Failed to retrieve $SCEN_PKG ..." | tee -a $LOG
         fi
-    else
-        echo "SCENARIO_PACKAGE not set in $SITE_CONFIG_FILE or $CONFIG_FILE" | tee -a $LOG
     fi
 }
 
