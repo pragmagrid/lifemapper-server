@@ -24,6 +24,13 @@ TimeStamp () {
     echo $1 `/bin/date` >> $LOG
 }
 
+# remove obsolete Lifemapper cron jobs
+removeOldTasks () {
+    rm -vf  ${CRON_HOURLY_DIR}/lm_*.cron
+    rm -vf  ${CRON_DAILY_DIR}/lm_*.cron
+    echo "Removed old tasks in ${CRON_DIR} on frontend ..." | tee -a $LOG
+}
+
 # install hourly cron jobs (solr)
 installHourlyTasks () {
     # run hourly 
