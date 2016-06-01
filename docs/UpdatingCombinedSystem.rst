@@ -52,8 +52,9 @@ Update everything
       removing them avoids error messages about file conflicts.::  
 
       # rpm -el lifemapper-lmserver rocks-lifemapper \
+                lifemapper-species-data lifemapper-climate-data \
                 lifemapper-lmcompute rocks-lmcompute \
-                lifemapper-climate-data lifemapper-seed-data
+                lifemapper-seed-data
 
 #. **Create distribution**::
 
