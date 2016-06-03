@@ -6,7 +6,7 @@
 SRC=@REPONAME@
 URL=https://github.com/lifemapper/
 TOPDIR=@REPONAME@-@VERSION@
-SRCNAME=@SRCNAME@
+SRCNAME=@NAME@
 
 # download archive from lifemapper git
 download_git () {

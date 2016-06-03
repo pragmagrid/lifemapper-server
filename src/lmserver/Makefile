@@ -77,7 +77,6 @@ SEDSPEC += \
         -e 's%@TEMPDIR@%$(TEMPDIR)%g'  \
         -e 's%@VERSION@%$(VERSION)%g' \
         -e 's%@REPONAME@%$(REPONAME)%g' \
-        -e 's%@SRCNAME@%$(SRCNAME)%g' \
         -e 's%@TARBALL_POSTFIX@%$(TARBALL_POSTFIX)%g' \
         -e 's%@SPECIES_DATA@%$(SPECIES_DATA)%g' \
         -e 's%@SCENARIO_PACKAGE@%$(SCENARIO_PACKAGE)%g' \
