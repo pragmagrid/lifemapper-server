@@ -51,10 +51,7 @@ Update everything
       code rpms (lifemapper-lmserver and lifemapper-compute) have changed, 
       removing them avoids error messages about file conflicts.::  
 
-      # rpm -el lifemapper-lmserver rocks-lifemapper \
-                lifemapper-species-data lifemapper-climate-data \
-                lifemapper-lmcompute rocks-lmcompute \
-                lifemapper-seed-data
+      # rpm -el lifemapper-lmserver rocks-lifemapper lifemapper-species-data lifemapper-climate-data lifemapper-lmcompute rocks-lmcompute lifemapper-seed-data
 
 #. **Create distribution**::
 
