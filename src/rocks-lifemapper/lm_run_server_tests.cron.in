@@ -9,4 +9,8 @@ PATH=/bin:/usr/bin:/usr/local/bin
 
 export PYTHONPATH=@LMHOME@
 
-@PYBIN@ @LMHOME@/LmWebServer/tests/scripts/checkLmWeb.py -t 4
+# Log latest results of this job
+LOG=/tmp/`/bin/basename $0`.log
+touch $LOG
+
+@PYBIN@ @LMHOME@/LmWebServer/tests/scripts/checkLmWeb.py -t 4  > $LOG 2>&1

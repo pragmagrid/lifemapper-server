@@ -6,4 +6,8 @@
 # Have to export PYTHONPATH or the modules will not be found
 export PYTHONPATH=@LMHOME@
 
-@PYBIN@ @LMHOME@/LmDbServer/tools/deleteOldAnonymous.py
+# Log latest results of this job
+LOG=/tmp/`/bin/basename $0`.log
+touch $LOG
+
+@PYBIN@ @LMHOME@/LmDbServer/tools/deleteOldAnonymous.py  > $LOG 2>&1
