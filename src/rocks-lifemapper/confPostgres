@@ -180,6 +180,7 @@ class ConfPostgres(confbase.Baseconfig):
         lines = ""
         lines += "listen_addresses = '*'\n"
         lines += "max_connections = 50\n"
+        lines += "client_encoding = UTF8\n"
         lines += "password_encryption = on\n"
         lines += "shared_buffers = %d%s\n" % (self.shared_buffers, self.memunit)
         lines += "effective_cache_size = %d%s\n" % (self.effective_cache_size, self.memunit)
