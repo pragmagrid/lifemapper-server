@@ -115,12 +115,22 @@ and RPMS that are prerequisites for other packages during the roll build stage: 
 
    # ./bootstrap.sh  
 
-When the script finishes, it prints the next step instruction to get the lifemapper source ::  
+When the script finishes, it prints the next step instruction to get the 
+lifemapper source, default input data, and solr source code ::  
 
    # cd src/lmserver/
    # make prep
+   #
+   # cd src/lmdata-climate
+   # make prep
+   #
+   # cd src/lmdata-species
+   # make prep
+   #
+   # cd src/solr
+   # make prep 
 
-This will produce lifemappser-server-X.tar.gz 
+The first 2 commands will produce lifemappser-server-X.tar.gz 
 The X is the tag in lifemapper's core Github repository . The X is recorded in 
 version.mk.in.  Assumption: X is production ready revision and is a working code.
 The roll will be using the X revision of lifemapper code.
@@ -202,7 +212,7 @@ Make sure that the python roll is installed (can be downloaded from
 
 Execute first command from the location of the ISO ::
 
-   # rocks add roll lifemapper-server-6.1-0.x86_64.disk1.iso   
+   # rocks add roll lifemapper-server-6.2-0.x86_64.disk1.iso   
    # rocks enable roll lifemapper-server
    # (cd /export/rocks/install; rocks create distro)  
    # yum clean all

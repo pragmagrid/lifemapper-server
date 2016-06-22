@@ -11,13 +11,9 @@ authentication are set up and postgres and pgbouncer are configured.
 Populate the database
 ~~~~~~~~~~~~~~~~~~~~~
 
-#. Initialize the database **as user root** ::  
+#. Initialize the database happens on reboot, called by rocks/bin/initLM 
 
-     # /opt/lifemapper/rocks/bin/fillDB
-
-   **TODO:** Move to command **lm fill db** 
-
-   The script output is in ``/tmp/fillDB.log``. Examine the script output: ::
+    Examine the script output in ``/tmp/fillDB.log`` (and ``/tmp/initLM.log``). ::
   
    Check the available memory ::
 

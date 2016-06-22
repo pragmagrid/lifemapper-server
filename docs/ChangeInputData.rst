@@ -17,10 +17,9 @@ to update the default data or configuration. To update code, see:
 Stop processes
 **************
 
-#. **Stop the pipeline** as lmwriter (replace 'pragma' with the datasource name 
-   configured for this instance, i.e. bison, idigbio) ::    
+#. **Stop the archivist** as lmwriter  ::    
 
-     % $PYTHON /opt/lifemapper/LmDbServer/pipeline/buildBoom.py stop 
+     % $PYTHON /opt/lifemapper/LmDbServer/pipeline/archivist.py stop 
 
    **TODO:** Move to command **lm stop archivist** 
 
@@ -53,7 +52,7 @@ Change Archive User
    The user, and climate scenarios (owned by that user) will be added when 
    running this script :: 
 
-     # bash /opt/lifemapper/rocks/bin/updateArchiveInput
+     # /opt/lifemapper/rocks/bin/updateArchiveInput
 
    **TODO:** Move to command **lm update input**
 
@@ -67,7 +66,7 @@ Climate data
    file.  Available climate packages and codes are described at `_ModifyData`_.
    Then catalog these values with::   
    
-      # bash /opt/lifemapper/rocks/bin/updateArchiveInput
+      # /opt/lifemapper/rocks/bin/updateArchiveInput
 
    **TODO:** Move to command **lm update input**
    
@@ -81,14 +80,15 @@ Species data
    DATASOURCE options are described in  `_ModifyData`_.  If NOT using a 
    pre-defined datasource, USER_OCCURRENCE_* filenames must added to site.ini
    and installed (in the format described at  `_ModifyData`_ ) into 
-   /share/lmserver/data/species/ :: 
+   /share/lmserver/data/species/ . This dataset is used by the archivist/boomer,
+   so after the config file is updated, no other scripts are required :: 
 
      [LmServer - environment]
      DATASOURCE: USER
 
      [LmServer - pipeline]
-     USER_OCCURRENCE_CSV: 
-     USER_OCCURRENCE_META: 
+     USER_OCCURRENCE_CSV: <spdata>.csv
+     USER_OCCURRENCE_META: <spdata>.meta
 
    
 Start processes

@@ -69,6 +69,18 @@ Update everything
 
    # reboot
    
+#. **Check log files** After the frontend boots up, check the success of 
+   initialization commands in log files in /tmp:
+  * initLM.log
+  * updateDB.log,
+  * installServerCronJobs.log
+  * post-99-lifemapper-lmserver.debug 
+  * initLMcompute.log
+  * installComputeCronJobs.log
+  * seedData.log
+  * post-99-lifemapper-lmcompute.debug 
+
+   
 #. **Remove some compute-node rpms manually** 
    
    #. Do this just in case the rpm versions have not changed, to ensure that
@@ -86,8 +98,6 @@ Update everything
 
    # rocks run host compute "chgrp -R lmwriter /state/partition1/lm"
    # rocks run host compute "chmod -R g+ws /state/partition1/lm"
-   # rocks run host compute "chgrp -R lmwriter /opt/lifemapper/.java"
-   # rocks run host compute "chmod -R g+ws /opt/lifemapper/.java"
 
 #. **Test database population** ::  
 
