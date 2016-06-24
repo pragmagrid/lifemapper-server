@@ -41,8 +41,8 @@ Commands executed by root ::
       runs define_lm_database and add_lm_functions in rocks/bin/initLM
     * ``update``: create lifemapper tables, views, functions,
       runs update_lm_tables and add_lm_functions in rocks/bin/initLM
-    * ``populate``
-    * rocks/bin/initDB (options must be enabled for this script)
+    * ``populate``: insert metadata for archive data inputs, runs
+      rocks/bin/fillDB (options may be enabled for this script)
  #. ``add cron jobs``
     * ``compute``: runs rocks/bin/installComputeCronJobs
     * ``server``: runs rocks/bin/installServerCronJobs
