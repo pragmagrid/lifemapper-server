@@ -192,6 +192,7 @@ install_cron_jobs () {
 
 # install background imagery for mapfiles
 install_map_background () {   
+    echo "-- install $MAP_BACKGROUND into $IMAGE_DIR" >> $LOG
     install $MAP_BACKGROUND $IMAGE_DIR
 }
 

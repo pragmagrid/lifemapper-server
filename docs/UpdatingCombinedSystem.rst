@@ -93,11 +93,6 @@ Update everything
    # rocks set host boot compute action=install
    # rocks run host compute reboot 
 
-#. **Temporary** If necessary, fix permissions on nodes.  Note: this should be 
-   run during the post process on reboot (nodes/lifemapper-compute-base.xml)::
-
-   # rocks run host compute "chgrp -R lmwriter /state/partition1/lm"
-   # rocks run host compute "chmod -R g+ws /state/partition1/lm"
 
 #. **Test database population** ::  
 
