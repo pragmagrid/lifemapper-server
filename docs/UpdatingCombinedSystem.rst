@@ -93,7 +93,6 @@ Update everything
    # rocks set host boot compute action=install
    # rocks run host compute reboot 
 
-
 #. **Test database population** ::  
 
    # export PGPASSWORD=`grep sdlapp /opt/lifemapper/rocks/etc/users | awk '{print $2}'`
