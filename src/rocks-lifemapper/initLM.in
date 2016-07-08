@@ -56,6 +56,20 @@ set_defaults() {
     fi
 }
 
+set_permissions () {
+    /bin/egrep -i "^lmwriter" /etc/passwd
+    if [ $? -ne 0 ]; then
+        echo "Error: user lmwriter does not exist" | tee -a $LOG
+        exit 1
+    fi
+
+    echo "Update group permissions for lmwriter on @LMHOME@" | tee -a $LOG
+    for item in "config" "Lm*" "__init__.py*" ; do
+        /bin/chgrp -R lmwriter @LMHOME@/$item
+        /bin/chmod -R g+ws @LMHOME@/$item
+    done
+}
+
 ### sets the password for db "admin" user to execute sql commands
 set_password () {
     # check if users file exists
@@ -229,6 +243,7 @@ TimeStamp () {
 ####### Main #######
 set_defaults
 TimeStamp "# Start"
+set_permissions
 stop_services
 
 if [ $EXISTING_DB = false ] ; then
