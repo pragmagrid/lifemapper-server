@@ -49,7 +49,7 @@ Update everything
       installed, **but if the rpm versions have not changed**, you must remove 
       them to ensure that the installation scripts are run.  Even if the source 
       code rpms (lifemapper-lmserver and lifemapper-compute) have changed, 
-      removing them avoids error messages about file conflicts.::  
+      removing them avoids error messages about file conflicts in shared code.::  
 
       # rpm -el rocks-lifemapper rocks-lmcompute
 
