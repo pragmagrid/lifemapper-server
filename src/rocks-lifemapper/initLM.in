@@ -110,14 +110,6 @@ stop_services () {
     fi
 }
 
-# rm old db data
-clear_postgres () {
-    if [ -d /var/lib/pgsql/@PGSQLVER@/data ]; then
-            echo "-- removing postgres db data" >> $LOG
-	    rm -rf /var/lib/pgsql/@PGSQLVER@/data/*
-    fi
-}
-
 # run initdb, start postgres daemon
 init_postgres () {
     # initdb creates postgres data/*
