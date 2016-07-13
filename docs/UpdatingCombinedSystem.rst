@@ -70,15 +70,22 @@ Update everything
    # reboot
    
 #. **Check log files** After the frontend boots up, check the success of 
-   initialization commands in log files in /tmp:
-  * initLM.log
-  * updateDB.log,
-  * installServerCronJobs.log
-  * post-99-lifemapper-lmserver.debug 
-  * initLMcompute.log
-  * installComputeCronJobs.log
-  * seedData.log
-  * post-99-lifemapper-lmcompute.debug 
+   initialization commands in log files in /tmp (these may complete up to 5
+   minutes after reboot).  The post-99-lifemapper-lm*.log files contain all
+   the output from all reinstall-reboot-triggered scripts and are created fresh 
+   each time.  All other logfiles have output appended to the end of an existing 
+   logfile (from previous runs) and will be useful if the script must be re-run
+   manually for testing:
+  * LmServer logfiles:
+     * post-99-lifemapper-lmserver.debug (calls initLM on reboot) 
+     * initLM.log
+     * installServerCronJobs.log
+     * initDbserver.log (only if new db)
+  * LmCompute logfiles:
+     * post-99-lifemapper-lmcompute.debug  (calls initLMcompute on reboot) 
+     * initLMcompute.log 
+     * installComputeCronJobs.log
+     * seedData.log
 
    
 #. **Remove some compute-node rpms manually** 
@@ -95,7 +102,7 @@ Update everything
 
 #. **Test database population** ::  
 
-   # export PGPASSWORD=`grep sdlapp /opt/lifemapper/rocks/etc/users | awk '{print $2}'`
+   # export PGPASSWORD=`grep admin /opt/lifemapper/rocks/etc/users | awk '{print $2}'`
    # psql -U sdlapp -d mal
    # select scenariocode, userid from scenario;
 

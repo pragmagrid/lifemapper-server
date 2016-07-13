@@ -137,7 +137,7 @@ init_postgres () {
 # create lifemapper db users and roles.sql 
 # and initialize postgres db with user/postgis data
 dbserver_init() {
-    echo "-- Executing initDbserver" >> $LOG
+    echo "-- Executing initDbserver (including confDbconnect)" >> $LOG
     $BIN/initDbserver >> $LOG
 }
 
