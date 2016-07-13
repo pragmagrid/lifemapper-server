@@ -51,7 +51,7 @@ Update everything
       code rpms (lifemapper-lmserver and lifemapper-compute) have changed, 
       removing them avoids error messages about file conflicts.::  
 
-      # rpm -el lifemapper-lmserver rocks-lifemapper lifemapper-species-data lifemapper-climate-data lifemapper-lmcompute rocks-lmcompute lifemapper-seed-data
+      # rpm -el rocks-lifemapper rocks-lmcompute
 
 #. **Create distribution**::
 
@@ -64,6 +64,15 @@ Update everything
    # rocks run roll lifemapper-compute > add-compute.sh 
    # bash add-server.sh > add-server.out 2>&1
    # bash add-compute.sh > add-compute.out 2>&1
+   
+#. **TEMP: Updating Machines w/o BORG** Create the Borg database prior to 
+   reboot so that scripts can run on that db as well ::  
+   
+   #. export PGPASSWORD=`grep admin /opt/lifemapper/rocks/etc/users | awk '{print $2}'`
+   #. psql -U admin -d borg --file=LmDbServer/dbsetup/createBorg.sql
+   #. psql -U admin -d borg --file=LmDbServer/dbsetup/createBorgTypeViews.sql
+   #. psql -U admin -d borg --file=LmDbServer/dbsetup/createBorgFunctions.sql
+   #. psql -U admin -d borg --file=LmDbServer/dbsetup/createBorgLayerFunctions.sql
     
 #. **Reboot front end** ::  
 
@@ -86,7 +95,6 @@ Update everything
      * initLMcompute.log 
      * installComputeCronJobs.log
      * seedData.log
-
    
 #. **Remove some compute-node rpms manually** 
    
