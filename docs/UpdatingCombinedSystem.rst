@@ -49,7 +49,8 @@ Update everything
       installed, **but if the rpm versions have not changed**, you must remove 
       them to ensure that the installation scripts are run.  Even if the source 
       code rpms (lifemapper-lmserver and lifemapper-compute) have changed, 
-      removing them avoids error messages about file conflicts in shared code.::  
+      you can remove them to avoid error messages about file conflicts in 
+      shared code.::  
 
       # rpm -el rocks-lifemapper rocks-lmcompute
 
@@ -110,7 +111,7 @@ Update everything
 
 #. **Test database population** ::  
 
-   # export PGPASSWORD=`grep admin /opt/lifemapper/rocks/etc/users | awk '{print $2}'`
+   # export PGPASSWORD=`grep sdlapp /opt/lifemapper/rocks/etc/users | awk '{print $2}'`
    # psql -U sdlapp -d mal
    # select scenariocode, userid from scenario;
 
