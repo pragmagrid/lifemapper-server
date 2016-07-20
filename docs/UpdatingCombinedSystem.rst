@@ -49,9 +49,10 @@ Update everything
       installed, **but if the rpm versions have not changed**, you must remove 
       them to ensure that the installation scripts are run.  Even if the source 
       code rpms (lifemapper-lmserver and lifemapper-compute) have changed, 
-      removing them avoids error messages about file conflicts.::  
+      you can remove them to avoid error messages about file conflicts in 
+      shared code.::  
 
-      # rpm -el lifemapper-lmserver rocks-lifemapper lifemapper-species-data lifemapper-climate-data lifemapper-lmcompute rocks-lmcompute lifemapper-seed-data
+      # rpm -el rocks-lifemapper rocks-lmcompute
 
 #. **Create distribution**::
 
@@ -64,22 +65,37 @@ Update everything
    # rocks run roll lifemapper-compute > add-compute.sh 
    # bash add-server.sh > add-server.out 2>&1
    # bash add-compute.sh > add-compute.out 2>&1
+   
+#. **TEMP: Updating Machines w/o BORG** Create the Borg database prior to 
+   reboot so that scripts can run on that db as well ::  
+   
+   #. export PGPASSWORD=`grep admin /opt/lifemapper/rocks/etc/users | awk '{print $2}'`
+   #. psql -U admin -d borg --file=LmDbServer/dbsetup/createBorg.sql
+   #. psql -U admin -d borg --file=LmDbServer/dbsetup/createBorgTypeViews.sql
+   #. psql -U admin -d borg --file=LmDbServer/dbsetup/createBorgFunctions.sql
+   #. psql -U admin -d borg --file=LmDbServer/dbsetup/createBorgLayerFunctions.sql
     
 #. **Reboot front end** ::  
 
    # reboot
    
 #. **Check log files** After the frontend boots up, check the success of 
-   initialization commands in log files in /tmp:
-  * initLM.log
-  * updateDB.log,
-  * installServerCronJobs.log
-  * post-99-lifemapper-lmserver.debug 
-  * initLMcompute.log
-  * installComputeCronJobs.log
-  * seedData.log
-  * post-99-lifemapper-lmcompute.debug 
-
+   initialization commands in log files in /tmp (these may complete up to 5
+   minutes after reboot).  The post-99-lifemapper-lm*.log files contain all
+   the output from all reinstall-reboot-triggered scripts and are created fresh 
+   each time.  All other logfiles have output appended to the end of an existing 
+   logfile (from previous runs) and will be useful if the script must be re-run
+   manually for testing:
+  * LmServer logfiles:
+     * post-99-lifemapper-lmserver.debug (calls initLM on reboot) 
+     * initLM.log
+     * installServerCronJobs.log
+     * initDbserver.log (only if new db)
+  * LmCompute logfiles:
+     * post-99-lifemapper-lmcompute.debug  (calls initLMcompute on reboot) 
+     * initLMcompute.log 
+     * installComputeCronJobs.log
+     * seedData.log
    
 #. **Remove some compute-node rpms manually** 
    
@@ -92,12 +108,6 @@ Update everything
 
    # rocks set host boot compute action=install
    # rocks run host compute reboot 
-
-#. **Temporary** If necessary, fix permissions on nodes.  Note: this should be 
-   run during the post process on reboot (nodes/lifemapper-compute-base.xml)::
-
-   # rocks run host compute "chgrp -R lmwriter /state/partition1/lm"
-   # rocks run host compute "chmod -R g+ws /state/partition1/lm"
 
 #. **Test database population** ::  
 

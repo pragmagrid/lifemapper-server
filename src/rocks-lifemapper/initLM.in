@@ -56,6 +56,20 @@ set_defaults() {
     fi
 }
 
+set_permissions () {
+    /bin/egrep -i "^lmwriter" /etc/passwd
+    if [ $? -ne 0 ]; then
+        echo "Error: user lmwriter does not exist" | tee -a $LOG
+        exit 1
+    fi
+
+    echo "Update group permissions for lmwriter on @LMHOME@" | tee -a $LOG
+    for item in "config" "Lm*" "__init__.py*" ; do
+        /bin/chgrp -R lmwriter @LMHOME@/$item
+        /bin/chmod -R g+ws @LMHOME@/$item
+    done
+}
+
 ### sets the password for db "admin" user to execute sql commands
 set_password () {
     # check if users file exists
@@ -96,14 +110,6 @@ stop_services () {
     fi
 }
 
-# rm old db data
-clear_postgres () {
-    if [ -d /var/lib/pgsql/@PGSQLVER@/data ]; then
-            echo "-- removing postgres db data" >> $LOG
-	    rm -rf /var/lib/pgsql/@PGSQLVER@/data/*
-    fi
-}
-
 # run initdb, start postgres daemon
 init_postgres () {
     # initdb creates postgres data/*
@@ -123,7 +129,7 @@ init_postgres () {
 # create lifemapper db users and roles.sql 
 # and initialize postgres db with user/postgis data
 dbserver_init() {
-    echo "-- Executing initDbserver" >> $LOG
+    echo "-- Executing initDbserver (including confDbconnect)" >> $LOG
     $BIN/initDbserver >> $LOG
 }
 
@@ -192,6 +198,7 @@ install_cron_jobs () {
 
 # install background imagery for mapfiles
 install_map_background () {   
+    echo "-- install $MAP_BACKGROUND into $IMAGE_DIR" >> $LOG
     install $MAP_BACKGROUND $IMAGE_DIR
 }
 
@@ -228,6 +235,7 @@ TimeStamp () {
 ####### Main #######
 set_defaults
 TimeStamp "# Start"
+set_permissions
 stop_services
 
 if [ "$EXISTING_DB" = false ] ; then

@@ -5,29 +5,29 @@ visit to SDSC.
       LM command layout
 
 lm init db
-        postgress (template...)
-		pgbouncer
-		postgis
-		user
+        postgres (template...)
+        pgbouncer
+        postgis
+        user
         config
 
 lm add cronjobs
 
 lm update ip ...
 
-lm start pipeline
+lm start archivist
          jobmediator
 
-lm stop pipeline
+lm stop archivist
         jobmediator
 
 lm build solr index
 
 lm list users
         algorithms
-		default
-		species
-		climateData
-		status
+        default
+        species
+        climate
+        status
 
 
