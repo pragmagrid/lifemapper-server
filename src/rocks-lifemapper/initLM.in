@@ -230,7 +230,7 @@ set_defaults
 TimeStamp "# Start"
 stop_services
 
-if [ $EXISTING_DB = false ] ; then
+if [ "$EXISTING_DB" = false ] ; then
     echo "Creating new database" >> $LOG
     init_db
     start_services
@@ -249,7 +249,7 @@ install_cron_jobs
 install_map_background
 update_config
 
-if [ $EXISTING_DB = false ] ; then
+if [ "$EXISTING_DB" = false ] ; then
     fill_db
 fi
 
