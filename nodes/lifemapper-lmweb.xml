@@ -22,6 +22,9 @@
 	<package>opt-lifemapper-rdflib</package>
 	<package>opt-lifemapper-isodate</package>
 	<package>opt-lifemapper-processing</package>
+	<package>java-1.8.0-openjdk-headless</package>
+	<package>java-1.8.0-openjdk</package>
+	<package>java-1.8.0-openjdk-devel</package>
 	<package>lifemapper-solr</package>
 
 <post>
