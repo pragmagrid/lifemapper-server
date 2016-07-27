@@ -89,11 +89,13 @@ SCRIPTS = \
 	lifemapper-sysconfig-httpd \
 	lifemapper-server.conf
 
-PROGS = \
+CRONS = \
 	lm_build_solr_index.cron \
 	lm_run_server_tests.cron \
 	lm_delete_old_anon.cron \
-	lm_troubleshoot_jobs.cron \
+	lm_troubleshoot_jobs.cron
+
+PROGS = \
 	initLM \
 	checkLibs \
 	initDbserver \
@@ -120,7 +122,7 @@ EXECFILES = \
 
 .SUFFIXES:
 
-build: $(SCRIPTS) $(PROFILES) $(PROGS) $(PYFILES) $(EXECFILES)
+build: $(SCRIPTS) $(PROFILES) $(CRONS) $(PROGS) $(PYFILES) $(EXECFILES)
 	
 install::
 
@@ -147,6 +149,7 @@ install::
 
 	mkdir -p $(ROOT)/$(PKGROOT)/rocks/etc
 	install -m 644 lifemapper-sysconfig-httpd $(ROOT)/$(PKGROOT)/rocks/etc
+	install -m 755 $(CRONS) $(ROOT)/$(PKGROOT)/rocks/etc
 
 	mkdir -p $(ROOT)/$(PKGROOT)/rocks/sql
 	install -m 644 postgis.sql $(ROOT)/$(PKGROOT)/rocks/sql 

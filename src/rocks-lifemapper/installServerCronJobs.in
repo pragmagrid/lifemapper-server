@@ -34,17 +34,16 @@ removeOldTasks () {
 # install hourly cron jobs (solr)
 installHourlyTasks () {
     # run hourly 
-    install @LMHOME@/rocks/bin/lm_build_solr_index.cron ${CRON_HOURLY_DIR}
-    install @LMHOME@/rocks/bin/lm_troubleshoot_jobs.cron ${CRON_HOURLY_DIR}
+    install @LMHOME@/rocks/etc/lm_build_solr_index.cron ${CRON_HOURLY_DIR}
+    install @LMHOME@/rocks/etc/lm_troubleshoot_jobs.cron ${CRON_HOURLY_DIR}
     echo "Installed hourly tasks to ${CRON_HOURLY_DIR} ..." | tee -a $LOG
 }
 
 # install daily cron jobs (security, cleanup, tests)
 installDailyTasks () {
     # run daily 
-    install @LMHOME@/config/securityUpdates.sh ${CRON_DAILY_DIR}
-    install @LMHOME@/rocks/bin/lm_delete_old_anon.cron ${CRON_DAILY_DIR}
-    install @LMHOME@/rocks/bin/lm_run_server_tests.cron ${CRON_DAILY_DIR}
+    install @LMHOME@/rocks/etc/lm_delete_old_anon.cron ${CRON_DAILY_DIR}
+    install @LMHOME@/rocks/etc/lm_run_server_tests.cron ${CRON_DAILY_DIR}
     echo "Installed daily tasks to ${CRON_DAILY_DIR} ..." | tee -a $LOG
 }
 
