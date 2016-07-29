@@ -48,7 +48,7 @@ set_defaults() {
     LOG=/tmp/`/bin/basename $0`.log
     touch $LOG
 
-    if [ -d /var/lib/pgsql/@PGSQLVER@/data ]; then
+    if [ -d /var/lib/pgsql/@PGSQLVER@/data ] && [ "$(ls -A /var/lib/pgsql/@PGSQLVER@/data)" ]; then
 	    echo "postgres db exists" >> $LOG
 	    EXISTING_DB=true
 	 else
