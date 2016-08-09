@@ -70,6 +70,8 @@ version.mk:
 	cat ../version.mk version.mk.in > version.mk
 	
 SEDSPEC += \
+        -e 's%@LMURL@%$(LMURL)%g' \
+        -e 's%@GBIF_DATA@%$(GBIF_DATA)%g' \
         -e 's%@GBIF_META@%$(GBIF_META)%g' \
         -e 's%@IDIG_LIST@%$(IDIG_LIST)%g' \
         -e 's%@SPECIES_DATA@%$(SPECIES_DATA)%g' \
@@ -89,6 +91,7 @@ build:
 install::
 	mkdir -p $(ROOT)/$(EXPORTDIR)
 	tar -xzf  $(SPECIES_DATA).$(TARBALL_POSTFIX)  -C  $(ROOT)/$(EXPORTDIR)/
+	tar -xzf  $(GBIF_DATA).$(TARBALL_POSTFIX)  -C  $(ROOT)/$(EXPORTDIR)/
 	tar -xzf  $(GBIF_META).$(TARBALL_POSTFIX)  -C  $(ROOT)/$(EXPORTDIR)/
 	tar -xzf  $(IDIG_LIST).$(TARBALL_POSTFIX)  -C  $(ROOT)/$(EXPORTDIR)/
 
