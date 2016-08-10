@@ -125,11 +125,10 @@ lmserver &Kickstart_PrivateHostname;:/export/&amp;
 /etc/init.d/autofs restart
 /opt/rocks/bin/rocks sync users
 
-LOG=`ls /share/lmserver | grep log`
-if [ "$LOG" != "" ] ; then
-    /bin/ln -s /share/lmserver/log /opt/lifemapper/log
-else
+if [ -L /opt/lifemapper/log ] ; then
     /bin/echo "INFO: directory /share/lmserver/log exists"
+else
+    /bin/ln -s /share/lmserver/log /opt/lifemapper/log
 fi
 
 </post>
