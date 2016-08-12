@@ -55,7 +55,6 @@ install::
 	mkdir -p $(ROOT)/$(EXPORTDIR)/logs
 
 	mkdir -p $(ROOT)/$(EXPORTDIR)/data/cores
-	chown -R $(SOLRUSER):$(SOLRUSER) $(ROOT)/$(EXPORTDIR)/data
 	cp $(ROOT)/$(SOLRDIR)/server/solr/solr.xml $(ROOT)/$(EXPORTDIR)/data
 
 	mkdir -p $(ROOT)/$(SOLRDIR)/etc
