@@ -10,42 +10,45 @@ RM="rpm -evl --quiet --nodeps"
 
 del-lifemapper() {
    echo "Removing lifemapper-* and prerequisite RPMS"
-   $RM roll-lifemapper-server-usersguide
-   $RM rocks-lifemapper
-   $RM lifemapper-tiff
-   $RM lifemapper-spatialindex
-   $RM lifemapper-server
-   $RM lifemapper-proj
-   $RM lifemapper-mod_wsgi
-   $RM lifemapper-geos
+   $RM lifemapper-cctools
    $RM lifemapper-climate-data
-   $RM lifemapper-solr
-   $RM lifemapper-species-data
-   $RM lifemapper-libevent
-   $RM hdf5-devel hdf5
+   $RM lifemapper-cmd
    $RM lifemapper-gdal
+   $RM lifemapper-geos
+   $RM lifemapper-libevent
+   $RM lifemapper-lmserver
+   $RM lifemapper-mod_wsgi
+   $RM lifemapper-proj
+   $RM lifemapper-solr
+   $RM lifemapper-spatialindex
+   $RM lifemapper-species-data
+   $RM lifemapper-tiff
+   $RM rocks-lifemapper
+   $RM roll-lifemapper-server-usersguide
 }
 
 del-opt-python () {
    echo "Removing opt-* RPMS"
-   $RM opt-lifemapper-pytables
-   $RM opt-lifemapper-psycopg2
-   $RM opt-lifemapper-numexpr
-   $RM opt-lifemapper-faulthandler
-   $RM opt-lifemapper-egenix-mx-base
-   $RM opt-lifemapper-cython
    $RM opt-lifemapper-cherrypy
-   $RM opt-lifemapper-MySQL-python
-   $RM opt-lifemapper-rtree
-   $RM opt-lifemapper-processing
+   $RM opt-lifemapper-cython
+   $RM opt-lifemapper-egenix-mx-base
+   $RM opt-lifemapper-faulthandler
    $RM opt-lifemapper-isodate
+   $RM opt-lifemapper-MySQL-python
+   $RM opt-lifemapper-numexpr
+   $RM opt-lifemapper-processing
+   $RM opt-lifemapper-psycopg2
+   $RM opt-lifemapper-pytables
    $RM opt-lifemapper-rdflib
+   $RM opt-lifemapper-requests
+   $RM opt-lifemapper-rtree
 }
 
 del-mapserver(){
    echo "Removing mapserver and dependencies RPMS"
    $RM opt-lifemapper-mapserver
    $RM hdf4-devel hdf4
+   $RM hdf5-devel hdf5
    $RM giflib-devel
    $RM bitstream-vera-sans-fonts
    $RM bitstream-vera-fonts-common
