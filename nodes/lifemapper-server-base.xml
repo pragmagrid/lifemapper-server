@@ -90,24 +90,23 @@ fi
 </post>
 
 <post>
-
-/bin/mkdir -p /state/partition1/lmserver/log
-/bin/mkdir -p /state/partition1/lmserver/log/users
 /bin/mkdir -p /state/partition1/lmserver/data/archive
 /bin/mkdir -p /state/partition1/lmserver/data/climate
 /bin/mkdir -p /state/partition1/lmserver/data/species
-/bin/mkdir -p /state/partition1/lmserver/data/ESRIDATA
 /bin/mkdir -p /state/partition1/lmserver/data/image
 /bin/mkdir -p /state/partition1/lmserver/data/test
 /bin/mkdir -p /state/partition1/lmserver/data/tmpUpload
 
 /bin/chgrp -R lmwriter /state/partition1/lmserver
-/bin/chmod -R g+ws /state/partition1/lmserver/log
-/bin/chmod -R g+ws /state/partition1/lmserver/data/archive 
-/bin/chmod -R g+ws /state/partition1/lmserver/data/climate 
-/bin/chmod -R g+ws /state/partition1/lmserver/data/species
-/bin/chmod -R g+ws /state/partition1/lmserver/data/test
-/bin/chmod -R g+ws /state/partition1/lmserver/data/tmpUpload
+/bin/chmod -R g+ws /state/partition1/lmserver
+
+# FE directory NOT shared
+/bin/mkdir -p /state/partition1/lmscratch
+/bin/mkdir -p /state/partition1/lmscratch/log
+/bin/mkdir -p /state/partition1/lmscratch/log/users
+
+/bin/chgrp -R lmwriter /state/partition1/lmscratch
+/bin/chmod -R g+ws /state/partition1/lmscratch
 
 for item in "config" "Lm*" "__init__.py*" ; do
     /bin/chgrp -R lmwriter /opt/lifemapper/$item
@@ -120,12 +119,6 @@ lmserver &Kickstart_PrivateHostname;:/export/&amp;
 
 /etc/init.d/autofs restart
 /opt/rocks/bin/rocks sync users
-
-if [ -L /opt/lifemapper/log ] ; then
-    /bin/echo "INFO: directory /share/lmserver/log exists"
-else
-    /bin/ln -s /share/lmserver/log /opt/lifemapper/log
-fi
 
 </post>
 

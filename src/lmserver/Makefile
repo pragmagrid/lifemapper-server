@@ -70,7 +70,6 @@ SEDSPEC += \
         -e 's%@PKGROOT@%$(PKGROOT)%g' \
         -e 's%@PYBIN@%$(PY.PATH)%g' \
         -e 's%@DATADIR_SERVER@%$(DATADIR_SERVER)%g' \
-        -e 's%@LMDISK@%$(LMDISK)%g' \
         -e 's%@LMHOME@%$(LMHOME)%g' \
         -e 's%@LMWEB@%$(LMWEB)%g' \
         -e 's%@SMTPSERVER@%$(SMTPSERVER)%g' \
