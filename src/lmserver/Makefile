@@ -74,6 +74,7 @@ SEDSPEC += \
         -e 's%@LMWEB@%$(LMWEB)%g' \
         -e 's%@SMTPSERVER@%$(SMTPSERVER)%g' \
         -e 's%@TEMPDIR@%$(TEMPDIR)%g'  \
+        -e 's%@LMSCRATCHDISK@%$(LMSCRATCHDISK)%g' \
         -e 's%@VERSION@%$(VERSION)%g' \
         -e 's%@REPONAME@%$(REPONAME)%g' \
         -e 's%@NAME@%$(NAME)%g' \

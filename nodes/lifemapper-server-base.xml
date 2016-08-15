@@ -104,6 +104,7 @@ fi
 /bin/mkdir -p /state/partition1/lmscratch
 /bin/mkdir -p /state/partition1/lmscratch/log
 /bin/mkdir -p /state/partition1/lmscratch/log/users
+/bin/mkdir -p /state/partition1/lmscratch/log/errors
 
 /bin/chgrp -R lmwriter /state/partition1/lmscratch
 /bin/chmod -R g+ws /state/partition1/lmscratch
