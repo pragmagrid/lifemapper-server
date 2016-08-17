@@ -22,6 +22,9 @@ SetDefaults () {
     TAXONOMYPY=@LMHOME@/LmDbServer/tools/readTaxonomy.py
     COMPUTEPY=@LMHOME@/LmDbServer/tools/registerCompute.py
 
+    # TODO: call this once testing is complete and DB is created
+    BORG_POPULATEPY=@LMHOME@/LmDbServer/tools/initBorg.py
+
 	 # config files
     CONFIG_FILE=@LMHOME@/config/config.lmserver.ini
     SITE_CONFIG_FILE=@LMHOME@/config/site.ini
