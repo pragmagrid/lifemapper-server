@@ -98,7 +98,7 @@ boom.ini: $(TOPDIR)/LmServer/config/boom.ini.in
 config.lmserver.ini: $(TOPDIR)/LmServer/config/config.lmserver.ini.in
 	$(SED) -i $(SEDSPEC) $^ 
 	cat $^ > $(TOPDIR)/config/$@
-	cp $(TOPDIR)/LmServer/config/site.ini.lmserver.example $(TOPDIR)/config/
+	cp $(TOPDIR)/config/$@   $(TOPDIR)/config/site.ini.lmserver.example 
 
 cherrypy.conf: $(TOPDIR)/LmWebServer/config/cherrypy.conf.in
 	$(SED) -i $(SEDSPEC) $^ 
