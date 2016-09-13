@@ -1,5 +1,5 @@
 ROLLNAME	= lifemapper-server
-VERSION  = $(shell date +%F | tr - _)
+VERSION  = $(shell date +%F | tr - .)
 RELEASE	= 0
 COLOR		= orchid
 ISOSIZE  = 0

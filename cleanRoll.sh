@@ -8,6 +8,26 @@
 
 RM="rpm -evl --quiet --nodeps"
 
+# stop services if running
+stop-services () {
+    PG=`basename /etc/init.d/postgresql-*`
+    echo "-- stop $PG and pgbouncer daemons " >> $LOG
+
+    if [ -f /var/run/pgbouncer/pgbouncer.pid ]; then
+        /sbin/service pgbouncer stop >> $LOG
+    fi
+
+    if [ -f /var/run/$PG.pid ] ; then
+        /sbin/service $PG stop >> $LOG
+    fi
+
+    prog="postmaster"
+    if [ -n "`pidof $prog`" ]; then
+        killproc  $prog
+    fi
+}
+
+
 del-lifemapper() {
    echo "Removing lifemapper-* and prerequisite RPMS"
    $RM lifemapper-cctools
@@ -143,6 +163,7 @@ del-attr () {
 }
 
 ### main ###
+stop-services
 del-postgres
 del-mapserver 
 del-opt-python 
