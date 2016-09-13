@@ -78,9 +78,6 @@ SEDSPEC += \
         -e 's%@LMHOME@%$(LMHOME)%g' \
         -e 's%@TARBALL_POSTFIX@%$(TARBALL_POSTFIX)%g'
 
-updateArchiveInput: updateArchiveInput.in
-	$(SED) $(SEDSPEC) $^ > $@
-
 prepData.sh: prepData.sh.in
 	$(SED) $(SEDSPEC) $^ > $@
 	chmod 755 $@

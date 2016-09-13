@@ -48,19 +48,6 @@ set_defaults() {
 }
 
 
-### Add new scenarios based on metadata in 
-### @LMHOME@/LmDbServer/tools/bioclimMeta for SCENARIO_PACKAGE
-add_inputs () {
-    if [ -f $POPULATEPY ] ; then        
-        echo "Add metadata for $SCEN_PKG ..." | tee -a $LOG
-        /opt/python/bin/@PYTHONVER@ $POPULATEPY -m all 2>&1 | tee -a $LOG
-        
-    else
-        echo "Error: Missing file $POPULATEPY" | tee -a $LOG
-        exit 1
-    fi
-}
-
 ### Retrieve climate data named in SCENARIO_PACKAGE
 get_climate_data () {
     # find metadata file pkgname.py
@@ -88,6 +75,5 @@ set_defaults
 TimeStamp "# Start"
 
 get_climate_data
-add_inputs
 
 TimeStamp "# End"

@@ -104,7 +104,7 @@ PROGS = \
 	fillDB \
 	updateIP \
 	confconst.py \
-	updateArchiveInput \
+	getClimateData \
 	installServerCronJobs
 
 PYFILES = __init__.py \
