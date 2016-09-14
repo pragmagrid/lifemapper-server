@@ -61,7 +61,7 @@ RPM.ARCH = noarch
 REDHAT.ROOT = $(CURDIR)/../../
 
 # ENV_DATA_DIR also defined in LmServerCommon.common.lmconstants
-EXPORTDIR=$(subst share,state/partition1,$(DATADIR_SERVER))/$(ENV_DATA_DIR)
+EXPORTDIR=$(subst share,state/partition1,$(DATADIR_SHARED))/$(ENV_DATA_DIR)
 
 -include $(ROCKSROOT)/etc/Rules.mk
 include Rules.mk
@@ -73,6 +73,7 @@ SEDSPEC += \
         -e 's%@SCENARIO_PACKAGE@%$(SCENARIO_PACKAGE)%g' \
         -e 's%@ENV_DATA_DIR@%$(ENV_DATA_DIR)%g' \
         -e 's%@DATADIR_SERVER@%$(DATADIR_SERVER)%g' \
+        -e 's%@DATADIR_SHARED@%$(DATADIR_SHARED)%g' \
         -e 's%@PYTHONVER@%$(PYTHONVER)%g' \
         -e 's%@LMURL@%$(LMURL)%g' \
         -e 's%@LMHOME@%$(LMHOME)%g' \

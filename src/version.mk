@@ -4,6 +4,11 @@ MAPSERVER_TMP = /var/www/tmp
 LMWEB         = /var/lib/lm2
 LMURL			  = http://lifemapper.org/dl
 DATADIR_SERVER  = /share/lmserver/data
+
+# This variable is identical in the lifemapper-server roll
+DATADIR_SHARED  = /share/lm/data
+
+ENV_DATA_DIR  = climate
 TEMPDIR       = /tmp
 LMSCRATCHDISK = /state/partition1/lmscratch
 PYTHONVER     = python2.7

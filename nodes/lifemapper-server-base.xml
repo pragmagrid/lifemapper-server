@@ -99,13 +99,19 @@ fi
 /bin/chgrp -R lmwriter /state/partition1/lmserver
 /bin/chmod -R g+ws /state/partition1/lmserver
 
-# FE directory NOT shared
+# FE directory NOT exported for nodes
 /bin/mkdir -p /state/partition1/lmscratch
 /bin/mkdir -p /state/partition1/lmscratch/log
 /bin/mkdir -p /state/partition1/lmscratch/log/users
 /bin/mkdir -p /state/partition1/lmscratch/log/errors
 /bin/chgrp -R lmwriter /state/partition1/lmscratch
 /bin/chmod -R g+ws /state/partition1/lmscratch
+
+# FE directory shared with lifemapper-compute, not exported to nodes
+/bin/mkdir -p /state/partition1/lm
+/bin/mkdir -p /state/partition1/lm/data/climate
+/bin/chgrp -R lmwriter /state/partition1/lm
+/bin/chmod -R g+ws /state/partition1/lm
 
 # PID directory
 /bin/mkdir -p /var/run/lifemapper
