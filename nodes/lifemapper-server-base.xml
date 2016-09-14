@@ -96,7 +96,6 @@ fi
 /bin/mkdir -p /state/partition1/lmserver/data/image
 /bin/mkdir -p /state/partition1/lmserver/data/test
 /bin/mkdir -p /state/partition1/lmserver/data/tmpUpload
-
 /bin/chgrp -R lmwriter /state/partition1/lmserver
 /bin/chmod -R g+ws /state/partition1/lmserver
 
@@ -105,9 +104,13 @@ fi
 /bin/mkdir -p /state/partition1/lmscratch/log
 /bin/mkdir -p /state/partition1/lmscratch/log/users
 /bin/mkdir -p /state/partition1/lmscratch/log/errors
-
 /bin/chgrp -R lmwriter /state/partition1/lmscratch
 /bin/chmod -R g+ws /state/partition1/lmscratch
+
+# PID directory
+/bin/mkdir -p /var/run/lifemapper
+/bin/chgrp -R lmwriter /var/run/lifemapper
+/bin/chmod -R g+ws /var/run/lifemapper
 
 for item in "config" "Lm*" "__init__.py*" ; do
     /bin/chgrp -R lmwriter /opt/lifemapper/$item
