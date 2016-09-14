@@ -1,5 +1,5 @@
 
-.. hightlight:: rest
+.. highlight:: rest
 
 Lifemapper Server roll
 ======================
