@@ -8,6 +8,7 @@ DATADIR_SERVER  = /share/lmserver/data
 # This variable is identical in the lifemapper-server roll
 DATADIR_SHARED  = /share/lm/data
 
+# This variable is identical to INPUT_LAYER_DIR in the lifemapper-compute roll
 ENV_DATA_DIR  = layers
 TEMPDIR       = /tmp
 LMSCRATCHDISK = /state/partition1/lmscratch

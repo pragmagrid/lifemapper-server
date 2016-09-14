@@ -109,7 +109,7 @@ fi
 
 # FE directory shared with lifemapper-compute, not exported to nodes
 /bin/mkdir -p /state/partition1/lm
-/bin/mkdir -p /state/partition1/lm/data/climate
+/bin/mkdir -p /state/partition1/lm/data/layers
 /bin/chgrp -R lmwriter /state/partition1/lm
 /bin/chmod -R g+ws /state/partition1/lm
 
