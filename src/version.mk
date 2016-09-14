@@ -8,7 +8,7 @@ DATADIR_SERVER  = /share/lmserver/data
 # This variable is identical in the lifemapper-server roll
 DATADIR_SHARED  = /share/lm/data
 
-ENV_DATA_DIR  = climate
+ENV_DATA_DIR  = layers
 TEMPDIR       = /tmp
 LMSCRATCHDISK = /state/partition1/lmscratch
 PYTHONVER     = python2.7
