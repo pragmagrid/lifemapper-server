@@ -11,19 +11,23 @@ RM="rpm -evl --quiet --nodeps"
 # stop services if running
 stop-services () {
     PG=`basename /etc/init.d/postgresql-*`
-    echo "-- stop $PG and pgbouncer daemons " >> $LOG
+    echo "-- stop $PG and pgbouncer daemons "
 
     if [ -f /var/run/pgbouncer/pgbouncer.pid ]; then
-        /sbin/service pgbouncer stop >> $LOG
+        /sbin/service pgbouncer stop
     fi
 
     if [ -f /var/run/$PG.pid ] ; then
-        /sbin/service $PG stop >> $LOG
+        /sbin/service $PG stop
     fi
 
     prog="postmaster"
     if [ -n "`pidof $prog`" ]; then
         killproc  $prog
+    fi
+
+    if [ -f /var/run/lifemapper/lmboom.pid ] ; then
+        /opt/python/bin/python2.7   /opt/lifemapper/LmDbServer/pipeline/archivist.py  stop
     fi
 }
 
@@ -128,9 +132,16 @@ del-user-group () {
        needSync=1
    fi
 
+   /bin/egrep -i "^solr" /etc/passwd
+   if [ $? -eq 0 ]; then
+       echo "Remove solr user"
+       userdel solr
+       needSync=1
+   fi
+
    /bin/egrep -i "^pgbouncer" /etc/passwd
    if [ $? -eq 0 ]; then
-       echo "Remove phgouncer user"
+       echo "Remove pgbouncer user"
        userdel pgbouncer
        needSync=1
    fi
