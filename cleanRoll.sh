@@ -110,8 +110,17 @@ del-directories () {
 
    echo "Removing data directories"
    rm -rf /state/partition1/lmserver
+   LMEXISTS=`rocks list roll | grep lifemapper | head -n1 | awk '{print $1}'
+   if [ ! $LMEXISTS ]; then
+      echo "Removing common data directories"
+      rm -rf /state/partition1/lmscratch
+      rm -rf /state/partition1/lm
+   fi
+   
+   echo "Removing apache and process directories"
    rm -rf /var/www/tmp
    rm -rf /var/lib/lm2
+   rm -rf /var/run/lifemapper
 
    echo "Removing jcc installed by bootstrap"
    rm -rf /opt/python/lib/python2.7/site-packages/jcc
