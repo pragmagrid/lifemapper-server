@@ -90,8 +90,8 @@ fi
 </post>
 
 <post>
+# FE directory NOT exported to /share
 /bin/mkdir -p /state/partition1/lmserver/data/archive
-/bin/mkdir -p /state/partition1/lmserver/data/climate
 /bin/mkdir -p /state/partition1/lmserver/data/species
 /bin/mkdir -p /state/partition1/lmserver/data/image
 /bin/mkdir -p /state/partition1/lmserver/data/test
@@ -99,7 +99,7 @@ fi
 /bin/chgrp -R lmwriter /state/partition1/lmserver
 /bin/chmod -R g+ws /state/partition1/lmserver
 
-# FE directory NOT exported for nodes
+# FE directory NOT exported to /share
 /bin/mkdir -p /state/partition1/lmscratch
 /bin/mkdir -p /state/partition1/lmscratch/log
 /bin/mkdir -p /state/partition1/lmscratch/log/users
@@ -107,7 +107,7 @@ fi
 /bin/chgrp -R lmwriter /state/partition1/lmscratch
 /bin/chmod -R g+ws /state/partition1/lmscratch
 
-# FE directory shared with lifemapper-compute, not exported to nodes
+# FE directory shared with lifemapper-compute, exported to /share
 /bin/mkdir -p /state/partition1/lm
 /bin/mkdir -p /state/partition1/lm/data/layers
 /bin/chgrp -R lmwriter /state/partition1/lm

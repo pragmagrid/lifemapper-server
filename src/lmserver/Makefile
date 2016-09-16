@@ -70,6 +70,7 @@ SEDSPEC += \
         -e 's%@PKGROOT@%$(PKGROOT)%g' \
         -e 's%@PYBIN@%$(PY.PATH)%g' \
         -e 's%@DATADIR_SERVER@%$(DATADIR_SERVER)%g' \
+        -e 's%@DATADIR_SHARED@%$(DATADIR_SHARED)%g' \
         -e 's%@LMHOME@%$(LMHOME)%g' \
         -e 's%@LMWEB@%$(LMWEB)%g' \
         -e 's%@SMTPSERVER@%$(SMTPSERVER)%g' \
@@ -98,7 +99,7 @@ boom.ini: $(TOPDIR)/LmServer/config/boom.ini.in
 config.lmserver.ini: $(TOPDIR)/LmServer/config/config.lmserver.ini.in
 	$(SED) -i $(SEDSPEC) $^ 
 	cat $^ > $(TOPDIR)/config/$@
-	cp $(TOPDIR)/config/$@   $(TOPDIR)/config/site.ini.lmserver.example 
+	cat $(TOPDIR)/config/site.ini.example $(TOPDIR)/config/$@ > $(TOPDIR)/config/site.ini.lmserver.example 
 
 cherrypy.conf: $(TOPDIR)/LmWebServer/config/cherrypy.conf.in
 	$(SED) -i $(SEDSPEC) $^ 
