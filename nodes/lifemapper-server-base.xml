@@ -91,7 +91,6 @@ fi
 
 <post>
 # FE directory NOT exported to /share
-/bin/mkdir -p /state/partition1/lmserver/data/archive
 /bin/mkdir -p /state/partition1/lmserver/data/species
 /bin/mkdir -p /state/partition1/lmserver/data/image
 /bin/mkdir -p /state/partition1/lmserver/data/test
@@ -110,6 +109,7 @@ fi
 # FE directory shared with lifemapper-compute, exported to /share
 /bin/mkdir -p /state/partition1/lm
 /bin/mkdir -p /state/partition1/lm/data/layers
+/bin/mkdir -p /state/partition1/lm/data/archive
 /bin/chgrp -R lmwriter /state/partition1/lm
 /bin/chmod -R g+ws /state/partition1/lm
 
