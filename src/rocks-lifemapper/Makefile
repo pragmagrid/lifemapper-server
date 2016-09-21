@@ -91,10 +91,10 @@ SCRIPTS = \
 	lifemapper-server.conf
 
 CRONS = \
-	lm_build_solr_index.cron \
-	lm_run_server_tests.cron \
-	lm_delete_old_anon.cron \
-	lm_troubleshoot_jobs.cron
+	lmserver_build_solr_index \
+	lmserver_run_server_tests \
+	lmserver_delete_old_anon \
+	lmserver_troubleshoot_jobs
 
 PROGS = \
 	initLM \

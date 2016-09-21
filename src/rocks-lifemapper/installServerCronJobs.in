@@ -28,22 +28,24 @@ TimeStamp () {
 removeOldTasks () {
     rm -vf  ${CRON_HOURLY_DIR}/lm_*.cron
     rm -vf  ${CRON_DAILY_DIR}/lm_*.cron
-    echo "Removed old tasks in ${CRON_DIR} on frontend ..." | tee -a $LOG
+    rm -vf  ${CRON_HOURLY_DIR}/lmserver_*.cron
+    rm -vf  ${CRON_DAILY_DIR}/lmserver_*.cron
+    echo "Removed old tasks in ${CRON_HOURLY_DIR} and ${CRON_DAILY_DIR} on frontend ..." | tee -a $LOG
 }
 
 # install hourly cron jobs (solr)
 installHourlyTasks () {
     # run hourly 
-    install @LMHOME@/rocks/etc/lm_build_solr_index.cron ${CRON_HOURLY_DIR}
-    install @LMHOME@/rocks/etc/lm_troubleshoot_jobs.cron ${CRON_HOURLY_DIR}
+    install @LMHOME@/rocks/etc/lmserver_build_solr_index ${CRON_HOURLY_DIR}
+    install @LMHOME@/rocks/etc/lmserver_troubleshoot_jobs ${CRON_HOURLY_DIR}
     echo "Installed hourly tasks to ${CRON_HOURLY_DIR} ..." | tee -a $LOG
 }
 
 # install daily cron jobs (security, cleanup, tests)
 installDailyTasks () {
     # run daily 
-    install @LMHOME@/rocks/etc/lm_delete_old_anon.cron ${CRON_DAILY_DIR}
-    install @LMHOME@/rocks/etc/lm_run_server_tests.cron ${CRON_DAILY_DIR}
+    install @LMHOME@/rocks/etc/lmserver_delete_old_anon ${CRON_DAILY_DIR}
+    install @LMHOME@/rocks/etc/lmserver_run_server_tests ${CRON_DAILY_DIR}
     echo "Installed daily tasks to ${CRON_DAILY_DIR} ..." | tee -a $LOG
 }
 
@@ -54,6 +56,7 @@ if [ $# -ne 0 ]; then
 fi 
 
 setDefaults
+removeOldTasks
 installHourlyTasks
 installDailyTasks
 TimeStamp "# End"

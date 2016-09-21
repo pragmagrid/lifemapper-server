@@ -182,6 +182,16 @@ del-attr () {
    fi
 }
 
+# remove obsolete Lifemapper cron jobs
+del-cron-jobs () {
+   rm -vf  /etc/cron.daily/lm_*.cron
+   rm -vf  /etc/cron.monthly/lm_*.cron
+   rm -vf  /etc/cron.daily/lmserver_*
+   rm -vf  /etc/cron.monthly/lmserver_*
+   echo "Removed old cron jobs in /etc/cron.daily and /etc/cron.monthly on frontend ..." | tee -a $LOG
+}
+
+
 ### main ###
 stop-services
 del-postgres
