@@ -50,6 +50,7 @@ SetDefaults () {
     fi
     
     LOG=/tmp/`/bin/basename $0`.log
+    rm -f $LOG
     touch $LOG
 }
 

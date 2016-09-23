@@ -33,6 +33,7 @@ set_defaults() {
     POPULATEPY=@LMHOME@/LmDbServer/tools/initCatalog.py
 
     LOG=/tmp/`/bin/basename $0`.log
+    rm -f $LOG
     touch $LOG
 
     # get the SCENARIO_PACKAGE value from site.ini or config.lmserver.ini file

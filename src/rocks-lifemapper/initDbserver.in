@@ -14,6 +14,7 @@ set_defaults() {
 
     # log errors
     LOG=/tmp/`/bin/basename $0`.log
+    rm -f $LOG
     touch $LOG
     BIN=@PKGROOT@/rocks/bin
 }

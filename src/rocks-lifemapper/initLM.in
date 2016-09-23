@@ -46,6 +46,7 @@ set_defaults() {
     . $INITD/functions
 
     LOG=/tmp/`/bin/basename $0`.log
+    rm -f $LOG
     touch $LOG
 
     if [ -d /var/lib/pgsql/@PGSQLVER@/data ] && [ "$(ls -A /var/lib/pgsql/@PGSQLVER@/data)" ]; then

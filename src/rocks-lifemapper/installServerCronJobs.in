@@ -12,10 +12,11 @@ usage ()
 
 ### define varibles
 setDefaults () {
+    gname=lmwriter
     CRON_HOURLY_DIR=/etc/cron.hourly/
     CRON_DAILY_DIR=/etc/cron.daily/
     LOG=/tmp/`/bin/basename $0`.log
-    gname=lmwriter
+    rm -f $LOG
     touch $LOG
     TimeStamp "# Start"
 }
@@ -26,10 +27,10 @@ TimeStamp () {
 
 # remove obsolete Lifemapper cron jobs
 removeOldTasks () {
-    rm -vf  ${CRON_HOURLY_DIR}/lm_*.cron
-    rm -vf  ${CRON_DAILY_DIR}/lm_*.cron
-    rm -vf  ${CRON_HOURLY_DIR}/lmserver_*.cron
-    rm -vf  ${CRON_DAILY_DIR}/lmserver_*.cron
+    rm -vf  ${CRON_HOURLY_DIR}/lm_*
+    rm -vf  ${CRON_DAILY_DIR}/lm_*
+    rm -vf  ${CRON_HOURLY_DIR}/lmserver_*
+    rm -vf  ${CRON_DAILY_DIR}/lmserver_*
     echo "Removed old tasks in ${CRON_HOURLY_DIR} and ${CRON_DAILY_DIR} on frontend ..." | tee -a $LOG
 }
 
