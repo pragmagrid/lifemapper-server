@@ -110,7 +110,7 @@ del-directories () {
 
    echo "Removing data directories"
    rm -rf /state/partition1/lmserver
-   LMEXISTS=`rocks list roll | grep lifemapper | head -n1 | awk '{print $1}'
+   LMEXISTS=`rocks list roll | grep lifemapper | head -n1 | awk '{print $1}'`
    if [ ! $LMEXISTS ]; then
       echo "Removing common data directories"
       rm -rf /state/partition1/lmscratch
@@ -145,6 +145,8 @@ del-user-group () {
    if [ $? -eq 0 ]; then
        echo "Remove solr user"
        userdel solr
+       /bin/rm -f /var/spool/mail/solr
+       /bin/rm -rf /export/home/solr
        needSync=1
    fi
 
@@ -152,6 +154,7 @@ del-user-group () {
    if [ $? -eq 0 ]; then
        echo "Remove pgbouncer user"
        userdel pgbouncer
+       /bin/rm -rf /export/home/pgbouncer
        needSync=1
    fi
 
