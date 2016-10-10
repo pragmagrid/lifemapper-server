@@ -29,11 +29,9 @@ stop-services () {
     fi
     
     SOLR_PROCESSES=`ps -Af | grep solr | grep -v "grep" | wc -l`
-    SOLR_JAVA=/etc/alternatives/java_sdk/bin/java
-    SOLR_JAR=/opt/solr/server/start.jar
     if [ $SOLR_PROCESSES = 1 ]; then
         echo "-- stop Solr process "
-        $SOLR_JAVA -DSTOP.PORT=7983 -DSTOP.KEY=solrrocks -jar $SOLR_JAR --stop
+        /sbin/service solr stop
     fi
     
     if [ -f /var/run/lifemapper/lmboom.pid ] ; then
