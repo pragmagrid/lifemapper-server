@@ -42,7 +42,7 @@ SetDefaults () {
     if [ ! "$ARCHIVE_USER" ] ; then 
         ARCHIVE_USER=`grep ARCHIVE_USER $CONFIG_FILE | grep -v ';' | awk '{print $2}'`
     fi
-    ARCHIVE_USER_DATA_DIR=@DATADIR_SERVER@/archive/$ARCHIVE_USER
+    ARCHIVE_USER_DATA_DIR=@DATADIR_SHARED@/archive/$ARCHIVE_USER
     if [ ! -d $ARCHIVE_USER_DATA_DIR ] ; then
        IS_NEW_USER_DIR=true
     else
