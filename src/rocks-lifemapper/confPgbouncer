@@ -118,7 +118,6 @@ class ConfPgbouncer(confbase.Baseconfig):
         # save previous file if exists
         fprev = self.authFile
         fcopy = fprev + self.time
-        #fcopy = "/tmp/" + os.path.basename(fprev) + self.time  
         if os.path.isfile(fprev):
             shutil.copy2(fprev, fcopy)
             self.getPerms(fprev)

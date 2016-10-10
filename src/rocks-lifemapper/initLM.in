@@ -45,7 +45,7 @@ set_defaults() {
     INITD=/etc/rc.d/init.d
     . $INITD/functions
 
-    LOG=/tmp/`/bin/basename $0`.log
+    LOG=@DATADIR_SHARED@/log/`/bin/basename $0`.log
     rm -f $LOG
     touch $LOG
 

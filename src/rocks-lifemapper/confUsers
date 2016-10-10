@@ -54,8 +54,6 @@ class ConfUser(confbase.Baseconfig):
         content = self.replaceWords(self.readFileText(templ))
 
         # write new content in a file
-        #fnew = file
-        #file = "/tmp/" + os.path.basename(file)  #FIXME rm
         self.writeFile(file, content)
         self.getPerms(self.base)
         os.chmod(file, 0600)

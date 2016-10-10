@@ -115,7 +115,6 @@ class ConfPostgres(confbase.Baseconfig):
         # make a copy of orig file, use original ownership and permissions
         fname = configFiles[str]
         fcopy = fname + self.time
-        #fcopy = "/tmp/" + os.path.basename(fname) + self.time  #FIXME rm
         self.getPerms(fname)
         shutil.copy2(fname, fcopy)
         os.chown(fcopy, self.uid, self.gid)
@@ -129,7 +128,6 @@ class ConfPostgres(confbase.Baseconfig):
         # create new config file, set original ownership and permissions
         newLines = makeConfLines[str]()              
         fnew = fname
-        #fnew = "/tmp/" + os.path.basename(fname)  #FIXME rm
 
         self.writeFile(fnew, defaultLines + newLines)
         shutil.copymode(fname, fnew)
