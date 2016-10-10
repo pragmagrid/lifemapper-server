@@ -12,7 +12,7 @@ usage ()
     echo "     - run readTaxonomy.py to add taxonomy"
     echo "     - run registerCompute.py to register a compute node"
     echo "   "
-    echo "The output of the script is in @DATADIR_SHARED@/log/`/bin/basename $0`.log"
+    echo "The output of the script is in @LMSCRATCHDISK@/log/`/bin/basename $0`.log"
 }
 
 ### define varibles
@@ -49,7 +49,7 @@ SetDefaults () {
        IS_NEW_USER_DIR=false
     fi
     
-    LOG=@DATADIR_SHARED@/log/`/bin/basename $0`.log
+    LOG=@LMSCRATCHDISK@/log/`/bin/basename $0`.log
     rm -f $LOG
     touch $LOG
 }

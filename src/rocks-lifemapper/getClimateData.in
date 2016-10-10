@@ -32,7 +32,7 @@ set_defaults() {
     SITE_CONFIG_FILE=@LMHOME@/config/site.ini
     POPULATEPY=@LMHOME@/LmDbServer/tools/initCatalog.py
 
-    LOG=@DATADIR_SHARED@/log/`/bin/basename $0`.log
+    LOG=@LMSCRATCHDISK@/log/`/bin/basename $0`.log
     rm -f $LOG
     touch $LOG
 

@@ -13,7 +13,7 @@ set_defaults() {
     . $INITD/functions
 
     # log errors
-    LOG=@DATADIR_SHARED@/log/`/bin/basename $0`.log
+    LOG=@LMSCRATCHDISK@/log/`/bin/basename $0`.log
     rm -f $LOG
     touch $LOG
     BIN=@PKGROOT@/rocks/bin
