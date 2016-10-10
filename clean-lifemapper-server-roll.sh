@@ -7,6 +7,7 @@
 #    user accounts and groups : postgres, pgbouncer, lmwriter
 
 RM="rpm -evl --quiet --nodeps"
+LMROLL_COUNT=`rocks list roll | grep lifemapper | wc -l`
 
 # stop services if running
 stop-services () {
@@ -23,30 +24,48 @@ stop-services () {
 
     prog="postmaster"
     if [ -n "`pidof $prog`" ]; then
+        echo "-- kill $prog process "
         killproc  $prog
     fi
-
+    
+    SOLR_PROCESSES=`ps -Af | grep solr | grep -v "grep" | wc -l`
+    SOLR_JAVA=/etc/alternatives/java_sdk/bin/java
+    SOLR_JAR=/opt/solr/server/start.jar
+    if [ $SOLR_PROCESSES = 1 ]; then
+        echo "-- stop Solr process "
+        $SOLR_JAVA -DSTOP.PORT=7983 -DSTOP.KEY=solrrocks -jar $SOLR_JAR --stop
+    fi
+    
     if [ -f /var/run/lifemapper/lmboom.pid ] ; then
+        echo "-- stop Lifemapper archivist "
         /opt/python/bin/python2.7   /opt/lifemapper/LmDbServer/pipeline/archivist.py  stop
     fi
 }
 
 
-del-lifemapper() {
-   echo "Removing lifemapper-* and prerequisite RPMS"
+del-lifemapper-shared() {
+   echo "Removing SHARED lifemapper-* and prerequisite RPMS"
    $RM lifemapper-cctools
-   $RM lifemapper-climate-data
-   $RM lifemapper-cmd
    $RM lifemapper-gdal
    $RM lifemapper-geos
+   $RM lifemapper-proj
+   $RM lifemapper-spatialindex
+   $RM lifemapper-tiff
+   echo "Removing SHARED opt-* RPMS"
+   $RM opt-lifemapper-egenix-mx-base
+   $RM opt-lifemapper-requests
+   $RM opt-lifemapper-rtree
+}
+
+del-lifemapper() {
+   echo "Removing lifemapper-* and prerequisite RPMS"
+   $RM lifemapper-climate-data
+   $RM lifemapper-cmd
    $RM lifemapper-libevent
    $RM lifemapper-lmserver
    $RM lifemapper-mod_wsgi
-   $RM lifemapper-proj
    $RM lifemapper-solr
-   $RM lifemapper-spatialindex
    $RM lifemapper-species-data
-   $RM lifemapper-tiff
    $RM rocks-lifemapper
    $RM roll-lifemapper-server-usersguide
 }
@@ -55,7 +74,6 @@ del-opt-python () {
    echo "Removing opt-* RPMS"
    $RM opt-lifemapper-cherrypy
    $RM opt-lifemapper-cython
-   $RM opt-lifemapper-egenix-mx-base
    $RM opt-lifemapper-faulthandler
    $RM opt-lifemapper-isodate
    $RM opt-lifemapper-MySQL-python
@@ -64,8 +82,6 @@ del-opt-python () {
    $RM opt-lifemapper-psycopg2
    $RM opt-lifemapper-pytables
    $RM opt-lifemapper-rdflib
-   $RM opt-lifemapper-requests
-   $RM opt-lifemapper-rtree
 }
 
 del-mapserver(){
@@ -110,8 +126,7 @@ del-directories () {
 
    echo "Removing data directories"
    rm -rf /state/partition1/lmserver
-   LMEXISTS=`rocks list roll | grep lifemapper | head -n1 | awk '{print $1}'`
-   if [ ! $LMEXISTS ]; then
+   if [ $LMROLL_COUNT = 1 ]; then
       echo "Removing common data directories"
       rm -rf /state/partition1/lmscratch
       rm -rf /state/partition1/lm
@@ -199,9 +214,15 @@ del-cron-jobs () {
 stop-services
 del-postgres
 del-mapserver 
+
+if [ $LMROLL_COUNT = 1 ]; then
+   del-lifemapper-shared
+fi
+
 del-opt-python 
 del-lifemapper
 del-sysRPM
 del-directories
 del-user-group
 del-attr
+del-cron-jobs
