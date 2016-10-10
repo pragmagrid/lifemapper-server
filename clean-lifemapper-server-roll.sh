@@ -42,17 +42,19 @@ stop-services () {
 
 
 del-lifemapper-shared() {
-   echo "Removing SHARED lifemapper-* and prerequisite RPMS"
-   $RM lifemapper-cctools
-   $RM lifemapper-gdal
-   $RM lifemapper-geos
-   $RM lifemapper-proj
-   $RM lifemapper-spatialindex
-   $RM lifemapper-tiff
-   echo "Removing SHARED opt-* RPMS"
-   $RM opt-lifemapper-egenix-mx-base
-   $RM opt-lifemapper-requests
-   $RM opt-lifemapper-rtree
+   if [ $LMROLL_COUNT = 1 ]; then
+      echo "Removing SHARED lifemapper-* and prerequisite RPMS"
+      $RM lifemapper-cctools
+      $RM lifemapper-gdal
+      $RM lifemapper-geos
+      $RM lifemapper-proj
+      $RM lifemapper-spatialindex
+      $RM lifemapper-tiff
+      echo "Removing SHARED opt-* RPMS"
+      $RM opt-lifemapper-egenix-mx-base
+      $RM opt-lifemapper-requests
+      $RM opt-lifemapper-rtree
+   fi
 }
 
 del-lifemapper() {
@@ -145,7 +147,7 @@ del-directories () {
 del-user-group () {
    needSync=0
    /bin/egrep -i "^lmwriter" /etc/passwd
-   if [ $? -eq 0 ]; then
+   if [ $? -eq 0 ] && [ $LMROLL_COUNT = 1 ]; then
        echo "Remove lmwriter user"
        userdel lmwriter
        groupdel lmwriter
@@ -212,11 +214,7 @@ del-cron-jobs () {
 stop-services
 del-postgres
 del-mapserver 
-
-if [ $LMROLL_COUNT = 1 ]; then
-   del-lifemapper-shared
-fi
-
+del-lifemapper-shared
 del-opt-python 
 del-lifemapper
 del-sysRPM
@@ -224,3 +222,6 @@ del-directories
 del-user-group
 del-attr
 del-cron-jobs
+echo
+echo "To complete cleanup, run the command \"rocks remove roll lifemapper-server\""
+echo
