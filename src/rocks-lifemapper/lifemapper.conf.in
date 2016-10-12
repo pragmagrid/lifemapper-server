@@ -24,8 +24,8 @@ SetEnv MS_DEBUGLEVEL 5
 
 # Custom logs
 LogLevel debug
-CustomLog logs/lifemapper_access combined
-ErrorLog  logs/lifemapper_error
+CustomLog @LMSCRATCHDISK@/log/apache/lifemapper_access combined
+ErrorLog  @LMSCRATCHDISK@/log/apache/lifemapper_error
 
 # Enable environment for config file
 SetEnv LIFEMAPPER_SERVER_CONFIG_FILE "@LMHOME@/config/config.lmserver.ini"
