@@ -54,6 +54,9 @@ del-lifemapper-shared() {
       $RM opt-lifemapper-egenix-mx-base
       $RM opt-lifemapper-requests
       $RM opt-lifemapper-rtree
+      echo "Removing SHARED hdf rpms"
+      $RM hdf4-devel hdf4
+      $RM hdf5-devel hdf5
    fi
 }
 
@@ -87,8 +90,6 @@ del-opt-python () {
 del-mapserver(){
    echo "Removing mapserver and dependencies RPMS"
    $RM opt-lifemapper-mapserver
-   $RM hdf4-devel hdf4
-   $RM hdf5-devel hdf5
    $RM giflib-devel
    $RM bitstream-vera-sans-fonts
    $RM bitstream-vera-fonts-common
@@ -116,26 +117,28 @@ del-sysRPM() {
 }
 
 del-directories () {
-   echo "Removing /opt/lifemapper/*"
-   rm -rf /opt/lifemapper
-
+   echo "Removing shared frontend code, data and PID directories"
+   if [ $LMROLL_COUNT = 1 ]; then
+      echo "Removing @LMHOME@"
+      rm -rf @LMHOME@
+      echo "Removing common data directories"
+      rm -rf @LMSCRATCHDISK@
+      rm -rf @LMDISK@
+      echo "Removing PID directory"
+      rm -rf /var/run/lifemapper
+   fi
+   
    echo "Removing  directories used by postgres and pgbouncer"
    rm -rf /var/run/postgresql
    rm -rf /var/lib/pgsql
    rm -rf /etc/pgbouncer
 
    echo "Removing data directories"
-   rm -rf /state/partition1/lmserver
-   if [ $LMROLL_COUNT = 1 ]; then
-      echo "Removing common data directories"
-      rm -rf /state/partition1/lmscratch
-      rm -rf /state/partition1/lm
-   fi
+   rm -rf @LMSERVERDISK@
    
    echo "Removing apache and process directories"
    rm -rf /var/www/tmp
    rm -rf /var/lib/lm2
-   rm -rf /var/run/lifemapper
 
    echo "Removing jcc installed by bootstrap"
    rm -rf /opt/python/lib/python2.7/site-packages/jcc

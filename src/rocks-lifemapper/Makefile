@@ -66,6 +66,9 @@ version.mk:
 
 SEDSPEC += \
         -e 's%@LMHOME@%$(LMHOME)%g' \
+        -e 's%@LMDISK@%$(LMDISK)%g' \
+        -e 's%@LMSCRATCHDISK@%$(LMSCRATCHDISK)%g' \
+        -e 's%@LMSERVERDISK@%$(LMSERVERDISK)%g' \
         -e 's%@MAPSERVER_TMP@%$(MAPSERVER_TMP)%g' \
         -e 's%@LMWEB@%$(LMWEB)%g' \
         -e 's%@PGSQLVER@%$(PGSQLVER)%g' \
@@ -78,7 +81,6 @@ SEDSPEC += \
         -e 's%@ENV_DATA_DIR@%$(ENV_DATA_DIR)%g' \
         -e 's%@DATADIR_SERVER@%$(DATADIR_SERVER)%g' \
         -e 's%@DATADIR_SHARED@%$(DATADIR_SHARED)%g' \
-        -e 's%@LMSCRATCHDISK@%$(LMSCRATCHDISK)%g' \
         -e 's%@LMURL@%$(LMURL)%g' \
         -e 's%@TARBALL_POSTFIX@%$(TARBALL_POSTFIX)%g'
         
@@ -89,7 +91,8 @@ PROFILES = \
 SCRIPTS = \
 	lifemapper.conf \
 	lifemapper-sysconfig-httpd \
-	lifemapper-server.conf
+	lifemapper-server.conf \
+	clean-lm-compute-roll.sh
 
 CRONS = \
 	lmserver_build_solr_index \
@@ -151,6 +154,7 @@ install::
 
 	mkdir -p $(ROOT)/$(PKGROOT)/rocks/etc
 	install -m 644 lifemapper-sysconfig-httpd $(ROOT)/$(PKGROOT)/rocks/etc
+	install -m 644 clean-lm-server-roll.sh $(ROOT)/$(PKGROOT)/rocks/etc
 	install -m 755 $(CRONS) $(ROOT)/$(PKGROOT)/rocks/etc
 
 	mkdir -p $(ROOT)/$(PKGROOT)/rocks/sql
