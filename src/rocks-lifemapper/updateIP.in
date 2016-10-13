@@ -45,7 +45,6 @@ updateAddress () {
         bakext=`/bin/date +%F`
         echo '  File ' $outfile ' exists, saving to ' $outfile.$bakext 
         mv $outfile $outfile.$bakext
-        infile=$outfile.$bakext
     fi
     
     echo '  Creating ' $outfile ' from ' $infile
