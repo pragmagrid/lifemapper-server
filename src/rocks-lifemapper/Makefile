@@ -92,7 +92,7 @@ SCRIPTS = \
 	lifemapper.conf \
 	lifemapper-sysconfig-httpd \
 	lifemapper-server.conf \
-	clean-lm-compute-roll.sh
+	clean-lm-server-roll.sh
 
 CRONS = \
 	lmserver_build_solr_index \
