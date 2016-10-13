@@ -91,8 +91,7 @@ PROFILES = \
 SCRIPTS = \
 	lifemapper.conf \
 	lifemapper-sysconfig-httpd \
-	lifemapper-server.conf \
-	clean-lm-server-roll.sh
+	lifemapper-server.conf
 
 CRONS = \
 	lmserver_build_solr_index \

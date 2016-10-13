@@ -40,6 +40,13 @@ stop-services () {
     fi
 }
 
+del-possible-shared-dependencies() {
+   if [ $LMROLL_COUNT = 1 ]; then
+      echo "Removing SHARED hdf rpms"
+      $RM hdf4-devel hdf4
+      $RM hdf5-devel hdf5
+   fi
+}
 
 del-lifemapper-shared() {
    if [ $LMROLL_COUNT = 1 ]; then
@@ -119,11 +126,11 @@ del-sysRPM() {
 del-directories () {
    echo "Removing shared frontend code, data and PID directories"
    if [ $LMROLL_COUNT = 1 ]; then
-      echo "Removing @LMHOME@"
-      rm -rf @LMHOME@
+      echo "Removing /opt/lifemapper"
+      rm -rf /opt/lifemapper
       echo "Removing common data directories"
-      rm -rf @LMSCRATCHDISK@
-      rm -rf @LMDISK@
+      rm -rf /state/partition1/lmserver
+      rm -rf /state/partition1/lm
       echo "Removing PID directory"
       rm -rf /var/run/lifemapper
    fi
@@ -134,7 +141,7 @@ del-directories () {
    rm -rf /etc/pgbouncer
 
    echo "Removing data directories"
-   rm -rf @LMSERVERDISK@
+   rm -rf /state/partition1/lmserver
    
    echo "Removing apache and process directories"
    rm -rf /var/www/tmp
@@ -218,6 +225,7 @@ stop-services
 del-postgres
 del-mapserver 
 del-lifemapper-shared
+## del-possible-shared-dependencies
 del-opt-python 
 del-lifemapper
 del-sysRPM
