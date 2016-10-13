@@ -54,7 +54,7 @@ install::
 
 	mkdir -p $(ROOT)/$(EXPORTDIR)/logs
 
-	mkdir -p $(ROOT)/$(EXPORTDIR)/data/cores
+	mkdir -p $(ROOT)/$(EXPORTDIR)/data
 	cp $(ROOT)/$(SOLRDIR)/server/solr/solr.xml $(ROOT)/$(EXPORTDIR)/data
 
 	mkdir -p $(ROOT)/$(SOLRDIR)/etc

@@ -47,9 +47,10 @@ fi
 /usr/sbin/useradd -c "Solr user" solr
 
 # create solr dirs
-/bin/mkdir -p /state/partition1/lmserver/data/solr
+/bin/mkdir -p           /state/partition1/lmserver/data/solr/data/cores
+/bin/mkdir -p           /state/partition1/lmserver/data/solr/data/logs
 /bin/chown -R solr:solr /state/partition1/lmserver/data/solr
-/bin/chmod -R g+ws /state/partition1/lmserver/data/solr
+/bin/chmod -R g+ws      /state/partition1/lmserver/data/solr
 
 # add solr index files
 /opt/lifemapper/rocks/bin/solr-index
