@@ -61,9 +61,6 @@ del-lifemapper-shared() {
       $RM opt-lifemapper-egenix-mx-base
       $RM opt-lifemapper-requests
       $RM opt-lifemapper-rtree
-      echo "Removing SHARED hdf rpms"
-      $RM hdf4-devel hdf4
-      $RM hdf5-devel hdf5
    fi
 }
 
