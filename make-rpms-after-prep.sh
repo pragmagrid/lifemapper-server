@@ -4,7 +4,7 @@
 
 usage () 
 {
-    echo "Usage: bash $0
+    echo "Usage: bash $0"
     echo "This script is run by the superuser. It will make all rpms for the"
     echo "lifemapper-server roll."
     echo "   "
@@ -71,3 +71,4 @@ TimeStamp "# Start"
 MakeSimpleRpms
 # MakePreppedRpms
 TimeStamp "# End"
+
