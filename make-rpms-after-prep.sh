@@ -41,7 +41,7 @@ MakeSimpleRpms () {
         echo "*************************" | tee -a $LOG
         cd $BASEDIR/src/"$i"
         pwd
-        # make rpm 2>&1 | tee -a $LOG
+        make rpm 2>&1 | tee -a $LOG
     done
 }
 
@@ -56,7 +56,7 @@ MakePreppedRpms () {
         echo "*************************" | tee -a $LOG
         cd $BASEDIR/src/"$i"
         pwd
-        # make rpm 2>&1 | tee -a $LOG
+        make rpm 2>&1 | tee -a $LOG
     done
 }
 
@@ -69,6 +69,6 @@ fi
 SetDefaults
 TimeStamp "# Start"
 MakeSimpleRpms
-# MakePreppedRpms
+MakePreppedRpms
 TimeStamp "# End"
 
