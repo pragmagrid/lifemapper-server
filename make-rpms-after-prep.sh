@@ -15,6 +15,11 @@ usage ()
 SetDefaults () {
     # directory
     BASEDIR=/state/partition1/workspace/lifemapper-server
+    LMGDAL_COUNT=`rpm -qa | grep lifemapper-gdal | wc -l`
+    if [ $LMGDAL_COUNT = 0 ]; then
+        echo "Error: $BASEDIR/bootstrap has not been executed" | tee -a $LOG
+        exit 1
+    fi
 
     # Logfile
     LOG=$BASEDIR/`/bin/basename $0`.log
@@ -60,6 +65,15 @@ MakePreppedRpms () {
     done
 }
 
+### build entire roll
+BuildRoll () {
+    echo "*************************" | tee -a $LOG
+    echo "Building the roll ... " | tee -a $LOG
+    echo "*************************" | tee -a $LOG
+    cd $BASEDIR
+    make roll 2>&1 | tee -a $LOG
+}
+
 ### Main ###
 if [ $# -ne 0 ]; then
     usage
@@ -70,5 +84,6 @@ SetDefaults
 TimeStamp "# Start"
 MakeSimpleRpms
 MakePreppedRpms
+BuildRoll
 TimeStamp "# End"
 
