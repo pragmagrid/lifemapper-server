@@ -126,7 +126,7 @@ del-directories () {
       echo "Removing /opt/lifemapper"
       rm -rf /opt/lifemapper
       echo "Removing common data directories"
-      rm -rf /state/partition1/lmserver
+      rm -rf /state/partition1/lmscratch
       rm -rf /state/partition1/lm
       echo "Removing PID directory"
       rm -rf /var/run/lifemapper
@@ -140,9 +140,8 @@ del-directories () {
    echo "Removing data directories"
    rm -rf /state/partition1/lmserver
    
-   echo "Removing apache and process directories"
+   echo "Removing mapserver tmp directory"
    rm -rf /var/www/tmp
-   rm -rf /var/lib/lm2
 
    echo "Removing jcc installed by bootstrap"
    rm -rf /opt/python/lib/python2.7/site-packages/jcc
