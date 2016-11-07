@@ -6,7 +6,7 @@ PGSQLBIN=/usr/pgsql-@PGSQLVER@/bin
 
 export PATH=$PGSQLBIN:$PYBIN:$LMBIN:$PATH
 export PYTHON=$PYBIN/@PYTHONVER@
-export PYTHON_EGG_CACHE="@LMWEB@/.python-eggs"
+
 export PYTHONPATH=@LMHOME@:@LMHOME@/LmClient/LmPython/lifemapper:@PKGROOT@
 
 # Needed for apache/mapserver, should this be here or lifemapper.conf?
