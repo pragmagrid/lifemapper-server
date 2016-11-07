@@ -39,6 +39,7 @@
 	<package>lifemapper-geos</package>
 	<package>lifemapper-gdal</package>
 	<package>lifemapper-tiff</package>
+	<package>lifemapper-solr</package>
 
 	<!-- python prerequisites -->
 	<package>opt-lifemapper-numexpr</package>
@@ -87,35 +88,42 @@ if [ "$ID" == "" ] ; then
     /usr/sbin/useradd -c "Solr user" solr
 fi
 
+# add solr index files
+/opt/lifemapper/rocks/bin/solr-index
+
+chkconfig --add solr 
+chkconfig  solr on
+
 </post>
 
 <post>
 # FE directory NOT exported to /share
-/bin/mkdir -p /state/partition1/lmserver/data/species
-/bin/mkdir -p /state/partition1/lmserver/data/image
-/bin/mkdir -p /state/partition1/lmserver/data/test
+/bin/mkdir -p          /state/partition1/lmserver/data/species
+/bin/mkdir -p          /state/partition1/lmserver/data/image
+/bin/mkdir -p          /state/partition1/lmserver/data/test
+/bin/mkdir -p          /state/partition1/lmserver/data/solr/data/cores
+/bin/mkdir -p          /state/partition1/lmserver/data/solr/data/logs
 /bin/chgrp -R lmwriter /state/partition1/lmserver
-/bin/chmod -R g+ws /state/partition1/lmserver
+/bin/chmod -R g+ws     /state/partition1/lmserver
+# reset solr permissions
+/bin/chown -R solr:solr /state/partition1/lmserver/data/solr
+/bin/chmod -R g+ws      /state/partition1/lmserver/data/solr
 
 # FE directory NOT exported to /share
-/bin/mkdir -p /state/partition1/lmscratch
-/bin/mkdir -p /state/partition1/lmscratch/log
-/bin/mkdir -p /state/partition1/lmscratch/log/users
-/bin/mkdir -p /state/partition1/lmscratch/log/errors
+/bin/mkdir -p          /state/partition1/lmscratch
+/bin/mkdir -p          /state/partition1/lmscratch/log
+/bin/mkdir -p          /state/partition1/lmscratch/log/users
+/bin/mkdir -p          /state/partition1/lmscratch/log/errors
+/bin/mkdir -p          /state/partition1/lmscratch/run
 /bin/chgrp -R lmwriter /state/partition1/lmscratch
-/bin/chmod -R g+ws /state/partition1/lmscratch
+/bin/chmod -R g+ws     /state/partition1/lmscratch
 
 # FE directory shared with lifemapper-compute, exported to /share
-/bin/mkdir -p /state/partition1/lm
-/bin/mkdir -p /state/partition1/lm/data/layers
-/bin/mkdir -p /state/partition1/lm/data/archive
+/bin/mkdir -p          /state/partition1/lm
+/bin/mkdir -p          /state/partition1/lm/data/layers
+/bin/mkdir -p          /state/partition1/lm/data/archive
 /bin/chgrp -R lmwriter /state/partition1/lm
-/bin/chmod -R g+ws /state/partition1/lm
-
-# PID directory
-/bin/mkdir -p /var/run/lifemapper
-/bin/chgrp -R lmwriter /var/run/lifemapper
-/bin/chmod -R g+ws /var/run/lifemapper
+/bin/chmod -R g+ws     /state/partition1/lm
 
 for item in "config" "Lm*" "__init__.py*" ; do
     /bin/chgrp -R lmwriter /opt/lifemapper/$item

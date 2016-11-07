@@ -25,7 +25,6 @@
 	<package>java-1.8.0-openjdk-headless</package>
 	<package>java-1.8.0-openjdk</package>
 	<package>java-1.8.0-openjdk-devel</package>
-	<package>lifemapper-solr</package>
 
 <post>
 # check for attribute before setting
@@ -42,35 +41,19 @@ fi
 /usr/sbin/usermod -G lmwriter apache
 
 # FE directory NOT exported to /share, for web logs, uploads, cherrypy sessions
-/bin/mkdir -p /state/partition1/lmscratch
-/bin/mkdir -p /state/partition1/lmscratch/log
-/bin/mkdir -p /state/partition1/lmscratch/log/apache
-/bin/mkdir -p /state/partition1/lmscratch/sessions
-/bin/mkdir -p /state/partition1/lmscratch/tmpUpload
+/bin/mkdir -p          /state/partition1/lmscratch
+/bin/mkdir -p          /state/partition1/lmscratch/log
+/bin/mkdir -p          /state/partition1/lmscratch/log/apache
+/bin/mkdir -p          /state/partition1/lmscratch/sessions
+/bin/mkdir -p          /state/partition1/lmscratch/tmpUpload
 /bin/chgrp -R lmwriter /state/partition1/lmscratch
-/bin/chmod -R g+ws /state/partition1/lmscratch
-
-# add solr user
-/usr/sbin/useradd -c "Solr user" solr
-
-# create solr dirs
-/bin/mkdir -p           /state/partition1/lmserver/data/solr/data/cores
-/bin/mkdir -p           /state/partition1/lmserver/data/solr/data/logs
-/bin/chown -R solr:solr /state/partition1/lmserver/data/solr
-/bin/chmod -R g+ws      /state/partition1/lmserver/data/solr
-
-# add solr index files
-/opt/lifemapper/rocks/bin/solr-index
+/bin/chmod -R g+ws     /state/partition1/lmscratch
 
 <file name="/etc/sysconfig/httpd" mode="append" expr="cat /opt/lifemapper/rocks/etc/lifemapper-sysconfig-httpd">
 
 </file>
 
 /sbin/service httpd restart
-
-chkconfig --add solr 
-chkconfig  solr on
-
 
 </post>
 
