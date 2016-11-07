@@ -19,6 +19,7 @@ SEDSPEC += \
         -e 's%@SOLRDIR@%$(SOLRDIR)%g' \
         -e 's%@SOLRUSER@%$(SOLRUSER)%g' \
         -e 's%@SOLR_PORT@%$(SOLR_PORT)%g' \
+        -e 's%@LMURL@%$(LMURL)%g' \
         -e 's%@ARCHIVENAME@%$(ARCHIVENAME)%g' \
         -e 's%@JTS@%$(JTS)%g' \
         -e 's%@TARBALL_POSTFIX@%$(TARBALL_POSTFIX)%g' \

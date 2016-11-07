@@ -3,12 +3,12 @@
 # Purpose: Fetch Solr and JTS source  
 
 JTS_URL="http://www.vividsolutions.com/jts/bin/"
-SOLR_URL="http://mirror.metrocast.net/apache/lucene/@ARCHIVENAME@/@VERSION@/"
+SOLR_URL="http://archive.apache.org/dist/lucene/@ARCHIVENAME@/@VERSION@/"
 SOLR_PKG=@ARCHIVENAME@-@VERSION@.@TARBALL_POSTFIX@
 
 get_source_files () {
   echo "Fetch solr and jts source code"
-  wget "$JTS_URL/@JTS@" 
+  wget "$LMURL/@JTS@" 
   wget "$SOLR_URL/$SOLR_PKG" 
 }
 
