@@ -34,7 +34,7 @@ stop-services () {
         /sbin/service solr stop
     fi
     
-    if [ -f /var/run/lifemapper/lmboom.pid ] ; then
+    if [ -f /state/partition1/lmscratch/lmboom.pid ] ; then
         echo "-- stop Lifemapper archivist "
         /opt/python/bin/python2.7   /opt/lifemapper/LmDbServer/pipeline/archivist.py  stop
     fi
