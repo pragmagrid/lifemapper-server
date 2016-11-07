@@ -1,7 +1,6 @@
 PKGROOT       = /opt/lifemapper
 LMHOME        = /opt/lifemapper
 MAPSERVER_TMP = /var/www/tmp
-LMWEB         = /var/lib/lm2
 LMURL			  = http://lifemapper.org/dl
 LMSERVERDISK  = /share/lmserver
 LMDISK        = /share/lm

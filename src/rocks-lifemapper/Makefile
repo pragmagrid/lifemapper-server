@@ -70,7 +70,6 @@ SEDSPEC += \
         -e 's%@LMSCRATCHDISK@%$(LMSCRATCHDISK)%g' \
         -e 's%@LMSERVERDISK@%$(LMSERVERDISK)%g' \
         -e 's%@MAPSERVER_TMP@%$(MAPSERVER_TMP)%g' \
-        -e 's%@LMWEB@%$(LMWEB)%g' \
         -e 's%@PGSQLVER@%$(PGSQLVER)%g' \
         -e 's%@PYTHONVER@%$(PYTHONVER)%g' \
         -e 's%@PYBIN@%$(PY.PATH)%g' \

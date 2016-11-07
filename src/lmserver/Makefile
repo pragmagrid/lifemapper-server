@@ -72,7 +72,6 @@ SEDSPEC += \
         -e 's%@DATADIR_SERVER@%$(DATADIR_SERVER)%g' \
         -e 's%@DATADIR_SHARED@%$(DATADIR_SHARED)%g' \
         -e 's%@LMHOME@%$(LMHOME)%g' \
-        -e 's%@LMWEB@%$(LMWEB)%g' \
         -e 's%@SMTPSERVER@%$(SMTPSERVER)%g' \
         -e 's%@TEMPDIR@%$(TEMPDIR)%g'  \
         -e 's%@LMSCRATCHDISK@%$(LMSCRATCHDISK)%g' \
