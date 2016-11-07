@@ -94,14 +94,12 @@ fi
 /bin/mkdir -p /state/partition1/lmserver/data/species
 /bin/mkdir -p /state/partition1/lmserver/data/image
 /bin/mkdir -p /state/partition1/lmserver/data/test
-/bin/mkdir -p /state/partition1/lmserver/data/tmpUpload
 /bin/chgrp -R lmwriter /state/partition1/lmserver
 /bin/chmod -R g+ws /state/partition1/lmserver
 
 # FE directory NOT exported to /share
 /bin/mkdir -p /state/partition1/lmscratch
 /bin/mkdir -p /state/partition1/lmscratch/log
-/bin/mkdir -p /state/partition1/lmscratch/log/apache
 /bin/mkdir -p /state/partition1/lmscratch/log/users
 /bin/mkdir -p /state/partition1/lmscratch/log/errors
 /bin/chgrp -R lmwriter /state/partition1/lmscratch

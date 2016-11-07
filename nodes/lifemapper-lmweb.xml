@@ -41,7 +41,14 @@ fi
 # for writing web logs
 /usr/sbin/usermod -G lmwriter apache
 
-/opt/lifemapper/rocks/bin/initWebserver
+# FE directory NOT exported to /share, for web logs, uploads, cherrypy sessions
+/bin/mkdir -p /state/partition1/lmscratch
+/bin/mkdir -p /state/partition1/lmscratch/log
+/bin/mkdir -p /state/partition1/lmscratch/log/apache
+/bin/mkdir -p /state/partition1/lmscratch/sessions
+/bin/mkdir -p /state/partition1/lmscratch/tmpUpload
+/bin/chgrp -R lmwriter /state/partition1/lmscratch
+/bin/chmod -R g+ws /state/partition1/lmscratch
 
 # add solr user
 /usr/sbin/useradd -c "Solr user" solr
