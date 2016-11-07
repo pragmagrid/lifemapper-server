@@ -63,7 +63,7 @@ install::
 	    > $(ROOT)/$(SOLRDIR)/etc/solrenv.sh
 	cat $(ROOT)/$(SOLRDIR)/server/resources/log4j.properties  | sed -e "s#solr.log=.*#solr.log=\$${solr.solr.home}/../logs#" > $(ROOT)/$(SOLRDIR)/etc/log4j.properties
 
-	unzip -j -d $(ROOT)/$(SOLRDIR)/server/lib $(JTS) lib/*.jar
+	# unzip -j -d $(ROOT)/$(SOLRDIR)/server/lib $(JTS) lib/*.jar
 
 	mkdir -p $(ROOT)/etc/rc.d/init.d
 	$(INSTALL) -m 755 solr $(ROOT)/etc/rc.d/init.d

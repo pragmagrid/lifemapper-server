@@ -8,7 +8,7 @@ SOLR_PKG=@ARCHIVENAME@-@VERSION@.@TARBALL_POSTFIX@
 
 get_source_files () {
   echo "Fetch solr and jts source code"
-  wget "$LMURL/@JTS@" 
+  # wget "$JTS_URL/@JTS@" 
   wget "$SOLR_URL/$SOLR_PKG" 
 }
 
