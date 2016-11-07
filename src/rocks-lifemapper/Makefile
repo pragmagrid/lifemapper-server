@@ -102,7 +102,6 @@ PROGS = \
 	initLM \
 	checkLibs \
 	initDbserver \
-	initWebserver \
 	initPostgis \
 	fillDB \
 	updateIP \
