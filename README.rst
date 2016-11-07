@@ -288,12 +288,22 @@ Where installed roll components are
    + **/var/log/pgbouncer.log** - log
    + **/var/run/pgbouncer.pid** - pid
 
-#. **/state/partition1/lmserver/** -  mounted as /share/lmserver/
+#. **/state/partition1/lm/** -  mounted as /share/lm/data
   
-   + /share/lmserver/data/ - climate/, ESRIDATA/, image/, archive/, species/.
-   + /share/lmserver/log/ - pipeline logs 
+   + /share/lmserver/ - dailyLogs/, data/, logs/, metrics/ 
+     (also, deprecated: holdJobs, jobRequests, jobs, pushJobs)
+   + /share/lmserver/data/ - layers/, archive/, testlayer/.
 
-#. **/var/lib/lm2/** -  cherrypy sessions
+#. **/state/partition1/lmserver/** -  mounted as /share/lmserver
+   + /share/lmserver/data/ - image/, solr/, species/, /test.
+
+#. **/state/partition1/lmscratch/** -  
+   + /state/partition1/lmscratch/sessions - cherrypy sessions.
+   + /state/partition1/lmscratch/job - ?
+   + /state/partition1/lmscratch/log - script and daemon logs.
+   + /state/partition1/lmscratch/run - PID files.
+   + /state/partition1/lmscratch/temp - ?
+   + /state/partition1/lmscratch/test - ?
 
 #. **/var/www/tmp/** - for mapserver temp files
 
