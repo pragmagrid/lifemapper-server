@@ -2,7 +2,7 @@
 
 # Purpose: Fetch Solr and JTS source  
 
-JTS_URL="http://www.vividsolutions.com/jts/bin/"
+JTS_URL="https://sourceforge.net/projects/jts-topo-suite/files/jts/1.8/"
 SOLR_URL="http://archive.apache.org/dist/lucene/@ARCHIVENAME@/@VERSION@/"
 SOLR_PKG=@ARCHIVENAME@-@VERSION@.@TARBALL_POSTFIX@
 

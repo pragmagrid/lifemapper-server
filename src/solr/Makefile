@@ -22,6 +22,7 @@ SEDSPEC += \
         -e 's%@LMURL@%$(LMURL)%g' \
         -e 's%@ARCHIVENAME@%$(ARCHIVENAME)%g' \
         -e 's%@JTS@%$(JTS)%g' \
+        -e 's%@JTSDIR@%$(JTSDIR)%g' \
         -e 's%@TARBALL_POSTFIX@%$(TARBALL_POSTFIX)%g' \
         -e 's%@VERSION@%$(VERSION)%g'
 
@@ -63,8 +64,10 @@ install::
 	    > $(ROOT)/$(SOLRDIR)/etc/solrenv.sh
 	cat $(ROOT)/$(SOLRDIR)/server/resources/log4j.properties  | sed -e "s#solr.log=.*#solr.log=\$${solr.solr.home}/../logs#" > $(ROOT)/$(SOLRDIR)/etc/log4j.properties
 
-	# unzip -j -d $(ROOT)/$(SOLRDIR)/server/lib $(JTS) lib/*.jar
-
+   mkdir -p    $(ROOT)/$(JTSDIR)
+   # unzip -j -d $(ROOT)/$(JTSDIR)/  $(JTS)  lib/*.jar
+   cp  $(JTS)  $(ROOT)/$(JTSDIR)/
+   
 	mkdir -p $(ROOT)/etc/rc.d/init.d
 	$(INSTALL) -m 755 solr $(ROOT)/etc/rc.d/init.d
 
