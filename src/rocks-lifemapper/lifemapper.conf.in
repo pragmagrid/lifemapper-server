@@ -29,6 +29,8 @@ ErrorLog  @LMSCRATCHDISK@/log/apache/lifemapper_error
 
 # Enable environment for config file
 SetEnv LIFEMAPPER_SERVER_CONFIG_FILE "@LMHOME@/config/config.lmserver.ini"
+SetEnv LIFEMAPPER_SITE_CONFIG_FILE "@LMHOME@/config/config.site.ini"
+
 
 # Make sure Mapserver finds projection files
 SetEnv PROJ_LIB "@LMHOME@/share/proj"

@@ -2,3 +2,5 @@
 # Lifemapper webserver
 umask 002
 export LIFEMAPPER_SERVER_CONFIG_FILE=@LMHOME@/config/config.lmserver.ini
+export LIFEMAPPER_SITE_CONFIG_FILE=@LMHOME@/config/config.site.ini
+

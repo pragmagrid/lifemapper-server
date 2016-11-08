@@ -18,4 +18,4 @@ export JAVA_TOOL_OPTIONS=-Xmx512m
 export  SOLR_JAVA_HOME=/etc/alternatives/java_sdk
 
 export LIFEMAPPER_SERVER_CONFIG_FILE=@LMHOME@/config/config.lmserver.ini
-
+export LIFEMAPPER_SITE_CONFIG_FILE=@LMHOME@/config/config.site.ini
