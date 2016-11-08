@@ -65,8 +65,7 @@ install::
 	    > $(ROOT)/$(SOLRDIR)/etc/solrenv.sh
 	cat $(ROOT)/$(SOLRDIR)/server/resources/log4j.properties  | sed -e "s#solr.log=.*#solr.log=\$${solr.solr.home}/../logs#" > $(ROOT)/$(SOLRDIR)/etc/log4j.properties
 
-   mkdir -p    $(ROOT)/$(SOLRDIR)/server/solr-webapp/webapp/WEB-INF/lib
-   # unzip -j -d $(ROOT)/$(JTSDIR)/  $(JTS)  lib/*.jar
+	mkdir -p $(ROOT)/$(SOLRDIR)/server/solr-webapp/webapp/WEB-INF/lib
    cp  $(JTS)  $(ROOT)/$(SOLRDIR)/server/solr-webapp/webapp/WEB-INF/lib/
    
 	mkdir -p $(ROOT)/etc/rc.d/init.d
