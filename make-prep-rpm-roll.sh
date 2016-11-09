@@ -61,6 +61,7 @@ MakePreppedRpms () {
         echo "*************************" | tee -a $LOG
         cd $BASEDIR/src/"$i"
         pwd
+        make prep 2>&1 | tee -a $LOG
         make rpm 2>&1 | tee -a $LOG
     done
 }
