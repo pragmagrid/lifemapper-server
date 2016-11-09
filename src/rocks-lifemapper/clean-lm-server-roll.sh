@@ -244,3 +244,4 @@ echo
 echo "To complete cleanup, run the command \"rocks remove roll lifemapper-server\""
 echo "  then run \"(cd /export/rocks/install; rocks create distro; yum clean all)\""
 echo
+TimeStamp "# End"
