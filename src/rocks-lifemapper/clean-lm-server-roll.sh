@@ -9,10 +9,21 @@
 RM="rpm -evl --quiet --nodeps"
 LMROLL_COUNT=`rocks list roll | grep lifemapper | wc -l`
 
+TimeStamp () {
+    echo $1 `/bin/date` >> $LOG
+}
+
+set_defaults() {
+    LOG=/tmp/log/`/bin/basename $0`.log
+    rm -f $LOG
+    touch $LOG
+    TimeStamp "# Start"
+}
+
 # stop services if running
 stop-services () {
     PG=`basename /etc/init.d/postgresql-*`
-    echo "-- stop $PG and pgbouncer daemons "
+    echo "-- stop $PG and pgbouncer daemons " >> $LOG
 
     if [ -f /var/run/pgbouncer/pgbouncer.pid ]; then
         /sbin/service pgbouncer stop
@@ -24,25 +35,25 @@ stop-services () {
 
     prog="postmaster"
     if [ -n "`pidof $prog`" ]; then
-        echo "-- kill $prog process "
+        echo "-- kill $prog process " >> $LOG
         killproc  $prog
     fi
     
     SOLR_PROCESSES=`ps -Af | grep solr | grep -v "grep" | wc -l`
     if [ $SOLR_PROCESSES = 1 ]; then
-        echo "-- stop Solr process "
+        echo "-- stop Solr process " >> $LOG
         /sbin/service solr stop
     fi
     
     if [ -f /state/partition1/lmscratch/lmboom.pid ] ; then
-        echo "-- stop Lifemapper archivist "
+        echo "-- stop Lifemapper archivist " >> $LOG
         /opt/python/bin/python2.7   /opt/lifemapper/LmDbServer/pipeline/archivist.py  stop
     fi
 }
 
 del-possible-shared-dependencies() {
    if [ $LMROLL_COUNT = 1 ]; then
-      echo "Removing SHARED hdf rpms"
+      echo "Removing SHARED hdf rpms" >> $LOG
       $RM hdf4-devel hdf4
       $RM hdf5-devel hdf5
    fi
@@ -50,14 +61,14 @@ del-possible-shared-dependencies() {
 
 del-lifemapper-shared() {
    if [ $LMROLL_COUNT = 1 ]; then
-      echo "Removing SHARED lifemapper-* and prerequisite RPMS"
+      echo "Removing SHARED lifemapper-* and prerequisite RPMS" >> $LOG
       $RM lifemapper-cctools
       $RM lifemapper-gdal
       $RM lifemapper-geos
       $RM lifemapper-proj
       $RM lifemapper-spatialindex
       $RM lifemapper-tiff
-      echo "Removing SHARED opt-* RPMS"
+      echo "Removing SHARED opt-* RPMS" >> $LOG
       $RM opt-lifemapper-egenix-mx-base
       $RM opt-lifemapper-requests
       $RM opt-lifemapper-rtree
@@ -65,7 +76,7 @@ del-lifemapper-shared() {
 }
 
 del-lifemapper() {
-   echo "Removing lifemapper-* and prerequisite RPMS"
+   echo "Removing lifemapper-* and prerequisite RPMS" >> $LOG
    $RM lifemapper-climate-data
    $RM lifemapper-cmd
    $RM lifemapper-libevent
@@ -78,7 +89,7 @@ del-lifemapper() {
 }
 
 del-opt-python () {
-   echo "Removing opt-* RPMS"
+   echo "Removing opt-* RPMS" >> $LOG
    $RM opt-lifemapper-cherrypy
    $RM opt-lifemapper-cython
    $RM opt-lifemapper-faulthandler
@@ -92,7 +103,7 @@ del-opt-python () {
 }
 
 del-mapserver(){
-   echo "Removing mapserver and dependencies RPMS"
+   echo "Removing mapserver and dependencies RPMS" >> $LOG
    $RM opt-lifemapper-mapserver
    $RM giflib-devel
    $RM bitstream-vera-sans-fonts
@@ -100,7 +111,7 @@ del-mapserver(){
 }
 
 del-postgres() {
-   echo "Removing postgis, postgres, pgbouncer and dependencies RPMS"
+   echo "Removing postgis, postgres, pgbouncer and dependencies RPMS" >> $LOG
    $RM postgis2_91
    $RM json-c.x86_64
    $RM pgbouncer
@@ -115,13 +126,13 @@ del-postgres() {
 }
 
 del-sysRPM() {
-   echo "Removing pgdg and elgis repos RPMS"
+   echo "Removing pgdg and elgis repos RPMS" >> $LOG
    $RM pgdg-centos91
    $RM elgis-release
 }
 
 del-directories () {
-   echo "Removing shared frontend code, data and PID directories"
+   echo "Removing shared frontend code, data and PID directories" >> $LOG
    if [ $LMROLL_COUNT = 1 ]; then
       echo "Removing /opt/lifemapper"
       rm -rf /opt/lifemapper
@@ -132,18 +143,18 @@ del-directories () {
       rm -rf /var/run/lifemapper
    fi
    
-   echo "Removing  directories used by postgres and pgbouncer"
+   echo "Removing  directories used by postgres and pgbouncer" >> $LOG
    rm -rf /var/run/postgresql
    rm -rf /var/lib/pgsql
    rm -rf /etc/pgbouncer
 
-   echo "Removing data directories"
+   echo "Removing data directories" >> $LOG
    rm -rf /state/partition1/lmserver
    
-   echo "Removing mapserver tmp directory"
+   echo "Removing mapserver tmp directory" >> $LOG
    rm -rf /var/www/tmp
 
-   echo "Removing jcc installed by bootstrap"
+   echo "Removing jcc installed by bootstrap" >> $LOG
    rm -rf /opt/python/lib/python2.7/site-packages/jcc
    rm -rf /opt/python/lib/python2.7/site-packages/libjcc.so 
    rm -rf /opt/python/lib/python2.7/site-packages/JCC-2.18-py2.7.egg-info  
@@ -154,7 +165,7 @@ del-user-group () {
    needSync=0
    /bin/egrep -i "^lmwriter" /etc/passwd
    if [ $? -eq 0 ] && [ $LMROLL_COUNT = 1 ]; then
-       echo "Remove lmwriter user"
+       echo "Remove lmwriter user/group/dirs" >> $LOG
        userdel lmwriter
        groupdel lmwriter
        /bin/rm -f /var/spool/mail/lmwriter
@@ -164,7 +175,7 @@ del-user-group () {
 
    /bin/egrep -i "^solr" /etc/passwd
    if [ $? -eq 0 ]; then
-       echo "Remove solr user"
+       echo "Remove solr user" >> $LOG
        userdel solr
        /bin/rm -f /var/spool/mail/solr
        /bin/rm -rf /export/home/solr
@@ -173,7 +184,7 @@ del-user-group () {
 
    /bin/egrep -i "^pgbouncer" /etc/passwd
    if [ $? -eq 0 ]; then
-       echo "Remove pgbouncer user"
+       echo "Remove pgbouncer user" >> $LOG
        userdel pgbouncer
        /bin/rm -rf /export/home/pgbouncer
        needSync=1
@@ -181,13 +192,13 @@ del-user-group () {
 
    /bin/egrep -i "^postgres" /etc/passwd
    if [ $? -eq 0 ]; then
-       echo "Remove postgres user"
+       echo "Remove postgres user" >> $LOG
        userdel postgres
        needSync=1
    fi
 
    if [ "$needSync" -eq "1" ]; then
-       echo "Syncing users info"
+       echo "Syncing users info" >> $LOG
        rocks sync users
    fi
 }
@@ -195,13 +206,13 @@ del-user-group () {
 del-attr () {
    rocks list host attr localhost | /bin/egrep -i LM_dbserver
    if [ $? -eq 0 ]; then
-   	echo "Remove attribute LM_dbserver"
+   	echo "Remove attribute LM_dbserver" >> $LOG
    	rocks remove host attr localhost LM_dbserver
    fi
 
    rocks list host attr localhost | /bin/egrep -i LM_webserver
    if [ $? -eq 0 ]; then
-   	echo "Remove attribute LM_webserver"
+   	echo "Remove attribute LM_webserver" >> $LOG
    	rocks remove host attr localhost LM_webserver
    fi
 }
@@ -211,11 +222,12 @@ del-cron-jobs () {
    rm -vf  /etc/cron.hourly/lmserver_*
    rm -vf  /etc/cron.daily/lmserver_*
    rm -vf  /etc/cron.monthly/lmserver_*
-   echo "Removed old cron jobs in /etc/cron.daily and /etc/cron.monthly on frontend ..." | tee -a $LOG
+   echo "Removed old cron jobs in /etc/cron.daily and /etc/cron.monthly on frontend ..."  >> $LOG
 }
 
 
 ### main ###
+set_defaults
 stop-services
 del-postgres
 del-mapserver 
