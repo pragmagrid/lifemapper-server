@@ -1,4 +1,4 @@
-/var/log/httpd/lifemapper_* {
+/state/partition1/lmscratch/log/apache/lifemapper_* {
        weekly
        missingok
        copytruncate
