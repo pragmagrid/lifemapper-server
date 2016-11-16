@@ -129,6 +129,7 @@ done
 
 <file name="/etc/auto.share" mode="append">
 lmserver &Kickstart_PrivateHostname;:/export/&amp;
+lm &Kickstart_PrivateHostname;:/export/&amp;
 </file>
 
 /etc/init.d/autofs restart
