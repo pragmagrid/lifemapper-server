@@ -64,7 +64,7 @@
 	<!-- removed mapserver, building from source for python mapscript -->
 
 	<!-- lifemapper data -->
-	<package>lifemapper-climate-data</package>
+	<package>lifemapper-env-data</package>
 	<package>lifemapper-species-data</package>
 
 <post>
