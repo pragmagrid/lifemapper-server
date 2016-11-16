@@ -14,7 +14,7 @@ TimeStamp () {
 }
 
 set_defaults() {
-    LOG=/tmp/log/`/bin/basename $0`.log
+    LOG=/tmp/`/bin/basename $0`.log
     rm -f $LOG
     touch $LOG
     TimeStamp "# Start"
@@ -68,6 +68,7 @@ del-lifemapper-shared() {
       $RM lifemapper-proj
       $RM lifemapper-spatialindex
       $RM lifemapper-tiff
+      $RM lifemapper-env-data
       echo "Removing SHARED opt-* RPMS" >> $LOG
       $RM opt-lifemapper-egenix-mx-base
       $RM opt-lifemapper-requests
@@ -77,7 +78,6 @@ del-lifemapper-shared() {
 
 del-lifemapper() {
    echo "Removing lifemapper-* and prerequisite RPMS" >> $LOG
-   $RM lifemapper-climate-data
    $RM lifemapper-cmd
    $RM lifemapper-libevent
    $RM lifemapper-lmserver
@@ -241,7 +241,9 @@ del-user-group
 del-attr
 del-cron-jobs
 echo
-echo "To complete cleanup, run the command \"rocks remove roll lifemapper-server\""
-echo "  then run \"(cd /export/rocks/install; rocks create distro; yum clean all)\""
+echo "Removing roll lifemapper-server"
+/opt/rocks/bin/rocks remove roll lifemapper-server
+echo "Rebuilding the distro"
+(cd /export/rocks/install; rocks create distro; yum clean all)
 echo
 TimeStamp "# End"
