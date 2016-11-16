@@ -88,12 +88,6 @@ if [ "$ID" == "" ] ; then
     /usr/sbin/useradd -c "Solr user" solr
 fi
 
-# add solr index files
-/opt/lifemapper/rocks/bin/solr-index
-
-chkconfig --add solr 
-chkconfig  solr on
-
 </post>
 
 <post>
@@ -130,12 +124,19 @@ for item in "config" "Lm*" "__init__.py*" ; do
     /bin/chmod -R g+ws /opt/lifemapper/$item
 done
 
+# add solr index files
+/opt/lifemapper/rocks/bin/solr-index
+
 <file name="/etc/auto.share" mode="append">
 lmserver &Kickstart_PrivateHostname;:/export/&amp;
 </file>
 
 /etc/init.d/autofs restart
 /opt/rocks/bin/rocks sync users
+
+
+chkconfig --add solr 
+chkconfig  solr on
 
 </post>
 
