@@ -27,10 +27,10 @@ SetDefaults () {
 
 	 # config files
     CONFIG_FILE=@LMHOME@/config/config.lmserver.ini
-    SITE_CONFIG_FILE=@LMHOME@/config/site.ini
+    SITE_CONFIG_FILE=@LMHOME@/config/config.site.ini
     
     # get the DATASOURCE  and ARCHIVE_USER values 
-    # from site.ini or config.lmserver.ini file
+    # from config.site.ini or config.lmserver.ini file
     echo "Looking for DATASOURCE"   | tee -a $LOG  
     DATASOURCE=`grep DATASOURCE $SITE_CONFIG_FILE | grep -v ';' | awk '{print $2}'`
     if [ ! "$DATASOURCE" ] ; then 
