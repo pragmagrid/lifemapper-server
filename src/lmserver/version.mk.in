@@ -1,6 +1,6 @@
 NAME              = lifemapper-lmserver
 REPONAME          = core
-VERSION           = 1.2.3.lw
+VERSION           = $(CODEVERSION)
 RELEASE           = 0
 TARBALL_POSTFIX	= tar.gz
 
