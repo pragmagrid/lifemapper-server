@@ -2,7 +2,7 @@
 
 import lm.commands
 
-class Command(lm.commands.list.command):
+class Command(lm.commands.init.command):
 
         """
         Initialize  user configuration
@@ -16,7 +16,7 @@ class Command(lm.commands.list.command):
         </example>
         """
         def run(self, params, args):
-            print "Lifemapper", self.version
+            print "FIXME lm init user", self.server_config
 
 RollName = "lifemapper-server"
 
