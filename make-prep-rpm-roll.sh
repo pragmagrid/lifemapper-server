@@ -31,6 +31,15 @@ TimeStamp () {
     echo $1 `/bin/date` >> $LOG
 }
 
+### build entire roll
+MakeProfile () {
+    echo "*************************" | tee -a $LOG
+    echo "Making the profile ... " | tee -a $LOG
+    echo "*************************" | tee -a $LOG
+    cd $BASEDIR
+    make profile 2>&1 | tee -a $LOG
+}
+
 ### make ready-to-bake rpms
 MakeSimpleRpms () {
     declare -a easyrpms=("cctools" "cherrypy" "cython" "egenix" "faulthandler" 
@@ -83,6 +92,7 @@ fi
 
 SetDefaults
 TimeStamp "# Start"
+MakeProfile
 MakeSimpleRpms
 MakePreppedRpms
 BuildRoll
