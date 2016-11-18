@@ -25,13 +25,17 @@ class Command(lm.commands.list.command):
 
             if len(args)> 0 :
                 code = args[0].upper()
-                algparams = ALGORITHM_DATA[code]
-                print("{}: {}".format(code, algparams['name']))
+                algmeta = ALGORITHM_DATA[code]
+                print("{}: {}".format(code, algmeta['name']))
+                print("parameters:")
+                for param, vals in algmeta['parameters'].iteritems():
+                    print("   {}: {}".format(param, str(vals)))
             else :
                 algorithms  = ALGORITHM_DATA.keys()
                 algorithms.sort()
-                for i in algorithms:
-                    print "    %s" % (i)
+                for code in algorithms:
+                    algmeta = ALGORITHM_DATA[code]
+                    print "    {}: {}".format(code, algmeta['name'])
 
 RollName = "lifemapper-server"
 
