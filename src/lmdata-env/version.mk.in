@@ -1,0 +1,4 @@
+NAME            = lifemapper-env-data
+VERSION     	= 1.4
+RELEASE 	= 0
+TARBALL_POSTFIX	= tar.gz

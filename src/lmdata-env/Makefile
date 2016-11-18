@@ -94,7 +94,6 @@ build:
 install::
 	mkdir -p $(ROOT)/$(EXPORTDIR)
 	tar xzvf  $(SCENARIO_PACKAGE).$(TARBALL_POSTFIX)  -C  $(ROOT)/$(EXPORTDIR)/
-	mkdir -p $(ROOT)/$(PKGROOT)/rocks/bin
 
 clean::
 	rm -rf version.mk prepData.sh

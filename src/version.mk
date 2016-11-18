@@ -26,3 +26,6 @@ SCENARIO_PACKAGE      = 10min-past-present-future
 SPECIES_DATA 	       = sorted_seasia_gbif
 GRID_NAME             = lmgrid_1d
 GRID_CELLSIZE         = 1
+
+# Code version
+CODEVERSION = 1.2.3.lw

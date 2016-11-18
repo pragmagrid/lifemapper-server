@@ -17,7 +17,7 @@ class Command(lm.commands.list.command):
         """
 
         def run(self, params, args):
-            self.section = "LmCommon - common"
+            self.section = "LmServer - environment"
             self.useropt = "ARCHIVE_USER"
             import ConfigParser
             self.config = ConfigParser.SafeConfigParser()

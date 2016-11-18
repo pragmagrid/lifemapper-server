@@ -63,6 +63,7 @@ include Rules.mk
 PY.PATH = /opt/python/bin/$(PYTHONVER)
 
 SEDSPEC += \
+        -e 's%@CODEVERSION@%$(CODEVERSION)%g' \
         -e 's%@VERSION@%$(VERSION)%g' 
 
 version.mk:
@@ -72,6 +73,7 @@ setup.py: setup.py.in
 	$(SED) $(SEDSPEC) $^ > $@
 
 build: setup.py
+	$(SED) $(SEDSPEC) lm/__init__.py.in > lm/__init__.py
 
 install::
 	mkdir -p $(ROOT)/$(PKGROOT)/lm
@@ -82,4 +84,4 @@ install::
 	#$(PY.PATH) setup.py install -f --root=$(ROOT)
 
 clean::
-	rm -rf version.mk  setup.py
+	rm -rf version.mk  setup.py lm/__init__.py

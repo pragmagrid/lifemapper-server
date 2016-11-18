@@ -41,8 +41,6 @@ fi
 /usr/sbin/usermod -G lmwriter apache
 
 # FE directory NOT exported to /share, for web logs, uploads, cherrypy sessions
-/bin/mkdir -p          /state/partition1/lmscratch
-/bin/mkdir -p          /state/partition1/lmscratch/log
 /bin/mkdir -p          /state/partition1/lmscratch/log/apache
 /bin/mkdir -p          /state/partition1/lmscratch/sessions
 /bin/mkdir -p          /state/partition1/lmscratch/tmpUpload

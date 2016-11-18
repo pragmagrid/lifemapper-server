@@ -29,14 +29,14 @@ set_defaults() {
     CLIMATE_DIR=@DATADIR_SHARED@/@ENV_DATA_DIR@
     
     CONFIG_FILE=@LMHOME@/config/config.lmserver.ini
-    SITE_CONFIG_FILE=@LMHOME@/config/site.ini
+    SITE_CONFIG_FILE=@LMHOME@/config/config.site.ini
     POPULATEPY=@LMHOME@/LmDbServer/tools/initCatalog.py
 
     LOG=@LMSCRATCHDISK@/log/`/bin/basename $0`.log
     rm -f $LOG
     touch $LOG
 
-    # get the SCENARIO_PACKAGE value from site.ini or config.lmserver.ini file
+    # get the SCENARIO_PACKAGE value from config.site.ini or config.lmserver.ini file
     echo "Looking for climate data $SCEN_PKG"   | tee -a $LOG  
     SCEN_PKG=`grep SCENARIO_PACKAGE: $SITE_CONFIG_FILE | grep -v ';' | awk '{print $2}'`
     if [ ! "$SCEN_PKG" ] ; then 

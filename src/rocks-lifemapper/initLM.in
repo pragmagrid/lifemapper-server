@@ -229,6 +229,15 @@ update_config() {
     $BIN/updateIP >> $LOG  2>&1
 }
 
+make_dashboard_link () {
+    DASHBOARD=$LMHOME/LmWebServer/public_html/lmdashboard
+    if [ -d $DASHBOARD ] ; then
+        ln -s $DASHBOARD /var/www/html/lmdashboard
+        echo "Creating dashboard link" >> $LOG
+    fi
+}
+
+
 TimeStamp () {
     echo $1 `/bin/date` >> $LOG
 }
@@ -261,5 +270,7 @@ update_config
 if [ "$EXISTING_DB" = false ] ; then
     fill_db
 fi
+
+make_dashboard_link 
 
 TimeStamp "# End"
