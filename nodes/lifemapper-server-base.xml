@@ -124,9 +124,6 @@ for item in "config" "Lm*" "__init__.py*" ; do
     /bin/chmod -R g+ws /opt/lifemapper/$item
 done
 
-# add solr index files
-/opt/lifemapper/rocks/bin/solr-index
-
 <file name="/etc/auto.share" mode="append">
 lmserver &Kickstart_PrivateHostname;:/export/&amp;
 lm &Kickstart_PrivateHostname;:/export/&amp;
@@ -135,6 +132,8 @@ lm &Kickstart_PrivateHostname;:/export/&amp;
 /etc/init.d/autofs restart
 /opt/rocks/bin/rocks sync users
 
+# add solr index files
+/opt/lifemapper/rocks/bin/solr-index
 
 chkconfig --add solr 
 chkconfig  solr on

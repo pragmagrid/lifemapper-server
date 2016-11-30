@@ -1,6 +1,7 @@
 #!/bin/bash
 
-# this script is run  during the post section of the roll installation
+# This script is run  during the post section of the roll installation
+# It relies on the exported directory /share/lmserver so must be executed after mount
 
 SOLR_HOME=@SOLRDATA@/data
 LMHOME=@LMHOME@
