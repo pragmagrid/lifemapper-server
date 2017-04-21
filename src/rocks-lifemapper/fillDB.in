@@ -18,12 +18,9 @@ usage ()
 ### define varibles
 SetDefaults () {
     # scripts
-    POPULATEPY=@LMHOME@/LmDbServer/tools/initCatalog.py
     TAXONOMYPY=@LMHOME@/LmDbServer/tools/readTaxonomy.py
     COMPUTEPY=@LMHOME@/LmDbServer/tools/registerCompute.py
-
-    # TODO: call this once testing is complete and DB is created
-    BORG_POPULATEPY=@LMHOME@/LmDbServer/tools/initBorg.py
+    BORG_POPULATEPY=@LMHOME@/LmDbServer/boom/initboom.py
 
 	 # config files
     CONFIG_FILE=@LMHOME@/config/config.lmserver.ini
@@ -60,11 +57,15 @@ TimeStamp () {
 
 ### populate lifemapper DB
 Populate () {
-    if [ -f $POPULATEPY ] ; then
-        echo "Running '$POPULATEPY all'..." | tee -a $LOG
-        /opt/python/bin/@PYTHONVER@ $POPULATEPY -m all 2>&1 | tee -a $LOG
+    if [ -f $BORG_POPULATEPY ] ; then
+        echo "Login as user lmwriter ..." | tee -a $LOG
+        su - lmwriter
+        echo "Running '$BORG_POPULATEPY'..." | tee -a $LOG
+        /opt/python/bin/@PYTHONVER@ $BORG_POPULATEPY 2>&1 | tee -a $LOG
+        echo "Exit to user root ..." | tee -a $LOG
+        exit
     else
-        echo "Error: Missing file $POPULATEPY" | tee -a $LOG
+        echo "Error: Missing file $BORG_POPULATEPY" | tee -a $LOG
         exit 1
     fi
 }
@@ -116,6 +117,7 @@ fi
 SetDefaults
 TimeStamp "# Start"
 Populate
-FixPermissions
-RegisterCompute
+AddTaxonomy
+# FixPermissions
+# RegisterCompute
 TimeStamp "# End"
