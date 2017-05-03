@@ -66,6 +66,10 @@ PERL.PATH = /opt/perl
 version.mk:
 	cat ../version.mk version.mk.in > version.mk
 
+SEDSPEC += \
+        -e 's%@ARCHIVENAME@%$(ARCHIVENAME)%g'  \
+        -e 's%@TARBALL_POSTFIX@%$(TARBALL_POSTFIX)%g'
+
 prepSrc.sh: prepSrc.sh.in
 	$(SED) $(SEDSPEC) $^ > $@
 	chmod 755 $@
