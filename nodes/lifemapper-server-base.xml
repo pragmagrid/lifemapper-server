@@ -42,6 +42,7 @@
 	<package>lifemapper-solr</package>
 
 	<!-- python prerequisites -->
+	<package>opt-lifemapper-setuptools</package>
 	<package>opt-lifemapper-numexpr</package>
 	<package>opt-lifemapper-cython</package>
 	<package>opt-lifemapper-pytables</package>
@@ -110,6 +111,7 @@ fi
 /bin/mkdir -p          /state/partition1/lmscratch/log/errors
 /bin/mkdir -p          /state/partition1/lmscratch/makeflow
 /bin/mkdir -p          /state/partition1/lmscratch/run
+/bin/mkdir -p          /state/partition1/lmscratch/worker
 /bin/chgrp -R lmwriter /state/partition1/lmscratch
 /bin/chmod -R g+ws     /state/partition1/lmscratch
 
