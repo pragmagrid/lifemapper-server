@@ -66,6 +66,15 @@ PERL.PATH = /opt/perl
 version.mk:
 	cat ../version.mk version.mk.in > version.mk
 
+prepSrc.sh: prepSrc.sh.in
+	$(SED) $(SEDSPEC) $^ > $@
+	chmod 755 $@
+
+prep: prepSrc.sh
+	rm -rf version.mk
+	make version.mk
+	make prepSrc.sh
+	./prepSrc.sh
 
 build:
 	$(TAR) -xzvf $(ARCHIVENAME).$(TARBALL_POSTFIX) 

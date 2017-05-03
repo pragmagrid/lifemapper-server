@@ -55,7 +55,7 @@ TimeStamp () {
     echo $1 `/bin/date` >> $LOG
 }
 
-### populate lifemapper DB
+### populate lifemapper DB with Archive BOOM inputs
 Populate () {
     if [ -f $BORG_POPULATEPY ] ; then
         echo "Login as user lmwriter ..." | tee -a $LOG

@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# Purpose: Fetch CCTools source  
+
+CCTOOLS_URL=http://ccl.cse.nd.edu/software/files/
+CCTOOLS_PKG=@ARCHIVENAME@.@TARBALL_POSTFIX@
+
+get_source_files () {
+  echo "Fetch CCTools source code"
+  wget "$CCTOOLS_URL/$CCTOOLS_PKG" 
+}
+
+### main ###
+get_source_files
