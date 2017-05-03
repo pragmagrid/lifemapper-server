@@ -42,10 +42,10 @@ MakeProfile () {
 
 ### make ready-to-bake rpms
 MakeSimpleRpms () {
-    declare -a easyrpms=("cctools" "cherrypy" "cython" "egenix" "faulthandler" 
+    declare -a easyrpms=("cherrypy" "cython" "egenix" "faulthandler" 
           "gdal" "geos" "isodate" "libevent" "lm-cmd" "mapserver" "mod-wsgi" 
           "mysql-python" "numexpr" "processing" "proj" "psycopg2" "pytables" 
-          "rdflib" "requests" "rocks-lifemapper" "rtree" "solr" "spatialindex" 
+          "rdflib" "requests" "rocks-lifemapper" "rtree" "spatialindex" 
           "tiff" "usersguide")
 
     for i in "${easyrpms[@]}"
@@ -61,7 +61,8 @@ MakeSimpleRpms () {
 
 ### make rpms that need data prep
 MakePreppedRpms () {
-    declare -a preprpms=("lmdata-climate" "lmdata-species" "lmserver")
+    declare -a preprpms=("cctools" "lmdata-climate" "lmdata-species" "lmserver" 
+                         "solr")
 
     for i in "${preprpms[@]}"
     do
