@@ -86,16 +86,11 @@ SEDSPEC += \
         -e 's%@JAVABIN@%$(JAVABIN)%g'
 
 SCRIPTS = config.lmserver.ini \
-          boom.ini  \
           cherrypy.conf  \
           addDBFunctions.sql  \
           defineDBTables.sql
           
 TOPDIR =  $(REPONAME)-$(VERSION)
-
-boom.ini: $(TOPDIR)/LmServer/config/boom.ini.in
-	$(SED) -i $(SEDSPEC) $^ 
-	cat $^ > $(TOPDIR)/config/$@
 
 config.lmserver.ini: $(TOPDIR)/LmServer/config/config.lmserver.ini.in
 	$(SED) -i $(SEDSPEC) $^ 
@@ -129,7 +124,6 @@ build:
 
 install::
 	mkdir -p $(ROOT)/$(EXPORTDIR)
-	mv $(TOPDIR)/LmWebServer/tests/data/* $(ROOT)/$(EXPORTDIR) 	
 	mkdir -p $(ROOT)/$(LMHOME)
 	mv $(TOPDIR)/*  $(ROOT)/$(LMHOME) 
 	

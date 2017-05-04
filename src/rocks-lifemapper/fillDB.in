@@ -97,17 +97,6 @@ AddTaxonomy () {
     fi
 }
 
-### register LmCompute instance
-RegisterCompute () {
-    if [ -f $COMPUTEPY ] ; then
-        echo "Running $COMPUTEPY ..." | tee -a $LOG
-        /opt/python/bin/@PYTHONVER@ $COMPUTEPY 2>&1 | tee -a $LOG
-    else
-        echo "Error: Missing file $COMPUTEPY" | tee -a $LOG
-        return
-    fi
-}
-
 ### Main ###
 if [ $# -ne 0 ]; then
     usage
@@ -119,5 +108,4 @@ TimeStamp "# Start"
 Populate
 AddTaxonomy
 # FixPermissions
-# RegisterCompute
 TimeStamp "# End"
