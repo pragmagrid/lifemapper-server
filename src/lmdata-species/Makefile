@@ -77,10 +77,7 @@ SEDSPEC += \
         -e 's%@SPECIES_DATA@%$(SPECIES_DATA)%g' \
         -e 's%@SPECIES_DATA_PATH@%$(SPECIES_DATA_PATH)%g' \
         -e 's%@TARBALL_POSTFIX@%$(TARBALL_POSTFIX)%g' \
-        -e 's%@SCENARIO_PACKAGE@%$(SCENARIO_PACKAGE)%g
-
-archive.config.ini: archive.config.ini.in
-	$(SED) $(SEDSPEC) $^ > $@
+        -e 's%@SCENARIO_PACKAGE@%$(SCENARIO_PACKAGE)%g'
 
 prepData.sh: prepData.sh.in
 	$(SED) $(SEDSPEC) $^ > $@
@@ -89,12 +86,11 @@ prepData.sh: prepData.sh.in
 prep: prepData.sh
 	./prepData.sh
 
-build: archive.config.ini
+build:
 	echo $(EXPORTDIR)
 
 install::
 	mkdir -p $(ROOT)/$(EXPORTDIR)
-	install -m 644 archive.config.ini.in $(ROOT)/$(PKGROOT)/$(EXPORTDIR)/
 	tar -xzf  $(SPECIES_DATA).$(TARBALL_POSTFIX)  -C  $(ROOT)/$(EXPORTDIR)/
 	tar -xzf  $(GBIF_DATA).$(TARBALL_POSTFIX)  -C  $(ROOT)/$(EXPORTDIR)/
 	tar -xzf  $(GBIF_META).$(TARBALL_POSTFIX)  -C  $(ROOT)/$(EXPORTDIR)/
