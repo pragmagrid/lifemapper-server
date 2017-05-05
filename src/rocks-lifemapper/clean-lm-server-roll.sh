@@ -90,16 +90,20 @@ del-lifemapper() {
 
 del-opt-python () {
    echo "Removing opt-* RPMS" >> $LOG
+	$RM opt-lifemapper-cheroot
    $RM opt-lifemapper-cherrypy
+   $RM opt-lifemapper-coverage
    $RM opt-lifemapper-cython
    $RM opt-lifemapper-faulthandler
    $RM opt-lifemapper-isodate
    $RM opt-lifemapper-MySQL-python
    $RM opt-lifemapper-numexpr
+	$RM opt-lifemapper-portend
    $RM opt-lifemapper-processing
    $RM opt-lifemapper-psycopg2
    $RM opt-lifemapper-pytables
    $RM opt-lifemapper-rdflib
+   $RM opt-lifemapper-six
 }
 
 del-mapserver(){

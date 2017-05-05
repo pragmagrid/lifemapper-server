@@ -1,0 +1,4 @@
+NAME = opt-lifemapper-six
+VERSION = 1.10.0
+ARCHIVENAME = six
+RELEASE = 0

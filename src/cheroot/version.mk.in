@@ -1,0 +1,4 @@
+NAME = opt-lifemapper-cheroot
+VERSION = 5.5.0
+ARCHIVENAME = cheroot
+RELEASE = 0

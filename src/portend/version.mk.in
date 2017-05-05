@@ -1,0 +1,4 @@
+NAME = opt-lifemapper-portend
+VERSION = 1.8
+ARCHIVENAME = portend
+RELEASE = 0
