@@ -264,7 +264,7 @@ fi
 update_lm_tables
 add_lm_functions
 install_cron_jobs
-install_map_background
+# install_map_background
 update_config
 
 if [ "$EXISTING_DB" = false ] ; then

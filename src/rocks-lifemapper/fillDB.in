@@ -28,17 +28,20 @@ SetDefaults () {
     
     # get the DATASOURCE  and ARCHIVE_USER values 
     # from config.site.ini or config.lmserver.ini file
-    echo "Looking for DATASOURCE"   | tee -a $LOG  
+    echo "Looking for DATASOURCE and ARCHIVE_USER in site config file"   | tee -a $LOG  
     DATASOURCE=`grep DATASOURCE $SITE_CONFIG_FILE | grep -v ';' | awk '{print $2}'`
+    ARCHIVE_USER=`grep ARCHIVE_USER $SITE_CONFIG_FILE | grep -v ';' | awk '{print $2}'`
+
     if [ ! "$DATASOURCE" ] ; then 
+        echo "Looking for DATASOURCE in installed config file"   | tee -a $LOG  
         DATASOURCE=`grep DATASOURCE $CONFIG_FILE | grep -v ';' | awk '{print $2}'`
     fi
     
-    echo "Looking for $ARCHIVE_USER"   | tee -a $LOG  
-    ARCHIVE_USER=`grep ARCHIVE_USER $SITE_CONFIG_FILE | grep -v ';' | awk '{print $2}'`
     if [ ! "$ARCHIVE_USER" ] ; then 
+        echo "Looking for $ARCHIVE_USER in installed config file"   | tee -a $LOG  
         ARCHIVE_USER=`grep ARCHIVE_USER $CONFIG_FILE | grep -v ';' | awk '{print $2}'`
     fi
+    
     ARCHIVE_USER_DATA_DIR=@DATADIR_SHARED@/archive/$ARCHIVE_USER
     if [ ! -d $ARCHIVE_USER_DATA_DIR ] ; then
        IS_NEW_USER_DIR=true
@@ -58,12 +61,8 @@ TimeStamp () {
 ### populate lifemapper DB with Archive BOOM inputs
 Populate () {
     if [ -f $BORG_POPULATEPY ] ; then
-        echo "Login as user lmwriter ..." | tee -a $LOG
-        su - lmwriter
         echo "Running '$BORG_POPULATEPY'..." | tee -a $LOG
         /opt/python/bin/@PYTHONVER@ $BORG_POPULATEPY 2>&1 | tee -a $LOG
-        echo "Exit to user root ..." | tee -a $LOG
-        exit
     else
         echo "Error: Missing file $BORG_POPULATEPY" | tee -a $LOG
         exit 1
@@ -107,5 +106,5 @@ SetDefaults
 TimeStamp "# Start"
 Populate
 AddTaxonomy
-# FixPermissions
+FixPermissions
 TimeStamp "# End"
