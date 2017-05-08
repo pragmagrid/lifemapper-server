@@ -34,9 +34,9 @@ set_defaults() {
     BIN=@PKGROOT@/rocks/bin
     USERSFILE=@PKGROOT@/rocks/etc/users
 
-    DEFINE_TABLES_SQL=@LMHOME@/LmDbServer/dbsetup/defineDBTables.sql
+    DEFINE_TABLES_SQL=@LMHOME@/rocks/etc/dbDefineTables.sql
     UPDATE_TABLES_SQL=@LMHOME@/LmDbServer/dbsetup/updateDBTables.sql
-    ADD_FUNCTIONS_SQL=@LMHOME@/LmDbServer/dbsetup/addDBFunctions.sql
+    ADD_FUNCTIONS_SQL=@LMHOME@/rocks/etc/dbAddFunctions.sql
 
     MAP_BACKGROUND=@LMHOME@/LmWebServer/public_html/images/BMNG.geotiff
     IMAGE_DIR=@DATADIR_SERVER@/image/

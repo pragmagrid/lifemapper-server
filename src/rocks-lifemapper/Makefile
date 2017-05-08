@@ -88,6 +88,8 @@ PROFILES = \
 	lifemapper.csh 
 
 SCRIPTS = \
+	dbAddFunctions.sql \
+	dbDefineTables.sql \
 	lifemapper.conf \
 	lifemapper-sysconfig-httpd \
 	lifemapper-server.conf
@@ -150,6 +152,8 @@ install::
 	install -m 755 $(EXECFILES) $(ROOT)/$(PKGROOT)/rocks/bin
 
 	mkdir -p $(ROOT)/$(PKGROOT)/rocks/etc
+	install -m 644 dbAddFunctions.sql $(ROOT)/$(PKGROOT)/rocks/etc
+	install -m 644 dbDefineFunctions.sql $(ROOT)/$(PKGROOT)/rocks/etc
 	install -m 644 lifemapper-sysconfig-httpd $(ROOT)/$(PKGROOT)/rocks/etc
 	install -m 644 clean-lm-server-roll.sh $(ROOT)/$(PKGROOT)/rocks/etc
 	install -m 755 $(CRONS) $(ROOT)/$(PKGROOT)/rocks/etc
