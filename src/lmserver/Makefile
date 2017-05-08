@@ -86,9 +86,7 @@ SEDSPEC += \
         -e 's%@JAVABIN@%$(JAVABIN)%g'
 
 SCRIPTS = config.lmserver.ini \
-          cherrypy.conf  \
-          addDBFunctions.sql  \
-          defineDBTables.sql
+          cherrypy.conf
           
 TOPDIR =  $(REPONAME)-$(VERSION)
 
@@ -100,12 +98,6 @@ config.lmserver.ini: $(TOPDIR)/LmServer/config/config.lmserver.ini.in
 cherrypy.conf: $(TOPDIR)/LmWebServer/config/cherrypy.conf.in
 	$(SED) -i $(SEDSPEC) $^ 
 	cat $^ > $(TOPDIR)/config/$@
-
-addDBFunctions.sql: $(TOPDIR)/LmDbServer/dbsetup/addDBFunctions.sql.in
-	$(SED) $(SEDSPEC) $^ > $(TOPDIR)/LmDbServer/dbsetup/$@
-
-defineDBTables.sql: $(TOPDIR)/LmDbServer/dbsetup/defineDBTables.sql.in
-	$(SED) $(SEDSPEC) $^ > $(TOPDIR)/LmDbServer/dbsetup/$@
 
 prepSrc.sh: prepSrc.sh.in
 	$(SED) $(SEDSPEC) $^ > $@

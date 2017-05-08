@@ -1,5 +1,5 @@
 PKGROOT	       = /opt/lifemapper
-NAME            = lifemapper-setuptools
+NAME            = opt-lifemapper-setuptools
 ARCHIVENAME     = setuptools
 VERSION         = 20.7.0
 RELEASE         = 0
