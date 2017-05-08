@@ -102,8 +102,10 @@ del-opt-python () {
    $RM opt-lifemapper-processing
    $RM opt-lifemapper-psycopg2
    $RM opt-lifemapper-pytables
+	$RM opt-lifemapper-pytz
    $RM opt-lifemapper-rdflib
    $RM opt-lifemapper-six
+	$RM opt-lifemapper-tempora
 }
 
 del-mapserver(){

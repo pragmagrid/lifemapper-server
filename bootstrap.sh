@@ -64,9 +64,25 @@ rpm -i src/RPMS/bitstream-vera-fonts-common-1.10-18.el6.noarch.rpm
 rpm -i src/RPMS/bitstream-vera-sans-fonts-1.10-18.el6.noarch.rpm
 rpm -i src/RPMS/giflib-devel-4.1.6-3.1.el6.x86_64.rpm
 
-# for mysql-python, rtree, cherrypy
+# for mysql-python, rtree, cherrypy (setuptools 20.7)
 compile setuptools
 install opt-lifemapper-setuptools
+
+# for cherrypy
+# cheroot requires six
+# tempora requires six, pytz
+# portend requires tempora
+# cherrypy requires six, cheroot>=5.2.0, portend>=1.6.1
+compile six
+install opt-lifemapper-six
+compile cheroot
+install opt-lifemapper-cheroot
+compile pytz
+install opt-lifemapper-pytz
+compile tempora
+install opt-lifemapper-tempora
+compile portend
+install opt-lifemapper-portend
 
 # for pytables 
 compile cython 

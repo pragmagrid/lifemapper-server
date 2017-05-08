@@ -18,10 +18,12 @@
 	</changelog>
 
 	<package>lifemapper-mod_wsgi</package>
-	<package>opt-lifemapper-cherrypy</package>
 	<package>opt-lifemapper-six</package>
 	<package>opt-lifemapper-cheroot</package>
+	<package>opt-lifemapper-pytz</package>
+	<package>opt-lifemapper-tempora</package>
 	<package>opt-lifemapper-portend</package>
+	<package>opt-lifemapper-cherrypy</package>
 	<package>opt-lifemapper-rdflib</package>
 	<package>opt-lifemapper-isodate</package>
 	<package>opt-lifemapper-processing</package>
