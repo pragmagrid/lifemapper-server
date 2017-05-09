@@ -30,7 +30,6 @@ set_defaults() {
     
     CONFIG_FILE=@LMHOME@/config/config.lmserver.ini
     SITE_CONFIG_FILE=@LMHOME@/config/config.site.ini
-    POPULATEPY=@LMHOME@/LmDbServer/tools/initCatalog.py
 
     LOG=@LMSCRATCHDISK@/log/`/bin/basename $0`.log
     rm -f $LOG
