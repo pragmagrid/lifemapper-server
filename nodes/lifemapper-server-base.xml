@@ -42,8 +42,8 @@
 	<package>lifemapper-solr</package>
 
 	<!-- python prerequisites -->
+	<!-- no opt-lifemapper-setuptools, needed for build, conflicts with install -->
 	<package>opt-lifemapper-coverage</package>
-	<package>opt-lifemapper-setuptools</package>
 	<package>opt-lifemapper-numexpr</package>
 	<package>opt-lifemapper-cython</package>
 	<package>opt-lifemapper-pytables</package>
