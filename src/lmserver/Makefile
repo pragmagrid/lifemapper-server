@@ -86,6 +86,7 @@ SEDSPEC += \
         -e 's%@JAVABIN@%$(JAVABIN)%g'
 
 SCRIPTS = config.lmserver.ini \
+          boomConfig.sample.ini \
           cherrypy.conf
           
 TOPDIR =  $(REPONAME)-$(VERSION)
@@ -97,6 +98,9 @@ config.lmserver.ini: $(TOPDIR)/LmServer/config/config.lmserver.ini.in
 
 cherrypy.conf: $(TOPDIR)/LmWebServer/config/cherrypy.conf.in
 	$(SED) -i $(SEDSPEC) $^ 
+	cat $^ > $(TOPDIR)/config/$@
+
+boomConfig.sample.ini:
 	cat $^ > $(TOPDIR)/config/$@
 
 prepSrc.sh: prepSrc.sh.in
