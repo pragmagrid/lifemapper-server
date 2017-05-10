@@ -106,6 +106,7 @@ PROGS = \
 	initDbserver \
 	initPostgis \
 	fillDB \
+	fillGBIFTaxonomy \
 	updateIP \
 	confconst.py \
 	getClimateData \

@@ -1,6 +1,6 @@
 #!/bin/bash 
 
-# Purpose: define and populate lifemapper pipeline
+# Purpose: define a BOOM archive and populate the database with input metadata
 #
 # This script is run by a superuser
 
@@ -8,9 +8,7 @@ usage ()
 {
     echo "Usage: $0"
     echo "This script is run by the superuser. It will "
-    echo "     - run initCatalog.py to populate the databases and init taxonomy"
-    echo "     - run readTaxonomy.py to add taxonomy"
-    echo "     - run registerCompute.py to register a compute node"
+    echo "     - run boominput.py to populate the databases with default archive BOOM inputs"
     echo "   "
     echo "The output of the script is in @LMSCRATCHDISK@/log/`/bin/basename $0`.log"
 }
@@ -18,9 +16,7 @@ usage ()
 ### define varibles
 SetDefaults () {
     # scripts
-    TAXONOMYPY=@LMHOME@/LmDbServer/tools/readTaxonomy.py
-    COMPUTEPY=@LMHOME@/LmDbServer/tools/registerCompute.py
-    BORG_POPULATEPY=@LMHOME@/LmDbServer/boom/initboom.py
+    BORG_POPULATEPY=@LMHOME@/LmDbServer/boom/boominput.py
 
 	 # config files
     CONFIG_FILE=@LMHOME@/config/config.lmserver.ini
@@ -86,10 +82,9 @@ FixPermissions () {
 }
 
 ### read and populate taxonomy table
-AddTaxonomy () {
-    if [ $DATASOURCE = "GBIF" ] ; then
-        echo "Running $TAXONOMYPY ..." | tee -a $LOG
-        /opt/python/bin/@PYTHONVER@ $TAXONOMYPY 2>&1 | tee -a $LOG
+CheckForTaxonomy () {
+    if [ $DATASOURCE = "GBIF" -o $DATASOURCE = "IDIGBIO" ] ; then
+        echo "Run fillGBIFTaxonomy to add GBIF Backbone Taxonomy to the database" | tee -a $LOG
     else
         echo "Notice: DATASOURCE=$DATASOURCE: No taxonomy to ingest" | tee -a $LOG
         return 
@@ -105,6 +100,6 @@ fi
 SetDefaults
 TimeStamp "# Start"
 Populate
-AddTaxonomy
+CheckForTaxonomy
 FixPermissions
 TimeStamp "# End"
