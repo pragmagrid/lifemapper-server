@@ -78,6 +78,10 @@ except AttributeError:
 
 if command.MustBeRoot and not (command.isRootUser() or command.isApacheUser()):
     os.system('sudo %s' % string.join(sys.argv,' '))
+elif command.MustBeLmwriter and not command.isLmUser():
+    print "Login as lmwriter to run this command"
+    print command.usage()
+    exit(1)
 else:
     try:
         command.runWrapper(name, args[i:])

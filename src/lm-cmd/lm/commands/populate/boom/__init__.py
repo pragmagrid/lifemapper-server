@@ -10,11 +10,11 @@ class Command(lm.commands.populate.command):
    The absolute path of configuration file for this BOOM archive
    </param>
    
-   <example cmd='init populate boom'>
+   <example cmd='populate boom'>
    Populate lifemapper database with inputs for the default archive
    </example>
 
-   <example cmd='init populate boom /tmp/boom_sample.ini'>
+   <example cmd='populate boom /tmp/boom_sample.ini'>
    Populate lifemapper database with inputs for boom_sample archive
    </example>
    """
@@ -37,7 +37,9 @@ class Command(lm.commands.populate.command):
       filler.initBoom()
       filler.close()
       
-      print 'Logfile written to {}'.format(logFname)
+#       print('Check permissions on {}; must be writeable for `lmwriter`'
+#             .format(userPath))
+      print('Logfile written to {}'.format(logFname))
 
 RollName = "lifemapper-server"
 

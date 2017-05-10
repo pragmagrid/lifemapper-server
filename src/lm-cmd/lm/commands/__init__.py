@@ -551,6 +551,7 @@ class Command:
 	"""
 
 	MustBeRoot = 1
+	MustBeLmwriter = 0
 
 	def __init__(self, database):
 		"""Creates a DatabaseConnection for the RocksCommand to use.

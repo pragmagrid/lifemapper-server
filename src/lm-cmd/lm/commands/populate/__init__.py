@@ -3,7 +3,8 @@
 import lm.commands
 
 class command(lm.commands.Command):
-	pass
+
+	MustBeLmwriter = 1
 	
 RollName = "lifemapper-server"
 

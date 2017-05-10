@@ -11,12 +11,12 @@ class Command(lm.commands.init.command):
    The absolute path of configuration file for this BOOM archive
    </param>
    
-   <example cmd='init populate taxonomy'>
+   <example cmd='populate taxonomy'>
    Populate lifemapper database with GBIF Backbone taxonomy values from 
    default GBIF-exported taxonomy CSV file.
    </example>
 
-   <example cmd='init populate taxonomy /tmp/new_gbif_taxonomy.txt'>
+   <example cmd='populate taxonomy /tmp/new_gbif_taxonomy.txt'>
    Populate lifemapper database with GBIF Backbone taxonomy values from 
    new GBIF-exported taxonomy CSV file.
    """
