@@ -814,6 +814,15 @@ class Command:
 			pass
 		return 0
 		
+	def isLmUser(self):
+		"""Returns TRUE if running as the lifemapper account."""
+		try:
+			if os.geteuid() == pwd.getpwnam('lmwriter')[3]:
+				return 1
+		except:
+			pass
+		return 0
+		
 	
 	def str2bool(self, s):
 		"""Converts an on/off, yes/no, true/false string to 1/0.

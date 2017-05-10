@@ -3,8 +3,7 @@
 import lm.commands
 
 class command(lm.commands.Command):
-
-	MustBeRoot = 0
-
+	pass
+	
 RollName = "lifemapper-server"
 
