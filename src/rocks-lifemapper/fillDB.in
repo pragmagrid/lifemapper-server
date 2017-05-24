@@ -76,12 +76,12 @@ FixPermissions () {
     echo "Create and set group write permission on new $ARCHIVE_USER data dir"   | tee -a $LOG
     if [ $IS_NEW_USER_DIR ] ; then
        echo "Update lmwriter group permissions on $ARCHIVE_USER_DATA_DIR" | tee -a $LOG
-       /bin/chown -R lmwriter:lmwriter $ARCHIVE_USER_DATA_DIR
+       /bin/chgrp -R lmwriter $ARCHIVE_USER_DATA_DIR
        /bin/chmod -R g+ws $ARCHIVE_USER_DATA_DIR
     fi
 }
 
-### read and populate taxonomy table
+### check for possible taxonomy
 CheckForTaxonomy () {
     if [ $DATASOURCE = "GBIF" -o $DATASOURCE = "IDIGBIO" ] ; then
         echo "Run fillGBIFTaxonomy to add GBIF Backbone Taxonomy to the database" | tee -a $LOG
