@@ -94,7 +94,7 @@ install::
 	tar -xzf  $(SPECIES_DATA).$(TARBALL_POSTFIX)  -C  $(ROOT)/$(EXPORTDIR)/
 	tar -xzf  $(GBIF_DATA).$(TARBALL_POSTFIX)  -C  $(ROOT)/$(EXPORTDIR)/
 	tar -xzf  $(GBIF_META).$(TARBALL_POSTFIX)  -C  $(ROOT)/$(EXPORTDIR)/
-	tar -xzf  $(IDIG_LIST).$(TARBALL_POSTFIX)  -C  $(ROOT)/$(EXPORTDIR)/
+	install -m 644  $(IDIG_DATA).$(TARBALL_POSTFIX)  $(ROOT)/$(EXPORTDIR)/
 
 clean::
 	rm -rf version.mk

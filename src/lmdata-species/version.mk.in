@@ -3,8 +3,8 @@ SPECIES_DATA_PATH	= species
 
 GBIF_META         = gbif_meta
 GBIF_DATA         = gbif_subset
-IDIG_LIST         = idig_gbifids
+IDIG_DATA         = idig_occurrences_localities
 
-VERSION     		= 1.4
+VERSION     		= 1.5
 RELEASE 	      	= 0
 TARBALL_POSTFIX	= tar.gz
