@@ -101,16 +101,17 @@ CRONS = \
 	lmserver_troubleshoot_jobs
 
 PROGS = \
-	initLM \
 	checkLibs \
+	clearUser \
+	confconst.py \
 	initDbserver \
+	initLM \
 	initPostgis \
+	installServerCronJobs \
 	fillDB \
 	fillGBIFTaxonomy \
-	updateIP \
-	confconst.py \
 	getClimateData \
-	installServerCronJobs
+	updateIP
 
 PYFILES = __init__.py \
 	confconst.py \
