@@ -73,7 +73,7 @@ SEDSPEC += \
         -e 's%@LMURL@%$(LMURL)%g' \
         -e 's%@GBIF_DATA@%$(GBIF_DATA)%g' \
         -e 's%@GBIF_META@%$(GBIF_META)%g' \
-        -e 's%@IDIG_LIST@%$(IDIG_LIST)%g' \
+        -e 's%@IDIG_DATA@%$(IDIG_DATA)%g' \
         -e 's%@SPECIES_DATA@%$(SPECIES_DATA)%g' \
         -e 's%@SPECIES_DATA_PATH@%$(SPECIES_DATA_PATH)%g' \
         -e 's%@TARBALL_POSTFIX@%$(TARBALL_POSTFIX)%g' \
