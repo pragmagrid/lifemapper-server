@@ -101,7 +101,7 @@ cherrypy.conf: $(TOPDIR)/LmWebServer/config/cherrypy.conf.in
 	cat $^ > $(TOPDIR)/config/$@
 
 boomInit.sample.ini:
-	cat $@ > $(TOPDIR)/config/$@
+	cat $(TOPDIR)/LmServer/config/$@ > $(TOPDIR)/config/$@
 
 prepSrc.sh: prepSrc.sh.in
 	$(SED) $(SEDSPEC) $^ > $@
