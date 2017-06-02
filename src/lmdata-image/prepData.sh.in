@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# Purpose: fetch image data 
+
+create_image_data () {
+   echo "Fetch background Blue Marble image @BLUE_MARBLE@"
+   curl -L "@LMURL@/@BLUE_MARBLE@.@TARBALL_POSTFIX@" -o ../lmdata-image/@BLUE_MARBLE@.@TARBALL_POSTFIX@
+}
+
+### main ###
+create_image_data

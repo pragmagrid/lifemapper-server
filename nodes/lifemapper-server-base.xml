@@ -67,6 +67,7 @@
 
 	<!-- lifemapper data -->
 	<package>lifemapper-env-data</package>
+	<package>lifemapper-image-data</package>
 	<package>lifemapper-species-data</package>
 
 <post>
