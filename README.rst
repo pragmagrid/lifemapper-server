@@ -299,11 +299,10 @@ Where installed roll components are
 
 #. **/state/partition1/lmscratch/** -  
    + /state/partition1/lmscratch/sessions - cherrypy sessions.
-   + /state/partition1/lmscratch/job - ?
+   + /state/partition1/lmscratch/tmpUpload - landing spot for uploaded files
    + /state/partition1/lmscratch/log - script and daemon logs.
    + /state/partition1/lmscratch/run - PID files.
-   + /state/partition1/lmscratch/temp - ?
-   + /state/partition1/lmscratch/test - ?
+   + /state/partition1/lmscratch/worker - Workqueue workers and Makeflow data?
 
 #. **/var/www/tmp/** - for mapserver temp files
 

@@ -60,7 +60,7 @@ del-possible-shared-dependencies() {
 }
 
 del-lifemapper-shared() {
-   if [ $LMROLL_COUNT = 1 ]; then
+   if [ $LMROLL_COUNT < 2 ]; then
       echo "Removing SHARED lifemapper-* and prerequisite RPMS" >> $LOG
       $RM lifemapper-cctools
       $RM lifemapper-gdal
@@ -244,7 +244,6 @@ stop-services
 del-postgres
 del-mapserver 
 del-lifemapper-shared
-## del-possible-shared-dependencies
 del-opt-python 
 del-lifemapper
 del-sysRPM
