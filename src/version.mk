@@ -8,7 +8,6 @@ LMDISK        = /share/lm
 DATADIR_SHARED  = /share/lm/data
 DATADIR_SERVER  = /share/lmserver/data
 LMSCRATCHDISK = /state/partition1/lmscratch
-TEMPDIR       = /tmp
 
 ## ENV_DATA_DIR matches INPUT_LAYER_DIR in the lifemapper-compute roll
 ENV_DATA_DIR  = layers
@@ -30,4 +29,4 @@ GRID_NAME             = lmgrid_1d
 GRID_CELLSIZE         = 1
 
 # Code version
-CODEVERSION = 1.5.9.lw
+CODEVERSION = 1.6.0.lw
