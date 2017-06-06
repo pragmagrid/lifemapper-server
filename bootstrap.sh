@@ -66,9 +66,9 @@ rpm -i src/RPMS/giflib-devel-4.1.6-3.1.el6.x86_64.rpm
 
 # for mysql-python, rtree, cherrypy
 # setuptools 6.1, included in python roll
-# setuptools 20.7, needed for cherrypy build, conflicts with install
-# compile setuptools
-# install opt-lifemapper-setuptools
+# setuptools 20.7, needed for cherrypy build
+compile setuptools
+install opt-lifemapper-setuptools
 
 # for cherrypy
 # cheroot requires six
