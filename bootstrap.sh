@@ -35,6 +35,7 @@ rpm -i $PGDGREPO
 #yumdownloader --enablerepo pgdg91 pgbouncer.x86_64; \
 #yumdownloader --resolve --enablerepo epel json-c.x86_64; \
 #yumdownloader --resolve --enablerepo pgdg91 postgis2_91.x86_64; \
+### rpmforge repo is dead now
 #yumdownloader --resolve --enablerepo rpmforge hdf4.x86_64 hdf4-devel.x86_64; \
 #yumdownloader --resolve --enablerepo rpmforge hdf5.x86_64 hdf5-devel.x86_64; \
 #yumdownloader --resolve --enablerepo base readline-devel.x86_64; \
@@ -52,6 +53,8 @@ echo "/opt/lifemapper/lib" >> /etc/ld.so.conf.d/lifemapper-server.conf
 echo "/opt/python/lib/" >> /etc/ld.so.conf.d/lifemapper-server.conf
 echo "/opt/rocks/fcgi/lib" >> /etc/ld.so.conf.d/lifemapper-server.conf
 /sbin/ldconfig
+
+rpm -i src/RPMS/screen*rpm
 
 # for compiling 
 yum --enablerepo base install cmake
@@ -91,7 +94,7 @@ compile cython
 install opt-lifemapper-cython 
 compile numexpr 
 install opt-lifemapper-numexpr 
-yum --enablerepo rpmforge install hdf5 hdf5-devel
+rpm -i src/RPMS/hdf5*rpm
 
 # meed for gdal
 compile geos
