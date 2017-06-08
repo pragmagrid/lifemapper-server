@@ -83,7 +83,7 @@ FixPermissions () {
 
 ### check for possible taxonomy
 CheckForTaxonomy () {
-    if [ $DATASOURCE = "GBIF" -o $DATASOURCE = "IDIGBIO" ] ; then
+    if [ "$DATASOURCE" == "GBIF" ] || [ "$DATASOURCE" == "IDIGBIO" ] ; then
         echo "Run fillGBIFTaxonomy to add GBIF Backbone Taxonomy to the database" | tee -a $LOG
     else
         echo "Notice: DATASOURCE=$DATASOURCE: No taxonomy to ingest" | tee -a $LOG

@@ -43,7 +43,7 @@ TimeStamp () {
 
 ### read and populate taxonomy table
 AddTaxonomy () {
-    if [ $DATASOURCE = "GBIF" -o $DATASOURCE = "IDIGBIO" ] ; then
+    if [ "$DATASOURCE" == "GBIF" ] || [ "$DATASOURCE" == "IDIGBIO" ] ; then
         echo "Running $TAXONOMYPY ..." | tee -a $LOG
         /opt/python/bin/@PYTHONVER@ $TAXONOMYPY 2>&1 | tee -a $LOG
     else
