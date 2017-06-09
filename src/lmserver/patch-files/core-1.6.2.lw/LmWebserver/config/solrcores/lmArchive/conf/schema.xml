@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<schema name="lm1" version="1.5">
+  
+   <!-- Recommended fields for Solr -->
+   <field name="id" type="string" indexed="true" stored="true" />
+   <field name="_version_" type="long" indexed="true" stored="true" />
+   
+   <!-- Lifemapper fields -->
+   <!-- =========================================== -->
+   
+   <!--  May not need to store this if it is part of the query... -->
+   <field name="userId" type="text_general" indexed="true" stored="true" />
+   
+   <!-- Taxon Information -->
+   <field name="displayName" type="taxonname" indexed="true" stored="true" />
+   <field name="squid" type="string" indexed="true" stored="true" />
+   <field name="taxonKingdom" type="string" indexed="true" stored="true" />
+   <field name="taxonPhylum" type="string" indexed="true" stored="true" />
+   <field name="taxonClass" type="string" indexed="true" stored="true" />
+   <field name="taxonOrder" type="string" indexed="true" stored="true" />
+   <field name="taxonFamily" type="string" indexed="true" stored="true" />
+   <field name="taxonGenus" type="string" indexed="true" stored="true" />
+   <field name="taxonSpecies" type="string" indexed="true" stored="true" />
+   
+   <!-- Algorithm -->
+   <field name="algorithmCode" type="string" indexed="true" stored="true" />
+   <field name="algorithmParameters" type="text_general" indexed="false" stored="true" />
+
+   <!-- Occurrence Set -->
+   <field name="pointCount" type="int" indexed="true" stored="true" />
+   <field name="occurrenceId" type="int" indexed="true" stored="true" />
+   <field name="occurrenceDataUrl" type="url" indexed="false" stored="true" />
+   <field name="occurrenceMetaUrl" type="url" indexed="false" stored="true" />
+   <field name="occurrenceModTime" type="datetime" indexed="true" stored="true" />
+      
+   
+   <!-- Model Scenario -->
+   <field name="modelScenarioCode" type="string" indexed="true" stored="true" />
+   <field name="modelScenarioId" type="int" indexed="true" stored="true" />
+   <field name="modelScenarioUrl" type="url" indexed="false" stored="true" />
+   <field name="modelScenarioGCM" type="string" indexed="true" stored="true" />
+   <field name="modelScenarioDateCode" type="string" indexed="true" stored="true" />
+   <field name="modelScenarioAltPredCode" type="string" indexed="true" stored="true" />
+   
+   <!-- Projection Scenario-->
+   <field name="sdmProjScenarioCode" type="string" indexed="true" stored="true" />
+   <field name="sdmProjScenarioId" type="int" indexed="true" stored="true" />
+   <field name="sdmProjScenarioUrl" type="url" indexed="false" stored="true" />
+   <field name="sdmProjScenarioGCM" type="string" indexed="true" stored="true" />
+   <field name="sdmProjScenarioDateCode" type="string" indexed="true" stored="true" />
+   <field name="sdmProjScenarioAltPredCode" type="string" indexed="true" stored="true" />
+   
+   <!-- Projection -->
+   <field name="sdmProjId" type="int" indexed="true" stored="true" />
+   <field name="sdmProjMetaUrl" type="url" indexed="false" stored="true" />
+   <field name="sdmProjDataUrl" type="url" indexed="false" stored="true" />
+   <field name="sdmProjModTime" type="datetime" indexed="true" stored="true" />
+   
+   <!-- PAV -->
+   <field name="pavMetaUrl" type="url" indexed="false" stored="true" />
+   <field name="pavDataUrl" type="url" indexed="false" stored="true" />
+   <field name="presence" type="location" indexed="true" stored="false" multiValued="true" />
+   <dynamicField name="*_coordinate" type="tdouble" indexed="true" stored="false" />
+   
+   
+   <!-- Grid Set -->
+   <field name="epsgCode" type="int" indexed="true" stored="true" />
+   <field name="gridSetMetaUrl" type="url" indexed="false" stored="true" />
+   <field name="gridSetId" type="int" indexed="true" stored="true" />
+   <field name="shapegridId" type="int" indexed="true" stored="true" />
+   <field name="shapegridMetaUrl" type="url" indexed="false" stored="true" />
+   <field name="shapegridDataUrl" type="url" indexed="false" stored="true" />
+
+   <uniqueKey>id</uniqueKey>
+   
+   
+   <!-- Field types -->
+   <fieldType name="location" class="solr.LatLonType" subFieldSuffix="_coordinate" />
+   <!-- New lat lon -->
+   <!-- <fieldType name="location" class="solr.LatLonPointSpatialField" docValues="true" />-->
+   
+   <fieldType name="string" class="solr.StrField" sortMissingLast="true" />
+   <fieldType name="int" class="solr.TrieIntField" precisionStep="0" positionIncrementGap="0" />
+   <fieldType name="long" class="solr.TrieLongField" precisionStep="0" positionIncrementGap="0" />
+   <fieldType name="tdouble" class="solr.TrieDoubleField" precisionStep="8" omitNorms="true" positionIncrementGap="0" />
+   
+   <!-- Although not explicity, the bbox field type needs this -->
+   <fieldType name="boolean" class="solr.BoolField" omitNorms="true" />
+   
+   <fieldType name="url" class="solr.StrField" sortMissingLast="true" />
+
+   <!-- Taxon name type -->
+   <fieldType name="taxonname" class="solr.TextField" positionIncrementGap="100">
+      <!-- Index design -->
+      <analyzer type="index">
+         <!-- First, filter out spaces and encoded spaces -->
+         <!--   The result: Abacidus atratus becomes Abacidusatratus -->
+         <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="(\s*)" replacement="" />
+         <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="(%20)" replacement="" />
+         <!-- Tokenize the taxon names using the lower case factory -->
+         <!-- Abacidusatratus becomes abacidusatratus -->
+         <tokenizer class="solr.LowerCaseTokenizerFactory" />
+         <!-- Filter the results by creating Grams from 3 characters to 20 -->
+         <!-- abacidusatratus becomes 'aba', 'abac', 'abaci', 'abacid' ... -->
+         <filter class="solr.EdgeNGramFilterFactory" minGramSize="3" maxGramSize="20" />
+      </analyzer>
+      <analyzer type="query">
+         <!-- Filter spaces and encoded spaces out of query string -->
+         <!-- 'Abc def' becomes 'Abcdef' -->
+         <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="(\s*)" replacement="" />
+         <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="(%20)" replacement="" />
+         <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="(\+)" replacement="" />
+         <!-- Tokenize the query with lower case factory -->
+         <!-- 'Abc' becomes 'abc' -->
+         <!-- Looks for matches of tokenized query string -->
+         <tokenizer class="solr.LowerCaseTokenizerFactory" />
+      </analyzer>
+   </fieldType>
+
+   
+   <fieldType name="datetime" class="solr.TrieDateField" sortMissingLast="true" omitNorms="true" />
+   
+   <fieldType name="text_general" class="solr.TextField" positionIncrementGap="100">
+      <analyzer type="index">
+         <tokenizer class="solr.StandardTokenizerFactory" />
+         <!-- <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt" />-->
+         <filter class="solr.LowerCaseFilterFactory" />
+      </analyzer>
+      <analyzer type="query">
+         <tokenizer class="solr.StandardTokenizerFactory" />
+         <!-- <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt" />-->
+         <filter class="solr.LowerCaseFilterFactory" />
+      </analyzer>
+   </fieldType>
+
+</schema>
+
+
+
+  
