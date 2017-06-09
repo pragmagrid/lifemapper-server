@@ -1,29 +1,32 @@
 #!/bin/bash
 #
-# This script downloads a climate data package, installs it, and catalogs it 
-# in the database for the current default user.
-# The script can be run at any time to override the previous configuration
-# with a new one. 
+# This script downloads a climate data package, uncompresses it into the 
+# correct directory.
+# The script can be run at any time to install environmental data for 
+# cataloging scenarios and processing an SDM workflow.
 
 usage () 
 {
-    echo "Usage: $0"
-    echo "This script is run after lifemapper-server installation. It will:"
-    echo "     - download and install SCENARIO_PACKAGE data named in configuration file"
-    echo "     - catalog climate data with the ARCHIVE_USER named in configuration file"
-    echo "If the data and/or database records are present, the script will make only needed changes."
+    echo "Usage: $0 <SCENARIO_PACKAGE_NAME>"
+    echo "This script is run on an existing lifemapper-server installation. "
+    echo "It will:"
+    echo "     - download and install SCENARIO_PACKAGE_NAME data in the "
+    echo "       common environmental data directory"
+    echo "It will NOT:"
+    echo "     - install SCENARIO_PACKAGE_NAME scenarios in the database "
     echo "   "
-    echo "The script can be run at any time to override configuration with a "
-    echo "different user or climate package."
+    echo "The script can be run at any time to install environmental data and"
+    echo "metadata files."
     echo "   "
 }
 
-if [ $# -ne 0 ]; then
+if [ $# -ne 1 ]; then
     usage
     exit 0
 fi 
 
 set_defaults() {
+    SCEN_PKG=$1
     LMURL=@LMURL@
     
     CLIMATE_DIR=@DATADIR_SHARED@/@ENV_DATA_DIR@
@@ -34,17 +37,6 @@ set_defaults() {
     LOG=@LMSCRATCHDISK@/log/`/bin/basename $0`.log
     rm -f $LOG
     touch $LOG
-
-    # get the SCENARIO_PACKAGE value from config.site.ini or config.lmserver.ini file
-    echo "Looking for climate data $SCEN_PKG"   | tee -a $LOG  
-    SCEN_PKG=`grep SCENARIO_PACKAGE: $SITE_CONFIG_FILE | grep -v ';' | awk '{print $2}'`
-    if [ ! "$SCEN_PKG" ] ; then 
-        SCEN_PKG=`grep SCENARIO_PACKAGE: $CONFIG_FILE | grep -v ';' | awk '{print $2}'`
-    fi
-    if [ ! "$SCEN_PKG" ] ; then
-        echo "SCENARIO_PACKAGE not set in $SITE_CONFIG_FILE or $CONFIG_FILE" | tee -a $LOG
-        exit 1
-    fi    
 
     CLIMATE_META_FILE=$CLIMATE_DIR/$SCEN_PKG.py
     CLIMATE_PKG_FILE=$CLIMATE_DIR/$SCEN_PKG.@TARBALL_POSTFIX@
@@ -75,7 +67,7 @@ TimeStamp () {
 }
 
 ####### Main #######
-set_defaults
+set_defaults $1
 TimeStamp "# Start"
 
 get_climate_data
