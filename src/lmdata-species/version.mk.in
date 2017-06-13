@@ -4,7 +4,8 @@ SPECIES_DATA_PATH	= species
 GBIF_META         = gbif_meta
 GBIF_DATA         = gbif_subset
 IDIG_DATA         = idig_occurrences_localities
+BIOTAPHY_TREE     = NAM_binary_mod.json
 
-VERSION     		= 1.5
+VERSION     		= 1.6
 RELEASE 	      	= 0
 TARBALL_POSTFIX	= tar.gz
