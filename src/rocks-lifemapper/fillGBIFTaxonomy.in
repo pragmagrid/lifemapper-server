@@ -15,6 +15,7 @@ usage ()
 
 ### define varibles
 SetDefaults () {
+    THISNAME=`/bin/basename $0`
     # scripts
     TAXONOMYPY=@LMHOME@/LmDbServer/tools/readTaxonomy.py
 
@@ -32,7 +33,7 @@ SetDefaults () {
         DATASOURCE=`grep DATASOURCE $CONFIG_FILE | grep -v ';' | awk '{print $2}'`
     fi
         
-    LOG=@LMSCRATCHDISK@/log/`/bin/basename $0`.log
+    LOG=@LMSCRATCHDISK@/log/$THISNAME.log
     rm -f $LOG
     touch $LOG
 }

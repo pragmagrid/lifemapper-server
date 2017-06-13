@@ -29,6 +29,7 @@ if [ $# -ne 0 ]; then
 fi 
 
 set_defaults() {
+    THISNAME=`/bin/basename $0`
     PG=`basename /etc/init.d/postgresql-*`
     PROFILE=/var/lib/pgsql/.bash_profile
     BIN=@PKGROOT@/rocks/bin
@@ -45,7 +46,7 @@ set_defaults() {
     INITD=/etc/rc.d/init.d
     . $INITD/functions
 
-    LOG=@LMSCRATCHDISK@/log/`/bin/basename $0`.log
+    LOG=@LMSCRATCHDISK@/log/$THISNAME.log
     rm -f $LOG
     touch $LOG
 

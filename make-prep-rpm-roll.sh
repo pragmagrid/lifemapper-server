@@ -13,6 +13,7 @@ usage ()
 
 ### define varibles
 SetDefaults () {
+    THISNAME=`/bin/basename $0`
     # directory
     BASEDIR=/state/partition1/workspace/lifemapper-server
     LMGDAL_COUNT=`rpm -qa | grep lifemapper-gdal | wc -l`
@@ -22,7 +23,7 @@ SetDefaults () {
     fi
 
     # Logfile
-    LOG=$BASEDIR/`/bin/basename $0`.log
+    LOG=$BASEDIR/$THISNAME.log
     rm -f $LOG
     touch $LOG
 }

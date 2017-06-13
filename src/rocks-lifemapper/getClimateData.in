@@ -28,13 +28,14 @@ fi
 set_defaults() {
     SCEN_PKG=$1
     LMURL=@LMURL@
+    THISNAME=`/bin/basename $0`
     
     CLIMATE_DIR=@DATADIR_SHARED@/@ENV_DATA_DIR@
     
     CONFIG_FILE=@LMHOME@/config/config.lmserver.ini
     SITE_CONFIG_FILE=@LMHOME@/config/config.site.ini
 
-    LOG=@LMSCRATCHDISK@/log/`/bin/basename $0`.log
+    LOG=@LMSCRATCHDISK@/log/$THISNAME.log
     rm -f $LOG
     touch $LOG
 

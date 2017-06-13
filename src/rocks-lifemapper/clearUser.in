@@ -20,11 +20,12 @@ usage ()
 
 ### define varibles
 SetDefaults () {
+    THISNAME=`/bin/basename $0`
     # scripts
     CLEANUP_SCRIPT=@LMHOME@/LmDbServer/tools/janitor.py
     USER = $1
     
-    LOG=@LMSCRATCHDISK@/log/`/bin/basename $0`.log
+    LOG=@LMSCRATCHDISK@/log/$THISNAME.log
     rm -f $LOG
     touch $LOG
 }

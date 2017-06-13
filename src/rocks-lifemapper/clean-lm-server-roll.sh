@@ -14,10 +14,10 @@ TimeStamp () {
 }
 
 set_defaults() {
-    LOG=/tmp/`/bin/basename $0`.log
+    THISNAME=`/bin/basename $0`
+    LOG=/tmp/$THISNAME.log
     rm -f $LOG
     touch $LOG
-    TimeStamp "# Start"
 }
 
 # stop services if running
@@ -240,6 +240,7 @@ del-automount-entry () {
 
 ### main ###
 set_defaults
+TimeStamp "# Start"
 stop-services
 del-postgres
 del-mapserver 

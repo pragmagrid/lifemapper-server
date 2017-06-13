@@ -12,13 +12,13 @@ usage ()
 
 ### define varibles
 setDefaults () {
+    THISNAME=`/bin/basename $0`
     gname=lmwriter
     CRON_HOURLY_DIR=/etc/cron.hourly/
     CRON_DAILY_DIR=/etc/cron.daily/
-    LOG=@LMSCRATCHDISK@/log/`/bin/basename $0`.log
+    LOG=@LMSCRATCHDISK@/log/$THISNAME.log
     rm -f $LOG
     touch $LOG
-    TimeStamp "# Start"
 }
 
 TimeStamp () {
@@ -57,6 +57,7 @@ if [ $# -ne 0 ]; then
 fi 
 
 setDefaults
+TimeStamp "# Start"
 removeOldTasks
 installHourlyTasks
 installDailyTasks
