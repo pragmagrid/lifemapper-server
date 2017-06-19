@@ -41,6 +41,7 @@ set_defaults() {
 
     CLIMATE_META_FILE=$CLIMATE_DIR/$SCEN_PKG.py
     CLIMATE_PKG_FILE=$CLIMATE_DIR/$SCEN_PKG.@TARBALL_POSTFIX@
+    NEW_CLIMATE_DATA_DIR=$CLIMATE_DIR/$SCEN_PKG
 }
 
 
@@ -63,6 +64,21 @@ get_climate_data () {
     fi
 }
 
+fix_permissions () {
+    /bin/egrep -i "^lmwriter" /etc/passwd
+    if [ $? -ne 0 ]; then
+        echo "Error: user lmwriter does not exist" | tee -a $LOG
+        exit 1
+    fi
+
+    # This script is run by root, so set group write permission on new data dir
+    echo "Create and set group write permission on new $NEW_CLIMATE_DATA_DIR data dir"   | tee -a $LOG
+    echo "Update lmwriter group permissions on $NEW_CLIMATE_DATA_DIR" | tee -a $LOG
+    /bin/chgrp -R lmwriter $NEW_CLIMATE_DATA_DIR
+    /bin/chmod -R g+ws $NEW_CLIMATE_DATA_DIR
+}
+
+
 TimeStamp () {
     echo $1 `/bin/date` >> $LOG
 }
@@ -72,5 +88,6 @@ set_defaults $1
 TimeStamp "# Start"
 
 get_climate_data
+fix_permissions
 
 TimeStamp "# End"

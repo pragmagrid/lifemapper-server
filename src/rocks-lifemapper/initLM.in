@@ -198,12 +198,6 @@ install_cron_jobs () {
     @LMHOME@/rocks/bin/installServerCronJobs
 }
 
-# install background imagery for mapfiles
-install_map_background () {   
-    echo "-- install $MAP_BACKGROUND into $IMAGE_DIR" >> $LOG
-    install $MAP_BACKGROUND $IMAGE_DIR
-}
-
 # set unix socket; restart postgres and pgbouncer with new config
 start_services() {
     # set unix socket dir
@@ -265,7 +259,6 @@ fi
 update_lm_tables
 add_lm_functions
 install_cron_jobs
-# install_map_background
 update_config
 
 if [ "$EXISTING_DB" = false ] ; then
