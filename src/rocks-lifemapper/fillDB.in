@@ -6,21 +6,23 @@
 
 usage () 
 {
-    echo "Usage: $0"
+    echo "Usage: $0 [optional initialization filename]"
     echo "This script is run by the superuser. It will "
-    echo "     - run boominput.py to populate the databases with default archive BOOM inputs"
+    echo "     - run initboom.py to populate the databases with BOOM inputs"
+    echo "       in the initialization file or the default configuration"
     echo "   "
     echo "The output of the script is in @LMSCRATCHDISK@/log/`/bin/basename $0`.log"
 }
 
 ### define varibles
 SetDefaults () {
+    INIT_CONFIG=$1
     THISNAME=`/bin/basename $0`
 
     # scripts
-    BORG_POPULATEPY=@LMHOME@/LmDbServer/boom/boominput.py
+    BORG_POPULATEPY=@LMHOME@/LmDbServer/boom/initboom.py
 
-	 # config files
+    # config files
     CONFIG_FILE=@LMHOME@/config/config.lmserver.ini
     SITE_CONFIG_FILE=@LMHOME@/config/config.site.ini
     
@@ -41,11 +43,6 @@ SetDefaults () {
     fi
     
     ARCHIVE_USER_DATA_DIR=@DATADIR_SHARED@/archive/$ARCHIVE_USER
-    if [ ! -d $ARCHIVE_USER_DATA_DIR ] ; then
-       IS_NEW_USER_DIR=true
-    else
-       IS_NEW_USER_DIR=false
-    fi
     
     LOG=@LMSCRATCHDISK@/log/$THISNAME.log
     rm -f $LOG
@@ -59,8 +56,17 @@ TimeStamp () {
 ### populate lifemapper DB with Archive BOOM inputs
 Populate () {
     if [ -f $BORG_POPULATEPY ] ; then
-        echo "Running '$BORG_POPULATEPY'..." | tee -a $LOG
-        /opt/python/bin/@PYTHONVER@ $BORG_POPULATEPY 2>&1 | tee -a $LOG
+        if [ -f $INIT_CONFIG ] ; then
+            echo "Running '$BORG_POPULATEPY' with $INIT_CONFIG ..." | tee -a $LOG
+            /opt/python/bin/@PYTHONVER@ $BORG_POPULATEPY \
+                                         --config_file $INIT_CONFIG \
+                                         --is_first_run \
+                                         2>&1 | tee -a $LOG
+        else
+            echo "Running '$BORG_POPULATEPY' with default values ..." | tee -a $LOG
+            /opt/python/bin/@PYTHONVER@ $BORG_POPULATEPY \
+                                         --is_first_run 2>&1 | tee -a $LOG
+        fi
     else
         echo "Error: Missing file $BORG_POPULATEPY" | tee -a $LOG
         exit 1
@@ -74,12 +80,13 @@ FixPermissions () {
         exit 1
     fi
 
-    # This script is run by root, so set group write permission on new data dir
-    echo "Create and set group write permission on new $ARCHIVE_USER data dir"   | tee -a $LOG
-    if [ $IS_NEW_USER_DIR ] ; then
-       echo "Update lmwriter group permissions on $ARCHIVE_USER_DATA_DIR" | tee -a $LOG
-       /bin/chgrp -R lmwriter $ARCHIVE_USER_DATA_DIR
-       /bin/chmod -R g+ws $ARCHIVE_USER_DATA_DIR
+    # This script is run by root, so set group write permission on data dir if default
+    if [ -f $INIT_CONFIG ] ; then
+        echo "Update lmwriter group permissions on data dir for user in $INIT_CONFIG" | tee -a $LOG
+    else
+        echo "Update lmwriter group permissions on $ARCHIVE_USER_DATA_DIR" | tee -a $LOG
+        /bin/chgrp -R lmwriter $ARCHIVE_USER_DATA_DIR
+        /bin/chmod -R g+ws $ARCHIVE_USER_DATA_DIR
     fi
 }
 
@@ -94,12 +101,12 @@ CheckForTaxonomy () {
 }
 
 ### Main ###
-if [ $# -ne 0 ]; then
+if [ $# -gt 1 ]; then
     usage
     exit 0
 fi 
 
-SetDefaults
+SetDefaults $1
 TimeStamp "# Start"
 Populate
 CheckForTaxonomy

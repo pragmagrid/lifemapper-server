@@ -22,7 +22,7 @@ class Command(lm.commands.populate.command):
    """
    def run(self, params, args):
       print "TESTME lm populate boom input", self.version
-      from LmDbServer.boom.boominput import ArchiveFiller
+      from LmDbServer.boom.initboom import BoomFiller
       
       configFname = None
       if len(args)> 0 :
@@ -31,7 +31,7 @@ class Command(lm.commands.populate.command):
             raise Exception('Missing BOOM configuration file {}'
                             .format(configFname))
             
-      filler = ArchiveFiller(configFname=configFname)
+      filler = BoomFiller(configFname=configFname)
       filler.initializeInputs()
       logFname = filler.logFilename
       userPath = filler.userPath
