@@ -79,6 +79,7 @@ del-lifemapper-shared() {
 del-lifemapper() {
    echo "Removing lifemapper-* and prerequisite RPMS" >> $LOG
    $RM lifemapper-cmd
+   $RM lifemapper-image-data
    $RM lifemapper-libevent
    $RM lifemapper-lmserver
    $RM lifemapper-mod_wsgi
