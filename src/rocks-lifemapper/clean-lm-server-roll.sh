@@ -8,6 +8,8 @@
 
 RM="rpm -evl --quiet --nodeps"
 LMROLL_COUNT=`rocks list roll | grep lifemapper | wc -l`
+LMUSER_COUNT=`/bin/egrep -i "^lmwriter" /etc/passwd  | wc -l`
+
 
 TimeStamp () {
     echo $1 `/bin/date` >> $LOG
@@ -20,11 +22,28 @@ set_defaults() {
     touch $LOG
 }
 
+# stop Lifemapper daemons if running
+stop-lm-daemons () {
+    echo "-- login as lmwriter to stop LM processes" >> $LOG
+    su - lmwriter
+    if [ -f /state/partition1/lmscratch/run/daboom.pid.pid ]; then
+        echo "-- stop Lifemapper daboom daemon " >> $LOG
+        $PYTHON /opt/lifemapper/LmServer/boom/daboom.py stop
+    fi
+    
+    if [ -f /state/partition1/lmscratch/run/mattDaemon.pid ]; then
+        echo "-- stop Lifemapper mattDaemon " >> $LOG
+        $PYTHON /opt/lifemapper/LmServer/tools/mattDaemon.py stop
+    fi
+    echo "-- login as lmwriter to stop LM processes" >> $LOG
+    exit
+}
+
 # stop services if running
 stop-services () {
     PG=`basename /etc/init.d/postgresql-*`
     echo "-- stop $PG and pgbouncer daemons " >> $LOG
-
+    
     if [ -f /var/run/pgbouncer/pgbouncer.pid ]; then
         /sbin/service pgbouncer stop
     fi
@@ -43,12 +62,7 @@ stop-services () {
     if [ $SOLR_PROCESSES = 1 ]; then
         echo "-- stop Solr process " >> $LOG
         /sbin/service solr stop
-    fi
-    
-    if [ -f /state/partition1/lmscratch/lmboom.pid ] ; then
-        echo "-- stop Lifemapper archivist " >> $LOG
-        /opt/python/bin/python2.7   /opt/lifemapper/LmDbServer/pipeline/archivist.py  stop
-    fi
+    fi    
 }
 
 del-possible-shared-dependencies() {
@@ -91,7 +105,7 @@ del-lifemapper() {
 
 del-opt-python () {
    echo "Removing opt-* RPMS" >> $LOG
-	$RM opt-lifemapper-cheroot
+   $RM opt-lifemapper-cheroot
    $RM opt-lifemapper-cherrypy
    $RM opt-lifemapper-coverage
    $RM opt-lifemapper-cython
@@ -103,7 +117,7 @@ del-opt-python () {
    $RM opt-lifemapper-processing
    $RM opt-lifemapper-psycopg2
    $RM opt-lifemapper-pytables
-	$RM opt-lifemapper-pytz
+   $RM opt-lifemapper-pytz
    $RM opt-lifemapper-rdflib
    $RM opt-lifemapper-six
 	$RM opt-lifemapper-tempora
@@ -170,8 +184,7 @@ del-directories () {
 
 del-user-group () {
    needSync=0
-   /bin/egrep -i "^lmwriter" /etc/passwd
-   if [ $? -eq 0 ] && [ $LMROLL_COUNT = 1 ]; then
+   if [ $LMUSER_COUNT = 1 ] && [ $LMROLL_COUNT = 1 ]; then
        echo "Remove lmwriter user/group/dirs" >> $LOG
        userdel lmwriter
        groupdel lmwriter
@@ -242,6 +255,7 @@ del-automount-entry () {
 ### main ###
 set_defaults
 TimeStamp "# Start"
+stop-lm-daemons
 stop-services
 del-postgres
 del-mapserver 

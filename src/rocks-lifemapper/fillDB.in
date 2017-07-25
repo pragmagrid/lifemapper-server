@@ -16,7 +16,11 @@ usage ()
 
 ### define varibles
 SetDefaults () {
-    INIT_CONFIG=$1
+    if [ $# -eq 0 ]; then
+        INIT_CONFIG=0
+    else
+        INIT_CONFIG=$1
+    fi
     THISNAME=`/bin/basename $0`
 
     # scripts
