@@ -1,0 +1,9 @@
+NAME            = lifemapper-webclient
+ARCHIVENAME     = @LMCLIENT@
+VERSION         = 0.9.0
+RELEASE         = 0
+TARBALL_POSTFIX	= tar.gz
+PYTHON27	= /opt/python/bin/python2.7
+PYTHON27_PACKAGES = /opt/python/lib/python2.7/site-packages
+
+RPM.EXTRAS = "AutoReq: no"

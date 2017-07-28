@@ -19,6 +19,10 @@ SMTPSERVER    = localhost
 SMTPSENDER    = no-reply-lifemapper@@PUBLIC_FQDN@
 JAVABIN       = /usr/java/latest/bin/java
 
+# Top directory of the current webclient and metrics dashboard client
+LMCLIENT = sdm
+DASHBOARD = lmdashboard
+
 # SCENARIO_PACKAGE matches SCENARIO_PACKAGE_SEED in the lifemapper-compute roll
 SCENARIO_PACKAGE      = 10min-past-present-future
 EPSG                  = 4326

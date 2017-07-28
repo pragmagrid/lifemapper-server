@@ -41,6 +41,8 @@ set_defaults() {
 
     MAP_BACKGROUND=@LMHOME@/LmWebServer/public_html/images/BMNG.geotiff
     IMAGE_DIR=@DATADIR_SERVER@/image/
+    LMCLIENT_DIR=@DATADIR_SERVER@/@LMCLIENT@/
+    DASHBOARD_DIR=@LMHOME@/LmWebServer/public_html/@DASHBOARD@
     
     # Source function library.
     INITD=/etc/rc.d/init.d
@@ -225,13 +227,18 @@ update_config() {
 }
 
 make_dashboard_link () {
-    DASHBOARD=$LMHOME/LmWebServer/public_html/lmdashboard
-    if [ -d $DASHBOARD ] ; then
-        ln -s $DASHBOARD /var/www/html/lmdashboard
+    if [ -d $DASHBOARD_DIR ] ; then
+        ln -s $DASHBOARD_DIR /var/www/html/@DASHBOARD@
         echo "Creating dashboard link" >> $LOG
     fi
 }
 
+make_client_link () {
+    if [ -d $LMCLIENT_DIR ] ; then
+        ln -s $LMCLIENT_DIR /var/www/html/@LMCLIENT@
+        echo "Creating lmclient link" >> $LOG
+    fi
+}
 
 TimeStamp () {
     echo $1 `/bin/date` >> $LOG
@@ -265,6 +272,7 @@ if [ "$EXISTING_DB" = false ] ; then
     fill_db
 fi
 
-make_dashboard_link 
+make_dashboard_link
+make_client_link
 
 TimeStamp "# End"

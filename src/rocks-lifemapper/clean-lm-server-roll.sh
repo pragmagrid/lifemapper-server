@@ -99,6 +99,7 @@ del-lifemapper() {
    $RM lifemapper-mod_wsgi
    $RM lifemapper-solr
    $RM lifemapper-species-data
+   $RM lifemapper-webclient
    $RM rocks-lifemapper
    $RM roll-lifemapper-server-usersguide
 }
@@ -171,15 +172,24 @@ del-directories () {
 
    echo "Removing data directories" >> $LOG
    rm -rf /state/partition1/lmserver
-   
-   echo "Removing mapserver tmp directory" >> $LOG
-   rm -rf /var/www/tmp
 
    echo "Removing jcc installed by bootstrap" >> $LOG
    rm -rf /opt/python/lib/python2.7/site-packages/jcc
    rm -rf /opt/python/lib/python2.7/site-packages/libjcc.so 
    rm -rf /opt/python/lib/python2.7/site-packages/JCC-2.18-py2.7.egg-info  
 
+}
+
+del-webstuff () {
+   echo "Removing mapserver tmp directory" >> $LOG
+   rm -rf /var/www/tmp
+
+   echo "Removing symlinks" >> $LOG
+   rm -f /var/www/html/lmclient
+   rm -f /var/www/html/lmdashboard
+   
+   echo "Removing lifemapper web config" >> $LOG
+   rm -f /etc/httpd/conf.d/lifemapper.conf
 }
 
 del-user-group () {
@@ -264,6 +274,7 @@ del-opt-python
 del-lifemapper
 del-sysRPM
 del-directories
+del-webstuff
 del-user-group
 del-attr
 del-cron-jobs

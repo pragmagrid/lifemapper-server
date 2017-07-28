@@ -54,6 +54,7 @@
 
 	<!-- lifemapper distro -->
 	<package>lifemapper-lmserver</package>
+	<package>lifemapper-webclient</package>
 	<package>rocks-lifemapper</package>
 	<package>roll-lifemapper-server-usersguide</package>
 
