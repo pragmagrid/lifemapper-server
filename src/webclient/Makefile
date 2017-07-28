@@ -71,6 +71,7 @@ SEDSPEC += \
         -e 's%@LMCLIENT@%$(LMCLIENT)%g'
 
 build:
+	mkdir -p $(ROOT)/$(EXPORTDIR)
 	tar -xzf  $(ARCHIVENAME).$(TARBALL_POSTFIX)  -C  $(ROOT)/$(EXPORTDIR)/
 	
 install::
