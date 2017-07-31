@@ -70,7 +70,7 @@ set_permissions () {
     echo "Update group permissions for lmwriter on @LMHOME@" | tee -a $LOG
     for item in "config" "Lm*" "__init__.py*" ; do
         /bin/chgrp -R lmwriter @LMHOME@/$item
-        /bin/chmod -R g+ws @LMHOME@/$item
+        /bin/chmod -R 775 @LMHOME@/$item
     done
 }
 

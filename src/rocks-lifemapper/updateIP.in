@@ -59,7 +59,7 @@ updatePerms () {
     GID=`grep lmwriter: /etc/group`
     if [ "$GID" != "" ] ; then
         chgrp  lmwriter /opt/lifemapper/config/config*.ini*
-        chmod g+ws /opt/lifemapper/config/config*.ini*
+        chmod  664 /opt/lifemapper/config/config*.ini*
     fi
 }
 

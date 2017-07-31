@@ -90,7 +90,7 @@ FixPermissions () {
     else
         echo "Update lmwriter group permissions on $ARCHIVE_USER_DATA_DIR" | tee -a $LOG
         /bin/chgrp -R lmwriter $ARCHIVE_USER_DATA_DIR
-        /bin/chmod -R g+ws $ARCHIVE_USER_DATA_DIR
+        /bin/chmod -R 775 $ARCHIVE_USER_DATA_DIR
     fi
 }
 

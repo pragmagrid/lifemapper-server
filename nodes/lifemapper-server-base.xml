@@ -102,10 +102,10 @@ fi
 /bin/mkdir -p          /state/partition1/lmserver/data/solr/data/cores
 /bin/mkdir -p          /state/partition1/lmserver/data/solr/data/logs
 /bin/chgrp -R lmwriter /state/partition1/lmserver
-/bin/chmod -R g+ws     /state/partition1/lmserver
+/bin/chmod -R 775      /state/partition1/lmserver
 # reset solr permissions
 /bin/chown -R solr:solr /state/partition1/lmserver/data/solr
-/bin/chmod -R g+ws      /state/partition1/lmserver/data/solr
+/bin/chmod -R 775       /state/partition1/lmserver/data/solr
 
 # FE directory NOT exported to /share
 /bin/mkdir -p          /state/partition1/lmscratch
@@ -116,18 +116,18 @@ fi
 /bin/mkdir -p          /state/partition1/lmscratch/run
 /bin/mkdir -p          /state/partition1/lmscratch/worker
 /bin/chgrp -R lmwriter /state/partition1/lmscratch
-/bin/chmod -R g+ws     /state/partition1/lmscratch
+/bin/chmod -R 775      /state/partition1/lmscratch
 
 # FE directory shared with lifemapper-compute, exported to /share
 /bin/mkdir -p          /state/partition1/lm
 /bin/mkdir -p          /state/partition1/lm/data/layers
 /bin/mkdir -p          /state/partition1/lm/data/archive
 /bin/chgrp -R lmwriter /state/partition1/lm
-/bin/chmod -R g+ws     /state/partition1/lm
+/bin/chmod -R 775      /state/partition1/lm
 
 for item in "config" "Lm*" "__init__.py*" ; do
     /bin/chgrp -R lmwriter /opt/lifemapper/$item
-    /bin/chmod -R g+ws /opt/lifemapper/$item
+    /bin/chmod -R 775 /opt/lifemapper/$item
 done
 
 <file name="/etc/auto.share" mode="append">
