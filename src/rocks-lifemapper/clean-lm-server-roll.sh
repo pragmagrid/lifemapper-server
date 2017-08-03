@@ -24,19 +24,20 @@ set_defaults() {
 
 # stop Lifemapper daemons if running
 stop-lm-daemons () {
-    echo "-- login as lmwriter to stop LM processes" >> $LOG
-    su - lmwriter
-    if [ -f /state/partition1/lmscratch/run/daboom.pid.pid ]; then
-        echo "-- stop Lifemapper daboom daemon " >> $LOG
-        $PYTHON /opt/lifemapper/LmServer/boom/daboom.py stop
-    fi
-    
+    TRYAGAIN=0
     if [ -f /state/partition1/lmscratch/run/mattDaemon.pid ]; then
-        echo "-- stop Lifemapper mattDaemon " >> $LOG
-        $PYTHON /opt/lifemapper/LmServer/tools/mattDaemon.py stop
+        echo "-- login as lmwriter to stop mattDaemon" >> $LOG
+        TRYAGAIN=1
     fi
-    echo "-- login as lmwriter to stop LM processes" >> $LOG
-    exit
+
+    if [ -f /state/partition1/lmscratch/run/daboom.pid ]; then
+        echo "-- login as lmwriter to stop daboom daemon" >> $LOG
+        TRYAGAIN=1
+    fi
+
+    if [ $TRYAGAIN = 1 ]; then
+        exit
+    fi
 }
 
 # stop services if running
