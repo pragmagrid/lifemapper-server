@@ -30,11 +30,13 @@ SetDefaults () {
     CONFIG_FILE=@LMHOME@/config/config.lmserver.ini
     SITE_CONFIG_FILE=@LMHOME@/config/config.site.ini
     
-    # get the DATASOURCE  and ARCHIVE_USER values 
-    # from config.site.ini or config.lmserver.ini file
-    echo "Looking for DATASOURCE and ARCHIVE_USER in site config file"   | tee -a $LOG  
-    DATASOURCE=`grep DATASOURCE $SITE_CONFIG_FILE | grep -v ';' | awk '{print $2}'`
-    ARCHIVE_USER=`grep ARCHIVE_USER $SITE_CONFIG_FILE | grep -v ';' | awk '{print $2}'`
+    if [ -f $SITE_CONFIG_FILE ] ; then        
+        # get the DATASOURCE  and ARCHIVE_USER values 
+        # from config.site.ini or config.lmserver.ini file
+        echo "Looking for DATASOURCE and ARCHIVE_USER in site config file"   | tee -a $LOG  
+        DATASOURCE=`grep DATASOURCE $SITE_CONFIG_FILE | grep -v ';' | awk '{print $2}'`
+        ARCHIVE_USER=`grep ARCHIVE_USER $SITE_CONFIG_FILE | grep -v ';' | awk '{print $2}'`
+    fi
 
     if [ ! "$DATASOURCE" ] ; then 
         echo "Looking for DATASOURCE in installed config file"   | tee -a $LOG  
@@ -42,7 +44,7 @@ SetDefaults () {
     fi
     
     if [ ! "$ARCHIVE_USER" ] ; then 
-        echo "Looking for $ARCHIVE_USER in installed config file"   | tee -a $LOG  
+        echo "Looking for ARCHIVE_USER in installed config file"   | tee -a $LOG  
         ARCHIVE_USER=`grep ARCHIVE_USER $CONFIG_FILE | grep -v ';' | awk '{print $2}'`
     fi
     
@@ -85,13 +87,9 @@ FixPermissions () {
     fi
 
     # This script is run by root, so set group write permission on data dir if default
-    if [ -f $INIT_CONFIG ] ; then
-        echo "Update lmwriter group permissions on data dir for user in $INIT_CONFIG" | tee -a $LOG
-    else
-        echo "Update lmwriter group permissions on $ARCHIVE_USER_DATA_DIR" | tee -a $LOG
-        /bin/chgrp -R lmwriter $ARCHIVE_USER_DATA_DIR
-        /bin/chmod -R 775 $ARCHIVE_USER_DATA_DIR
-    fi
+    echo "Update lmwriter group permissions on $ARCHIVE_USER_DATA_DIR" | tee -a $LOG
+    /bin/chgrp -R lmwriter $ARCHIVE_USER_DATA_DIR
+    /bin/chmod -R 775 $ARCHIVE_USER_DATA_DIR
 }
 
 ### check for possible taxonomy
