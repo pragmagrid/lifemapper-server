@@ -70,6 +70,16 @@ SEDSPEC += \
         -e 's%@ARCHIVENAME@%$(ARCHIVENAME)%g' \
         -e 's%@LMCLIENT@%$(LMCLIENT)%g'
 
+prepSrc.sh: prepSrc.sh.in
+	$(SED) $(SEDSPEC) $^ > $@
+	chmod 755 $@
+
+prep: prepSrc.sh
+	rm -rf version.mk
+	make version.mk
+	make prepSrc.sh
+	./prepSrc.sh
+
 build:
 	mkdir -p $(ROOT)/$(EXPORTDIR)
 	tar -xzf  $(ARCHIVENAME).$(TARBALL_POSTFIX)  -C  $(ROOT)/$(EXPORTDIR)/

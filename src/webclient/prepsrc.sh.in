@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# Purpose: download release from lifemapper Github repository to use in RPM. 
+# NOTE: for private repo, will be prompted for valid user/passwd.
+
+URL=https://github.com/lifemapper/@REPONAME@/releases/download
+
+# download archive from lifemapper git
+download_release () {
+  echo "Starting GIT checkout from $URL"
+  wget "$URL/v@VERSION@/$(ARCHIVENAME).@TARBALL_POSTFIX@" 
+}
+
+### main ###
+download_release
