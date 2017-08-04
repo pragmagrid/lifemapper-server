@@ -54,6 +54,23 @@ updateAddress () {
           s%@DB_FQDN@%$AddrDbserver%g" $infile > $outfile
 }
 
+updateWebhost () {
+    infile=@DATADIR_SERVER@/sdm/elm.js.in
+    outfile=@DATADIR_SERVER@/sdm/elm.js
+    
+    if [ -f $outfile ] ; then
+        rm -f $outfile
+    fi
+    
+    if [ -f $infile ] ; then    
+        echo '  Creating ' $outfile ' from ' $infile
+        # replace variables
+        sed  "s%@PUBLIC_FQDN@%$AddrWebserver%g" $infile > $outfile
+    else
+        echo '  Missing input file ' $infile
+    fi
+}
+
 # update permissions on config files
 updatePerms () {
     GID=`grep lmwriter: /etc/group`
@@ -72,4 +89,5 @@ fi
 
 getAddress
 updateAddress
+## updateWebhost
 updatePerms
