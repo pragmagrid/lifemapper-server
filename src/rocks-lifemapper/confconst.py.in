@@ -8,7 +8,9 @@ ROLETEMPL = ROLE + EXT            # template file for postgres users creation
 
 # postgres configuration
 UNIX_SOCKET_DIR = "@UNIXSOCKET@"  # unix socket directory
-PERCENT_SB = 0.25                 # allocation of memory to shared buffers, from 25%, to no more than 40%
+#PERCENT_SB = 0.25                 # allocation of memory to shared buffers, from 25%, to no more than 40%
+# Try 22%, failing on Yeti with 25%
+PERCENT_SB = 0.22
 PERCENT_ECS = 0.50                # allocation of memory to effective cache size, 1/2 of total memory is a normal conservative setting. 
                                   # see  https://wiki.postgresql.org/wiki/Tuning_Your_PostgreSQL_Server
 PGCONF = "postgresql.conf"        # config file
