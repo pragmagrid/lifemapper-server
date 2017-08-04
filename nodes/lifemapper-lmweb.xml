@@ -50,7 +50,7 @@ fi
 /bin/mkdir -p          /state/partition1/lmscratch/sessions
 /bin/mkdir -p          /state/partition1/lmscratch/tmpUpload
 /bin/chgrp -R lmwriter /state/partition1/lmscratch
-/bin/chmod -R 775      /state/partition1/lmscratch
+/bin/chmod -R g+ws     /state/partition1/lmscratch
 
 <file name="/etc/sysconfig/httpd" mode="append" expr="cat /opt/lifemapper/rocks/etc/lifemapper-sysconfig-httpd">
 
