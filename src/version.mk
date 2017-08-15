@@ -9,8 +9,8 @@ DATADIR_SHARED  = /share/lm/data
 DATADIR_SERVER  = /share/lmserver/data
 LMSCRATCHDISK = /state/partition1/lmscratch
 
-## ENV_DATA_DIR matches INPUT_LAYER_DIR in the lifemapper-compute roll
-ENV_DATA_DIR  = layers
+## Matches ENV_DATA_DIR in the lifemapper-compute roll
+ENV_DATA_DIR   = layers
 
 PYTHONVER     = python2.7
 PGSQLVER      = 9.1
