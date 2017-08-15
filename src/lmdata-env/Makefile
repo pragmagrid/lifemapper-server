@@ -95,8 +95,8 @@ build:
 
 install::
 	mkdir -p $(ROOT)/$(EXPORTDIR)
-	tar xzvf  $(SCENARIO_PACKAGE).$(TARBALL_POSTFIX)  $(ROOT)/$(EXPORTDIR)/
-	unzip  $(ECOREGION_FILE)  -C  $(ROOT)/$(EXPORTDIR)/
+	tar xzvf  $(SCENARIO_PACKAGE).$(TARBALL_POSTFIX) -C  $(ROOT)/$(EXPORTDIR)/
+	unzip  $(ECOREGION_FILE)                         -d  $(ROOT)/$(EXPORTDIR)/
 
 clean::
 	rm -rf version.mk prepData.sh

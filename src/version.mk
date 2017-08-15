@@ -1,7 +1,7 @@
 PKGROOT       = /opt/lifemapper
 LMHOME        = /opt/lifemapper
 MAPSERVER_TMP = /var/www/tmp
-LMURL			  = http://lifemapper.org/dl
+LMURL			  = http://yeti.lifemapper.org/dl
 LMSERVERDISK  = /share/lmserver
 LMDISK        = /share/lm
 ## DATADIR_SHARED is identical in the lifemapper-compute roll

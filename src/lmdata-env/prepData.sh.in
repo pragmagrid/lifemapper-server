@@ -16,7 +16,6 @@ get_ecoregion_data () {
 
 create_climate_data () {
   echo "Fetch climate data"
-  LMURL="http://lifemapper.org/dl"
   curl -L "@LMURL@/@SCENARIO_PACKAGE@.@TARBALL_POSTFIX@" -o ../lmdata-env/@SCENARIO_PACKAGE@.@TARBALL_POSTFIX@
 }
 
