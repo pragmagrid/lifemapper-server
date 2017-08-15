@@ -1,7 +1,18 @@
 #!/bin/bash
 
-# Purpose: Fetch climate data named in CLIMATE_DATA  
-# Note: SCENARIO_PACKAGE is defined in lifemapper-server/src/version.mk
+# Purpose: In lifemapper-server, fetch climate data named in SCENARIO_PACKAGE  
+# Purpose: In lifemapper-compute, fetch climate data for seeding named in 
+#          SCENARIO_PACKAGE_SEED  
+# Purpose: In both, fetch The Nature Conservancy global ecoregion layer
+# Note: the CSV file in the SCENARIO_PACKAGE must be created with shasums to be   
+#   sent by a Lm server to Lm compute for data verification.  These shasums are  
+#   used in the seeding CSV file.  
+# Note: LMURL, SCENARIO_PACKAGE is defined in lifemapper-server/src/version.mk
+
+get_ecoregion_data () {
+  echo "Get ecoregion data"
+  curl -L "@TNC_URL@/@ECOREGION_FILE@" -o ../lmdata-env/@ECOREGION_FILE@
+}
 
 create_climate_data () {
   echo "Fetch climate data"
@@ -11,3 +22,4 @@ create_climate_data () {
 
 ### main ###
 create_climate_data
+get_ecoregion_data

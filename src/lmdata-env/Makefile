@@ -76,6 +76,8 @@ SEDSPEC += \
         -e 's%@PYTHONVER@%$(PYTHONVER)%g' \
         -e 's%@LMURL@%$(LMURL)%g' \
         -e 's%@LMHOME@%$(LMHOME)%g' \
+        -e 's%@TNC_URL@%$(TNC_URL)%g' \
+        -e 's%@ECOREGION_FILE@%$(ECOREGION_FILE)%g' \
         -e 's%@TARBALL_POSTFIX@%$(TARBALL_POSTFIX)%g'
 
 prepData.sh: prepData.sh.in
@@ -94,6 +96,7 @@ build:
 install::
 	mkdir -p $(ROOT)/$(EXPORTDIR)
 	tar xzvf  $(SCENARIO_PACKAGE).$(TARBALL_POSTFIX)  -C  $(ROOT)/$(EXPORTDIR)/
+	unzip  $(ECOREGION_FILE)  -C  $(ROOT)/$(EXPORTDIR)/
 
 clean::
 	rm -rf version.mk prepData.sh
