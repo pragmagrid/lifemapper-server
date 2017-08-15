@@ -23,7 +23,7 @@ JAVABIN       = /usr/java/latest/bin/java
 LMCLIENT = sdm
 DASHBOARD = lmdashboard
 
-# SCENARIO_PACKAGE matches SCENARIO_PACKAGE_SEED in the lifemapper-compute roll
+# SCENARIO_PACKAGE matches SCENARIO_PACKAGE in the lifemapper-compute roll
 SCENARIO_PACKAGE      = 10min-past-present-future
 EPSG                  = 4326
 MAPUNITS              = dd

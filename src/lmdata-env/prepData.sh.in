@@ -2,7 +2,7 @@
 
 # Purpose: In lifemapper-server, fetch climate data named in SCENARIO_PACKAGE  
 # Purpose: In lifemapper-compute, fetch climate data for seeding named in 
-#          SCENARIO_PACKAGE_SEED  
+#          SCENARIO_PACKAGE
 # Purpose: In both, fetch The Nature Conservancy global ecoregion layer
 # Note: the CSV file in the SCENARIO_PACKAGE must be created with shasums to be   
 #   sent by a Lm server to Lm compute for data verification.  These shasums are  
