@@ -179,7 +179,7 @@ class Baseconfig:
     def getFrontendCPUCount(self):
         """ find total number of CPUs for frontend """
         cpuCount = 0
-        cmd = "/opt/rocks/bin/rocks list host compute | grep Frontend"
+        cmd = "/opt/rocks/bin/rocks list host | grep Frontend"
         info, err = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()
         line = info.split("\n")
         parts = line.split()

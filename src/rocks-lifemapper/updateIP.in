@@ -77,7 +77,7 @@ updateConfigVars () {
     # replace variables
     sed  "s%@PUBLIC_FQDN@%$Addr%g; \
           s%@WEB_FQDN@%$AddrWebserver%g; \
-          s%@DB_FQDN@%$AddrDbserver%g" \
+          s%@DB_FQDN@%$AddrDbserver%g; \
           s%@MAX_MAKEFLOWS@%$MaxMakeflows%g; \
           s%@MAX_WORKERS@%$MaxWorkers%g" $infile > $outfile
 }
