@@ -94,6 +94,13 @@ class ConfPgbouncer(confbase.Baseconfig):
         addLines += "log_connections = 0\n"
         addLines += "log_disconnections = 0\n"
         addLines += "log_pooler_errors = 1\n"
+        # Let's make max_client_conn be 50 * the number of CPUs on the front end machine
+        addLines += "max_client_conn = 200\n"
+        # default_pool_size should be 40 * the number of CPUs on the front end machine
+        addLines += "default_pool_size = 100\n"
+        # reserve_pool_size = 5 * number of CPUs on front end machine
+        addLines += "reserve_pool_size = 20\n"
+        addLines += "reserve_pool_timeout = 3\n"
 
         return addLines        
 
