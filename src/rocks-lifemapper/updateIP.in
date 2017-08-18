@@ -13,6 +13,32 @@ usage ()
 
 }
 
+getMakeflowParams () {
+    cpuTotal=0
+    nodecpus=`rocks list host | grep Compute | awk '{print $3}'`
+    for c in $nodecpus;
+    do  
+        echo 'next:'
+        echo '  cpuTotal is' $cpuTotal
+        echo '  c is' $c
+        cpuTotal=$(( $cpuTotal + $c ))
+        echo '  cpuTotal is' $cpuTotal
+    done
+    if [ $cpuTotal = 0 ]; then
+        nodecount=`rocks list host | grep Compute | wc -l`
+        node1cpus=`rocks list host | grep Compute | awk '{print $3}' | sed -n '2 p'`
+        cpuTotal=$(( $nodecount * $node1cpus ))
+        echo 'alternate method:'
+        echo '  nodecount is' $nodecount
+        echo '  nodecpus is' $nodecpus
+        echo '  cpuTotal is' $cpuTotal
+    fi
+    MaxWorkers=$cputotal
+    tmpMaxMFs=$(( $cputotal / 10 ))
+    MaxMakeflows=$(($tmpMaxMFs>2?$tmpMaxMFs:2))
+    echo '  MaxWorkers, MaxMakeflows =' $MaxWorkers $MaxMakeflows
+}
+
 getAddress () {
     # public host address
     Addr=`/opt/rocks/bin/rocks list host attr localhost | grep Kickstart_PublicHostname | grep -v _old | awk '{print $3}'`
@@ -37,7 +63,7 @@ getAddress () {
     fi
 }
 
-updateAddress () {
+updateConfigVars () {
     infile=@LMHOME@/LmServer/config/config.lmserver.ini.in
     outfile=@LMHOME@/config/config.lmserver.ini
     
@@ -51,7 +77,9 @@ updateAddress () {
     # replace variables
     sed  "s%@PUBLIC_FQDN@%$Addr%g; \
           s%@WEB_FQDN@%$AddrWebserver%g; \
-          s%@DB_FQDN@%$AddrDbserver%g" $infile > $outfile
+          s%@DB_FQDN@%$AddrDbserver%g" \
+          s%@MAX_MAKEFLOWS@%$MaxMakeflows%g; \
+          s%@MAX_WORKERS@%$MaxWorkers%g" $infile > $outfile
 }
 
 updateWebhost () {
@@ -88,6 +116,7 @@ if [ $# -ne 0 ]; then
 fi 
 
 getAddress
-updateAddress
 ## updateWebhost
+getMakeflowParams
+updateConfigVars
 updatePerms

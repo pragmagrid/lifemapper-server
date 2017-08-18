@@ -26,6 +26,7 @@ class Baseconfig:
         self.time          = None        # time stamp of running the script
         self.uid           = None        # file owner  (for config files)
         self.gid           = None        # file group  (for config files)
+        self.feCPUCount    = None        # number of CPUs on frontend
         self.users         = confconst.USERS_FILE
         self.userlist      = confconst.USER_LIST 
         self.adminlist     = confconst.ADMIN_LIST
@@ -174,6 +175,16 @@ class Baseconfig:
         if self.ip == None or self.network == None or self.cidr == None:
             print "Missing information about public interface "
             sys.exit(1)
+
+    def getFrontendCPUCount(self):
+        """ find total number of CPUs for frontend """
+        cpuCount = 0
+        cmd = "/opt/rocks/bin/rocks list host compute | grep Frontend"
+        info, err = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()
+        line = info.split("\n")
+        parts = line.split()
+        cpuCount = int(parts[2])
+        self.feCPUCount = cpuCount
 
     def findIfaceVals(self, iface):
         """find ip, netmask, subnet, cidr, broadcast for a given interface. return as a tuple"""

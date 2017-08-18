@@ -29,6 +29,7 @@ class ConfPgbouncer(confbase.Baseconfig):
         self.parseArgs()
         self.findTime()
         self.getNetworkInfo()
+        self.getFrontendCPUCount()
 
     def makeConfigFile(self):
         """ create new pgbouncer.ini file """
@@ -94,12 +95,12 @@ class ConfPgbouncer(confbase.Baseconfig):
         addLines += "log_connections = 0\n"
         addLines += "log_disconnections = 0\n"
         addLines += "log_pooler_errors = 1\n"
-        # Let's make max_client_conn be 50 * the number of CPUs on the front end machine
-        addLines += "max_client_conn = 200\n"
-        # default_pool_size should be 40 * the number of CPUs on the front end machine
-        addLines += "default_pool_size = 100\n"
-        # reserve_pool_size = 5 * number of CPUs on front end machine
-        addLines += "reserve_pool_size = 20\n"
+        # max_client_conn = 50 * FE CPU count
+        addLines += "max_client_conn = {}\n".format(50 * self.feCPUCount)
+        # default_pool_size = 40 * FE CPU count
+        addLines += "default_pool_size = {}\n".format(40 * self.feCPUCount)
+        # reserve_pool_size = 5 * FE CPU count
+        addLines += "reserve_pool_size = {}\n".format(5 * self.feCPUCount)
         addLines += "reserve_pool_timeout = 3\n"
 
         return addLines        
