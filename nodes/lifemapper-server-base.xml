@@ -102,7 +102,7 @@ fi
 /bin/mkdir -p          /state/partition1/lmserver/data/solr/data/cores
 /bin/mkdir -p          /state/partition1/lmserver/data/solr/data/logs
 /bin/chgrp -R lmwriter /state/partition1/lmserver
-/bin/chmod -R g+ws     /state/partition1/lmscratch
+/bin/chmod -R g+ws     /state/partition1/lmserver
 # reset solr permissions
 /bin/chown -R solr:solr /state/partition1/lmserver/data/solr
 /bin/chmod -R 775       /state/partition1/lmserver/data/solr
