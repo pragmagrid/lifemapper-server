@@ -15,7 +15,7 @@ usage ()
 
 getMakeflowParams () {
     cpuTotal=0
-    nodecpus=`rocks list host | grep Compute | awk '{print $3}'`
+    nodecpus=`/opt/rocks/bin/rocks list host | grep Compute | awk '{print $3}'`
     for c in $nodecpus;
     do  
         echo 'next:'
@@ -25,8 +25,8 @@ getMakeflowParams () {
         echo '  cpuTotal is' $cpuTotal
     done
     if [ $cpuTotal = 0 ]; then
-        nodecount=`rocks list host | grep Compute | wc -l`
-        node1cpus=`rocks list host | grep Compute | awk '{print $3}' | sed -n '1 p'`
+        nodecount=`/opt/rocks/bin/rocks list host | grep Compute | wc -l`
+        node1cpus=`/opt/rocks/bin/rocks list host | grep Compute | awk '{print $3}' | sed -n '1 p'`
         cpuTotal=$(( $nodecount * $node1cpus ))
         echo 'alternate method:'
         echo '  nodecount is' $nodecount

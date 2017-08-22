@@ -185,6 +185,7 @@ class Baseconfig:
         parts = line.split()
         cpuCount = int(parts[2])
         self.feCPUCount = cpuCount
+        print "in base self.feCPUCount = %d" % self.feCPUCount
 
     def findIfaceVals(self, iface):
         """find ip, netmask, subnet, cidr, broadcast for a given interface. return as a tuple"""
