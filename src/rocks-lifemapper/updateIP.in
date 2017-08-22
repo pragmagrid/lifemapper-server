@@ -33,8 +33,8 @@ getMakeflowParams () {
         echo '  nodecpus is' $nodecpus
         echo '  cpuTotal is' $cpuTotal
     fi
-    MaxWorkers=$cputotal
-    tmpMaxMFs=$(( $cputotal / 10 ))
+    MaxWorkers=$cpuTotal
+    tmpMaxMFs=$(( $cpuTotal / 10 ))
     MaxMakeflows=$(($tmpMaxMFs>2?$tmpMaxMFs:2))
     echo '  MaxWorkers, MaxMakeflows =' $MaxWorkers $MaxMakeflows
 }
@@ -70,7 +70,7 @@ updateConfigVars () {
     if [ -f $outfile ] ; then
         bakext=`/bin/date +%F`
         echo '  File ' $outfile ' exists, saving to ' $outfile.$bakext 
-        mv $outfile $outfile.$bakext
+        mv -f $outfile $outfile.$bakext
     fi
     
     echo '  Creating ' $outfile ' from ' $infile

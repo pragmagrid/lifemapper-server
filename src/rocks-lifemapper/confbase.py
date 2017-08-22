@@ -181,7 +181,7 @@ class Baseconfig:
         cpuCount = 0
         cmd = "/opt/rocks/bin/rocks list host | grep Frontend"
         info, err = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()
-        line = info.split("\n")
+        line = info.split("\n")[0]
         parts = line.split()
         cpuCount = int(parts[2])
         self.feCPUCount = cpuCount
