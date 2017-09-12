@@ -40,8 +40,8 @@ set_defaults() {
     ADD_FUNCTIONS_SQL=@LMHOME@/rocks/etc/dbAddFunctions.sql
 
     MAP_BACKGROUND=@LMHOME@/LmWebServer/public_html/images/BMNG.geotiff
-    IMAGE_DIR=@DATADIR_SERVER@/image/
-    LMCLIENT_DIR=@DATADIR_SERVER@/@LMCLIENT@/
+    IMAGE_DIR=@DATADIR_SERVER@/image
+    LMCLIENT_DIR=@DATADIR_SERVER@/@LMCLIENT@
     DASHBOARD_DIR=@LMHOME@/LmWebServer/public_html/@DASHBOARD@
     
     # Source function library.
