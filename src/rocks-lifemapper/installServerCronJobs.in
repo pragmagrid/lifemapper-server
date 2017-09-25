@@ -47,6 +47,7 @@ installDailyTasks () {
     # run daily 
     install @LMHOME@/rocks/etc/lmserver_delete_old_anon ${CRON_DAILY_DIR}
     install @LMHOME@/rocks/etc/lmserver_run_server_tests ${CRON_DAILY_DIR}
+    install @LMHOME@/rocks/etc/lmserver_count_completed ${CRON_DAILY_DIR}
     echo "Installed daily tasks to ${CRON_DAILY_DIR} ..." | tee -a $LOG
 }
 

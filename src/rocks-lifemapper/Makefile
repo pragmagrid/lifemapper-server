@@ -101,7 +101,8 @@ CRONS = \
 	lmserver_build_solr_index \
 	lmserver_run_server_tests \
 	lmserver_delete_old_anon \
-	lmserver_troubleshoot_jobs
+	lmserver_troubleshoot_jobs \
+	lmserver_count_completed
 
 PROGS = \
 	checkLibs \
