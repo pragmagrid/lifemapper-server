@@ -88,6 +88,7 @@ del-lifemapper-shared() {
       $RM opt-lifemapper-egenix-mx-base
       $RM opt-lifemapper-requests
       $RM opt-lifemapper-rtree
+      $RM opt-lifemapper-dendropy   
    fi
 }
 
