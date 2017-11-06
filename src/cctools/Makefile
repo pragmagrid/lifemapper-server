@@ -99,4 +99,4 @@ install::
 	)
 
 clean::
-	rm -rf $(ARCHIVENAME) version.mk prepData.sh
+	rm -rf $(ARCHIVENAME) version.mk prepSrc.sh
