@@ -1,4 +1,7 @@
-NAME = opt-lifemapper-dendropy
-VERSION = 4.3.0
-ARCHIVENAME = DendroPy
-RELEASE = 0
+NAME            = opt-lifemapper-dendropy
+VERSION         = 4.3.0
+ARCHIVENAME     = DendroPy
+RELEASE         = 0
+TARBALL_POSTFIX = tar.gz
+
+RPM.EXTRAS = "AutoReq: no"
