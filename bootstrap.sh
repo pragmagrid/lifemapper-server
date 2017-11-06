@@ -69,7 +69,7 @@ rpm -i src/RPMS/giflib-devel-4.1.6-3.1.el6.x86_64.rpm
 
 # for mysql-python, rtree, cherrypy
 # setuptools 6.1, included in python roll
-# setuptools 20.7, needed for cherrypy build
+# setuptools 20.7, needed for cherrypy build (on devapp, not in LM install)
 compile setuptools
 install opt-lifemapper-setuptools
 
@@ -126,7 +126,7 @@ echo "You will need to checkout src from Lifemapper SVN:"
 echo "    cd src/lmserver"
 echo "    make prep "
 echo "then download data from Lifemapper:"
-echo "    cd src/lmdata-climate"
+echo "    cd src/lmdata-env"
 echo "    make prep "
 echo "    cd src/lmdata-species"
 echo "    make prep "
