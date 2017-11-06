@@ -136,4 +136,7 @@ echo "    make prep "
 echo "finally download CCTools source code:"
 echo "    cd src/cctools"
 echo "    make prep "
+echo "and DendroPy source code:"
+echo "    cd src/dendropy"
+echo "    make prep "
 

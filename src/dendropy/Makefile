@@ -60,10 +60,25 @@ REDHAT.ROOT = $(CURDIR)/../../
 -include $(ROCKSROOT)/etc/Rules.mk
 include Rules.mk
 
+SEDSPEC += \
+        -e 's%@ARCHIVENAME@%$(ARCHIVENAME)%g'  \
+        -e 's%@VERSION@%$(VERSION)%g'  \
+        -e 's%@TARBALL_POSTFIX@%$(TARBALL_POSTFIX)%g'
+
 version.mk:
 	cat ../version.mk version.mk.in > version.mk
 
 PY.PATH = /opt/python/bin/$(PYTHONVER)
+
+prepSrc.sh: prepSrc.sh.in
+	$(SED) $(SEDSPEC) $^ > $@
+	chmod 755 $@
+
+prep: prepSrc.sh
+	rm -rf version.mk
+	make version.mk
+	make prepSrc.sh
+	./prepSrc.sh
 
 build:
 	tar xzf  $(ARCHIVENAME)-$(VERSION).tar.gz 
@@ -71,7 +86,6 @@ build:
 	    cd $(ARCHIVENAME)-$(VERSION);   \
 	    $(PY.PATH) setup.py build;      \
 	)
-
 
 install::
 	(\
