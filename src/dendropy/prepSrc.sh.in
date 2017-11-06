@@ -2,7 +2,7 @@
 
 # Purpose: Fetch DendroPy source
 
-DENDROPY_URL=https://pypi.python.org/packages/58/14/d4559893d72675b322c1d60229ef3490bc5c2f5b28c5cc339956aaf8f507/
+DENDROPY_URL=https://pypi.python.org/packages/58/14/d4559893d72675b322c1d60229ef3490bc5c2f5b28c5cc339956aaf8f507
 DENDROPY_PKG=@ARCHIVENAME@-@VERSION@.@TARBALL_POSTFIX@
 
 get_source_files () {
