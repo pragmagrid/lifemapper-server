@@ -36,21 +36,21 @@ SetDefaults () {
 
     if [ -f $INIT_CONFIG ] ; then
         echo "Looking for DATASOURCE and ARCHIVE_USER in user config file $INIT_CONFIG"   | tee -a $LOG  
-        DATASOURCE=`grep DATASOURCE $INIT_CONFIG | grep -v ';' | awk '{print $2}'`
-        ARCHIVE_USER=`grep ARCHIVE_USER $INIT_CONFIG | grep -v ';' | awk '{print $2}'`
+        DATASOURCE=`grep -i DATASOURCE $INIT_CONFIG | grep -v ';' | awk '{print $2}'`
+        ARCHIVE_USER=`grep -i ARCHIVE_USER $INIT_CONFIG | grep -v ';' | awk '{print $2}'`
     fi
 
     if [ ! "$DATASOURCE" ] ; then 
         # look in config.site.ini
         if [ -f $SITE_CONFIG_FILE ] ; then        
             echo "Looking for DATASOURCE in site config file"   | tee -a $LOG  
-            DATASOURCE=`grep DATASOURCE $SITE_CONFIG_FILE | grep -v ';' | awk '{print $2}'`
+            DATASOURCE=`grep -i DATASOURCE $SITE_CONFIG_FILE | grep -v ';' | awk '{print $2}'`
         fi
         
         # look in installed config file        
         if [ ! "$DATASOURCE" ] ; then 
             echo "Looking for DATASOURCE in installed config file"   | tee -a $LOG  
-            DATASOURCE=`grep DATASOURCE $CONFIG_FILE | grep -v ';' | awk '{print $2}'`
+            DATASOURCE=`grep -i DATASOURCE $CONFIG_FILE | grep -v ';' | awk '{print $2}'`
         fi
     fi
     
@@ -58,13 +58,13 @@ SetDefaults () {
         # look in config.site.ini
         if [ -f $SITE_CONFIG_FILE ] ; then        
             echo "Looking for ARCHIVE_USER in site config file"   | tee -a $LOG  
-            ARCHIVE_USER=`grep ARCHIVE_USER $SITE_CONFIG_FILE | grep -v ';' | awk '{print $2}'`
-        fi
+            ARCHIVE_USER=`grep -i ARCHIVE_USER $SITE_CONFIG_FILE | grep -v ';' | awk '{print $2}'`
+        fils -
         
         # look in installed config file        
         if [ ! "$ARCHIVE_USER" ] ; then 
             echo "Looking for ARCHIVE_USER in installed config file"   | tee -a $LOG  
-            ARCHIVE_USER=`grep ARCHIVE_USER $CONFIG_FILE | grep -v ';' | awk '{print $2}'`
+            ARCHIVE_USER=`grep -i ARCHIVE_USER $CONFIG_FILE | grep -v ';' | awk '{print $2}'`
         fi
     fi
     
