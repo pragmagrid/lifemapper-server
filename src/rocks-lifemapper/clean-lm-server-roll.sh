@@ -10,7 +10,6 @@ RM="rpm -evl --quiet --nodeps"
 LMROLL_COUNT=`rocks list roll | grep lifemapper | wc -l`
 LMUSER_COUNT=`/bin/egrep -i "^lmwriter" /etc/passwd  | wc -l`
 
-
 TimeStamp () {
     echo $1 `/bin/date` >> $LOG
 }
@@ -187,7 +186,7 @@ del-webstuff () {
    rm -rf /var/www/tmp
 
    echo "Removing symlinks" >> $LOG
-   rm -f /var/www/html/lmclient
+   rm -f /var/www/html/sdm
    rm -f /var/www/html/lmdashboard
    
    echo "Removing lifemapper web config" >> $LOG
@@ -266,7 +265,18 @@ del-automount-entry () {
     fi
 }
 
+check_lm_processes () {
+    LMUSER_PROCESSES=`ps -Alf | grep lmwriter | grep -v grep | wc -l`
+    if [ $LMUSER_PROCESSES -ne 1 ]; then
+        echo "Stop all lmwriter processes before running this script"
+        exit 0
+    fi 
+}
+
 ### main ###
+
+check_lm_processes
+
 set_defaults
 TimeStamp "# Start"
 stop-lm-daemons

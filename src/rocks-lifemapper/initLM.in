@@ -228,14 +228,14 @@ update_config() {
 
 make_dashboard_link () {
     if [ -d $DASHBOARD_DIR ] ; then
-        ln -s $DASHBOARD_DIR /var/www/html/@DASHBOARD@
+        (cd /var/www/html; ln -s $DASHBOARD_DIR)
         echo "Creating dashboard link" >> $LOG
     fi
 }
 
 make_client_link () {
     if [ -d $LMCLIENT_DIR ] ; then
-        ln -s $LMCLIENT_DIR /var/www/html/@LMCLIENT@
+        (cd /var/www/html; ln -s $LMCLIENT_DIR)
         echo "Creating lmclient link" >> $LOG
     fi
 }

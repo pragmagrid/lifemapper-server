@@ -59,7 +59,7 @@ SetDefaults () {
         if [ -f $SITE_CONFIG_FILE ] ; then        
             echo "Looking for ARCHIVE_USER in site config file"   | tee -a $LOG  
             ARCHIVE_USER=`grep -i ARCHIVE_USER $SITE_CONFIG_FILE | grep -v ';' | awk '{print $2}'`
-        fils -
+        fi
         
         # look in installed config file        
         if [ ! "$ARCHIVE_USER" ] ; then 
