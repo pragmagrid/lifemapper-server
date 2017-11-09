@@ -267,7 +267,7 @@ del-automount-entry () {
 
 check_lm_processes () {
     LMUSER_PROCESSES=`ps -Alf | grep lmwriter | grep -v grep | wc -l`
-    if [ $LMUSER_PROCESSES -ne 1 ]; then
+    if [ $LMUSER_PROCESSES -ne 0 ]; then
         echo "Stop all lmwriter processes before running this script"
         exit 0
     fi 
