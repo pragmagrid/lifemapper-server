@@ -257,12 +257,8 @@ del-cron-jobs () {
 }
 
 del-automount-entry () {
-    cat /etc/auto.share  | grep -v "^lmserver " /tmp/auto.share.nolmserver
+    cat /etc/auto.share  | grep -v "^lmserver " > /tmp/auto.share.nolmserver
     /bin/cp /tmp/auto.share.nolmserver /etc/auto.share
-    if [ $LMROLL_COUNT = 1 ]; then
-        cat /etc/auto.share  | grep -v "^lmserver " | grep -v "^lm " > /tmp/auto.share.nolmserver
-        /bin/cp /tmp/auto.share.nolmserver /etc/auto.share
-    fi
 }
 
 check_lm_processes () {

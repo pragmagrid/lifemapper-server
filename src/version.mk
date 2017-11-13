@@ -4,8 +4,10 @@ MAPSERVER_TMP = /var/www/tmp
 LMURL			  = http://yeti.lifemapper.org/dl
 LMSERVERDISK  = /share/lmserver
 LMDISK        = /share/lm
+
 ## DATADIR_SHARED is identical in the lifemapper-compute roll
 DATADIR_SHARED  = /share/lm/data
+
 DATADIR_SERVER  = /share/lmserver/data
 LMSCRATCHDISK = /state/partition1/lmscratch
 
