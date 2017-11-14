@@ -115,6 +115,7 @@ PROGS = \
 	fillDB \
 	fillGBIFTaxonomy \
 	getClimateData \
+	getTestPackage \
 	updateIP
 
 PYFILES = __init__.py \

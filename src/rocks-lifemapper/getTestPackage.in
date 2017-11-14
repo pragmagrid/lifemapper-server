@@ -1,0 +1,143 @@
+#!/bin/bash
+#
+# This script downloads a test data package, containing a scenario package, 
+# occurrence package, and a BOOM parameter file.  It uncompresses and places
+# data in the correct directories.
+# The script can be run at any time to download test data, 
+# and install environmental data, catalog scenarios and processing an SDM workflow.
+
+usage () 
+{
+    echo "Usage: $0 <TEST_PACKAGE_NAME>"
+    echo "This script is run on an existing lifemapper-server installation. "
+    echo "It will:"
+    echo "     - download and install TEST_PACKAGE_NAME data in the "
+    echo "       common environmental data directory"
+    echo "It will NOT:"
+    echo "     - install SCENARIO_PACKAGE_NAME scenarios in the database "
+    echo "   "
+    echo "The script can be run at any time to install environmental data and"
+    echo "metadata files."
+    echo "   "
+}
+
+if [ $# -ne 1 ]; then
+    usage
+    exit 0
+fi 
+
+set_defaults() {
+    TEST_PKG=$1
+    LMURL=@LMURL@
+    THISNAME=`/bin/basename $0`
+
+    LOG=@LMSCRATCHDISK@/log/$THISNAME.log
+    rm -f $LOG
+    touch $LOG
+    
+    TEMP_DIR=@LMSCRATCHDISK@/temp
+    CLIMATE_DIR=@DATADIR_SHARED@/@ENV_DATA_DIR@
+    
+    TEST_PKG_FILE=$TEMP_DIR/$TEST_PKG.@TARBALL_POSTFIX@
+    TEST_META_FILE=$TEMP_DIR/$TEST_PKG.ini
+
+	 # These variables are file basenames, no path or file extension
+    SCEN_PKG=`grep -i SCENARIO_PACKAGE $TEST_META_FILE | grep -v ';' | awk '{print $2}'`
+    POINT_PKG=`grep -i SPECIES_OCCURRENCE_PACKAGE $TEST_META_FILE | grep -v ';' | awk '{print $2}'`
+    BOOM_PARAMS=`grep -i BOOM_PARAMS $TEST_META_FILE | grep -v ';' | awk '{print $2}'`
+
+	 BOOM_PARAMS_FILE=$TEMP_DIR/$TEST_META_FILE.ini
+    CLIMATE_META_FILE=$CLIMATE_DIR/$SCEN_PKG.py
+    CLIMATE_PKG_FILE=$CLIMATE_DIR/$SCEN_PKG.@TARBALL_POSTFIX@
+    NEW_CLIMATE_DATA_DIR=$CLIMATE_DIR/$SCEN_PKG
+}
+
+
+### Retrieve test package named in TEST_PACKAGE
+pull_test_package () {
+    # find metadata file testpkgname.ini
+    if [ -f $TEST_META_FILE ]; then
+        echo "Test metadata $TEST_META_FILE already present" | tee -a $LOG
+    else  
+        echo "Fetch test data into $TEST_PKG_FILE" | tee -a $LOG
+        curl -L "$LMURL/$TEST_PKG.@TARBALL_POSTFIX@" -o $TEST_PKG_FILE 
+  
+        # uncompress 
+        if [ -f $TEST_PKG_FILE ]; then
+            tar xzf $TEST_PKG_FILE -C $TEMP_DIR/
+            rm -f $TEST_PKG_FILE 
+        else
+            echo "Failed to retrieve $TEST_PKG ..." | tee -a $LOG
+        fi
+    fi
+
+	 # Get the test Boom user name
+    if [ -f $TEST_META_FILE ]; then
+        echo "Test metadata $TEST_META_FILE already present" | tee -a $LOG
+        BOOM_USER=`grep -i ARCHIVE_USER $BOOM_PARAMS_FILE | grep -v ';' | awk '{print $2}'`
+    else 
+        echo "Failed to retrieve $TEST_PKG" | tee -a $LOG
+        exit(0)
+    fi
+   
+}
+
+### Retrieve climate data named in SCENARIO_PACKAGE
+move_climate_data () {
+    # find metadata file pkgname.py
+    if [ -f $CLIMATE_META_FILE ]; then
+        echo "Climate metadata $CLIMATE_META_FILE already present" | tee -a $LOG
+    else  
+        echo "Move climate data into $CLIMATE_DIR" | tee -a $LOG
+        /bin/mv $TEMP_DIR/$SCEN_PKG.@TARBALL_POSTFIX@ $CLIMATE_PKG_FILE
+  
+        # uncompress 
+        if [ -f $CLIMATE_PKG_FILE ]; then
+            tar xzf $CLIMATE_PKG_FILE -C $CLIMATE_DIR/
+            rm -f $CLIMATE_PKG_FILE 
+        else
+            echo "Failed to retrieve $SCEN_PKG ..." | tee -a $LOG
+        fi
+    fi
+}
+
+fix_permissions () {
+    /bin/egrep -i "^lmwriter" /etc/passwd
+    if [ $? -ne 0 ]; thenCURRENCE_PACKAGE $TEST_META_FILE | grep -v ';' | awk '{print $2}'`
+    BOOM_PARAMS=`grep -i BOOM_PARAMS 
+        echo "Error: user lmwriter does not exist" | tee -a $LOG
+        exit 1
+    fi
+
+    # This script is run by root, so set group write permission on new data dir
+    echo "Reset group and write permission on $CLIMATE_DIR data dir"   | tee -a $LOG
+    /bin/chgrp -R lmwriter $CLIMATE_DIR
+    /bin/chmod -R g+ws     $CLIMATE_DIR
+}
+
+
+instruct_user () {
+    echo "To seed climate layers, run:"   | tee -a $LOG
+    echo "@LMHOME@/rocks/bin/seedData $SCEN_PACKAGE"   | tee -a $LOG
+
+    echo "To initialize BOOM for Boom user, run:"   | tee -a $LOG
+    echo "@LMHOME@/rocks/bin/fillDB $BOOM_PARAMS"   | tee -a $LOG
+
+    echo "Then move Point data to /@DATADIR_SHARED@/archive/$BOOM_USER:"   | tee -a $LOG
+    echo "mv $POINT_PACKAGE /@DATADIR_SHARED@/archive/$BOOM_USER"   | tee -a $LOG
+}
+
+TimeStamp () {
+    echo $1 `/bin/date` >> $LOG
+}
+
+####### Main #######
+set_defaults $1
+TimeStamp "# Start"
+
+pull_test_package
+move_climate_data
+fix_permissions
+instruct_user
+
+TimeStamp "# End"

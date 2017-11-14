@@ -72,10 +72,9 @@ fix_permissions () {
     fi
 
     # This script is run by root, so set group write permission on new data dir
-    echo "Create and set group write permission on new $NEW_CLIMATE_DATA_DIR data dir"   | tee -a $LOG
-    echo "Update lmwriter group permissions on $NEW_CLIMATE_DATA_DIR" | tee -a $LOG
-    /bin/chgrp -R lmwriter $NEW_CLIMATE_DATA_DIR
-    /bin/chmod -R g+ws     $NEW_CLIMATE_DATA_DIR
+    echo "Reset group and write permission on $CLIMATE_DIR data dir"   | tee -a $LOG
+    /bin/chgrp -R lmwriter $CLIMATE_DIR
+    /bin/chmod -R g+ws     $CLIMATE_DIR
 }
 
 
