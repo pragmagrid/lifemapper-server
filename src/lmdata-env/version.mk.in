@@ -1,6 +1,6 @@
 NAME            = lifemapper-env-data
-VERSION     	 = 1.7
-RELEASE 	       = 0
+VERSION         = 1.8
+RELEASE         = 0
 TNC_URL         = http://maps.tnc.org/files/shp
 ECOREGION_FILE  = terr-ecoregions-TNC.zip
 TARBALL_POSTFIX = tar.gz
