@@ -64,6 +64,7 @@
 	<package>bitstream-vera-fonts-common</package>
 	<package>bitstream-vera-sans-fonts</package>
 	<package>fribidi</package>
+	<package>fcgi</package>
 	<package>postgresql91-libs</package>
 	<!-- removed mapserver, building from source for python mapscript -->
 

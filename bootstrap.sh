@@ -28,9 +28,9 @@ rpm -i $PGDGREPO
 #(cd src/RPMS; 
 #wget ftp://ftp.pbone.net/mirror/atrpms.net/el6-x86_64/atrpms/stable/bitstream-vera-sans-fonts-1.10-18.el6.noarch.rpm; \
 #wget ftp://ftp.pbone.net/mirror/atrpms.net/el6-i386/atrpms/stable/bitstream-vera-fonts-common-1.10-18.el6.noarch.rpm; \
-###yumdownloader --resolve --enablerepo elgis mapserver.x86_64; \
-#yumdownloader --resolve --enablerepo epel mapserver.x86_64; \
+#yumdownloader --resolve --enablerepo epel fcgi.x86_64; \
 #yumdownloader --resolve --enablerepo epel fribidi.x86_64; \
+#yumdownloader --resolve --enablerepo epel mapserver.x86_64; \
 #yumdownloader --resolve --enablerepo pgdg91 postgresql91.x86_64; \
 #yumdownloader --resolve --enablerepo pgdg91 postgresql91-devel.x86_64; \
 #yumdownloader --resolve --enablerepo pgdg91 postgresql91-server.x86_64; \
@@ -40,11 +40,12 @@ rpm -i $PGDGREPO
 #yumdownloader --resolve --enablerepo pgdg91 postgresql91-contrib.x86_64; \
 #yumdownloader --resolve --enablerepo pgdg91 postgresql91-test.x86_64; \
 #yumdownloader --enablerepo pgdg91 pgbouncer.x86_64; \
-#yumdownloader --resolve --enablerepo epel json-c.x86_64; \
+#yumdownloader --resolve --enablerepo base json-c.x86_64; \
 #yumdownloader --resolve --enablerepo pgdg91 postgis2_91.x86_64; \
-### rpmforge repo is dead now
-#yumdownloader --resolve --enablerepo rpmforge hdf4.x86_64 hdf4-devel.x86_64; \
-#yumdownloader --resolve --enablerepo rpmforge hdf5.x86_64 hdf5-devel.x86_64; \
+### rpmforge and elgis repos are dead now
+### are hdf4 and hdf5 installed by default in Rocks 6.2?
+#yumdownloader --resolve --enablerepo base hdf4.x86_64 hdf4-devel.x86_64; \
+#yumdownloader --resolve --enablerepo base hdf5.x86_64 hdf5-devel.x86_64; \
 #yumdownloader --resolve --enablerepo base readline-devel.x86_64; \
 #yumdownloader --resolve --enablerepo base giflib-devel.x86_64; \
 #yumdownloader --resolve --enablerepo base byacc.x86_64; \
