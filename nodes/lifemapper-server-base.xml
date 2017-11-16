@@ -19,7 +19,7 @@
 
         <!-- RPM repos needed for postgresql,postgis,mapserver -->
 	<package>pgdg-centos91</package>
-	<package>elgis-release</package>
+	<package>epel-release</package>
 
 	<!-- lifemapper dependencies -->
 	<package>giflib-devel</package>

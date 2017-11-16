@@ -5,10 +5,16 @@
 . /opt/rocks/share/devel/src/roll/etc/bootstrap-functions.sh
 
 # enable elgis repo, need for map server
+#(cd src/RPMS; 
+#ELGISREPO=elgis-release-6-6_0.noarch.rpm
+#wget  http://elgis.argeo.org/repos/6/$ELGISREPO
+#rpm -i $ELGISREPO
+#)
+
 (cd src/RPMS; 
-ELGISREPO=elgis-release-6-6_0.noarch.rpm
-wget  http://elgis.argeo.org/repos/6/$ELGISREPO
-rpm -i $ELGISREPO
+EPELREPO=epel-release-6-8.noarch.rpm
+wget  http://download-i2.fedoraproject.org/pub/epel/6/x86_64/$EPELREPO
+rpm -i $EPELREPO
 )
 
 # enable repo for postgresql and postgis2 rpms
@@ -22,7 +28,8 @@ rpm -i $PGDGREPO
 #(cd src/RPMS; 
 #wget ftp://ftp.pbone.net/mirror/atrpms.net/el6-x86_64/atrpms/stable/bitstream-vera-sans-fonts-1.10-18.el6.noarch.rpm; \
 #wget ftp://ftp.pbone.net/mirror/atrpms.net/el6-i386/atrpms/stable/bitstream-vera-fonts-common-1.10-18.el6.noarch.rpm; \
-#yumdownloader --resolve --enablerepo elgis mapserver.x86_64; \
+###yumdownloader --resolve --enablerepo elgis mapserver.x86_64; \
+#yumdownloader --resolve --enablerepo epel mapserver.x86_64; \
 #yumdownloader --resolve --enablerepo epel fribidi.x86_64; \
 #yumdownloader --resolve --enablerepo pgdg91 postgresql91.x86_64; \
 #yumdownloader --resolve --enablerepo pgdg91 postgresql91-devel.x86_64; \
