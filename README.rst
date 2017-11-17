@@ -10,7 +10,7 @@ Introduction
 This roll installs dbserver and webserver parts of Lifemapper.
 All prerequisite software listed below are a part of the roll and 
 will be installed and configured during roll installation. 
-The roll has been tested with Rocks 6.1 and 6.1.1. And now with 6.2!
+The roll has been tested with Rocks 6.2.
 
 For PRAGMA27 student challenge please see `Lifemapper Student Challenge`_
 
@@ -24,18 +24,18 @@ This section lists all the prerequisites for lifemapper code dependencies.
 The dependencies are either build from source or installed from RPMs 
 during the roll build.
  
-#. RPM repos ``elgis`` and ``pgdg91`` 
+#. RPM repos ``epel`` and ``pgdg91`` 
 #. RPMs from standard yum repos:  
 
-   :base:     cmake, subversion, sqlite-devel, giflib-devel, byacc, readline-devel 
-   :rpmforge: hdf4, hdf4-devel, hdf5, hdf5-devel
-   :epel:     fribidi, json-c
-   :elgis:    mapserver 
+   :base:     cmake, sqlite-devel, giflib-devel, byacc, readline-devel 
+              hdf4, hdf4-devel, hdf5, hdf5-devel
+   :epel:     fribidi, json-c, mapserver
    :pgdg91:   postgresql91, postgresql91-devel, postgis2_91, pgbouncer
 
 #. Source distributions: 
    
-   :binaries: gdal proj geos libevent libspatialindex tiff mod_wsgi
+   :binaries: gdal proj geos libevent libspatialindex tiff mod_wsgi cctools 
+              dendropy solr
    :python modules:         CherryPy, Cython,  egenix-mxDateTime (part of egenix-mx-base),   
                                 faulthandler, mysql-python,  numexpr,   
                                 rtree, psycopg2, pytables, setuptools, rdflib, isodate, processing
@@ -97,7 +97,7 @@ by the bootstrap.sh
 Required Rolls
 ~~~~~~~~~~~~~~
 
-Required rolls must be added at the same time when the  lifemapper-server roll is isntalled. 
+Required rolls must be added at the same time when the lifemapper-server roll is isntalled. 
 See ``Adding a roll`` section for details.
 
 :**python**:    Python roll provides python2.7 and numpy
@@ -157,7 +157,7 @@ For example, only  rebuilding lmserver RPM will involve: ::
   
    # cd src/lmserver
    # make clean
-   # update version.mk.in with new revision number to check out from SVN
+   # update version.mk.in with new version number to check out from Github
    # make prep
    # make rpm
 

@@ -1,13 +1,13 @@
 
 .. hightlight:: rest
 
-Student Challenge 
-===================================
+Student Challenge
+=================
 
 .. contents::  
 
-Build Lifemapper Biodiversity Infrastructure 
-----------------------------------------------
+Build Lifemapper Biodiversity Infrastructure
+--------------------------------------------
 
 Use VirtualBox Rocks Cluster images to install and run Lifemapper 
 on your laptop. The main steps are :
@@ -32,7 +32,7 @@ on your laptop. The main steps are :
 #. **Start using Lifemapper server roll** - see section below
     
 Downloads
-~~~~~~~~~~~
+~~~~~~~~~
 All the downloads that you need for the challenge
 are av ailable from the `PRAGMA 27 Challenge  site
 <http://pragma27.pragma-grid.net/dct/page/70007>`_ and include
@@ -52,7 +52,7 @@ Optional
 
 
 Install Lifemapper roll
--------------------------
+-----------------------
 
 A roll can be added to the existing frontend. 
 Assume that your downloaded lifemapper-server ISO is available in the folder that
@@ -93,7 +93,7 @@ After the frontend boots up login as root and check the ``/tmp/lifemapper-config
 to check the status of initialization commands.
 
 Using Lifemapper roll
---------------------------
+---------------------
 
 After the roll install is completed the frontend is ready and configured as 
 for Lifemapepr LmDbServer and LmWebServer components. To use the roll and run 
@@ -102,7 +102,7 @@ and data seeding, see `Using Lifemapper <Using.rst>`_
 
 
 Info: where installed roll components are
------------------------------------------------
+-----------------------------------------
 
 This section outlines where installed lifemapper servers components are
 installed and where to expect log files.
@@ -130,7 +130,7 @@ installed and where to expect log files.
 
 #. **/etc/yum.repos.d** - elgis and pgdg yum repos
 
-#. **cmake, subversion, screen, fribidi, hdf4*, hdf5*, mapserver, readline-devel, 
+#. **cmake, screen, fribidi, hdf4*, hdf5*, mapserver, readline-devel, 
    byacc, giflib-devel, bitstrieam-vera-*fonts*, json-c, uuid**
    - in  usual system directories /usr/bin, /usr/lib, /usr/include, etc. as required  by each RPM.
    Use ``rpm -ql X`` to find all files for a package X.

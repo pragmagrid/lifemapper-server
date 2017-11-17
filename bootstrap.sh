@@ -43,13 +43,12 @@ rpm -i $PGDGREPO
 #yumdownloader --resolve --enablerepo base json-c.x86_64; \
 #yumdownloader --resolve --enablerepo pgdg91 postgis2_91.x86_64; \
 ### rpmforge and elgis repos are dead now
-### are hdf4 and hdf5 installed by default in Rocks 6.2?
 #yumdownloader --resolve --enablerepo base hdf4.x86_64 hdf4-devel.x86_64; \
 #yumdownloader --resolve --enablerepo base hdf5.x86_64 hdf5-devel.x86_64; \
 #yumdownloader --resolve --enablerepo base readline-devel.x86_64; \
 #yumdownloader --resolve --enablerepo base giflib-devel.x86_64; \
 #yumdownloader --resolve --enablerepo base byacc.x86_64; \
-#yumdownloader --resolve --enablerepo base neon.x86_64 pakchois.x86_64 subversion.x86_64; \
+#yumdownloader --resolve --enablerepo base neon.x86_64 pakchois.x86_64; \
 #yumdownloader --resolve --enablerepo base cmake.x86_64; \
 #yumdownloader --resolve --enablerepo base screen.x86_64; \
 #)
@@ -130,7 +129,7 @@ yum --enablerepo base update openssl
 yum install postgresql91
 yum install postgresql91-devel
 
-echo "You will need to checkout src from Lifemapper SVN:"
+echo "You will need to checkout Lifemapper src from Github:"
 echo "    cd src/lmserver"
 echo "    make prep "
 echo "then download data from Lifemapper:"
