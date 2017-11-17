@@ -4,13 +4,6 @@
 #
 . /opt/rocks/share/devel/src/roll/etc/bootstrap-functions.sh
 
-# enable elgis repo, need for map server
-#(cd src/RPMS; 
-#ELGISREPO=elgis-release-6-6_0.noarch.rpm
-#wget  http://elgis.argeo.org/repos/6/$ELGISREPO
-#rpm -i $ELGISREPO
-#)
-
 (cd src/RPMS; 
 EPELREPO=epel-release-6-8.noarch.rpm
 wget  http://download-i2.fedoraproject.org/pub/epel/6/x86_64/$EPELREPO
@@ -28,6 +21,7 @@ rpm -i $PGDGREPO
 #(cd src/RPMS; 
 #wget ftp://ftp.pbone.net/mirror/atrpms.net/el6-x86_64/atrpms/stable/bitstream-vera-sans-fonts-1.10-18.el6.noarch.rpm; \
 #wget ftp://ftp.pbone.net/mirror/atrpms.net/el6-i386/atrpms/stable/bitstream-vera-fonts-common-1.10-18.el6.noarch.rpm; \
+### elgis repo is belly up
 #yumdownloader --resolve --enablerepo epel fcgi.x86_64; \
 #yumdownloader --resolve --enablerepo epel fribidi.x86_64; \
 #yumdownloader --resolve --enablerepo epel mapserver.x86_64; \
@@ -42,9 +36,9 @@ rpm -i $PGDGREPO
 #yumdownloader --enablerepo pgdg91 pgbouncer.x86_64; \
 #yumdownloader --resolve --enablerepo base json-c.x86_64; \
 #yumdownloader --resolve --enablerepo pgdg91 postgis2_91.x86_64; \
-### rpmforge and elgis repos are dead now
-#yumdownloader --resolve --enablerepo base hdf4.x86_64 hdf4-devel.x86_64; \
-#yumdownloader --resolve --enablerepo base hdf5.x86_64 hdf5-devel.x86_64; \
+### hdf libs are in Rocks 6.2 repository 
+#yumdownloader --resolve hdf4.x86_64 hdf4-devel.x86_64; \
+#yumdownloader --resolve hdf5.x86_64 hdf5-devel.x86_64; \
 #yumdownloader --resolve --enablerepo base readline-devel.x86_64; \
 #yumdownloader --resolve --enablerepo base giflib-devel.x86_64; \
 #yumdownloader --resolve --enablerepo base byacc.x86_64; \

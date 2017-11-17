@@ -4,7 +4,7 @@
 #    roll-installed RPMs, 
 #    created directories
 #    rocks host attributes
-#    user accounts and groups : postgres, pgbouncer, lmwriter
+#    user accounts and groups : postgres, pgbouncer, solr, lmwriter
 
 RM="rpm -evl --quiet --nodeps"
 LMROLL_COUNT=`rocks list roll | grep lifemapper | wc -l`
@@ -155,14 +155,13 @@ del-sysRPM() {
 }
 
 del-directories () {
-   echo "Removing shared frontend code, data and PID directories" >> $LOG
    if [ $LMROLL_COUNT = 1 ]; then
-      echo "Removing /opt/lifemapper"
+      echo "Removing shared /opt/lifemapper"
       rm -rf /opt/lifemapper
-      echo "Removing common data directories"
+      echo "Removing shared data directories"
       rm -rf /state/partition1/lmscratch
       rm -rf /state/partition1/lm
-      echo "Removing PID directory"
+      echo "Removing shared PID directory"
       rm -rf /var/run/lifemapper
    fi
    
@@ -285,6 +284,7 @@ stop-services
 del-postgres
 del-mapserver 
 del-lifemapper-shared
+del-possible-shared-dependencies
 del-opt-python 
 del-lifemapper
 del-sysRPM
