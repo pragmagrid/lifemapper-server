@@ -68,6 +68,7 @@ EXPORTDIR=$(subst share,state/partition1,$(DATADIR_SERVER))/test
 
 SEDSPEC += \
         -e 's%@PKGROOT@%$(PKGROOT)%g' \
+        -e 's%@LMDISK@%$(LMDISK)%g' \
         -e 's%@PYBIN@%$(PY.PATH)%g' \
         -e 's%@DATADIR_SERVER@%$(DATADIR_SERVER)%g' \
         -e 's%@DATADIR_SHARED@%$(DATADIR_SHARED)%g' \
