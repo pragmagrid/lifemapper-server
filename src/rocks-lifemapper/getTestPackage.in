@@ -11,13 +11,13 @@ usage ()
     echo "Usage: $0 <TEST_PACKAGE_NAME>"
     echo "This script is run on an existing lifemapper-server installation. "
     echo "It will:"
-    echo "     - download and install TEST_PACKAGE_NAME data in the "
-    echo "       common environmental data directory"
-    echo "It will NOT:"
-    echo "     - install SCENARIO_PACKAGE_NAME scenarios in the database "
+    echo "     - download the TEST_PACKAGE_NAME data into the "
+    echo "       @LMSCRATCHDISK@/temp directory, then install environmental"
+    echo "       data into the @DATADIR_SHARED@/@ENV_DATA_DIR@ directory, and"
+    echo "       species data into the @DATADIR_SHARED@/archive/<user> directory"
     echo "   "
-    echo "The script can be run at any time to install environmental data and"
-    echo "metadata files."
+    echo "The script can be run at any time to download and install data for"
+    echo "a BOOM run."
     echo "   "
 }
 
@@ -37,19 +37,23 @@ set_defaults() {
     TEMP_DIR=@LMSCRATCHDISK@/temp
     CLIMATE_DIR=@DATADIR_SHARED@/@ENV_DATA_DIR@
 
-	 # *_PKG variables are file basenames, no path or file extension
+    # *_PKG variables are file basenames, no path or file extension
     TEST_PKG=$1
     TEST_PKG_FILE=$TEMP_DIR/$TEST_PKG.@TARBALL_POSTFIX@
-    TEST_META_FILE=$TEMP_DIR/$TEST_PKG.ini    
+    TEST_META_FILE=$TEMP_DIR/$TEST_PKG.ini
 
-    SCEN_PKG=`grep -i SCENARIO_PACKAGE $TEST_META_FILE | grep -v ';' | awk '{print $2}'`
+    SCEN_PKG=`grep -i ENVIRONMENTAL_PACKAGE $TEST_META_FILE | grep -v ';' | awk '{print $2}'`
     CLIMATE_META_FILE=$CLIMATE_DIR/$SCEN_PKG.py
     
-    POINT_PKG=`grep -i SPECIES_OCCURRENCE_PACKAGE $TEST_META_FILE | grep -v ';' | awk '{print $2}'`
+    POINT_PKG=`grep -i SPECIES_PACKAGE $TEST_META_FILE | grep -v ';' | awk '{print $2}'`
     
-	 # *_PKG variables are file basenames, no path or file extension
-    BOOM_PARAM_BASENAME=`grep -i BOOM_PARAM_FILE $TEST_META_FILE | grep -v ';' | awk '{print $2}'`
-	 BOOM_PARAM_FILE=$TEMP_DIR/$BOOM_PARAM_BASENAME
+    BOOM_PARAM_BASENAME=`grep -i BOOM_PARAMETER_FILE $TEST_META_FILE | grep -v ';' | awk '{print $2}'`
+    BOOM_PARAM_FILE=$TEMP_DIR/$BOOM_PARAM_BASENAME
+
+    echo "Var TEST_META_FILE = $TEST_META_FILE" | tee -a $LOG
+    echo "Var CLIMATE_META_FILE = $CLIMATE_META_FILE" | tee -a $LOG
+    echo "Var POINT_PKG = $POINT_PKG" | tee -a $LOG
+    echo "Var BOOM_PARAM_FILE = $BOOM_PARAM_FILE" | tee -a $LOG
 }
 
 
@@ -75,13 +79,13 @@ pull_test_package () {
 ### Retrieve ARCHIVE_USER from BOOM parameter file package 
 get_user_create_dir () {
 	 # Get the test Boom user name
-    if [ -f $BOOM_PARAMS_FILE ]; then
-        echo "Find ARCHIVE_USER for BOOM in $BOOM_PARAMS_FILE" | tee -a $LOG
-        BOOM_USER=`grep -i ARCHIVE_USER $BOOM_PARAMS_FILE | grep -v ';' | awk '{print $2}'`
+    if [ -f $BOOM_PARAM_FILE ]; then
+        echo "Find ARCHIVE_USER for BOOM in $BOOM_PARAM_FILE" | tee -a $LOG
+        BOOM_USER=`grep -i ARCHIVE_USER $BOOM_PARAM_FILE | grep -v ';' | awk '{print $2}'`
         USER_DIR=@DATADIR_SHARED@/archive/$BOOM_USER
     else 
-        echo "Failed to find $BOOM_PARAMS_FILE" | tee -a $LOG
-        exit(0)
+        echo "Failed to find $BOOM_PARAM_FILE" | tee -a $LOG
+        exit 0
     fi
 
 	 # Find or create the test Boom data directory
@@ -155,7 +159,7 @@ instruct_user () {
     echo "@LMHOME@/rocks/bin/seedData $SCEN_PACKAGE"   | tee -a $LOG
 
     echo "To initialize BOOM for Boom user, run:"   | tee -a $LOG
-    echo "@LMHOME@/rocks/bin/fillDB $BOOM_PARAMS"   | tee -a $LOG
+    echo "@LMHOME@/rocks/bin/fillDB $BOOM_PARAM_FILE"   | tee -a $LOG
 }
 
 TimeStamp () {
