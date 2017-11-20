@@ -37,7 +37,7 @@ SetDefaults () {
     if [ -f $INIT_CONFIG ] ; then
         echo "Looking for DATASOURCE and ARCHIVE_USER in user config file $INIT_CONFIG"   | tee -a $LOG  
         DATASOURCE=`grep -i DATASOURCE $INIT_CONFIG | grep -v ';' | awk '{print $2}'`
-        ARCHIVE_USER=`grep -i ARCHIVE_USER $INIT_CONFIG | grep -v ';' | awk '{print $2}'`
+        ARCHIVE_USER=`grep -i ARCHIVE_USER $INIT_CONFIG | grep -v _EMAIL | grep -v ';' | awk '{print $2}'`
     fi
 
     if [ ! "$DATASOURCE" ] ; then 
@@ -58,13 +58,13 @@ SetDefaults () {
         # look in config.site.ini
         if [ -f $SITE_CONFIG_FILE ] ; then        
             echo "Looking for ARCHIVE_USER in site config file"   | tee -a $LOG  
-            ARCHIVE_USER=`grep -i ARCHIVE_USER $SITE_CONFIG_FILE | grep -v ';' | awk '{print $2}'`
+            ARCHIVE_USER=`grep -i ARCHIVE_USER $SITE_CONFIG_FILE | grep -v _EMAIL | grep -v ';' | awk '{print $2}'`
         fi
         
         # look in installed config file        
         if [ ! "$ARCHIVE_USER" ] ; then 
             echo "Looking for ARCHIVE_USER in installed config file"   | tee -a $LOG  
-            ARCHIVE_USER=`grep -i ARCHIVE_USER $CONFIG_FILE | grep -v ';' | awk '{print $2}'`
+            ARCHIVE_USER=`grep -i ARCHIVE_USER $CONFIG_FILE | grep -v _EMAIL | grep -v ';' | awk '{print $2}'`
         fi
     fi
     
@@ -127,6 +127,15 @@ CheckForTaxonomy () {
     fi
 }
 
+
+
+InstructUser () {
+    echo "*****************"   | tee -a $LOG
+    echo "To boom these data, login as lmwriter and run:"   | tee -a $LOG
+    echo "   $PYTHON @LMHOME@/LmDbServer/boom/daboom.py --config_file=<configfile> start"
+    echo "*****************"   | tee -a $LOG
+}
+
 ### Main ###
 if [ $# -gt 1 ]; then
     usage
@@ -138,4 +147,5 @@ TimeStamp "# Start"
 Populate
 CheckForTaxonomy
 FixPermissions
+InstructUser
 TimeStamp "# End"
