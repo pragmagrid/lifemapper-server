@@ -46,10 +46,9 @@ Downloads
 This section lists all the packages that were downloaded and used in the roll. 
 The packages are a part of the roll source (or downloaded by bootstrap.sh). 
 
-#. **elgis and pgdg91 repos**  ::
+#. **pgdg91 repo**  ::
 
     wget http://yum.postgresql.org/9.1/redhat/rhel-6-x86_64/pgdg-centos91-9.1-4.noarch.rpm  
-    wget http://elgis.argeo.org/repos/6/elgis-release-6-6_0.noarch.rpm  
 
 #. **vera fonts for mapserver**  ::
 
@@ -90,7 +89,7 @@ by the bootstrap.sh
 
 :**pytables**:    cython and numexpr python packages; hdf5 and hdf5-devel RPMS   
 :**rtree**:       spatialindex, setuptools
-:**mapserver**:   elgis repo, bitstream-vera-*fonts* RPMs, geos
+:**mapserver**:   epel repo, bitstream-vera-*fonts* RPMs, geos
 :**postgis2_91**: geos  
 :**psycopg2**:    gdal, postgresql91  
 
@@ -260,7 +259,7 @@ Where installed roll components are
 
 #. **/etc/profile.d/lifemapper.[sh,csh]** - environment settings for all users
 
-#. **/etc/yum.repos.d** - elgis and pgdg yum repos
+#. **/etc/yum.repos.d** - epel and pgdg yum repos
 
 #. **cmake, subversion, screen, fribidi, hdf4*, hdf5*, mapserver, readline-devel, 
    byacc, giflib-devel, bitstrieam-vera-*fonts*, json-c, uuid**

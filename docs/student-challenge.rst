@@ -128,7 +128,7 @@ installed and where to expect log files.
 
 #. **/etc/profile.d/lifemapper.[sh,csh]** - environment settings for all users
 
-#. **/etc/yum.repos.d** - elgis and pgdg yum repos
+#. **/etc/yum.repos.d** - epel and pgdg yum repos
 
 #. **cmake, screen, fribidi, hdf4*, hdf5*, mapserver, readline-devel, 
    byacc, giflib-devel, bitstrieam-vera-*fonts*, json-c, uuid**
