@@ -16,6 +16,7 @@ setDefaults () {
     gname=lmwriter
     CRON_HOURLY_DIR=/etc/cron.hourly/
     CRON_DAILY_DIR=/etc/cron.daily/
+    CRON_D_DIR=/etc/cron.d/
     LOG=@LMSCRATCHDISK@/log/$THISNAME.log
     rm -f $LOG
     touch $LOG
@@ -49,6 +50,13 @@ installDailyTasks () {
     install @LMHOME@/rocks/etc/lmserver_run_server_tests ${CRON_DAILY_DIR}
     install @LMHOME@/rocks/etc/lmserver_count_completed ${CRON_DAILY_DIR}
     echo "Installed daily tasks to ${CRON_DAILY_DIR} ..." | tee -a $LOG
+}
+
+# install daily cron jobs (security, cleanup, tests)
+installUserTasks () {
+    # run on specified timing with specified user
+    install @LMHOME@/rocks/etc/lmserver_cycle_mattDaemon ${CRON_D_DIR}
+    echo "Installed user-specific tasks to ${CRON_D_DIR} ..." | tee -a $LOG
 }
 
 #### Main ####

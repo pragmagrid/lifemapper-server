@@ -102,12 +102,14 @@ CRONS = \
 	lmserver_run_server_tests \
 	lmserver_delete_old_anon \
 	lmserver_troubleshoot_jobs \
+	lmserver_cycle_mattDaemon \
 	lmserver_count_completed
 
 PROGS = \
 	checkLibs \
 	clearUser \
 	confconst.py \
+	cycle_matt \
 	initDbserver \
 	initLM \
 	initPostgis \
