@@ -51,8 +51,7 @@ create_distro () {
   if [ -d $TOPDIR ]; then
     # create lmserver src distro
     echo "Creating lmserver src archive from Github archive download"
-    tar czf $SRCNAME-@VERSION@.@TARBALL_POSTFIX@ $TOPDIR/* \
-        --exclude=LmCompute 
+    tar czf $SRCNAME-@VERSION@.@TARBALL_POSTFIX@ $TOPDIR/*
   else
     echo "GIT downloaded directory $TOPDIR is not present"
   fi
