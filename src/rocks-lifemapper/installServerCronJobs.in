@@ -55,7 +55,7 @@ installDailyTasks () {
 # install daily cron jobs (security, cleanup, tests)
 installUserTasks () {
     # run on specified timing with specified user
-    install @LMHOME@/rocks/etc/lmserver_cycle_mattDaemon ${CRON_D_DIR}
+    install @LMHOME@/rocks/etc/lmserver_cycle_matt ${CRON_D_DIR}
     echo "Installed user-specific tasks to ${CRON_D_DIR} ..." | tee -a $LOG
 }
 
@@ -70,4 +70,5 @@ TimeStamp "# Start"
 removeOldTasks
 installHourlyTasks
 installDailyTasks
+installUserTasks
 TimeStamp "# End"

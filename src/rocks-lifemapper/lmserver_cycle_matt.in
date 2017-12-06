@@ -7,4 +7,4 @@
 # |  |  |  |  |
 # *  *  *  *  * user-name command to be executed
 
-*  0  *  *  * lmwriter @LMHOME@/rocks/bin/cycle_matt.in
+*  0  *  *  * lmwriter @LMHOME@/rocks/bin/cycleMatt
