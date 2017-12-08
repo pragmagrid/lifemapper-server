@@ -109,7 +109,7 @@ PROGS = \
 	checkLibs \
 	clearUser \
 	confconst.py \
-	cycle_matt \
+	cycleMatt \
 	initDbserver \
 	initLM \
 	initPostgis \
