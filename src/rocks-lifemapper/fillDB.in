@@ -149,8 +149,7 @@ InstructUser () {
         echo "*****************"   | tee -a $LOG
         echo "Then, annotate an existing tree with species squids - run PYTHON with the args:"   | tee -a $LOG
         echo "   @LMHOME@/LmServer/tools/boomInputs.py"   | tee -a $LOG
-        echo "      --user=$ARCHIVE_USER"   | tee -a $LOG
-        echo "      --tree_name=$TREENAME"   | tee -a $LOG
+        echo "      --user=$ARCHIVE_USER  --tree_name=$TREENAME"   | tee -a $LOG
         echo "*****************"   | tee -a $LOG
     fi
 }
