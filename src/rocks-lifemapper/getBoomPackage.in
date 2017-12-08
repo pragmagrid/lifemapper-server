@@ -66,7 +66,7 @@ pull_boom_package () {
 }
 
 ### Read data file names from test package metadata
-read_test_datanames () {
+read_boom_datanames () {
     # Required data
     SCEN_PKG=`grep -i ENVIRONMENTAL_PACKAGE $BOOM_META_FILE | grep -v ';' | awk '{print $2}'`
     POINT_PKG=`grep -i SPECIES_PACKAGE $BOOM_META_FILE | grep -v ';' | awk '{print $2}'`
