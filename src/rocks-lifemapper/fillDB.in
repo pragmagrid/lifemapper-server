@@ -35,9 +35,10 @@ SetDefaults () {
     touch $LOG
 
     if [ -f $INIT_CONFIG ] ; then
-        echo "Looking for DATASOURCE and ARCHIVE_USER in user config file $INIT_CONFIG"   | tee -a $LOG  
+        echo "Looking for DATASOURCE, ARCHIVE_USER, TREE in user config file $INIT_CONFIG"   | tee -a $LOG  
         DATASOURCE=`grep -i DATASOURCE $INIT_CONFIG | grep -v ';' | awk '{print $2}'`
         ARCHIVE_USER=`grep -i ARCHIVE_USER $INIT_CONFIG | grep -v _EMAIL | grep -v ';' | awk '{print $2}'`
+        TREE_BASENAME=`grep -i TREE $INIT_CONFIG | grep -v ';' | awk '{print $2}'`
     fi
 
     if [ ! "$DATASOURCE" ] ; then 
@@ -76,7 +77,7 @@ SetDefaults () {
         echo "Error: Missing value for DATASOURCE" | tee -a $LOG
         exit 1
     fi
-
+    
     ARCHIVE_USER_DATA_DIR=@DATADIR_SHARED@/archive/$ARCHIVE_USER    
 }
 
@@ -131,11 +132,27 @@ CheckForTaxonomy () {
 
 InstructUser () {
     echo "*****************"   | tee -a $LOG
-    echo "To boom these data, login as lmwriter and run PYTHON with the args:"   | tee -a $LOG
-    echo "   LMHOME/LmDbServer/boom/daboom.py"
-    echo "      --config_file=<configfile>"
-    echo "      start"
+    echo "To Boom these species data, login as lmwriter and run PYTHON with the args:"   | tee -a $LOG
+    echo "   @LMHOME@/LmDbServer/boom/daboom.py"   | tee -a $LOG
+    echo "      --config_file=<configfile>"   | tee -a $LOG
+    echo "      start"   | tee -a $LOG
     echo "*****************"   | tee -a $LOG
+    if [ -z ${TREE_BASENAME} ]; then
+        echo "" | tee -a $LOG
+    else
+        EXT=.nex
+        trimLen=`expr length $EXT` 
+        fullLen=`expr length $TREE_BASENAME`
+        len=`expr $fullLen - $trimLen`
+        TREENAME=${TREE_BASENAME:0:len}
+       
+        echo "*****************"   | tee -a $LOG
+        echo "Then, annotate an existing tree with species squids - run PYTHON with the args:"   | tee -a $LOG
+        echo "   @LMHOME@/LmServer/tools/boomInputs.py"   | tee -a $LOG
+        echo "      --user=$ARCHIVE_USER"   | tee -a $LOG
+        echo "      --tree_name=$TREENAME"   | tee -a $LOG
+        echo "*****************"   | tee -a $LOG
+    fi
 }
 
 ### Main ###

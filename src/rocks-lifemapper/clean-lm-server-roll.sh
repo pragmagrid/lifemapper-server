@@ -249,10 +249,8 @@ del-attr () {
 
 # remove obsolete Lifemapper cron jobs
 del-cron-jobs () {
-   rm -vf  /etc/cron.hourly/lmserver_*
-   rm -vf  /etc/cron.daily/lmserver_*
-   rm -vf  /etc/cron.monthly/lmserver_*
-   echo "Removed old cron jobs in /etc/cron.daily and /etc/cron.monthly on frontend ..."  >> $LOG
+   rm -vf  /etc/cron.*/lmserver_*
+   echo "Removed old cron jobs on frontend in /etc directories cron.d, cron.daily and cron.monthly ..."  >> $LOG
 }
 
 del-automount-entry () {
