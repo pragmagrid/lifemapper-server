@@ -21,21 +21,22 @@ class Command(lm.commands.list.command):
         """
 
         def run(self, params, args):
-            from LmServer.common.lmconstants import ALGORITHM_DATA
+            from LmServer.common.lmconstants import Algorithms
 
             if len(args)> 0 :
                 code = args[0].upper()
-                algmeta = ALGORITHM_DATA[code]
-                print("{}: {}".format(code, algmeta['name']))
+                algQualities = Algorithms.get(code)
+                print("{}: {}".format(code, algQualities.name))
                 print("parameters:")
-                for param, vals in algmeta['parameters'].iteritems():
+                for param, vals in algQualities.parameters.iteritems():
                     print("   {}: {}".format(param, str(vals)))
             else :
-                algorithms  = ALGORITHM_DATA.keys()
-                algorithms.sort()
-                for code in algorithms:
-                    algmeta = ALGORITHM_DATA[code]
-                    print "    {}: {}".format(code, algmeta['name'])
+                algCodes  = Algorithms.codes()
+                algCodes.sort()
+                for code in algCodes:
+                    algQualities = Algorithms.get(code)
+                    for param, vals in algQualities.parameters.iteritems():
+                        print("   {}: {}".format(param, str(vals)))
 
 RollName = "lifemapper-server"
 
