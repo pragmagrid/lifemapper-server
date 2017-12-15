@@ -135,6 +135,9 @@ CheckForTaxonomy () {
 InstructUser () {
     echo "*****************"   | tee -a $LOG
     echo "Run the following python script(s) as lmwriter"   | tee -a $LOG
+    echo "*****************"   | tee -a $LOG
+    echo "" | tee -a $LOG
+    echo "" | tee -a $LOG
     echo "" | tee -a $LOG
     if [ -z ${BIOGEO_HYPOTHESES} ]; then
         echo "" | tee -a $LOG
