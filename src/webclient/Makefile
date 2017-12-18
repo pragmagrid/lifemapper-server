@@ -68,6 +68,8 @@ version.mk:
 SEDSPEC += \
         -e 's%@DATADIR_SERVER@%$(DATADIR_SERVER)%g' \
         -e 's%@ARCHIVENAME@%$(ARCHIVENAME)%g' \
+        -e 's%@TARBALL_POSTFIX@%$(TARBALL_POSTFIX)%g' \
+        -e 's%@VERSION@%$(VERSION)%g' \
         -e 's%@LMCLIENT@%$(LMCLIENT)%g'
 
 prepSrc.sh: prepSrc.sh.in
