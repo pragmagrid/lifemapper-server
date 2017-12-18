@@ -135,22 +135,22 @@ CheckForTaxonomy () {
 InstructUser () {
     echo "*****************"   | tee -a $LOG
     echo "Run the following python script(s) as lmwriter"   | tee -a $LOG
+    echo "*****************"   | tee -a $LOG
+    echo "" | tee -a $LOG
+    echo "" | tee -a $LOG
     echo "" | tee -a $LOG
     if [ -z ${BIOGEO_HYPOTHESES} ]; then
         echo "" | tee -a $LOG
     else
         echo "*****************"   | tee -a $LOG
         echo "Encode biogeographic hypotheses into a matrix with the args:"   | tee -a $LOG
-        echo "   @LMHOME@/LmServer/tools/boomInputs.py"   | tee -a $LOG
-        echo "      --user=$ARCHIVE_USER  --gridset_name=$ARCHIVE_NAME"   | tee -a $LOG
+        echo "   @LMHOME@/LmServer/tools/boomInputs.py  --user=$ARCHIVE_USER  --gridset_name=$ARCHIVE_NAME"   | tee -a $LOG
         echo "*****************"   | tee -a $LOG
     fi
 
     echo "*****************"   | tee -a $LOG
     echo "Boom these species data with the args:"   | tee -a $LOG
-    echo "   @LMHOME@/LmDbServer/boom/daboom.py"   | tee -a $LOG
-    echo "      --config_file=<configfile>"   | tee -a $LOG
-    echo "      start"   | tee -a $LOG
+    echo "   @LMHOME@/LmDbServer/boom/daboom.py  --config_file=<configfile>   start"   | tee -a $LOG
     echo "*****************"   | tee -a $LOG
     
     if [ -z ${TREE_BASENAME} ]; then
@@ -164,8 +164,7 @@ InstructUser () {
        
         echo "*****************"   | tee -a $LOG
         echo "Annotate an existing tree with species squids with the args:"   | tee -a $LOG
-        echo "   @LMHOME@/LmServer/tools/boomInputs.py"   | tee -a $LOG
-        echo "      --user=$ARCHIVE_USER  --tree_name=$TREENAME"   | tee -a $LOG
+        echo "   @LMHOME@/LmServer/tools/boomInputs.py  --user=$ARCHIVE_USER  --tree_name=$TREENAME"   | tee -a $LOG
         echo "*****************"   | tee -a $LOG
     fi
 }
