@@ -10,8 +10,7 @@ DL_FILE=@LMCLIENT@.@TARBALL_POSTFIX@
 # download archive from lifemapper git
 download_release () {
   echo "Starting GIT checkout from $URL"
-  wget "$URL/$LOC/$DL_FILE
-  #wget "$URL/@REPONAME@/releases/download/v@VERSION@/$(ARCHIVENAME).@TARBALL_POSTFIX@" 
+  wget "$URL/$LOC/$DL_FILE"
 }
 
 ### main ###
