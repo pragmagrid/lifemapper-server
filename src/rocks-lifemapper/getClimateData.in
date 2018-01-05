@@ -26,6 +26,12 @@ if [ $# -ne 1 ]; then
 fi 
 
 set_defaults() {
+    /bin/egrep -i "^lmwriter" /etc/passwd
+    if [ $? -ne 0 ]; then
+        echo "Error: user lmwriter does not exist" | tee -a $LOG
+        exit 1
+    fi
+
     SCEN_PKG=$1
     LMURL=@LMURL@
     THISNAME=`/bin/basename $0`
@@ -65,12 +71,6 @@ get_climate_data () {
 }
 
 fix_permissions () {
-    /bin/egrep -i "^lmwriter" /etc/passwd
-    if [ $? -ne 0 ]; then
-        echo "Error: user lmwriter does not exist" | tee -a $LOG
-        exit 1
-    fi
-
     # This script is run by root, so set group write permission on new data dir
     echo "Reset group and write permission on $CLIMATE_DIR data dir"   | tee -a $LOG
     /bin/chgrp -R lmwriter $CLIMATE_DIR

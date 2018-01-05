@@ -261,9 +261,9 @@ else
     start_services
     set_password 
     update_connect_file
+    update_lm_tables
 fi
 
-update_lm_tables
 add_lm_functions
 install_cron_jobs
 update_config
