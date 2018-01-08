@@ -148,7 +148,6 @@ InstructUser () {
         echo "*****************"   | tee -a $LOG
     else
         echo "Notice: DATASOURCE=$DATASOURCE: No taxonomy to ingest" | tee -a $LOG
-        return 
     fi
     echo "**********************************************"   | tee -a $LOG
     echo "Run the following python script(s) as lmwriter"   | tee -a $LOG

@@ -213,7 +213,7 @@ instruct_user () {
     echo ""   | tee -a $LOG
     echo "*****************"   | tee -a $LOG
     echo "To transform climate layers, run:"   | tee -a $LOG
-    echo "@LMHOME@/rocks/bin/transformData $CLIMATE_DIR"   | tee -a $LOG
+    echo "@LMHOME@/rocks/bin/transformData $SCEN_PKG"   | tee -a $LOG
     echo "*****************"   | tee -a $LOG
     echo ""   | tee -a $LOG
     echo "*****************"   | tee -a $LOG
