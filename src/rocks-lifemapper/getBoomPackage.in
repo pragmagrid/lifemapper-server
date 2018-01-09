@@ -69,19 +69,19 @@ pull_boom_package () {
 read_boom_datanames () {
     # Required data
     SCEN_PKG=`grep -i ENVIRONMENTAL_PACKAGE $BOOM_META_FILE | grep -v ';' | awk '{print $2}'`
-    POINT_PKG=`grep -i SPECIES_PACKAGE $BOOM_META_FILE | grep -v ';' | awk '{print $2}'`
     BOOM_PARAM_BASENAME=`grep -i BOOM_PARAMETER_FILE $BOOM_META_FILE | grep -v ';' | awk '{print $2}'`
 
     echo "Var SCEN_PKG = $SCEN_PKG" | tee -a $LOG
-    echo "Var POINT_PKG = $POINT_PKG" | tee -a $LOG
-    echo "Var BOOM_PARAM_BASENAME = $BOOM_PARAM_BASENAME" | tee -a $LOG       
+    echo "    POINT_PKG = $POINT_PKG" | tee -a $LOG
+    echo "    BOOM_PARAM_BASENAME = $BOOM_PARAM_BASENAME" | tee -a $LOG       
 
     # Optional data
+    POINT_PKG=`grep -i SPECIES_PACKAGE $BOOM_META_FILE | grep -v ';' | awk '{print $2}'`
     TREE_BASENAME=`grep -i TREE_FILE $BOOM_META_FILE | grep -v ';' | awk '{print $2}'`
     BIOGEO_PKG=`grep -i BIOGEO_PACKAGE $BOOM_META_FILE | grep -v ';' | awk '{print $2}'`
 
-    echo "Var TREE_BASENAME = $TREE_BASENAME" | tee -a $LOG       
-    echo "Var BIOGEO_PKG = $BIOGEO_PKG" | tee -a $LOG
+    echo "    TREE_BASENAME = $TREE_BASENAME" | tee -a $LOG       
+    echo "    BIOGEO_PKG = $BIOGEO_PKG" | tee -a $LOG
 
     CLIMATE_META_FILE=$CLIMATE_DIR/$SCEN_PKG.py        
     BOOM_PARAM_FILE=$TEMP_DIR/$BOOM_PARAM_BASENAME
@@ -95,7 +95,7 @@ get_user_create_dir () {
         BOOM_USER=`grep -i ARCHIVE_USER $BOOM_PARAM_FILE | grep -v _EMAIL | grep -v ';' | awk '{print $2}'`
         BOOM_ARCHIVE=`grep -i ARCHIVE_NAME $BOOM_PARAM_FILE | grep -v ';' | awk '{print $2}'`
         USER_DIR=@DATADIR_SHARED@/archive/$BOOM_USER
-        echo "Var BOOM_USER = $BOOM_USER" | tee -a $LOG
+        echo "    BOOM_USER = $BOOM_USER" | tee -a $LOG
     else 
         echo "Failed to find $BOOM_PARAM_FILE" | tee -a $LOG
         exit 1
@@ -113,22 +113,23 @@ get_user_create_dir () {
     POINT_META_FILE=$USER_DIR/$POINT_PKG.meta
 }
 
-### Move climate data named in POINT_PKG
+### Move (optional) climate data named in POINT_PKG (bison pulls dynamically)
 install_occ_data () {
     # find metadata file pkgname.py
-    if [ -f $POINT_META_FILE ]; then
+    if [ -z ${POINT_PKG} ]; then
+        echo "No point data" | tee -a $LOG
+    # already exists
+    elif [ -f $POINT_META_FILE ]; then
         echo "Point metadata $POINT_META_FILE already present" | tee -a $LOG
         rm -f $TEMP_DIR/$POINT_PKG.@TARBALL_POSTFIX@ 
-    else  
-        # uncompress 
-        if [ -f $TEMP_DIR/$POINT_PKG.@TARBALL_POSTFIX@ ]; then
-            echo "Uncompress point data into $USER_DIR" | tee -a $LOG
-            tar xzf $TEMP_DIR/$POINT_PKG.@TARBALL_POSTFIX@ -C $USER_DIR/
-            rm -f $TEMP_DIR/$POINT_PKG.@TARBALL_POSTFIX@ 
-        else
-            echo "Failed to find $POINT_PKG ..." | tee -a $LOG
-            exit 1
-        fi
+    # uncompress
+    elif [ -f $TEMP_DIR/$POINT_PKG.@TARBALL_POSTFIX@ ]; then
+        echo "Uncompress point data into $USER_DIR" | tee -a $LOG
+        tar xzf $TEMP_DIR/$POINT_PKG.@TARBALL_POSTFIX@ -C $USER_DIR/
+        rm -f $TEMP_DIR/$POINT_PKG.@TARBALL_POSTFIX@ 
+    else
+        echo "Failed to find $POINT_PKG ..." | tee -a $LOG
+        exit 1
     fi
 }
 
@@ -137,17 +138,13 @@ install_climate_data () {
     # find metadata file pkgname.py
     if [ -f $CLIMATE_META_FILE ]; then
         echo "Climate metadata $CLIMATE_META_FILE already present" | tee -a $LOG
-        rm -f $TEMP_DIR/$SCEN_PKG.@TARBALL_POSTFIX@
-    else  
-        # uncompress 
-        if [ -f $TEMP_DIR/$SCEN_PKG.@TARBALL_POSTFIX@ ]; then
-            echo "Uncompress climate data into $CLIMATE_DIR" | tee -a $LOG
-            tar xzf $TEMP_DIR/$SCEN_PKG.@TARBALL_POSTFIX@ -C $CLIMATE_DIR/
-            rm -f $TEMP_DIR/$SCEN_PKG.@TARBALL_POSTFIX@
-        else
-            echo "Failed to retrieve $SCEN_PKG ..." | tee -a $LOG
-            exit 1
-        fi
+    # uncompress 
+    elif [ -f $TEMP_DIR/$SCEN_PKG.@TARBALL_POSTFIX@ ]; then
+        echo "Uncompress climate data into $CLIMATE_DIR" | tee -a $LOG
+        tar xzf $TEMP_DIR/$SCEN_PKG.@TARBALL_POSTFIX@ -C $CLIMATE_DIR/
+    else
+        echo "Failed to retrieve $SCEN_PKG ..." | tee -a $LOG
+        exit 1
     fi
 }
 

@@ -63,7 +63,6 @@ get_climate_data () {
         # uncompress 
         if [ -f $CLIMATE_PKG_FILE ]; then
             tar xzf $CLIMATE_PKG_FILE -C $CLIMATE_DIR/
-            rm -f $CLIMATE_PKG_FILE 
         else
             echo "Failed to retrieve $SCEN_PKG ..." | tee -a $LOG
         fi
