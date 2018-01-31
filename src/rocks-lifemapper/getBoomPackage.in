@@ -72,7 +72,6 @@ read_boom_datanames () {
     BOOM_PARAM_BASENAME=`grep -i BOOM_PARAMETER_FILE $BOOM_META_FILE | grep -v ';' | awk '{print $2}'`
 
     echo "Var SCEN_PKG = $SCEN_PKG" | tee -a $LOG
-    echo "    POINT_PKG = $POINT_PKG" | tee -a $LOG
     echo "    BOOM_PARAM_BASENAME = $BOOM_PARAM_BASENAME" | tee -a $LOG       
 
     # Optional data
@@ -80,6 +79,7 @@ read_boom_datanames () {
     TREE_BASENAME=`grep -i TREE_FILE $BOOM_META_FILE | grep -v ';' | awk '{print $2}'`
     BIOGEO_PKG=`grep -i BIOGEO_PACKAGE $BOOM_META_FILE | grep -v ';' | awk '{print $2}'`
 
+    echo "    POINT_PKG = $POINT_PKG" | tee -a $LOG
     echo "    TREE_BASENAME = $TREE_BASENAME" | tee -a $LOG       
     echo "    BIOGEO_PKG = $BIOGEO_PKG" | tee -a $LOG
 
