@@ -19,7 +19,6 @@ getMakeflowParams () {
     for c in $nodecpus;
     do  
         echo 'next:'
-        echo '  cpuTotal is' $cpuTotal
         echo '  c is' $c
         cpuTotal=$(( $cpuTotal + $c ))
         echo '  cpuTotal is' $cpuTotal
