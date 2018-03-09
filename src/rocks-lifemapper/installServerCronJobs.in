@@ -14,9 +14,9 @@ usage ()
 setDefaults () {
     THISNAME=`/bin/basename $0`
     gname=lmwriter
-    CRON_HOURLY_DIR=/etc/cron.hourly/
-    CRON_DAILY_DIR=/etc/cron.daily/
-    CRON_D_DIR=/etc/cron.d/
+    CRON_HOURLY_DIR=/etc/cron.hourly
+    CRON_DAILY_DIR=/etc/cron.daily
+    CRON_D_DIR=/etc/cron.d
     LOG=@LMSCRATCHDISK@/log/$THISNAME.log
     rm -f $LOG
     touch $LOG
@@ -28,8 +28,6 @@ TimeStamp () {
 
 # remove obsolete Lifemapper cron jobs
 removeOldTasks () {
-    rm -vf  ${CRON_HOURLY_DIR}/lm_*
-    rm -vf  ${CRON_DAILY_DIR}/lm_*
     rm -vf  ${CRON_HOURLY_DIR}/lmserver_*
     rm -vf  ${CRON_DAILY_DIR}/lmserver_*
     echo "Removed old tasks in ${CRON_HOURLY_DIR} and ${CRON_DAILY_DIR} on frontend ..." | tee -a $LOG
