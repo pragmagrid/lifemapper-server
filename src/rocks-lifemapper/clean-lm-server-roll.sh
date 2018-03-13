@@ -128,6 +128,7 @@ del-opt-python () {
 del-mapserver(){
    echo "Removing mapserver and dependencies RPMS" >> $LOG
    $RM opt-lifemapper-mapserver
+   $RM gd-devel
    $RM giflib-devel
    $RM bitstream-vera-sans-fonts
    $RM bitstream-vera-fonts-common
@@ -136,7 +137,6 @@ del-mapserver(){
 del-postgres() {
    echo "Removing postgis, postgres, pgbouncer and dependencies RPMS" >> $LOG
    $RM postgis2_91
-   $RM json-c.x86_64
    $RM pgbouncer
    $RM postgresql91-test
    $RM postgresql91-contrib
@@ -149,9 +149,8 @@ del-postgres() {
 }
 
 del-sysRPM() {
-   echo "Removing pgdg and elgis repos RPMS" >> $LOG
+   echo "Removing pgdg repo" >> $LOG
    $RM pgdg-centos91
-   $RM elgis-release
 }
 
 del-directories () {

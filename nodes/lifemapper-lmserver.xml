@@ -16,7 +16,9 @@
 	<changelog>
 	</changelog>
 
-        <package>libxslt</package>
+        <!-- Installed by default
+        <package>libxslt</package> -->
+        
         <package>opt-lifemapper-MySQL-python</package>
         <package>opt-lifemapper-rtree</package>
         <package>lifemapper-spatialindex</package>
@@ -39,7 +41,6 @@
         <package>pgbouncer</package>
 
         <!-- postgis and dependencies -->
-        <package>json-c</package>
         <package>geos</package>
         <package>proj</package>
         <package>postgis2_91</package>

@@ -15,7 +15,8 @@
 	<changelog>
 	</changelog>
 
-	<package>flex</package>
+   <!-- Installed by default
+ 	<package>flex</package> -->
 
         <!-- RPM repos needed for postgresql,postgis,mapserver -->
 	<package>pgdg-centos91</package>
@@ -24,15 +25,20 @@
 	<!-- lifemapper dependencies -->
 	<package>giflib-devel</package>
 	<package>byacc</package>
-	<package>readline-devel</package>
+	
+	<!-- Installed by default
+	<package>readline-devel</package> -->
+	
 	<package>pakchois</package>
 	<package>neon</package>
 	<package>hdf4</package>
 	<package>hdf4-devel</package>
 	<package>hdf5</package>
 	<package>hdf5-devel</package>
-	<package>cmake</package>
-	<package>screen</package>
+	
+	<!-- Installed by default
+	<package>screen</package> -->
+	
 	<package>lifemapper-cctools</package>
 	<package>lifemapper-cmd</package>
 	<package>lifemapper-proj</package>
