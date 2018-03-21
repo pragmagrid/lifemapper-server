@@ -67,12 +67,12 @@ rpm -i src/RPMS/screen*rpm
 # yum --enablerepo base install cmake
 
 # for mapserver
+yum install giflib-devel
 compile proj
 install lifemapper-proj
 yum install gd-devel
 rpm -i src/RPMS/bitstream-vera-fonts-common-1.10-18.el6.noarch.rpm
 rpm -i src/RPMS/bitstream-vera-sans-fonts-1.10-18.el6.noarch.rpm
-yum install giflib-devel
 
 # for mysql-python, rtree, cherrypy
 # setuptools 6.1, included in python roll
