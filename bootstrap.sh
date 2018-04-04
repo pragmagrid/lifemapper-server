@@ -67,12 +67,12 @@ rpm -i src/RPMS/screen*rpm
 # yum --enablerepo base install cmake
 
 # for mapserver
-yum install giflib-devel
+yum -y install giflib-devel
 compile proj
 install lifemapper-proj
-yum install gd-devel
-rpm -i src/RPMS/bitstream-vera-fonts-common-1.10-18.el6.noarch.rpm
-rpm -i src/RPMS/bitstream-vera-sans-fonts-1.10-18.el6.noarch.rpm
+yum -y install gd-devel
+rpm -i src/RPMS/bitstream-vera-fonts-common-1.10-19.el7.nux.noarch.rpm
+rpm -i src/RPMS/bitstream-vera-sans-fonts-1.10-19.el7.nux.noarch.rpm
 
 # for mysql-python, rtree, cherrypy
 # setuptools 6.1, included in python roll
@@ -121,8 +121,8 @@ install lifemapper-spatialindex
 
 # install postgresql
 yum --enablerepo base update openssl
-yum install postgresql91
-yum install postgresql91-devel
+yum -y install postgresql91
+yum -y install postgresql91-devel
 
 echo "You will need to checkout Lifemapper src from Github:"
 echo "    cd src/lmserver"
