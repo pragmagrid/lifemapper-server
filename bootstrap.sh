@@ -82,9 +82,8 @@ rpm -i src/RPMS/bitstream-vera-sans-fonts-1.10-19.el7.nux.noarch.rpm
 # for mysql-python, rtree, cherrypy
 # setuptools 6.1, included in python roll
 # setuptools 20.7, needed for cherrypy build (on devapp, not in LM install)
-#module load opt-python
-#compile setuptools
-#install opt-lifemapper-setuptools
+module load opt-python
+(cd src/setuptools; /opt/python/bin/python2.7 setup.py install)
 
 # for cherrypy
 # cheroot requires six

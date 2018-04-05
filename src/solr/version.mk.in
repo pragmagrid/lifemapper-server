@@ -12,3 +12,7 @@ SOLRUSER=solr
 
 SOLR_PORT=8983
 
+RPM.FILES =  \
+$(PKGROOT)/*  \n\
+/etc/rc.d/init.d/solr  \n\
+/opt/solr/*

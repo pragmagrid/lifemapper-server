@@ -3,3 +3,7 @@ ARCHIVENAME     = mod_wsgi
 VERSION         = 4.4.13
 RELEASE         = 0
 TARBALL_POSTFIX	= tar.gz
+
+RPM.FILES = \
+$(PKGROOT)/*  \n\
+/usr/lib64/httpd/modules/mod_wsgi.so

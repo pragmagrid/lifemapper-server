@@ -4,3 +4,5 @@ RELEASE         = 0
 TNC_URL         = http://maps.tnc.org/files/shp
 ECOREGION_FILE  = terr-ecoregions-TNC.zip
 TARBALL_POSTFIX = tar.gz
+
+RPM.FILES = /state/partition1/$(DATADIR_SHARED)/$(ENV_DATA_DIR)/*
