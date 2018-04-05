@@ -63,7 +63,6 @@ version.mk:
 	cat ../version.mk version.mk.in > version.mk
 
 PY.PATH = /opt/python/bin/$(PYTHONVER)
-EXPORTDIR=$(subst share,state/partition1,$(DATADIR_SERVER))/test
 
 
 SEDSPEC += \
@@ -119,7 +118,6 @@ build:
 	make $(SERVICES)
 
 install::
-	mkdir -p $(ROOT)/$(EXPORTDIR)
 	mkdir -p $(ROOT)/$(LMHOME)
 	mv $(TOPDIR)/*  $(ROOT)/$(LMHOME) 
 	
