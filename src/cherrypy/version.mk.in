@@ -2,3 +2,5 @@ NAME = opt-lifemapper-cherrypy
 VERSION = 10.2.1
 ARCHIVENAME = CherryPy
 RELEASE = 0
+
+RPM.FILES	= /opt/python/lib/$(PYTHONVER)/site-packages/*

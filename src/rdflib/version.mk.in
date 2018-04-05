@@ -2,3 +2,5 @@ NAME = opt-lifemapper-rdflib
 VERSION = 3.2.0
 ARCHIVENAME = rdflib
 RELEASE = 0
+
+RPM.FILES	= /opt/python/lib/$(PYTHONVER)/site-packages/*

@@ -2,3 +2,5 @@ NAME = opt-lifemapper-rtree
 VERSION = 0.7.0
 ARCHIVENAME = Rtree
 RELEASE = 0
+
+RPM.FILES	= /opt/python/lib/$(PYTHONVER)/site-packages/*

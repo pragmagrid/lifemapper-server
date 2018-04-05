@@ -2,3 +2,5 @@ NAME = opt-lifemapper-tempora
 VERSION = 1.6.1
 ARCHIVENAME = tempora
 RELEASE = 0
+
+RPM.FILES	= /opt/python/lib/$(PYTHONVER)/site-packages/*

@@ -2,3 +2,5 @@ NAME = opt-lifemapper-coverage
 VERSION = 4.3.1
 ARCHIVENAME = coverage
 RELEASE = 0
+
+RPM.FILES	= /opt/python/lib/$(PYTHONVER)/site-packages/*

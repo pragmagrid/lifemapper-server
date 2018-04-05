@@ -67,8 +67,13 @@ rpm -i src/RPMS/screen*rpm
 # yum --enablerepo base install cmake
 
 # for mapserver
+module unload opt-python
 yum -y install giflib-devel
+
+module load opt-python
 compile proj
+module unload opt-python
+
 install lifemapper-proj
 yum -y install gd-devel
 rpm -i src/RPMS/bitstream-vera-fonts-common-1.10-19.el7.nux.noarch.rpm
@@ -77,44 +82,70 @@ rpm -i src/RPMS/bitstream-vera-sans-fonts-1.10-19.el7.nux.noarch.rpm
 # for mysql-python, rtree, cherrypy
 # setuptools 6.1, included in python roll
 # setuptools 20.7, needed for cherrypy build (on devapp, not in LM install)
-compile setuptools
-install opt-lifemapper-setuptools
+#module load opt-python
+#compile setuptools
+#install opt-lifemapper-setuptools
 
 # for cherrypy
 # cheroot requires six
 # tempora requires six, pytz
 # portend requires tempora
 # cherrypy requires six, cheroot>=5.2.0, portend>=1.6.1
+module load opt-python
 compile six
+module unload opt-python
 install opt-lifemapper-six
+
+module load opt-python
 compile cheroot
+module unload opt-python
 install opt-lifemapper-cheroot
+
+module load opt-python
 compile pytz
+module unload opt-python
 install opt-lifemapper-pytz
+
+module load opt-python
 compile tempora
+module unload opt-python
 install opt-lifemapper-tempora
+
+module load opt-python
 compile portend
+module unload opt-python
 install opt-lifemapper-portend
 
 # for pytables 
+module load opt-python
 compile cython 
+module unload opt-python
 install opt-lifemapper-cython 
+
+module load opt-python
 compile numexpr 
+module unload opt-python
 install opt-lifemapper-numexpr 
 rpm -i src/RPMS/hdf5*rpm
 
 # meed for gdal
+module load opt-python
 compile geos
+module unload opt-python
 install lifemapper-geos
 /sbin/ldconfig
 
 # meed for psycopg2
+module load opt-python
 compile gdal
+module unload opt-python
 install lifemapper-gdal
 /sbin/ldconfig
 
 # for rtree
+module load opt-python
 compile spatialindex
+module unload opt-python
 install lifemapper-spatialindex
 /sbin/ldconfig
 
