@@ -148,9 +148,8 @@ module unload opt-python
 install lifemapper-spatialindex
 /sbin/ldconfig
 
-
-# install postgresql
-yum --enablerepo base update openssl
+# install postgresql from enabled rhel6 pgdg91 repo
+#yum --enablerepo base update openssl
 yum -y install postgresql91
 yum -y install postgresql91-devel
 
