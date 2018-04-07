@@ -15,4 +15,5 @@ SOLR_PORT=8983
 RPM.FILES =  \
 $(PKGROOT)/*  \n\
 /etc/rc.d/init.d/solr  \n\
-/opt/solr/*
+$(SOLRDIR)/*  \n\
+$(subst share,state/partition1,$(SOLRDATA))/*

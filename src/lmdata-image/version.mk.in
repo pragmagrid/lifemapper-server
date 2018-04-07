@@ -7,4 +7,4 @@ VERSION     		= 1.0
 RELEASE 	      	= 0
 TARBALL_POSTFIX	= tar.gz
 
-RPM.FILES = $(subst share,state/partition1,$(DATADIR_SHARED))/$(IMAGE_DATA_PATH)/*
+RPM.FILES = $(subst share,state/partition1,$(DATADIR_SERVER))/$(IMAGE_DATA_PATH)/*
