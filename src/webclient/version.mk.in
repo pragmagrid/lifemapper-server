@@ -7,5 +7,5 @@ TARBALL_POSTFIX	= tar.gz
 
 RPM.EXTRAS = "AutoReq: no"
 
-RPM.FILES = /state/partition1/$(DATADIR_SERVER)/*
+RPM.FILES = $(subst share,state/partition1,$(DATADIR_SERVER))/*
 

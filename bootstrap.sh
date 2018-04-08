@@ -66,6 +66,10 @@ rpm -i src/RPMS/screen*rpm
 # cmake already installed and up-to-date
 # yum --enablerepo base install cmake
 
+# for pytables
+rpm -i src/RPMS/hdf*.rpm
+
+
 # for mapserver
 module unload opt-python
 yum -y install giflib-devel
@@ -76,8 +80,7 @@ module unload opt-python
 
 install lifemapper-proj
 yum -y install gd-devel
-rpm -i src/RPMS/bitstream-vera-fonts-common-1.10-19.el7.nux.noarch.rpm
-rpm -i src/RPMS/bitstream-vera-sans-fonts-1.10-19.el7.nux.noarch.rpm
+rpm -i src/RPMS/bitstream-vera-*.rpm
 
 # for mysql-python, rtree, cherrypy
 # setuptools 6.1, included in python roll
@@ -153,24 +156,18 @@ install lifemapper-spatialindex
 yum -y install postgresql91
 yum -y install postgresql91-devel
 
-echo "You will need to checkout Lifemapper src from Github:"
-echo "    cd src/lmserver"
-echo "    make prep "
-echo "then download data from Lifemapper:"
-echo "    cd src/lmdata-env"
-echo "    make prep "
-echo "    cd src/lmdata-image"
-echo "    make prep "
-echo "    cd src/lmdata-species"
-echo "    make prep "
-echo "then download Solr source code:"
-echo "    cd src/solr"
-echo "    make prep "
-echo "finally download CCTools source code:"
-echo "    cd src/cctools"
-echo "    make prep "
-echo "and DendroPy source code:"
-echo "    cd src/dendropy"
-echo "    module load opt-python"
-echo "    make prep "
+# reload opt-python for rpm builds
+module load opt-python
+
+echo "You will need to download source code, data and dependencies."
+echo "    lmserver"
+echo "    webclient"
+echo "    lmdata-env"
+echo "    lmdata-image"
+echo "    lmdata-species"
+echo "    solr"
+echo "    cctools"
+echo "    dendropy"
+echo "Go to each of the packages and execute:"
+echo "    make prep"
 
