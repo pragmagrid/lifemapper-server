@@ -73,11 +73,10 @@ yum -y install giflib-devel
 module load opt-python
 compile proj
 module unload opt-python
-
 install lifemapper-proj
+
 yum -y install gd-devel
-rpm -i src/RPMS/bitstream-vera-fonts-common-1.10-19.el7.nux.noarch.rpm
-rpm -i src/RPMS/bitstream-vera-sans-fonts-1.10-19.el7.nux.noarch.rpm
+rpm -i src/RPMS/bitstream-vera-*.rpm
 
 # for mysql-python, rtree, cherrypy
 # setuptools 6.1, included in python roll
