@@ -92,4 +92,4 @@ install::
 	tar -xzf  $(ARCHIVENAME).$(TARBALL_POSTFIX)  -C  $(ROOT)/$(EXPORTDIR)/
 
 clean::
-	rm -rf $(ARCHIVENAME) version.mk
+	rm -rf $(ARCHIVENAME) version.mk prepSrc.sh
