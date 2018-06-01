@@ -7,5 +7,5 @@ TARBALL_POSTFIX	= tar.gz
 RPM.EXTRAS = "AutoReq: no"
 
 RPM.FILES = \
-$(PKGROOT)/*  \n\
-/opt/python/lib/$(PYTHONVER)/site-packages/*
+    $(PKGROOT)/*  \n\
+    $(PYTHON27_PACKAGES)/*

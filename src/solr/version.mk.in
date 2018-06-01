@@ -1,19 +1,19 @@
-NAME        	= lifemapper-solr
-ARCHIVENAME    = solr
-VERSION     	= 6.1.0
-JTS            = jts-1.8.jar
-RELEASE 	      = 1
+NAME			= lifemapper-solr
+ARCHIVENAME		= solr
+VERSION			= 6.1.0
+JTS				= jts-1.8.jar
+RELEASE			= 1
 TARBALL_POSTFIX	= tgz
 
-SOLRDIR=/opt/solr
-JTSDIR=/opt/solr/server/solr-webapp/webapp/WEB-INF/lib
-SOLRDATA=$(DATADIR_SERVER)/solr
-SOLRUSER=solr
+SOLRDIR			= /opt/solr
+JTSDIR			= /opt/solr/server/solr-webapp/webapp/WEB-INF/lib
+SOLRDATA		= $(DATADIR_SERVER)/solr
+SOLRUSER		= solr
 
-SOLR_PORT=8983
+SOLR_PORT		= 8983
 
 RPM.FILES =  \
-$(PKGROOT)/*  \n\
-/etc/rc.d/init.d/solr  \n\
-$(SOLRDIR)/*  \n\
-$(subst share,state/partition1,$(SOLRDATA))/*
+    $(PKGROOT)/*  \n\
+    /etc/rc.d/init.d/solr  \n\
+    $(SOLRDIR)/*  \n\
+    $(subst share,state/partition1,$(SOLRDATA))/*

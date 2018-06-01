@@ -1,6 +1,6 @@
-NAME = opt-lifemapper-MySQL-python
-VERSION = 1.2.5
-ARCHIVENAME = MySQL-python
-RELEASE = 0
+NAME		= opt-lifemapper-MySQL-python
+VERSION		= 1.2.5
+ARCHIVENAME	= MySQL-python
+RELEASE		= 0
 
-RPM.FILES	= /opt/python/lib/$(PYTHONVER)/site-packages/*
+RPM.FILES	= $(PYTHON27_PACKAGES)/*

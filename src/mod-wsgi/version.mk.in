@@ -5,5 +5,5 @@ RELEASE         = 0
 TARBALL_POSTFIX	= tar.gz
 
 RPM.FILES = \
-$(PKGROOT)/*  \n\
-/usr/lib64/httpd/modules/mod_wsgi.so
+    $(PKGROOT)/*  \n\
+    /usr/lib64/httpd/modules/mod_wsgi.so

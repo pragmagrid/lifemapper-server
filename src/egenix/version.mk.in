@@ -1,6 +1,6 @@
-NAME = opt-lifemapper-egenix-mx-base
-VERSION = 3.2.7
-ARCHIVENAME = egenix-mx-base
-RELEASE = 0
+NAME		= opt-lifemapper-egenix-mx-base
+VERSION		= 3.2.7
+ARCHIVENAME	= egenix-mx-base
+RELEASE		= 0
 
-RPM.FILES	= /opt/python/lib/$(PYTHONVER)/site-packages/*
+RPM.FILES	= $(PYTHON27_PACKAGES)/*

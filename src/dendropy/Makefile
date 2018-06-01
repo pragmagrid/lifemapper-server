@@ -68,8 +68,6 @@ SEDSPEC += \
 version.mk:
 	cat ../version.mk version.mk.in > version.mk
 
-PY.PATH = /opt/python/bin/$(PYTHONVER)
-
 prepSrc.sh: prepSrc.sh.in
 	$(SED) $(SEDSPEC) $^ > $@
 	chmod 755 $@
@@ -83,8 +81,11 @@ prep: prepSrc.sh
 build:
 	tar xzf  $(ARCHIVENAME)-$(VERSION).tar.gz 
 	(\
-	    cd $(ARCHIVENAME)-$(VERSION);   \
-	    $(PY.PATH) setup.py build;      \
+	    cd $(ARCHIVENAME)-$(VERSION);   					\
+	    mv setup.py setup.py.bak							\
+	    cat setup.py.bak | grep -v "env python" > setup.py	\
+		export PYTHON=$(PYTHON27);             				\
+	    $(PYTHON27) setup.py build;							\
 	)
 
 install::

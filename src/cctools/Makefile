@@ -93,7 +93,7 @@ install::
 	mkdir -p $(ROOT)/$(PKGROOT)
 	(														\
 		cd $(ARCHIVENAME);											\
-		export PYTHON=$(PY.PATH);             									\
+		export PYTHON=$(PYTHON27);             									\
 		export PATH=$(PKGROOT)/bin:$(PATH);									\
 		$(MAKE) CCTOOLS_INSTALL_DIR=$(ROOT)/$(PKGROOT) CCTOOLS_PYTHON_PATH=$(ROOT)/$(PYTHON27_PACKAGES) install;\
 	)

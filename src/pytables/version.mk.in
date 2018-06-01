@@ -1,6 +1,6 @@
-NAME = opt-lifemapper-pytables
-VERSION = 3.1.0rc2
-ARCHIVENAME = tables
-RELEASE = 0
+NAME		= opt-lifemapper-pytables
+VERSION		= 3.1.0rc2
+ARCHIVENAME	= tables
+RELEASE		= 0
 
-RPM.FILES	= /opt/python/lib/$(PYTHONVER)/site-packages/*
+RPM.FILES	= $(PYTHON27_PACKAGES)/*

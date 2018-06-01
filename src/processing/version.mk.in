@@ -1,8 +1,8 @@
-NAME = opt-lifemapper-processing
-VERSION = 0.52
-ARCHIVENAME = processing
-RELEASE = 0
+NAME		= opt-lifemapper-processing
+VERSION		= 0.52
+ARCHIVENAME	= processing
+RELEASE		= 0
 
-RPM.EXTRAS = "AutoReq: no"
+RPM.EXTRAS	= "AutoReq: no"
 
-RPM.FILES	= /opt/python/lib/$(PYTHONVER)/site-packages/*
+RPM.FILES	= $(PYTHON27_PACKAGES)/*

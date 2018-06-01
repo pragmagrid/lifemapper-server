@@ -1,7 +1,7 @@
-NAME = opt-lifemapper-mapserver
-VERSION = 6.0.4
-ARCHIVENAME = mapserver
-RELEASE = 0
+NAME			= opt-lifemapper-mapserver
+VERSION			= 6.0.4
+ARCHIVENAME		= mapserver
+RELEASE			= 0
 TARBALL_POSTFIX	= tar.gz
 
-RPM.FILES	= /opt/python/lib/$(PYTHONVER)/site-packages/*
+RPM.FILES		= $(PYTHON27_PACKAGES)/*

@@ -1,6 +1,6 @@
-NAME = opt-lifemapper-pytz
-VERSION = 2017.2
-ARCHIVENAME = pytz
-RELEASE = 0
+NAME		= opt-lifemapper-pytz
+VERSION		= 2017.2
+ARCHIVENAME	= pytz
+RELEASE		= 0
 
-RPM.FILES	= /opt/python/lib/$(PYTHONVER)/site-packages/*
+RPM.FILES	= $(PYTHON27_PACKAGES)/*

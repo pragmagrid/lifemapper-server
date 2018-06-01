@@ -1,7 +1,7 @@
-NAME = opt-lifemapper-cython
-VERSION = 0.20
+NAME		= opt-lifemapper-cython
+VERSION		= 0.20
 ARCHIVENAME = Cython
-RELEASE = 0
+RELEASE		= 0
 
-RPM.FILES	= /opt/python/lib/$(PYTHONVER)/site-packages/*
+RPM.FILES	= $(PYTHON27_PACKAGES)
 

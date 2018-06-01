@@ -1,10 +1,10 @@
-PKGROOT	       = /opt/lifemapper
-NAME            = opt-lifemapper-setuptools
-ARCHIVENAME     = setuptools
-VERSION         = 20.7.0
-RELEASE         = 0
+PKGROOT			= /opt/lifemapper
+NAME			= opt-lifemapper-setuptools
+ARCHIVENAME		= setuptools
+VERSION			= 20.7.0
+RELEASE			= 0
 TARBALL_POSTFIX	= tar.gz
 
-RPM.EXTRAS = "AutoReq: no"
+RPM.EXTRAS		= "AutoReq: no"
 
-RPM.FILES	= /opt/python/lib/$(PYTHONVER)/site-packages/*
+RPM.FILES		= $(PYTHON27_PACKAGES)/*

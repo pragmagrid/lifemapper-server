@@ -4,11 +4,8 @@ ARCHIVENAME     = cctools-$(VERSION)-source
 RELEASE         = 0
 TARBALL_POSTFIX	= tar.gz
 
-PYTHON27	= /opt/python/bin/$(PYTHONVER)
-PYTHON27_PACKAGES = /opt/python/lib/$(PYTHONVER)/site-packages
-
 RPM.EXTRAS = "AutoReq: no"
 
 RPM.FILES = \
-$(PKGROOT)/*  \n\
-$(PYTHON27_PACKAGES)/*
+    $(PKGROOT)/*  \n\
+    $(PYTHON27_PACKAGES)/*

@@ -10,11 +10,13 @@
 # Note: LMURL, SCENARIO_PACKAGE is defined in lifemapper-server/src/version.mk
 
 get_ecoregion_data () {
+  echo ""
   echo "Get ecoregion data"
   curl -L "@TNC_URL@/@ECOREGION_FILE@" -o ../lmdata-env/@ECOREGION_FILE@
 }
 
 create_climate_data () {
+  echo ""
   echo "Fetch climate data"
   curl -L "@LMURL@/@SCENARIO_PACKAGE@.@TARBALL_POSTFIX@" -o ../lmdata-env/@SCENARIO_PACKAGE@.@TARBALL_POSTFIX@
 }

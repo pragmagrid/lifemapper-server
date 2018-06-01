@@ -6,4 +6,6 @@ TARBALL_POSTFIX = tar.gz
 
 RPM.EXTRAS = "AutoReq: no"
 
-RPM.FILES	= /opt/python/lib/$(PYTHONVER)/site-packages/*
+RPM.FILES = \
+    /opt/python/bin         \n\
+    $(PYTHON27_PACKAGES)/*
