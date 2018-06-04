@@ -68,6 +68,8 @@ SEDSPEC += \
 version.mk:
 	cat ../version.mk version.mk.in > version.mk
 
+PY.PATH = /opt/python/bin/$(PYTHONVER)
+
 prepSrc.sh: prepSrc.sh.in
 	$(SED) $(SEDSPEC) $^ > $@
 	chmod 755 $@
@@ -82,10 +84,10 @@ build:
 	tar xzf  $(ARCHIVENAME)-$(VERSION).tar.gz 
 	(\
 	    cd $(ARCHIVENAME)-$(VERSION);   					\
-	    mv setup.py setup.py.bak							\
-	    cat setup.py.bak | grep -v "env python" > setup.py	\
-		export PYTHON=$(PYTHON27);             				\
-	    $(PYTHON27) setup.py build;							\
+	    grep -v "env python" setup.py > setup.py			\
+		cat setup.py  | grep -v "env python" > /tmp/dendro.setup.py	\
+		/bin/cp /tmp/dendro.setup.py setup.py				\
+	    $(PY.PATH) setup.py build;							\
 	)
 
 install::
