@@ -72,15 +72,19 @@ build:
 	(\
  	    export PATH=/usr/pgsql-$(PGSQLVER)/bin:$(PATH); \
 	    cd $(ARCHIVENAME)-$(VERSION);   \
+	    module load opt-python;			\
 	    $(PY.PATH) setup.py build;      \
+	    module unload opt-python;		\
 	)
 
 
 install::
 	(\
  	    export PATH=/usr/pgsql-$(PGSQLVER)/bin:$(PATH); \
-	    cd $(ARCHIVENAME)-$(VERSION);   \
+	    cd $(ARCHIVENAME)-$(VERSION);			\
+	    module load opt-python;					\
 	    $(PY.PATH) setup.py $@ --root=$(ROOT)/; \
+	    module unload opt-python;				\
 	)
 
 clean::

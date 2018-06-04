@@ -84,16 +84,17 @@ build:
 	tar xzf  $(ARCHIVENAME)-$(VERSION).tar.gz 
 	(\
 	    cd $(ARCHIVENAME)-$(VERSION);   					\
-	    grep -v "env python" setup.py > setup.py			\
-		cat setup.py  | grep -v "env python" > /tmp/dendro.setup.py	\
-		/bin/cp /tmp/dendro.setup.py setup.py				\
+	    module load opt-python;			\
 	    $(PY.PATH) setup.py build;							\
+	    module unload opt-python;			\
 	)
 
 install::
 	(\
 	    cd $(ARCHIVENAME)-$(VERSION);   \
+	    module load opt-python;			\
 	    $(PY.PATH) setup.py $@ --root=$(ROOT)/; \
+	    module unload opt-python;			\
 	)
 
 clean::
