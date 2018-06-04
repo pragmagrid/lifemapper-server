@@ -48,6 +48,7 @@ rpm -Uvh $RPMFORGEREPO
 #yumdownloader --resolve --enablerepo rpmforge hdf4.x86_64 hdf4-devel.x86_64; \
 #yumdownloader --resolve --enablerepo rpmforge hdf5.x86_64 hdf5-devel.x86_64; \
 #
+#yumdownloader --resolve --enablerepo base gd-devel.x86_64; \
 #yumdownloader --resolve --enablerepo base byacc.x86_64; \
 #yumdownloader --resolve --enablerepo base screen.x86_64; \
 #)
@@ -72,15 +73,14 @@ rpm -i src/RPMS/hdf*.rpm
 
 # for mapserver
 module unload opt-python
-yum -y install giflib-devel
+rpm -i src/RPMS/giflib-devel*.rpm
+rpm -i src/RPMS/gd-devel*.rpm
+rpm -i src/RPMS/bitstream-vera-*.rpm
 
 module load opt-python
 compile proj
 module unload opt-python
 install lifemapper-proj
-
-yum -y install gd-devel
-rpm -i src/RPMS/bitstream-vera-*.rpm
 
 # for mysql-python, rtree, cherrypy
 # setuptools 6.1, included in python roll

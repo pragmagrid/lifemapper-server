@@ -72,9 +72,10 @@ MAPSERVERPROGS = shp2img shptree sortshp tile4ms
 build:
 	tar xzf  $(ARCHIVENAME)-$(VERSION).$(TARBALL_POSTFIX)
 	(\
-	    cd $(ARCHIVENAME)-$(VERSION);     			\
+	    cd $(ARCHIVENAME)-$(VERSION);				\
+		export PYTHON=$(PY.PATH);             		\
 	    export PATH=$(ROOT):$(PKGROOT)/bin:$(PATH);	\
-	    ./configure --with-proj=$(PKGROOT) --with-geos --with-ogr --with-gdal --with-postgis --with-kml --prefix=$(PKGROOT);  \
+	    ./configure --with-python --with-proj=$(PKGROOT) --with-geos --with-ogr --with-gdal --with-postgis --with-kml --prefix=$(PKGROOT);  \
 	    $(MAKE); 									\
 	    cd mapscript/python;						\
 	    module load opt-python;						\
@@ -87,6 +88,7 @@ install::
 	mkdir -p $(ROOT)/$(PKGROOT)/sbin
 	(\
 	    cd $(ARCHIVENAME)-$(VERSION); 				\
+		export PYTHON=$(PY.PATH);             		\
 	    $(INSTALL) $(MAPSERVERPROGS) $(ROOT)/$(PKGROOT)/bin;	\
 	    $(INSTALL) mapserv $(ROOT)/$(PKGROOT)/sbin;	\
 	    export PATH=$(ROOT)/$(PKGROOT)/bin:$(PATH);	\

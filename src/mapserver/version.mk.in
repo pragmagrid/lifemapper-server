@@ -4,4 +4,7 @@ ARCHIVENAME		= mapserver
 RELEASE			= 0
 TARBALL_POSTFIX	= tar.gz
 
-RPM.FILES		= $(PYTHON27_PACKAGES)/*
+RPM.FILES		=  \
+    $(PKGROOT)/bin/*     \n\
+    $(PKGROOT)/sbin/*    \n\
+    $(PYTHON27_PACKAGES)/*
