@@ -83,10 +83,10 @@ prep: prepSrc.sh
 build:
 	tar xzf  $(ARCHIVENAME)-$(VERSION).tar.gz 
 	(\
-	    cd $(ARCHIVENAME)-$(VERSION);   					\
+	    cd $(ARCHIVENAME)-$(VERSION);   \
 	    module load opt-python;			\
-	    $(PY.PATH) setup.py build;							\
-	    module unload opt-python;			\
+	    $(PY.PATH) setup.py build;		\
+	    module unload opt-python;		\
 	)
 
 install::

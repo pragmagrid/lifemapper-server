@@ -63,11 +63,25 @@ include Rules.mk
 version.mk:
 	cat ../version.mk version.mk.in > version.mk
 
+SEDSPEC += \
+        -e 's%@ARCHIVENAME@%$(ARCHIVENAME)%g'  \
+        -e 's%@TARBALL_POSTFIX@%$(TARBALL_POSTFIX)%g'
+
+prepSrc.sh: prepSrc.sh.in
+	$(SED) $(SEDSPEC) $^ > $@
+	chmod 755 $@
+
+prep: prepSrc.sh
+	rm -rf version.mk
+	make version.mk
+	make prepSrc.sh
+	./prepSrc.sh
+
 PY.PATH = /opt/python/bin/$(PYTHONVER)
 
 build:
-	gunzip -c $(ARCHIVENAME)-$(VERSION).$(TARBALL_POSTFIX) | $(TAR) -xf -
-	cd patch-files && find . -type f | grep -v CVS | cpio -pduv ..
+	$(TAR) -xzvf $(ARCHIVENAME)-$(VERSION).$(TARBALL_POSTFIX)
+	# cd patch-files && find . -type f | grep -v CVS | cpio -pduv ..
 	( 							\
 		cd $(ARCHIVENAME)-$(VERSION);				\
 		export PYTHON=$(PY.PATH);             		\
