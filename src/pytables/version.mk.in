@@ -1,6 +1,6 @@
 NAME		= opt-lifemapper-pytables
-VERSION		= 3.1.0rc2
-ARCHIVENAME	= tables
+VERSION		= 3.4.3
+ARCHIVENAME	= PyTables
 RELEASE		= 0
 
 RPM.FILES	= $(PYTHON27_PACKAGES)/*

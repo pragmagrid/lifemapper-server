@@ -15,10 +15,6 @@
 
 	<changelog>
 	</changelog>
-
-        <!-- Installed by default
-        <package>libxslt</package> -->
-        
         <package>opt-lifemapper-MySQL-python</package>
         <package>opt-lifemapper-rtree</package>
         <package>lifemapper-spatialindex</package>

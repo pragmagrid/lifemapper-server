@@ -13,14 +13,16 @@ PGDGREPO=pgdg-centos92-9.2-3.noarch.rpm;
 wget https://download.postgresql.org/pub/repos/yum/9.2/redhat/rhel-7-x86_64/$PGDGREPO
 rpm -i $PGDGREPO
 )
-# replace defunct rpmforge repo for hdf4, hdf5 rpms
-# since using RHEL 6 repo, edit repo to point to correct URLs
+
+# HDF4 not needed?
+# replace defunct rpmforge repo for hdf4 rpms
+# edit repo to point to correct URLs
 #     /etc/yum.repos.d/rpmforge.repo
-(cd src/RPMS; 
-RPMFORGEREPO=rpmforge-release-0.5.3-1.el6.rf.x86_64.rpm;
-wget http://ftp.tu-chemnitz.de/pub/linux/dag/redhat/el6/en/x86_64/rpmforge/RPMS/$RPMFORGEREPO;
-rpm -Uvh $RPMFORGEREPO;
-)
+# (cd src/RPMS; 
+# RPMFORGEREPO=rpmforge-release-0.5.3-1.el6.rf.x86_64.rpm;
+# wget http://ftp.tu-chemnitz.de/pub/linux/dag/redhat/el6/en/x86_64/rpmforge/RPMS/$RPMFORGEREPO;
+# rpm -Uvh $RPMFORGEREPO;
+# )
 
 
 ### do this only once for roll distro to keep known RPMS in the roll src
@@ -30,12 +32,17 @@ rpm -Uvh $RPMFORGEREPO;
 
 #yumdownloader --resolve --enablerepo base uuid.x86_64; \
 #yumdownloader --resolve --enablerepo base c-ares.x86_64; \
-
+#
+##yumdownloader --resolve --enablerepo rpmforge hdf4.x86_64 hdf4-devel.x86_64; \
+#
+#yumdownloader --resolve --enablerepo epel hdf5.x86_64 hdf5-devel.x86_64; \
 #yumdownloader --resolve --enablerepo epel fcgi.x86_64; \
 #yumdownloader --resolve --enablerepo epel fcgi.x86_64; \
 #yumdownloader --resolve --enablerepo epel fribidi.x86_64; \
 #yumdownloader --resolve --enablerepo epel mapserver.x86_64; \
+#yumdownloader --resolve --enablerepo epel proj.x86_64; \
 #
+#yumdownloader --resolve --enablerepo pgdg92 gdal.x86_64 gdal-devel.x86_64; \
 #yumdownloader --resolve --enablerepo pgdg92 geos.x86_64; \
 #yumdownloader --resolve --enablerepo pgdg92 postgresql92.x86_64; \
 #yumdownloader --resolve --enablerepo pgdg92 postgresql92-devel.x86_64; \
@@ -47,10 +54,6 @@ rpm -Uvh $RPMFORGEREPO;
 #yumdownloader --resolve --enablerepo pgdg92 postgresql92-test.x86_64; \
 #yumdownloader --resolve --enablerepo pgdg92 pgbouncer.x86_64; \
 #yumdownloader --resolve --enablerepo pgdg92 postgis2_92.x86_64; \
-#
-### hdf libs are in updated rpmforge repo
-#yumdownloader --resolve --enablerepo rpmforge hdf4.x86_64 hdf4-devel.x86_64; \
-#yumdownloader --resolve --enablerepo rpmforge hdf5.x86_64 hdf5-devel.x86_64; \
 #
 #yumdownloader --resolve --enablerepo base gd-devel.x86_64; \
 #yumdownloader --resolve --enablerepo base byacc.x86_64; \
@@ -77,8 +80,9 @@ rpm -i src/RPMS/screen*rpm
 # cmake already installed and up-to-date
 # yum --enablerepo base install cmake
 
-# for pytables
-rpm -i src/RPMS/hdf*.rpm
+# for pytables hdf5 
+rpm -i src/RPMS/libaec*.rpm
+rpm -i src/RPMS/hdf5*.rpm
 
 
 # for mapserver
