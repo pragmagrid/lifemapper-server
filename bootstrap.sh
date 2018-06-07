@@ -10,8 +10,8 @@
 # for postgresql9.2 and postgis2 rpms
 (cd src/RPMS;
 PGDGREPO=pgdg-centos92-9.2-3.noarch.rpm;
-wget https://download.postgresql.org/pub/repos/yum/9.2/redhat/rhel-7-x86_64/$PGDGREPO
-rpm -i $PGDGREPO
+wget https://download.postgresql.org/pub/repos/yum/9.2/redhat/rhel-7-x86_64/$PGDGREPO;
+rpm -i $PGDGREPO;
 )
 
 # HDF4 not needed?
@@ -33,7 +33,7 @@ rpm -i $PGDGREPO
 #yumdownloader --resolve --enablerepo base uuid.x86_64; \
 #yumdownloader --resolve --enablerepo base c-ares.x86_64; \
 #
-##yumdownloader --resolve --enablerepo rpmforge hdf4.x86_64 hdf4-devel.x86_64; \
+# #yumdownloader --resolve --enablerepo rpmforge hdf4.x86_64 hdf4-devel.x86_64; \
 #
 #yumdownloader --resolve --enablerepo epel hdf5.x86_64 hdf5-devel.x86_64; \
 #yumdownloader --resolve --enablerepo epel fcgi.x86_64; \
@@ -48,7 +48,6 @@ rpm -i $PGDGREPO
 #yumdownloader --resolve --enablerepo pgdg92 postgresql92-devel.x86_64; \
 #yumdownloader --resolve --enablerepo pgdg92 postgresql92-server.x86_64; \
 #yumdownloader --resolve --enablerepo pgdg92 postgresql92-docs.x86_64; \
-#yumdownloader --resolve --enablerepo pgdg92 postgresql92-python.x86_64; \
 #yumdownloader --resolve --enablerepo pgdg92 uuid.x86_64; \
 #yumdownloader --resolve --enablerepo pgdg92 postgresql92-contrib.x86_64; \
 #yumdownloader --resolve --enablerepo pgdg92 postgresql92-test.x86_64; \
@@ -144,7 +143,21 @@ module unload opt-python
 install opt-lifemapper-numexpr 
 rpm -i src/RPMS/hdf5*rpm
 
-# meed for gdal
+# # need for gdal?
+# yum --enablerepo epel install gpsbabel
+# yum --enablerepo base install xerces-c
+# yum --enablerepo epel install openjpeg2
+# yum --enablerepo epel install ogdi
+# yum --enablerepo base install unixODBC
+# yum --enablerepo epel install netcdf
+# yum --enablerepo pgdg2 install libgeotiff
+# yum --enablerepo epel install libgta
+# # libfreexl.so.1
+# yum --enablerepo epel install libdap
+# yum --enablerepo epel install cfitsio
+# yum --enablerepo epel install armadillo
+# yum --enablerepo epel install CharLS
+
 module load opt-python
 compile geos
 module unload opt-python
