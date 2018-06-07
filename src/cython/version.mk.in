@@ -1,5 +1,5 @@
 NAME		= opt-lifemapper-cython
-VERSION		= 0.20
+VERSION		= 0.28.3
 ARCHIVENAME = Cython
 RELEASE		= 0
 

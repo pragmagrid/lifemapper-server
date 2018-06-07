@@ -42,7 +42,6 @@ rpm -i $PGDGREPO;
 #yumdownloader --resolve --enablerepo epel mapserver.x86_64; \
 #yumdownloader --resolve --enablerepo epel proj.x86_64; \
 #
-#yumdownloader --resolve --enablerepo pgdg92 gdal.x86_64 gdal-devel.x86_64; \
 #yumdownloader --resolve --enablerepo pgdg92 geos.x86_64; \
 #yumdownloader --resolve --enablerepo pgdg92 postgresql92.x86_64; \
 #yumdownloader --resolve --enablerepo pgdg92 postgresql92-devel.x86_64; \
@@ -63,7 +62,7 @@ rpm -i $PGDGREPO;
 rpm -i src/RPMS/uuid*.rpm
 
 # Needed for pgbouncer 
-rpm -i src/RPMS/c-ares.rpm
+rpm -i src/RPMS/c-ares*.rpm
 
 # add dynamic libs
 ## No longer using java roll with /usr/java/latest/jre
