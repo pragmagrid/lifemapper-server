@@ -1,6 +1,6 @@
 NAME            = lifemapper-gdal
 ARCHIVENAME     = gdal
-VERSION         = 1.9.2
+VERSION         = 1.11.4
 RELEASE         = 0
 TARBALL_POSTFIX	= tar.gz
 
