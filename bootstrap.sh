@@ -68,17 +68,19 @@ rpm -i src/RPMS/c-ares*.rpm
 ## No longer using java roll with /usr/java/latest/jre
 echo "/etc/alternatives/jre/lib/amd64" > /etc/ld.so.conf.d/lifemapper-server.conf
 echo "/etc/alternatives/jre/lib/amd64/server" >> /etc/ld.so.conf.d/lifemapper-server.conf
-echo "/opll t/lifemapper/lib" >> /etc/ld.so.conf.d/lifemapper-server.conf
+echo "/opt/lifemapper/lib" >> /etc/ld.so.conf.d/lifemapper-server.conf
 echo "/opt/python/lib/" >> /etc/ld.so.conf.d/lifemapper-server.conf
 # echo "/opt/rocks/fcgi/lib" >> /etc/ld.so.conf.d/lifemapper-server.conf
 /sbin/ldconfig
 
+module unload opt-python
 rpm -i src/RPMS/screen*rpm
 
 # cmake already installed and up-to-date
 # yum --enablerepo base install cmake
 
 # for pytables hdf5 
+module unload opt-python
 rpm -i src/RPMS/libaec*.rpm
 rpm -i src/RPMS/hdf5*.rpm
 
@@ -95,10 +97,10 @@ module unload opt-python
 install lifemapper-proj
 
 # for mysql-python, rtree, cherrypy
-# setuptools 6.1, included in python roll
+# setuptools 36.2.7 included in /opt/python 2.7
 # setuptools 20.7, needed for cherrypy build (on devapp, not in LM install)
-module load opt-python
-(cd src/setuptools; /opt/python/bin/python2.7 setup.py install)
+# module load opt-python
+# (cd src/setuptools; /opt/python/bin/python2.7 setup.py install)
 
 # for cherrypy
 # cheroot requires six
@@ -140,7 +142,6 @@ module load opt-python
 compile numexpr 
 module unload opt-python
 install opt-lifemapper-numexpr 
-rpm -i src/RPMS/hdf5*rpm
 
 # # need for gdal?
 # yum --enablerepo epel install gpsbabel
