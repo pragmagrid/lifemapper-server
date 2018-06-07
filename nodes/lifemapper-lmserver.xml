@@ -15,35 +15,30 @@
 
 	<changelog>
 	</changelog>
-
-        <!-- Installed by default
-        <package>libxslt</package> -->
-        
         <package>opt-lifemapper-MySQL-python</package>
         <package>opt-lifemapper-rtree</package>
         <package>lifemapper-spatialindex</package>
         <package>strace</package>
 
-        <!-- postgres and dependencies -->
-        <package>postgresql91</package>
-        <package>postgresql91-libs</package>
-        <package>postgresql91-devel</package>
-        <package>postgresql91-server</package>
-        <package>postgresql91-docs</package>
-        <package>postgresql91-python</package>
+        <!-- postgres and dependencies (postgresql92-python, mx needed?)-->
+        <package>postgresql92</package>
+        <package>postgresql92-libs</package>
+        <package>postgresql92-devel</package>
+        <package>postgresql92-server</package>
         <package>uuid</package>
-        <package>mx</package>
-        <package>postgresql91-contrib</package>
-        <package>postgresql91-test</package>
+        <package>postgresql92-docs</package>  
+        <package>postgresql92-contrib</package>
+        <package>postgresql92-test</package>
 
         <!-- pgbouncer and dependencies -->
         <package>lifemapper-libevent</package>
+        <package>c-ares</package>
         <package>pgbouncer</package>
 
         <!-- postgis and dependencies -->
         <package>geos</package>
         <package>proj</package>
-        <package>postgis2_91</package>
+        <package>postgis2_92</package>
 
 <post>
 # check for attribute before setting
