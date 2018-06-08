@@ -68,6 +68,7 @@ SEDSPEC += \
 version.mk:
 	cat ../version.mk version.mk.in > version.mk
 
+OTOL_WRAPPER_PKG=v$(VERSION).$(TARBALL_POSTFIX)
 PY.PATH = /opt/python/bin/$(PYTHONVER)
 
 prepSrc.sh: prepSrc.sh.in
@@ -81,7 +82,7 @@ prep: prepSrc.sh
 	./prepSrc.sh
 
 build:
-	tar xzf  $(ARCHIVENAME)-$(VERSION).tar.gz 
+	tar xzf  $(OTOL_WRAPPER_PKG).tar.gz 
 	(\
 	    cd $(ARCHIVENAME)-$(VERSION);   \
 	    module load opt-python;			\
