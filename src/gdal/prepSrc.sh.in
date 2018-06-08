@@ -5,7 +5,7 @@ GDAL_URL=https://download.osgeo.org/gdal/@VERSION@
 GDAL_PKG=@ARCHIVENAME@-@VERSION@.@TARBALL_POSTFIX@
 
 get_source_files () {
-  echo "Fetch CCTools source code"
+  echo "Fetch GDAL source code"
   wget "$GDAL_URL/$GDAL_PKG" 
 }
 
