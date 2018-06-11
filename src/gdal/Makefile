@@ -66,7 +66,6 @@ version.mk:
 PY.PATH = /opt/python/bin/$(PYTHONVER)
 
 build:
-	module load opt-python
 	$(TAR) -xzvf $(ARCHIVENAME)-$(VERSION).$(TARBALL_POSTFIX)
 	( 											\
 		cd $(ARCHIVENAME)-$(VERSION);			\
@@ -76,7 +75,6 @@ build:
 	)
 	
 install::
-	module load opt-python
 	mkdir -p $(ROOT)/$(PKGROOT)
 	(											\
 		cd $(ARCHIVENAME)-$(VERSION);			\
