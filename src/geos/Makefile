@@ -64,7 +64,7 @@ version.mk:
 	cat ../version.mk version.mk.in > version.mk
 
 build:
-	tar xjvf ../RPMS/$(ARCHIVENAME)-$(VERSION).$(TARBALL_POSTFIX) . 
+	tar xjvf $(ARCHIVENAME)-$(VERSION).$(TARBALL_POSTFIX)
 	(											\
 	    cd $(ARCHIVENAME)-$(VERSION);			\
 	    ./configure --prefix=$(PKGROOT);		\

@@ -63,44 +63,26 @@ include Rules.mk
 version.mk:
 	cat ../version.mk version.mk.in > version.mk
 
-SEDSPEC += \
-        -e 's%@ARCHIVENAME@%$(ARCHIVENAME)%g'  \
-        -e 's%@VERSION@%$(VERSION)%g'  \
-        -e 's%@TARBALL_POSTFIX@%$(TARBALL_POSTFIX)%g'
-
-prepSrc.sh: prepSrc.sh.in
-	$(SED) $(SEDSPEC) $^ > $@
-	chmod 755 $@
-
-prep: prepSrc.sh
-	rm -rf version.mk
-	make version.mk
-	make prepSrc.sh
-	./prepSrc.sh
-
 PY.PATH = /opt/python/bin/$(PYTHONVER)
 
 build:
+	module load opt-python
 	$(TAR) -xzvf $(ARCHIVENAME)-$(VERSION).$(TARBALL_POSTFIX)
-	# cd patch-files && find . -type f | grep -v CVS | cpio -pduv ..
 	( 											\
 		cd $(ARCHIVENAME)-$(VERSION);			\
-		module load opt-python             		\
 		export PATH=$(PKGROOT)/bin:$(PATH);		\
 		./configure --with-python --with-ogr --with-geos=yes  --prefix=$(PKGROOT);	\
 		$(MAKE);								\
-		module load opt-python;					\
 	)
 	
 install::
+	module load opt-python
 	mkdir -p $(ROOT)/$(PKGROOT)
 	(											\
 		cd $(ARCHIVENAME)-$(VERSION);			\
-		module load opt-python             		\
 		export PATH=$(PKGROOT)/bin:$(PATH);		\
 		$(MAKE) prefix=$(ROOT)/$(PKGROOT) ROOT=$(ROOT)/ install; \
-		module unload opt-python             	\
 	)
 
 clean::
-	rm -rf $(ARCHIVENAME)-$(VERSION) version.mk prepSrc.sh
+	rm -rf $(ARCHIVENAME)-$(VERSION) version.mk 
