@@ -89,7 +89,7 @@ rpm -i src/RPMS/hdf5*.rpm
 module unload opt-python
 rpm -i src/RPMS/giflib-devel*.rpm
 rpm -i src/RPMS/gd-devel*.rpm
-rpm -i src/RPMS/bitstream-vera-*.rpm
+rpm -i src/RPMS/bitstream-vera-*1.10-19*.rpm
 
 module load opt-python
 compile proj

@@ -63,23 +63,23 @@ include Rules.mk
 version.mk:
 	cat ../version.mk version.mk.in > version.mk
 
-SEDSPEC += \
-        -e 's%@ARCHIVENAME@%$(ARCHIVENAME)%g'	\
-        -e 's%@VERSION@%$(VERSION)%g'			\
-        -e 's%@TARBALL_POSTFIX@%$(TARBALL_POSTFIX)%g'
-
-prepSrc.sh: prepSrc.sh.in
-	$(SED) $(SEDSPEC) $^ > $@
-	chmod 755 $@
-
-prep: prepSrc.sh
-	rm -rf version.mk
-	make version.mk
-	make prepSrc.sh
-	./prepSrc.sh
+// SEDSPEC += \
+//         -e 's%@ARCHIVENAME@%$(ARCHIVENAME)%g'	\
+//         -e 's%@VERSION@%$(VERSION)%g'			\
+//         -e 's%@TARBALL_POSTFIX@%$(TARBALL_POSTFIX)%g'
+// 
+// prepSrc.sh: prepSrc.sh.in
+// 	$(SED) $(SEDSPEC) $^ > $@
+// 	chmod 755 $@
+// 
+// prep: prepSrc.sh
+// 	rm -rf version.mk
+// 	make version.mk
+// 	make prepSrc.sh
+// 	./prepSrc.sh
 
 build:
-	tar xjvf $(ARCHIVENAME)-$(VERSION).$(TARBALL_POSTFIX) 
+	tar xjvf ../RPMS/$(ARCHIVENAME)-$(VERSION).$(TARBALL_POSTFIX) . 
 	(											\
 	    cd $(ARCHIVENAME)-$(VERSION);			\
 	    ./configure --prefix=$(PKGROOT);		\
