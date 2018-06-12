@@ -65,21 +65,19 @@ RPM.EXTRAS += "AutoReq: 0"
 version.mk:
 	cat ../version.mk version.mk.in > version.mk
 
-PY.PATH = /opt/python/bin/$(PYTHONVER)
-
 build:
 	tar xzvf  $(ARCHIVENAME)-$(VERSION).$(TARBALL_POSTFIX) 
-	( 							\
-		cd $(ARCHIVENAME)-$(VERSION);				\
+	(
+		cd $(ARCHIVENAME)-$(VERSION);	\
 		./configure --with-python=/opt/python/bin/$(PYTHONVER) --prefix=$(PKGROOT);	\
-		$(MAKE);					\
+		$(MAKE);						\
 	)
 	
 install::
 	mkdir -p $(ROOT)/$(PKGROOT)/bin
-	(							\
-		cd $(ARCHIVENAME)-$(VERSION);				\
-		$(MAKE) DESTDIR=$(ROOT)/ install;\
+	(
+		cd $(ARCHIVENAME)-$(VERSION);		\
+		$(MAKE) DESTDIR=$(ROOT)/ install;	\
 	)
 
 clean::

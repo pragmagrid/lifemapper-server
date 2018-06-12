@@ -66,17 +66,17 @@ version.mk:
 
 build:
 	gunzip -c $(ARCHIVENAME)-$(VERSION).$(TARBALL_POSTFIX) | $(TAR) -xf -
-	( 							\
-		cd $(ARCHIVENAME)-$(VERSION);				\
-		./configure --prefix=$(PKGROOT);	\
-		$(MAKE);					\
+	(
+		cd $(ARCHIVENAME)-$(VERSION);	\
+		./configure --prefix=$(PKGROOT);\
+		$(MAKE);						\
 	)
 	
 install::
 	mkdir -p $(ROOT)/$(PKGROOT)
-	(							\
+	(
 		cd $(ARCHIVENAME)-$(VERSION);				\
-		$(MAKE) prefix=$(ROOT)/$(PKGROOT) install;\
+		$(MAKE) prefix=$(ROOT)/$(PKGROOT) install;	\
 	)
 
 clean::
