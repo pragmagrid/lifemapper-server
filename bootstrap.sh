@@ -4,16 +4,6 @@
 #
 . /opt/rocks/share/devel/src/roll/etc/bootstrap-functions.sh
 
-# EPEL repo 7.9 is installed in Rocks 7 by default
-
-# enable repo (from https://yum.postgresql.org/repopackages.php) 
-# for postgresql9.2 and postgis2 rpms
-(cd src/RPMS;
-PGDGREPO=pgdg-centos92-9.2-3.noarch.rpm;
-wget https://download.postgresql.org/pub/repos/yum/9.2/redhat/rhel-7-x86_64/$PGDGREPO;
-rpm -i $PGDGREPO;
-)
-
 # HDF4 not needed?
 # replace defunct rpmforge repo for hdf4 rpms
 # edit repo to point to correct URLs
@@ -29,9 +19,13 @@ rpm -i $PGDGREPO;
 #(cd src/RPMS; 
 #wget http://li.nux.ro/download/nux/dextop/el7/x86_64//bitstream-vera-fonts-common-1.10-19.el7.nux.noarch.rpm; \
 #wget http://li.nux.ro/download/nux/dextop/el7/x86_64//bitstream-vera-sans-fonts-1.10-19.el7.nux.noarch.rpm; \
-
+## for postgresql9.2 and postgis2 rpms
+#wget https://download.postgresql.org/pub/repos/yum/9.2/redhat/rhel-7-x86_64/pgdg-centos92-9.2-3.noarch.rpm;  \
+#
 #yumdownloader --resolve --enablerepo base uuid.x86_64; \
 #yumdownloader --resolve --enablerepo base c-ares.x86_64; \
+#yumdownloader --resolve --enablerepo base readline-devel.x86_64; \
+#yumdownloader --resolve --enablerepo base flex.x86_64; \
 #
 # #yumdownloader --resolve --enablerepo rpmforge hdf4.x86_64 hdf4-devel.x86_64; \
 #
@@ -57,6 +51,9 @@ rpm -i $PGDGREPO;
 #yumdownloader --resolve --enablerepo base byacc.x86_64; \
 #yumdownloader --resolve --enablerepo base screen.x86_64; \
 #)
+
+# Add PGDG repo for Postgresql and geospatial libs
+rpm -i src/RPMS/pgdg-centos92-9.2-3.noarch.rpm
 
 # Needed for postgresql92-contrib  
 rpm -i src/RPMS/uuid*.rpm
@@ -143,7 +140,7 @@ compile numexpr
 module unload opt-python
 install opt-lifemapper-numexpr 
 
-# # need for gdal?
+# # other options for gdal
 # yum --enablerepo epel install gpsbabel
 # yum --enablerepo base install xerces-c
 # yum --enablerepo epel install openjpeg2
@@ -164,7 +161,7 @@ module unload opt-python
 install lifemapper-geos
 /sbin/ldconfig
 
-# meed for psycopg2
+# need for psycopg2
 module load opt-python
 compile gdal
 module unload opt-python

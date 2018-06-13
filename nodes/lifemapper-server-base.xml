@@ -15,30 +15,18 @@
 	<changelog>
 	</changelog>
 
-   <!-- Installed by default
- 	<package>flex</package> -->
+ 	<package>flex</package> 
+	<package>screen</package>
 
-        <!-- RPM repos needed for postgresql,postgis,mapserver -->
-	<package>pgdg-centos91</package>
-	<package>epel-release</package>
+     <!-- RPM repos needed for postgresql,postgis,mapserver -->
+	<package>pgdg-centos92</package>
 
 	<!-- lifemapper dependencies -->
 	<package>giflib-devel</package>
 	<package>byacc</package>
-	
-	<!-- Installed by default
-	<package>readline-devel</package> -->
-	
-	<package>pakchois</package>
-	<package>neon</package>
-	<package>hdf4</package>
-	<package>hdf4-devel</package>
+	<package>readline-devel</package>
 	<package>hdf5</package>
 	<package>hdf5-devel</package>
-	
-	<!-- Installed by default
-	<package>screen</package> -->
-	
 	<package>lifemapper-cctools</package>
 	<package>lifemapper-cmd</package>
 	<package>lifemapper-proj</package>
@@ -48,14 +36,13 @@
 	<package>lifemapper-solr</package>
 
 	<!-- python prerequisites -->
-	<!-- no opt-lifemapper-setuptools, needed for build, conflicts with install -->
+	<!-- no opt-lifemapper-setuptools, needed for build only -->
 	<package>opt-lifemapper-coverage</package>
 	<package>opt-lifemapper-numexpr</package>
 	<package>opt-lifemapper-cython</package>
 	<package>opt-lifemapper-pytables</package>
 	<package>opt-lifemapper-egenix-mx-base</package>
 	<package>opt-lifemapper-psycopg2</package>
-	<!-- <package>opt-lifemapper-faulthandler</package> -->
 	<package>opt-lifemapper-requests</package>
 	<package>opt-lifemapper-dendropy</package>
 	
@@ -74,7 +61,7 @@
 	<package>bitstream-vera-sans-fonts</package>
 	<package>fribidi</package>
 	<package>fcgi</package>
-	<package>postgresql91-libs</package>
+	<package>postgresql92-libs</package>
 	<!-- removed mapserver, building from source for python mapscript -->
 
 	<!-- lifemapper data -->
