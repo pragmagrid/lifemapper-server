@@ -67,23 +67,29 @@ PY.PATH = /opt/python/bin/$(PYTHONVER)
 
 build:
 	$(TAR) -xzvf $(ARCHIVENAME)-$(VERSION).$(TARBALL_POSTFIX)
-	( 											\
+	( 							\
 		cd $(ARCHIVENAME)-$(VERSION);			\
-	    module load opt-python;					\
+		module load opt-python;				\
 		export PATH=$(PKGROOT)/bin:$(PATH);		\
-		./configure --with-python=/opt/python/bin/$(PYTHONVER) --with-ogr --with-geos=yes  --prefix=$(PKGROOT);	\
-		$(MAKE);								\
-	    module unload opt-python;				\
+		./configure --with-python=$(PY.PATH) --with-ogr --with-geos=yes  --prefix=$(PKGROOT);	\
+		$(MAKE);					\
+		cd swig/python;					\
+		module load opt-python;				\
+		$(PY.PATH) setup.py build; 			\
+		module unload opt-python;			\
 	)
 	
 install::
 	mkdir -p $(ROOT)/$(PKGROOT)
-	(											\
-		cd $(ARCHIVENAME)-$(VERSION);			\
-	    module load opt-python;					\
-		export PATH=$(PKGROOT)/bin:$(PATH);		\
+	(								\
+		cd $(ARCHIVENAME)-$(VERSION);				\
+		module load opt-python;					\
+		export PATH=$(PKGROOT)/bin:$(PATH);			\
 		$(MAKE) prefix=$(ROOT)/$(PKGROOT) ROOT=$(ROOT)/ install; \
-	    module unload opt-python;					\
+		cd swig/python;						\
+		module load opt-python;					\
+		$(PY.PATH) setup.py $@ --root=$(ROOT)/;			\
+		module unload opt-python;				\
 	)
 
 clean::

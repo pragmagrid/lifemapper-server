@@ -65,8 +65,8 @@ version.mk:
 	cat ../version.mk version.mk.in > version.mk
 
 build:
-	gunzip -c $(ARCHIVENAME)-$(VERSION).$(TARBALL_POSTFIX) | $(TAR) -xf -
-	(
+	tar xzf $(ARCHIVENAME)-$(VERSION).$(TARBALL_POSTFIX)
+	(					\
 		cd $(ARCHIVENAME)-$(VERSION);	\
 		./configure --prefix=$(PKGROOT);\
 		$(MAKE);						\
@@ -74,8 +74,8 @@ build:
 	
 install::
 	mkdir -p $(ROOT)/$(PKGROOT)
-	(
-		cd $(ARCHIVENAME)-$(VERSION);				\
+	(							\
+		cd $(ARCHIVENAME)-$(VERSION);			\
 		$(MAKE) prefix=$(ROOT)/$(PKGROOT) install;	\
 	)
 
