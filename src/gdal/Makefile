@@ -69,21 +69,23 @@ build:
 	$(TAR) -xzvf $(ARCHIVENAME)-$(VERSION).$(TARBALL_POSTFIX)
 	( 											\
 		cd $(ARCHIVENAME)-$(VERSION);			\
-	    module load opt-python;					\
+		module load opt-python;					\
+		export PYTHON=$(PY.PATH);				\
 		export PATH=$(PKGROOT)/bin:$(PATH);		\
 		./configure --with-python=/opt/python/bin/$(PYTHONVER) --with-ogr --with-geos=yes  --prefix=$(PKGROOT);	\
 		$(MAKE);								\
-	    module unload opt-python;				\
+		module unload opt-python;				\
 	)
 	
 install::
 	mkdir -p $(ROOT)/$(PKGROOT)
 	(											\
 		cd $(ARCHIVENAME)-$(VERSION);			\
-	    module load opt-python;					\
+		module load opt-python;					\
+		export PYTHON=$(PY.PATH);				\
 		export PATH=$(PKGROOT)/bin:$(PATH);		\
 		$(MAKE) prefix=$(ROOT)/$(PKGROOT) ROOT=$(ROOT)/ install; \
-	    module unload opt-python;					\
+		module unload opt-python;					\
 	)
 
 clean::
