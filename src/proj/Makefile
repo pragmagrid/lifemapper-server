@@ -66,7 +66,7 @@ version.mk:
 
 build:
 	tar xzf $(ARCHIVENAME)-$(VERSION).$(TARBALL_POSTFIX)
-	(									\
+	(					\
 		cd $(ARCHIVENAME)-$(VERSION);	\
 		./configure --prefix=$(PKGROOT);\
 		$(MAKE);						\
@@ -74,8 +74,8 @@ build:
 	
 install::
 	mkdir -p $(ROOT)/$(PKGROOT)
-	(												\
-		cd $(ARCHIVENAME)-$(VERSION);				\
+	(							\
+		cd $(ARCHIVENAME)-$(VERSION);			\
 		$(MAKE) prefix=$(ROOT)/$(PKGROOT) install;	\
 	)
 
