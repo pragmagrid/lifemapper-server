@@ -81,17 +81,11 @@ module unload opt-python
 rpm -i src/RPMS/libaec*.rpm
 rpm -i src/RPMS/hdf5*.rpm
 
-
 # for mapserver
 module unload opt-python
 rpm -i src/RPMS/giflib-devel*.rpm
 rpm -i src/RPMS/gd-devel*.rpm
 rpm -i src/RPMS/bitstream-vera-*1.10-19*.rpm
-
-module load opt-python
-compile proj
-module unload opt-python
-install lifemapper-proj
 
 # for mysql-python, rtree, cherrypy
 # setuptools 36.2.7 included in /opt/python 2.7
@@ -108,37 +102,44 @@ module load opt-python
 compile six
 module unload opt-python
 install opt-lifemapper-six
+/sbin/ldconfig
 
 module load opt-python
 compile cheroot
 module unload opt-python
 install opt-lifemapper-cheroot
+/sbin/ldconfig
 
 module load opt-python
 compile pytz
 module unload opt-python
 install opt-lifemapper-pytz
+/sbin/ldconfig
 
 module load opt-python
 compile tempora
 module unload opt-python
 install opt-lifemapper-tempora
+/sbin/ldconfig
 
 module load opt-python
 compile portend
 module unload opt-python
 install opt-lifemapper-portend
+/sbin/ldconfig
 
 # for pytables 
 module load opt-python
 compile cython 
 module unload opt-python
 install opt-lifemapper-cython 
+/sbin/ldconfig
 
 module load opt-python
 compile numexpr 
 module unload opt-python
 install opt-lifemapper-numexpr 
+/sbin/ldconfig
 
 # # other options for gdal
 # yum --enablerepo epel install gpsbabel
@@ -154,6 +155,20 @@ install opt-lifemapper-numexpr
 # yum --enablerepo epel install cfitsio
 # yum --enablerepo epel install armadillo
 # yum --enablerepo epel install CharLS
+
+# install proj, tiff, geos for gdal
+module load opt-python
+compile proj
+module unload opt-python
+install lifemapper-proj
+/sbin/ldconfig
+
+# New to match pre-gdal build in lifemapper-compute
+module load opt-python
+compile tiff
+module unload opt-python
+install lifemapper-tiff
+/sbin/ldconfig
 
 module load opt-python
 compile geos
