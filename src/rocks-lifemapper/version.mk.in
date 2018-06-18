@@ -5,9 +5,9 @@ RELEASE = 0
 TARBALL_POSTFIX	= tar.gz
 
 RPM.FILES =  \
-$(PKGROOT)/*  \n\
-/etc/httpd/conf.d/lifemapper.conf  \n\
-/etc/ld.so.conf.d/lifemapper-server.conf  \n\
-/etc/logrotate.d/lifemapper-httpd  \n\
-/etc/profile.d/lifemapper.*  \n\
-/etc/sysctl.d/postgresd
+    $(PKGROOT)/*  \n\
+    /etc/httpd/conf.d/lifemapper.conf  \n\
+    /etc/ld.so.conf.d/lifemapper-server.conf  \n\
+    /etc/logrotate.d/lifemapper-httpd  \n\
+    /etc/profile.d/lifemapper.*  \n\
+    /etc/sysctl.d/postgresd

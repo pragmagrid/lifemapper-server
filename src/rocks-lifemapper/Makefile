@@ -116,7 +116,7 @@ PROGS = \
 	installServerCronJobs \
 	fillDB \
 	fillGBIFTaxonomy \
-	getClimateData \
+	getScenPackageForUser \
 	getBoomPackage \
 	updateIP
 

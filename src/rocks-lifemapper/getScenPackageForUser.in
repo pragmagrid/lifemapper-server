@@ -1,0 +1,138 @@
+#!/bin/bash
+#
+# This script downloads a boom data package, containing a scenario package, 
+# occurrence package, and a BOOM parameter file.  It optionally contains a 
+# tree in Nexus format and a compressed file of biogeographic hypotheses. 
+# It uncompresses and places data in the correct directories.
+# The script can be run at any time to download boom data, 
+# and install environmental data, catalog scenarios and processing an SDM workflow.
+
+usage () 
+{
+    echo "Usage: $0 <BOOM_PACKAGE_NAME>"
+    echo "This script is run on an existing lifemapper-server installation. "
+    echo "It will:"
+    echo "     - download the BOOM_PACKAGE_NAME data into the "
+    echo "       @LMSCRATCHDISK@/temp directory, then install environmental"
+    echo "       data into the @DATADIR_SHARED@/@ENV_DATA_DIR@ directory, and"
+    echo "       species data into the @DATADIR_SHARED@/archive/<user> directory"
+    echo "   "
+    echo "The script can be run at any time to download and install data for"
+    echo "a BOOM run."
+    echo "   "
+}
+
+if [ $# -ne 2 ]; then
+    usage
+    exit 0
+fi 
+
+/bin/egrep -i "^lmwriter" /etc/passwd
+if [ $? -ne 0 ]; then
+	echo "Error: user lmwriter does not exist" | tee -a $LOG
+    exit 1
+fi
+
+set_defaults() {
+    LMURL=@LMURL@
+    THISNAME=`/bin/basename $0`
+    
+    TRANSFORM_SCRIPT=@LMHOME@/rocks/bin/transformData
+
+    LOG=@LMSCRATCHDISK@/log/$THISNAME.log
+    # Append to existing logfile
+    touch $LOG
+    
+    TEMP_DIR=@LMSCRATCHDISK@/temp
+    SCEN_DIR=@DATADIR_SHARED@/@ENV_DATA_DIR@
+
+    # *_PKG variables are file basenames, no path or file extension
+    SCEN_PKG=$1
+    SCEN_USER=$2
+    SCEN_META_FILE=$SCEN_DIR/$SCEN_PKG.py
+    TEMP_SCEN_PKG_FILE=$TEMP_DIR/$SCEN_PKG.@TARBALL_POSTFIX@
+    NEW_SCEN_DATA_DIR=$SCEN_DIR/$SCEN_PKG
+}
+
+### Retrieve scenario data named in SCENARIO_PACKAGE
+pull_scenario_data () {
+    # find metadata file pkgname.py
+    if [ -f $SCEN_META_FILE ]; then
+        echo "Scenario metadata $SCEN_META_FILE already present" | tee -a $LOG
+    else  
+        echo "Fetch scenario data into $SCEN_PKG_FILE" | tee -a $LOG
+        curl -L "$LMURL/$SCEN_PKG.@TARBALL_POSTFIX@" -o $TEMP_SCEN_PKG_FILE   
+    fi
+}
+
+### Create USER directory 
+create_user_dir () {
+	# Get the User data directory
+    USER_DIR=@DATADIR_SHARED@/archive/$SCEN_USER
+
+	 # Find or create the test Boom data directory
+    if [ -d $USER_DIR ]; then
+        echo "USER data directory $USER_DIR already exists" | tee -a $LOG
+    else 
+        echo "Create data directory $USER_DIR" | tee -a $LOG
+        /bin/mkdir $USER_DIR 
+	    if [ -d $USER_DIR ]; then
+	        /bin/chgrp -R lmwriter $USER_DIR
+	        /bin/chmod -R g+ws     $USER_DIR
+	    fi
+    fi
+}
+
+### Retrieve scenario data named in SCENARIO_PACKAGE
+move_scenario_data () {
+    # find metadata file pkgname.py
+    if [ -f $SCEN_META_FILE ]; then
+        echo "Scenario metadata $SCEN_META_FILE already present" | tee -a $LOG
+    else  
+        # uncompress 
+        if [ -f $TEMP_SCEN_PKG_FILE ]; then
+		    echo "Uncompress $TEMP_SCEN_PKG_FILE into $SCEN_DIR"   | tee -a $LOG
+            tar xzf $TEMP_SCEN_PKG_FILE -C $SCEN_DIR/
+		    echo "Remove $TEMP_SCEN_PKG_FILE"   | tee -a $LOG
+            rm -f $TEMP_SCEN_PKG_FILE
+		    echo "Reset group and write permission on $SCEN_DIR"   | tee -a $LOG
+		    /bin/chgrp -R lmwriter $SCEN_DIR
+		    /bin/chmod -R g+ws     $SCEN_DIR
+        else
+            echo "Failed to find $TEMP_SCEN_PKG_FILE ..." | tee -a $LOG
+        fi
+
+    fi
+}
+
+
+instruct_user () {
+    echo ""   | tee -a $LOG
+    echo "*****************"   | tee -a $LOG
+    echo "This script installed data in $SCEN_PKG for any user"   | tee -a $LOG
+#     echo "This script installed data in $SCEN_PKG for User $SCEN_USER"   | tee -a $LOG
+    echo "*****************"   | tee -a $LOG
+#     echo ""   | tee -a $LOG
+#     echo ""   | tee -a $LOG
+#     echo ""   | tee -a $LOG
+#     echo "*****************"   | tee -a $LOG
+#     echo "To transform scenario layers, run:"   | tee -a $LOG
+#     echo "@LMHOME@/rocks/bin/transformData $SCEN_PKG"   | tee -a $LOG
+#     echo "*****************"   | tee -a $LOG
+}
+
+TimeStamp () {
+    echo $1 `/bin/date` >> $LOG
+}
+
+####### Main #######
+set_defaults $1
+TimeStamp "# Start"
+
+pull_scenario_data
+create_user_dir
+move_scenario_data
+@LMHOME@/rocks/bin/transformData $SCEN_PKG
+instruct_user
+
+TimeStamp "# End"
