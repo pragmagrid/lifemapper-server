@@ -105,20 +105,12 @@ move_scenario_data () {
     fi
 }
 
-
 instruct_user () {
     echo ""   | tee -a $LOG
     echo "*****************"   | tee -a $LOG
     echo "This script installed data in $SCEN_PKG for any user"   | tee -a $LOG
 #     echo "This script installed data in $SCEN_PKG for User $SCEN_USER"   | tee -a $LOG
     echo "*****************"   | tee -a $LOG
-#     echo ""   | tee -a $LOG
-#     echo ""   | tee -a $LOG
-#     echo ""   | tee -a $LOG
-#     echo "*****************"   | tee -a $LOG
-#     echo "To transform scenario layers, run:"   | tee -a $LOG
-#     echo "@LMHOME@/rocks/bin/transformData $SCEN_PKG"   | tee -a $LOG
-#     echo "*****************"   | tee -a $LOG
 }
 
 TimeStamp () {

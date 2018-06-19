@@ -1,0 +1,198 @@
+#!/bin/bash 
+
+# Purpose: define a BOOM archive and populate the database with input metadata
+#
+# This script is run by a superuser
+
+usage () 
+{
+    echo "Usage: $0 [optional initialization filename]"
+    echo "This script is run by the superuser. It will "
+    echo "     - run initboom.py to populate the databases with BOOM inputs"
+    echo "       in the initialization file or the default configuration"
+    echo "   "
+    echo "The output of the script is in @LMSCRATCHDISK@/log/`/bin/basename $0`.log"
+}
+
+### define varibles
+SetDefaults () {
+    if [ $# -eq 0 ]; then
+        INIT_CONFIG=0
+    else
+        INIT_CONFIG=$1
+    fi
+
+    # config files
+    CONFIG_FILE=@LMHOME@/config/config.lmserver.ini
+    SITE_CONFIG_FILE=@LMHOME@/config/config.site.ini
+
+    # script
+    BORG_POPULATEPY=@LMHOME@/LmDbServer/boom/initboom.py    
+
+    THISNAME=`/bin/basename $0`
+    LOG=@LMSCRATCHDISK@/log/$THISNAME.log
+    rm -f $LOG
+    touch $LOG
+
+    if [ -f $INIT_CONFIG ] ; then
+        echo "Looking for DATASOURCE, ARCHIVE_USER, TREE in user config file $INIT_CONFIG"   | tee -a $LOG  
+        DATASOURCE=`grep -i DATASOURCE $INIT_CONFIG | grep -v ';' | awk '{print $2}'`
+        ARCHIVE_USER=`grep -i ARCHIVE_USER $INIT_CONFIG | grep -v _EMAIL | grep -v ';' | awk '{print $2}'`
+        TREE_BASENAME=`grep -i TREE $INIT_CONFIG | grep -v ';' | awk '{print $2}'`
+        ARCHIVE_NAME=`grep -i ARCHIVE_NAME $INIT_CONFIG | grep -v ';' | awk '{print $2}'`
+        BIOGEO_HYPOTHESES=`grep -i BIOGEO_HYPOTHESES $INIT_CONFIG | grep -v ';' | awk '{print $2}'`
+    fi
+
+    if [ ! "$DATASOURCE" ] ; then 
+        # look in config.site.ini
+        if [ -f $SITE_CONFIG_FILE ] ; then        
+            echo "Looking for DATASOURCE in site config file"   | tee -a $LOG  
+            DATASOURCE=`grep -i DATASOURCE $SITE_CONFIG_FILE | grep -v ';' | awk '{print $2}'`
+        fi
+        
+        # look in installed config file        
+        if [ ! "$DATASOURCE" ] ; then 
+            echo "Looking for DATASOURCE in installed config file"   | tee -a $LOG  
+            DATASOURCE=`grep -i DATASOURCE $CONFIG_FILE | grep -v ';' | awk '{print $2}'`
+        fi
+    fi
+    
+    if [ ! "$ARCHIVE_USER" ] ; then 
+        # look in config.site.ini
+        if [ -f $SITE_CONFIG_FILE ] ; then        
+            echo "Looking for ARCHIVE_USER in site config file"   | tee -a $LOG  
+            ARCHIVE_USER=`grep -i ARCHIVE_USER $SITE_CONFIG_FILE | grep -v _EMAIL | grep -v ';' | awk '{print $2}'`
+        fi
+        
+        # look in installed config file        
+        if [ ! "$ARCHIVE_USER" ] ; then 
+            echo "Looking for ARCHIVE_USER in installed config file"   | tee -a $LOG  
+            ARCHIVE_USER=`grep -i ARCHIVE_USER $CONFIG_FILE | grep -v _EMAIL | grep -v ';' | awk '{print $2}'`
+        fi
+    fi
+    
+    if [ ! "$ARCHIVE_USER" ] ; then
+        echo "Error: Missing value for ARCHIVE_USER" | tee -a $LOG
+        exit 1
+    fi
+    if [ ! "$DATASOURCE" ] ; then
+        echo "Error: Missing value for DATASOURCE" | tee -a $LOG
+        exit 1
+    fi
+    
+    ARCHIVE_USER_DATA_DIR=@DATADIR_SHARED@/archive/$ARCHIVE_USER    
+}
+
+TimeStamp () {
+    echo $1 `/bin/date` >> $LOG
+}
+
+### populate lifemapper DB with Archive BOOM inputs
+Populate () {
+    if [ -f $BORG_POPULATEPY ] ; then
+        if [ -f $INIT_CONFIG ] ; then
+            echo "Running '$BORG_POPULATEPY' with $INIT_CONFIG ..." | tee -a $LOG
+            /opt/python/bin/@PYTHONVER@ $BORG_POPULATEPY \
+                                         --config_file $INIT_CONFIG \
+                                         --is_first_run \
+                                         2>&1 | tee -a $LOG
+        else
+            echo "Running '$BORG_POPULATEPY' with default values ..." | tee -a $LOG
+            /opt/python/bin/@PYTHONVER@ $BORG_POPULATEPY \
+                                         --is_first_run 2>&1 | tee -a $LOG
+        fi
+    else
+        echo "Error: Missing file $BORG_POPULATEPY" | tee -a $LOG
+        exit 1
+    fi
+}
+
+FixPermissions () {
+    /bin/egrep -i "^lmwriter" /etc/passwd
+    if [ $? -ne 0 ]; then
+        echo "Error: user lmwriter does not exist" | tee -a $LOG
+        exit 1
+    fi
+
+    # This script is run by root, so set group write permission on data dir if default
+    echo "Update lmwriter group permissions on $ARCHIVE_USER_DATA_DIR" | tee -a $LOG
+    /bin/chgrp -R lmwriter $ARCHIVE_USER_DATA_DIR
+    /bin/chmod -R g+ws     $ARCHIVE_USER_DATA_DIR
+}
+
+### check for possible taxonomy
+CheckForTaxonomy () {
+    if [ "$DATASOURCE" == "GBIF" ] || [ "$DATASOURCE" == "IDIGBIO" ] ; then
+        echo "*****************"   | tee -a $LOG
+        echo "Add GBIF Backbone Taxonomy to the database with the bash script:"   | tee -a $LOG
+        echo "   @LMHOME@/rocks/bin/fillGBIFTaxonomy"   | tee -a $LOG
+        echo "*****************"   | tee -a $LOG
+    else
+        echo "Notice: DATASOURCE=$DATASOURCE: No taxonomy to ingest" | tee -a $LOG
+        return 
+    fi
+}
+
+
+
+InstructUser () {
+    if [ "$DATASOURCE" == "GBIF" ] || [ "$DATASOURCE" == "IDIGBIO" ] ; then
+        echo "**********************************"   | tee -a $LOG
+        echo "Run the following as a bash script"   | tee -a $LOG
+        echo "**********************************"   | tee -a $LOG
+        echo "" | tee -a $LOG
+        echo "" | tee -a $LOG
+        echo "*****************"   | tee -a $LOG
+        echo "Add GBIF Backbone Taxonomy to the database with:"   | tee -a $LOG
+        echo "   @LMHOME@/rocks/bin/fillGBIFTaxonomy"   | tee -a $LOG
+        echo "*****************"   | tee -a $LOG
+    else
+        echo "Notice: DATASOURCE=$DATASOURCE: No taxonomy to ingest" | tee -a $LOG
+    fi
+    echo "**********************************************"   | tee -a $LOG
+    echo "Run the following python script(s) as lmwriter"   | tee -a $LOG
+    echo "**********************************************"   | tee -a $LOG
+    echo "" | tee -a $LOG
+    echo "" | tee -a $LOG
+    echo "*****************"   | tee -a $LOG
+    echo "Boom these species data with the args:"   | tee -a $LOG
+    echo "   @LMHOME@/LmDbServer/boom/daboom.py  --config_file=<configfile>   start"   | tee -a $LOG
+    echo "*****************"   | tee -a $LOG
+    
+    if [ -z ${TREE_BASENAME} ]; then
+        echo "" | tee -a $LOG
+    else
+        EXT=.nex
+        trimLen=`expr length $EXT` 
+        fullLen=`expr length $TREE_BASENAME`
+        len=`expr $fullLen - $trimLen`
+        TREENAME=${TREE_BASENAME:0:len}
+       
+        echo "*****************"   | tee -a $LOG
+        echo "Annotate the tree with (pre-boomed) species squids with the args:"   | tee -a $LOG
+        echo "   @LMHOME@/LmServer/tools/boomInputs.py  --user=$ARCHIVE_USER  --tree_name=$TREENAME"   | tee -a $LOG
+        echo "*****************"   | tee -a $LOG
+    fi
+
+    if [ -z ${BIOGEO_HYPOTHESES} ]; then
+        echo "" | tee -a $LOG
+    else
+        echo "*****************"   | tee -a $LOG
+        echo "Encode the biogeographic hypotheses into a matrix with the args:"   | tee -a $LOG
+        echo "   @LMHOME@/LmServer/tools/boomInputs.py  --user=$ARCHIVE_USER  --gridset_name=$ARCHIVE_NAME"   | tee -a $LOG
+        echo "*****************"   | tee -a $LOG
+    fi
+}
+
+### Main ###
+if [ $# -gt 1 ]; then
+    usage
+    exit 0
+fi 
+
+SetDefaults $1
+TimeStamp "# Start"
+Populate
+FixPermissions
+InstructUser
+TimeStamp "# End"

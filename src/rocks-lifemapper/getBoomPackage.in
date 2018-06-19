@@ -1,7 +1,7 @@
 #!/bin/bash
 #
-# This script downloads a boom data package, containing a scenario package, 
-# occurrence package, and a BOOM parameter file.  It optionally contains a 
+# This script downloads a boom data package, containing an occurrence package, 
+# and a BOOM parameter file.  It optionally contains a 
 # tree in Nexus format and a compressed file of biogeographic hypotheses. 
 # It uncompresses and places data in the correct directories.
 # The script can be run at any time to download boom data, 
@@ -13,9 +13,9 @@ usage ()
     echo "This script is run on an existing lifemapper-server installation. "
     echo "It will:"
     echo "     - download the BOOM_PACKAGE_NAME data into the "
-    echo "       @LMSCRATCHDISK@/temp directory, then install environmental"
-    echo "       data into the @DATADIR_SHARED@/@ENV_DATA_DIR@ directory, and"
-    echo "       species data into the @DATADIR_SHARED@/archive/<user> directory"
+    echo "       @LMSCRATCHDISK@/temp directory, then install "
+    echo "       species, tree, and hypotheses data into the "
+    echo "       @DATADIR_SHARED@/archive/<user> directory"
     echo "   "
     echo "The script can be run at any time to download and install data for"
     echo "a BOOM run."
@@ -82,8 +82,7 @@ read_boom_datanames () {
 
     BOOM_PARAM_FILE=$TEMP_DIR/$BOOM_PARAM_BASENAME
     SCEN_PKG=`grep -i SCENARIO_PACKAGE $BOOM_PARAM_FILE | grep -v ';' | awk '{print $2}'`
-    SCEN_DIR=@DATADIR_SHARED@/@ENV_DATA_DIR@
-    SCEN_META_FILE=$SCEN_DIR/$SCEN_PKG.py
+    SCEN_META_FILE=@DATADIR_SHARED@/@ENV_DATA_DIR@/$SCEN_PKG.py
 }
 
 ### Retrieve ARCHIVE_USER from BOOM parameter file package 

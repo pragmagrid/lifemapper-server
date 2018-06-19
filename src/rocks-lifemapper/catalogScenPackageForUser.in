@@ -1,0 +1,78 @@
+#!/bin/bash 
+
+# Purpose: define a BOOM archive and populate the database with input metadata
+#
+# This script is run by a superuser
+
+usage () 
+{
+    echo "Usage: $0 <scenPkgName> <userId> [userEmail]"
+    echo "This script is run by the superuser. It will "
+    echo "     - run catalogScenPkg.py to populate the databases with "
+    echo "       Scenario Package data for a User"
+    echo "   "
+    echo "The output of the script is in @LMSCRATCHDISK@/log/`/bin/basename $0`.log"
+}
+
+### define varibles
+SetDefaults () {
+    THISNAME=`/bin/basename $0`    
+    LOG=@LMSCRATCHDISK@/log/$THISNAME.log
+    rm -f $LOG
+    touch $LOG
+    
+    TEMP_DIR=@LMSCRATCHDISK@/temp
+    SCEN_DIR=@DATADIR_SHARED@/@ENV_DATA_DIR@
+
+    # *_PKG variables are file basenames, no path or file extension
+    SCEN_PKG=$1
+    USR=$2
+
+    SCEN_META_FILE=$SCEN_DIR/$SCEN_PKG.py
+
+    # script
+    CATALOG_SCEN_PY=@LMHOME@/LmDbServer/tools/catalogScenPkg.py
+}
+
+TimeStamp () {
+    echo $1 `/bin/date` >> $LOG
+}
+
+### populate lifemapper DB with Scenario Package metadata 
+CatalogEnvData () {
+    if [ -f $CATALOG_SCEN_PY ] ; then
+        echo "Cataloging $SCEN_PKG for $SCEN_USER ..." | tee -a $LOG
+        if [ $# -eq 3 ]; then
+            /opt/python/bin/@PYTHONVER@ $CATALOG_SCEN_PY \
+                                         --scen_package_meta $SCEN_PKG \
+                                         --user_id $USR \
+                                         --user_email $3 \
+                                         2>&1 | tee -a $LOG
+        else
+            /opt/python/bin/@PYTHONVER@ $CATALOG_SCEN_PY \
+                                         --scen_package_meta $SCEN_PKG \
+                                         --user_id $USR \
+                                         2>&1 | tee -a $LOG
+        fi 
+    else
+        echo "Error: Missing file $CATALOG_SCEN_PY" | tee -a $LOG
+        exit 1
+    fi
+}
+
+
+### Main ###
+# Need 2 or 3 args
+if [ $# -gt 3 ]; then
+    usage
+    exit 0
+fi 
+if [ $# -lt 2 ]; then
+    usage
+    exit 0
+fi 
+
+SetDefaults $1
+TimeStamp "# Start"
+CatalogEnvData
+TimeStamp "# End"
