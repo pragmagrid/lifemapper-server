@@ -28,13 +28,15 @@ LMCLIENT			= sdm
 DASHBOARD			= lmdashboard
 
 # SCENARIO_PACKAGE matches SCENARIO_PACKAGE in the lifemapper-compute roll
+# and lifemapper-env-data rpm in both rolls
 SCENARIO_PACKAGE	= 10min-past-present-future
 EPSG				= 4326
 MAPUNITS			= dd
 
-SPECIES_DATA		= sorted_seasia_gbif
-GRID_NAME			= lmgrid_1d
-GRID_CELLSIZE		= 1
+USER_SPECIES_DATA		= sorted_seasia_gbif
+
+GRID_NAME				= lmgrid_1d
+GRID_CELLSIZE			= 1
 
 # Code version
 CODEVERSION			= 2.3.2
