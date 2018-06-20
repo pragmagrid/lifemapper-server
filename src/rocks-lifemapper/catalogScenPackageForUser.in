@@ -4,9 +4,12 @@
 #
 # This script is run by a superuser
 
+SCEN_PKG=$1
+USR=$2
+
 usage () 
 {
-    echo "Usage: $0 <scenPkgName> <userId> [userEmail]"
+    echo "Usage: $0 <SCEN_PACKAGE_NAME>  <USER_ID>  [USER_EMAIL]"
     echo "This script is run by the superuser. It will "
     echo "     - run catalogScenPkg.py to populate the databases with "
     echo "       Scenario Package data for a User"
@@ -21,13 +24,14 @@ SetDefaults () {
     rm -f $LOG
     touch $LOG
     
+    SCEN_PKG=$1
+    USR=$2
+    EMAIL=$3
+
     TEMP_DIR=@LMSCRATCHDISK@/temp
     SCEN_DIR=@DATADIR_SHARED@/@ENV_DATA_DIR@
 
-    # *_PKG variables are file basenames, no path or file extension
-    SCEN_PKG=$1
-    USR=$2
-
+    # SCEN_PKG variable is the file basename, no path or file extension
     SCEN_META_FILE=$SCEN_DIR/$SCEN_PKG.py
 
     # script
@@ -46,7 +50,7 @@ CatalogEnvData () {
             /opt/python/bin/@PYTHONVER@ $CATALOG_SCEN_PY \
                                          --scen_package_meta $SCEN_PKG \
                                          --user_id $USR \
-                                         --user_email $3 \
+                                         --user_email $EMAIL \
                                          2>&1 | tee -a $LOG
         else
             /opt/python/bin/@PYTHONVER@ $CATALOG_SCEN_PY \
@@ -63,16 +67,12 @@ CatalogEnvData () {
 
 ### Main ###
 # Need 2 or 3 args
-if [ $# -gt 3 ]; then
-    usage
-    exit 0
-fi 
-if [ $# -lt 2 ]; then
+if [[ $# -gt 3  ||  $# -lt 2 ]]; then
     usage
     exit 0
 fi 
 
-SetDefaults $1
+SetDefaults $1 $2 $3
 TimeStamp "# Start"
 CatalogEnvData
 TimeStamp "# End"

@@ -9,7 +9,8 @@
 
 usage () 
 {
-    echo "Usage: $0 <BOOM_PACKAGE_NAME>"
+    echo "Usage: $0 <SCEN_PACKAGE_NAME>  <USER_ID>"
+    echo "   "
     echo "This script is run on an existing lifemapper-server installation. "
     echo "It will:"
     echo "     - download the BOOM_PACKAGE_NAME data into the "
@@ -34,6 +35,8 @@ if [ $? -ne 0 ]; then
 fi
 
 set_defaults() {
+    SCEN_PKG=$1
+    USR=$2
     LMURL=@LMURL@
     THISNAME=`/bin/basename $0`
     
@@ -47,8 +50,8 @@ set_defaults() {
     SCEN_DIR=@DATADIR_SHARED@/@ENV_DATA_DIR@
 
     # *_PKG variables are file basenames, no path or file extension
-    SCEN_PKG=$1
-    SCEN_USER=$2
+    echo "Scenario package: $SCEN_PKG, Scenario User: $USR" | tee -a $LOG
+    USER_DIR=@DATADIR_SHARED@/archive/$USR
     SCEN_META_FILE=$SCEN_DIR/$SCEN_PKG.py
     TEMP_SCEN_PKG_FILE=$TEMP_DIR/$SCEN_PKG.@TARBALL_POSTFIX@
     NEW_SCEN_DATA_DIR=$SCEN_DIR/$SCEN_PKG
@@ -67,9 +70,6 @@ pull_scenario_data () {
 
 ### Create USER directory 
 create_user_dir () {
-	# Get the User data directory
-    USER_DIR=@DATADIR_SHARED@/archive/$SCEN_USER
-
 	 # Find or create the test Boom data directory
     if [ -d $USER_DIR ]; then
         echo "USER data directory $USER_DIR already exists" | tee -a $LOG
@@ -109,7 +109,7 @@ instruct_user () {
     echo ""   | tee -a $LOG
     echo "*****************"   | tee -a $LOG
     echo "This script installed data in $SCEN_PKG for any user"   | tee -a $LOG
-#     echo "This script installed data in $SCEN_PKG for User $SCEN_USER"   | tee -a $LOG
+#     echo "This script installed data in $SCEN_PKG for User $USR"   | tee -a $LOG
     echo "*****************"   | tee -a $LOG
 }
 

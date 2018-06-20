@@ -9,7 +9,7 @@
 
 usage () 
 {
-    echo "Usage: $0 <BOOM_PACKAGE_NAME>"
+    echo "Usage: $0 <BOOM_PACKAGE_NAME>  <USER_ID>"
     echo "This script is run on an existing lifemapper-server installation. "
     echo "It will:"
     echo "     - download the BOOM_PACKAGE_NAME data into the "
@@ -28,6 +28,8 @@ if [ $# -ne 1 ]; then
 fi 
 
 set_defaults() {
+    BOOM_PKG=$1
+    THIS_USER=$1
     LMURL=@LMURL@
     THISNAME=`/bin/basename $0`
 
@@ -38,7 +40,6 @@ set_defaults() {
     TEMP_DIR=@LMSCRATCHDISK@/temp
 
     # *_PKG variables are file basenames, no path or file extension
-    BOOM_PKG=$1
     BOOM_PKG_FILE=$TEMP_DIR/$BOOM_PKG.@TARBALL_POSTFIX@
     BOOM_META_FILE=$TEMP_DIR/$BOOM_PKG.ini
 }
@@ -80,26 +81,29 @@ read_boom_datanames () {
     echo "    TREE_BASENAME = $TREE_BASENAME" | tee -a $LOG       
     echo "    BIOGEO_PKG = $BIOGEO_PKG" | tee -a $LOG
 
-    BOOM_PARAM_FILE=$TEMP_DIR/$BOOM_PARAM_BASENAME
-    SCEN_PKG=`grep -i SCENARIO_PACKAGE $BOOM_PARAM_FILE | grep -v ';' | awk '{print $2}'`
+    TEMP_PARAM_FILE=$TEMP_DIR/$BOOM_PARAM_BASENAME
+    # Read Params 
+    BOOM_ARCHIVE_NAME=`grep -i ARCHIVE_NAME $TEMP_PARAM_FILE | grep -v ';' | awk '{print $2}'`
+    SCEN_PKG=`grep -i SCENARIO_PACKAGE $TEMP_PARAM_FILE | grep -v ';' | awk '{print $2}'`
     SCEN_META_FILE=@DATADIR_SHARED@/@ENV_DATA_DIR@/$SCEN_PKG.py
 }
 
-### Retrieve ARCHIVE_USER from BOOM parameter file package 
-get_user_create_dir () {
-	 # Get the test Boom user name
-    if [ -f $BOOM_PARAM_FILE ]; then
-        echo "Find ARCHIVE_USER for BOOM in $BOOM_PARAM_FILE" | tee -a $LOG
-        BOOM_USER=`grep -i ARCHIVE_USER $BOOM_PARAM_FILE | grep -v _EMAIL | grep -v ';' | awk '{print $2}'`
-        BOOM_ARCHIVE=`grep -i ARCHIVE_NAME $BOOM_PARAM_FILE | grep -v ';' | awk '{print $2}'`
-        USER_DIR=@DATADIR_SHARED@/archive/$BOOM_USER
-        echo "    BOOM_USER = $BOOM_USER" | tee -a $LOG
+### Replace ARCHIVE_USER in BOOM parameter file and create user directory
+set_user_and_directory () {
+	 # Replace default Boom user name with userId argument
+    if [ -f $TEMP_PARAM_FILE ]; then
+        echo "REPLACE ARCHIVE_USER with $THIS_USER in $TEMP_PARAM_FILE" | tee -a $LOG
+        DEFAULT_USER=`grep -i ARCHIVE_USER $TEMP_PARAM_FILE | grep -v _EMAIL | grep -v ';' | awk '{print $2}'`
+        sed -i s%$DEFAULT_USER%$THIS_USER%g $TEMP_PARAM_FILE
+
+        USER_DIR=@DATADIR_SHARED@/archive/$THIS_USER
+        echo "    BOOM_USER = $THIS_USER" | tee -a $LOG
     else 
-        echo "Failed to find $BOOM_PARAM_FILE" | tee -a $LOG
+        echo "Failed to find $TEMP_PARAM_FILE" | tee -a $LOG
         exit 1
     fi
 
-	 # Find or create the test Boom data directory
+	 # Find or create the user Boom data directory
     if [ -d $USER_DIR ]; then
         echo "ARCHIVE_USER data directory $USER_DIR already exists" | tee -a $LOG
     else 
@@ -111,17 +115,17 @@ get_user_create_dir () {
     POINT_META_FILE=$USER_DIR/$POINT_PKG.meta
 }
 
+
 ### Move species data named in POINT_PKG (bison pulls dynamically)
 install_param_file () {
     # find parameter file
-    BOOM_PARAM_FILE=$TEMP_DIR/$BOOM_PARAM_BASENAME
     echo "Move boom parameter file into $USER_DIR" | tee -a $LOG
-    if [ -f $BOOM_PARAM_FILE ]; then
-        cp -p $BOOM_PARAM_FILE $USER_DIR/
-        rm -f $BOOM_PARAM_FILE
+    if [ -f $TEMP_PARAM_FILE ]; then
+        cp -p $TEMP_PARAM_FILE $USER_DIR/
+        rm -f $TEMP_PARAM_FILE
 
     else
-        echo "Failed to find $BOOM_PARAM_FILE ..." | tee -a $LOG
+        echo "Failed to find $TEMP_PARAM_FILE ..." | tee -a $LOG
         exit 1
     fi
 }
@@ -201,7 +205,7 @@ fix_permissions () {
 instruct_user () {
     echo ""   | tee -a $LOG
     echo "*****************"   | tee -a $LOG
-    echo "This script installed data in $BOOM_PKG for User $BOOM_USER, Archive $BOOM_ARCHIVE"   | tee -a $LOG
+    echo "This script installed data in $BOOM_PKG for User $THIS_USER, Archive $BOOM_ARCHIVE"   | tee -a $LOG
     echo "*****************"   | tee -a $LOG
     echo ""   | tee -a $LOG
     echo ""   | tee -a $LOG
@@ -211,9 +215,9 @@ instruct_user () {
     echo "*****************"   | tee -a $LOG
     echo "Make sure the $SCEN_PKG data and $SCEN_META_FILE metadata are present"    | tee -a $LOG
     echo "   if not, run"    | tee -a $LOG
-    echo "   @LMHOME@/rocks/bin/getScenPackageForUser $SCEN_PKG $BOOM_USER"   | tee -a $LOG
+    echo "   @LMHOME@/rocks/bin/getScenPackageForUser $SCEN_PKG $THIS_USER"   | tee -a $LOG
     echo "then catalog input data for BOOM computations with"   | tee -a $LOG
-    echo "   @LMHOME@/rocks/bin/fillDB $BOOM_PARAM_FILE"   | tee -a $LOG
+    echo "   @LMHOME@/rocks/bin/catalogBoomJob $USER_DIR/$BOOM_PARAM_BASENAME"   | tee -a $LOG
     echo "*****************"   | tee -a $LOG
 }
 
@@ -222,12 +226,12 @@ TimeStamp () {
 }
 
 ####### Main #######
-set_defaults $1
+set_defaults $1 $2
 TimeStamp "# Start"
 
 pull_boom_package
 read_boom_datanames
-get_user_create_dir
+set_user_and_directory 
 install_param_file
 install_occ_data
 install_tree_data

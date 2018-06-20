@@ -6,7 +6,7 @@
 
 usage () 
 {
-    echo "Usage: $0 [optional initialization filename]"
+    echo "Usage: $0 <BOOM_PARAM_FILENAME>"
     echo "This script is run by the superuser. It will "
     echo "     - run initboom.py to populate the databases with BOOM inputs"
     echo "       in the initialization file or the default configuration"

@@ -106,6 +106,8 @@ CRONS = \
 	lmserver_count_completed
 
 PROGS = \
+	catalogBoomJob \
+	catalogScenPackageForUser \
 	checkLibs \
 	clearUser \
 	confconst.py \
@@ -117,7 +119,7 @@ PROGS = \
 	fillDB \
 	fillGBIFTaxonomy \
 	getScenPackageForUser \
-	getBoomPackage \
+	getBoomPackageForUser \
 	updateIP
 
 PYFILES = __init__.py \
