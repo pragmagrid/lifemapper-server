@@ -147,7 +147,8 @@ init_db() {
 fill_db() {
     echo "-- Executing fillDB" >> $LOG
     . /etc/profile.d/lifemapper.sh
-    $BIN/fillDB >> $LOG
+    $BIN/catalogScenPackageForUser >> $LOG
+    $BIN/catalogBoomJob >> $LOG
 }
 
 # update user/password file for python

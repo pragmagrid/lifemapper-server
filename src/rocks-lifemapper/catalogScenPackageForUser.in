@@ -13,6 +13,9 @@ usage ()
     echo "This script is run by the superuser. It will "
     echo "     - run catalogScenPkg.py to populate the databases with "
     echo "       Scenario Package data for a User"
+    echo "If no arguments are supplied, SCENARIO_PACKAGE and ARCHIVE_USER "
+    echo "will be read from the user config file (config.site.ini) or installed "
+    echo "config file (config.lmserver.ini) in @LMHOME@/config/"
     echo "   "
     echo "The output of the script is in @LMSCRATCHDISK@/log/`/bin/basename $0`.log"
 }
@@ -27,6 +30,51 @@ SetDefaults () {
     SCEN_PKG=$1
     USR=$2
     EMAIL=$3
+    
+    # config files
+    CONFIG_FILE=@LMHOME@/config/config.lmserver.ini
+    SITE_CONFIG_FILE=@LMHOME@/config/config.site.ini
+
+
+    if [[ ! "$SCEN_PKG" || ! "$USR" ]] ; then
+	    if [ ! "$SCEN_PKG" ] ; then
+	        # look in config.site.ini
+	        if [ -f $SITE_CONFIG_FILE ] ; then        
+	            echo "Looking for SCENARIO_PACKAGE in site config file"   | tee -a $LOG  
+	            SCEN_PKG=`grep -i SCENARIO_PACKAGE $SITE_CONFIG_FILE | grep -v ';' | awk '{print $2}'`
+	        fi
+	        
+	        # look in installed config file        
+	        if [ ! "$SCEN_PKG" ] ; then 
+	            echo "Looking for SCENARIO_PACKAGE in installed config file"   | tee -a $LOG  
+	            SCEN_PKG=`grep -i SCENARIO_PACKAGE $CONFIG_FILE | grep -v ';' | awk '{print $2}'`
+	        fi
+	    fi
+    
+	    if [ ! "$USR" ] ; then 
+	        # look in config.site.ini
+	        if [ -f $SITE_CONFIG_FILE ] ; then        
+	            echo "Looking for ARCHIVE_USER in site config file"   | tee -a $LOG  
+	            ARCHIVE_USER=`grep -i ARCHIVE_USER $SITE_CONFIG_FILE | grep -v _EMAIL | grep -v ';' | awk '{print $2}'`
+	        fi
+	        
+	        # look in installed config file        
+	        if [ ! "$USR" ] ; then 
+	            echo "Looking for ARCHIVE_USER in installed config file"   | tee -a $LOG  
+	            ARCHIVE_USER=`grep -i ARCHIVE_USER $CONFIG_FILE | grep -v _EMAIL | grep -v ';' | awk '{print $2}'`
+	        fi
+	    fi
+	fi
+    
+    if [ ! "$ARCHIVE_USER" ] ; then
+        echo "Error: Missing argument and configured value for ARCHIVE_USER" | tee -a $LOG
+        exit 1
+    fi
+    if [ ! "$DATASOURCE" ] ; then
+        echo "Error: Missing argument and configured value for SCENARIO_PACKAGE" | tee -a $LOG
+        exit 1
+    fi
+
 
     TEMP_DIR=@LMSCRATCHDISK@/temp
     SCEN_DIR=@DATADIR_SHARED@/@ENV_DATA_DIR@

@@ -27,7 +27,7 @@ SetDefaults () {
     SITE_CONFIG_FILE=@LMHOME@/config/config.site.ini
 
     # script
-    BORG_POPULATEPY=@LMHOME@/LmDbServer/boom/initboom.py    
+    POPULATE_BOOM=@LMHOME@/LmDbServer/tools/catalogBoomJob.py    
 
     THISNAME=`/bin/basename $0`
     LOG=@LMSCRATCHDISK@/log/$THISNAME.log
@@ -89,20 +89,18 @@ TimeStamp () {
 
 ### populate lifemapper DB with Archive BOOM inputs
 Populate () {
-    if [ -f $BORG_POPULATEPY ] ; then
+    if [ -f $POPULATE_BOOM ] ; then
         if [ -f $INIT_CONFIG ] ; then
-            echo "Running '$BORG_POPULATEPY' with $INIT_CONFIG ..." | tee -a $LOG
-            /opt/python/bin/@PYTHONVER@ $BORG_POPULATEPY \
+            echo "Running '$POPULATE_BOOM' with $INIT_CONFIG ..." | tee -a $LOG
+            /opt/python/bin/@PYTHONVER@ $POPULATE_BOOM \
                                          --config_file $INIT_CONFIG \
-                                         --is_first_run \
                                          2>&1 | tee -a $LOG
         else
-            echo "Running '$BORG_POPULATEPY' with default values ..." | tee -a $LOG
-            /opt/python/bin/@PYTHONVER@ $BORG_POPULATEPY \
-                                         --is_first_run 2>&1 | tee -a $LOG
+            echo "Running '$POPULATE_BOOM' with default values ..." | tee -a $LOG
+            /opt/python/bin/@PYTHONVER@ $POPULATE_BOOM  2>&1 | tee -a $LOG
         fi
     else
-        echo "Error: Missing file $BORG_POPULATEPY" | tee -a $LOG
+        echo "Error: Missing file $POPULATE_BOOM" | tee -a $LOG
         exit 1
     fi
 }
