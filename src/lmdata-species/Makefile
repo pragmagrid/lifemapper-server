@@ -75,7 +75,7 @@ SEDSPEC += \
         -e 's%@GBIF_META@%$(GBIF_META)%g' \
         -e 's%@IDIG_DATA@%$(IDIG_DATA)%g' \
         -e 's%@BIOTAPHY_TREE@%$(BIOTAPHY_TREE)%g' \
-        -e 's%@SPECIES_DATA@%$(SPECIES_DATA)%g' \
+        -e 's%@USER_SPECIES_DATA@%$(USER_SPECIES_DATA)%g' \
         -e 's%@SPECIES_DATA_PATH@%$(SPECIES_DATA_PATH)%g' \
         -e 's%@TARBALL_POSTFIX@%$(TARBALL_POSTFIX)%g' \
         -e 's%@SCENARIO_PACKAGE@%$(SCENARIO_PACKAGE)%g'
@@ -92,7 +92,7 @@ build:
 
 install::
 	mkdir -p $(ROOT)/$(EXPORTDIR)
-	tar -xzf  $(SPECIES_DATA).$(TARBALL_POSTFIX)  -C  $(ROOT)/$(EXPORTDIR)/
+	tar -xzf  $(USER_SPECIES_DATA).$(TARBALL_POSTFIX)  -C  $(ROOT)/$(EXPORTDIR)/
 	tar -xzf  $(GBIF_DATA).$(TARBALL_POSTFIX)  -C  $(ROOT)/$(EXPORTDIR)/
 	tar -xzf  $(GBIF_META).$(TARBALL_POSTFIX)  -C  $(ROOT)/$(EXPORTDIR)/
 	install -m 644  $(IDIG_DATA).$(TARBALL_POSTFIX)  $(ROOT)/$(EXPORTDIR)/

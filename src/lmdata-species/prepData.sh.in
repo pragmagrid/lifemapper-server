@@ -3,8 +3,8 @@
 # Purpose: fetch species data 
 
 create_species_data () {
-   echo "Fetch example user species data @SPECIES_DATA@"
-   curl -L "@LMURL@/@SPECIES_DATA@.@TARBALL_POSTFIX@" -o ../lmdata-species/@SPECIES_DATA@.@TARBALL_POSTFIX@
+   echo "Fetch example user species data @USER_SPECIES_DATA@"
+   curl -L "@LMURL@/@USER_SPECIES_DATA@.@TARBALL_POSTFIX@" -o ../lmdata-species/@USER_SPECIES_DATA@.@TARBALL_POSTFIX@
 
    echo "Fetch gbif data and metadata"
    curl -L "@LMURL@/@GBIF_DATA@.@TARBALL_POSTFIX@" -o ../lmdata-species/@GBIF_DATA@.@TARBALL_POSTFIX@     
