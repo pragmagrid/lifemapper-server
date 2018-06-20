@@ -22,14 +22,9 @@ usage ()
     echo "   "
 }
 
-if [ $# -ne 1 ]; then
-    usage
-    exit 0
-fi 
-
 set_defaults() {
     BOOM_PKG=$1
-    THIS_USER=$1
+    THIS_USER=$2
     LMURL=@LMURL@
     THISNAME=`/bin/basename $0`
 
@@ -38,6 +33,7 @@ set_defaults() {
     touch $LOG
     
     TEMP_DIR=@LMSCRATCHDISK@/temp
+    USER_DIR=@DATADIR_SHARED@/archive/$THIS_USER
 
     # *_PKG variables are file basenames, no path or file extension
     BOOM_PKG_FILE=$TEMP_DIR/$BOOM_PKG.@TARBALL_POSTFIX@
@@ -95,9 +91,6 @@ set_user_and_directory () {
         echo "REPLACE ARCHIVE_USER with $THIS_USER in $TEMP_PARAM_FILE" | tee -a $LOG
         DEFAULT_USER=`grep -i ARCHIVE_USER $TEMP_PARAM_FILE | grep -v _EMAIL | grep -v ';' | awk '{print $2}'`
         sed -i s%$DEFAULT_USER%$THIS_USER%g $TEMP_PARAM_FILE
-
-        USER_DIR=@DATADIR_SHARED@/archive/$THIS_USER
-        echo "    BOOM_USER = $THIS_USER" | tee -a $LOG
     else 
         echo "Failed to find $TEMP_PARAM_FILE" | tee -a $LOG
         exit 1
@@ -226,6 +219,11 @@ TimeStamp () {
 }
 
 ####### Main #######
+if [ $# -ne 2 ]; then
+    usage
+    exit 0
+fi 
+
 set_defaults $1 $2
 TimeStamp "# Start"
 

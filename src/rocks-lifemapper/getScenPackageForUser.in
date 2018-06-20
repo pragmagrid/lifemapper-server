@@ -23,18 +23,13 @@ usage ()
     echo "   "
 }
 
-if [ $# -ne 2 ]; then
-    usage
-    exit 0
-fi 
-
-/bin/egrep -i "^lmwriter" /etc/passwd
-if [ $? -ne 0 ]; then
-	echo "Error: user lmwriter does not exist" | tee -a $LOG
-    exit 1
-fi
-
 set_defaults() {
+    /bin/egrep -i "^lmwriter" /etc/passwd
+    if [ $? -ne 0 ]; then
+	    echo "Error: user lmwriter does not exist" | tee -a $LOG
+        exit 1
+    fi
+
     SCEN_PKG=$1
     USR=$2
     LMURL=@LMURL@
@@ -118,7 +113,12 @@ TimeStamp () {
 }
 
 ####### Main #######
-set_defaults $1
+if [ $# -ne 2 ]; then
+    usage
+    exit 0
+fi 
+
+set_defaults $1 $2
 TimeStamp "# Start"
 
 pull_scenario_data
