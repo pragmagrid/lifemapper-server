@@ -96,13 +96,13 @@ CatalogEnvData () {
         echo "Cataloging $SCEN_PKG for $SCEN_USER ..." | tee -a $LOG
         if [ $# -eq 3 ]; then
             /opt/python/bin/@PYTHONVER@ $CATALOG_SCEN_PY \
-                                         --scen_package_meta $SCEN_PKG \
+                                         --scenpkg_meta_file $SCEN_PKG \
                                          --user_id $USR \
                                          --user_email $EMAIL \
                                          2>&1 | tee -a $LOG
         else
             /opt/python/bin/@PYTHONVER@ $CATALOG_SCEN_PY \
-                                         --scen_package_meta $SCEN_PKG \
+                                         --scenpkg_meta_file $SCEN_PKG \
                                          --user_id $USR \
                                          2>&1 | tee -a $LOG
         fi 
