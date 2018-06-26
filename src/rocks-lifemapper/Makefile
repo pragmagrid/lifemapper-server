@@ -116,7 +116,6 @@ PROGS = \
 	initLM \
 	initPostgis \
 	installServerCronJobs \
-	fillDB \
 	fillGBIFTaxonomy \
 	getScenPackageForUser \
 	getBoomPackageForUser \
