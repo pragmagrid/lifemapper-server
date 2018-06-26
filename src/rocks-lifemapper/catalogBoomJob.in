@@ -100,7 +100,7 @@ Populate () {
         if [[ $DO_WORK -ne '1' ]]; then
             echo "Running '$POPULATE_BOOM' with $INIT_CONFIG ..." | tee -a $LOG
             /opt/python/bin/@PYTHONVER@ $POPULATE_BOOM \
-                                         --config_file $INIT_CONFIG \
+                                         --param_file=$INIT_CONFIG \
                                          2>&1 | tee -a $LOG
         else
             echo "Running '$POPULATE_BOOM' with default values ..." | tee -a $LOG

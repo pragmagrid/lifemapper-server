@@ -55,18 +55,18 @@ SetDefaults () {
 	        # look in config.site.ini
 	        if [ -f $SITE_CONFIG_FILE ] ; then        
 	            echo "Looking for ARCHIVE_USER in site config file"   | tee -a $LOG  
-	            ARCHIVE_USER=`grep -i ARCHIVE_USER $SITE_CONFIG_FILE | grep -v _EMAIL | grep -v ';' | awk '{print $2}'`
+	            USR=`grep -i ARCHIVE_USER $SITE_CONFIG_FILE | grep -v _EMAIL | grep -v ';' | awk '{print $2}'`
 	        fi
 	        
 	        # look in installed config file        
 	        if [ ! "$USR" ] ; then 
 	            echo "Looking for ARCHIVE_USER in installed config file"   | tee -a $LOG  
-	            ARCHIVE_USER=`grep -i ARCHIVE_USER $CONFIG_FILE | grep -v _EMAIL | grep -v ';' | awk '{print $2}'`
+	            USR=`grep -i ARCHIVE_USER $CONFIG_FILE | grep -v _EMAIL | grep -v ';' | awk '{print $2}'`
 	        fi
 	    fi
 	fi
     
-    if [ -z ${ARCHIVE_USER} ] ; then
+    if [ -z ${USR} ] ; then
         echo "Error: Missing argument or configured value for ARCHIVE_USER" | tee -a $LOG
         exit 1
     fi
@@ -96,13 +96,13 @@ CatalogEnvData () {
         echo "Cataloging $SCEN_PKG for $SCEN_USER ..." | tee -a $LOG
         if [ $# -eq 3 ]; then
             /opt/python/bin/@PYTHONVER@ $CATALOG_SCEN_PY \
-                                         --scenpkg_meta_file $SCEN_PKG \
+                                         --scen_package_meta $SCEN_PKG \
                                          --user_id $USR \
                                          --user_email $EMAIL \
                                          2>&1 | tee -a $LOG
         else
             /opt/python/bin/@PYTHONVER@ $CATALOG_SCEN_PY \
-                                         --scenpkg_meta_file $SCEN_PKG \
+                                         --scen_package_meta $SCEN_PKG \
                                          --user_id $USR \
                                          2>&1 | tee -a $LOG
         fi 
