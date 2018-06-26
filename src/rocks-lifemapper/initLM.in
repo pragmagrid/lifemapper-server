@@ -44,6 +44,40 @@ set_defaults() {
     LMCLIENT_DIR=@DATADIR_SERVER@/@LMCLIENT@
     DASHBOARD_DIR=@LMHOME@/LmWebServer/public_html/@DASHBOARD@
     
+    # config files
+    CONFIG_FILE=@LMHOME@/config/config.lmserver.ini
+    SITE_CONFIG_FILE=@LMHOME@/config/config.site.ini
+
+
+    # Find SCENARIO_PACKAGE
+    if [ -f $SITE_CONFIG_FILE ] ; then        
+        echo "Looking for SCENARIO_PACKAGE in site config file"   | tee -a $LOG  
+        SCEN_PKG=`grep -i SCENARIO_PACKAGE $SITE_CONFIG_FILE | grep -v ';' | awk '{print $2}'`
+    fi    
+    if [ -z ${SCEN_PKG} ] ; then 
+        echo "Looking for SCENARIO_PACKAGE in installed config file"   | tee -a $LOG  
+        SCEN_PKG=`grep -i SCENARIO_PACKAGE $CONFIG_FILE | grep -v ';' | awk '{print $2}'`
+    fi
+    # 
+    if [ -z ${SCEN_PKG} ] ; then
+        echo "Error: Missing configured value for SCENARIO_PACKAGE" | tee -a $LOG
+        exit 1
+    fi
+
+    # Find ARCHIVE_USER
+    if [ -f $SITE_CONFIG_FILE ] ; then        
+        echo "Looking for ARCHIVE_USER in site config file"   | tee -a $LOG  
+        ARCHIVE_USER=`grep -i ARCHIVE_USER $SITE_CONFIG_FILE | grep -v _EMAIL | grep -v ';' | awk '{print $2}'`
+    fi
+    if [ -z ${ARCHIVE_USER} ] ; then 
+        echo "Looking for ARCHIVE_USER in installed config file"   | tee -a $LOG  
+        ARCHIVE_USER=`grep -i ARCHIVE_USER $CONFIG_FILE | grep -v _EMAIL | grep -v ';' | awk '{print $2}'`
+    fi
+    if [ -z ${ARCHIVE_USER} ] ; then
+        echo "Error: Missing configured value for ARCHIVE_USER" | tee -a $LOG
+        exit 1
+    fi
+    
     # Source function library.
     INITD=/etc/rc.d/init.d
     . $INITD/functions
@@ -147,7 +181,7 @@ init_db() {
 fill_db() {
     echo "-- Executing fillDB" >> $LOG
     . /etc/profile.d/lifemapper.sh
-    $BIN/catalogScenPackageForUser >> $LOG
+    $BIN/catalogScenPackageForUser $SCEN_PKG  $ARCHIVE_USER >> $LOG
     $BIN/catalogBoomJob >> $LOG
 }
 

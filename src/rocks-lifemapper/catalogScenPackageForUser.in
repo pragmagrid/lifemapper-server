@@ -66,12 +66,12 @@ SetDefaults () {
 	    fi
 	fi
     
-    if [ ! "$ARCHIVE_USER" ] ; then
-        echo "Error: Missing argument and configured value for ARCHIVE_USER" | tee -a $LOG
+    if [ -z ${ARCHIVE_USER} ] ; then
+        echo "Error: Missing argument or configured value for ARCHIVE_USER" | tee -a $LOG
         exit 1
     fi
-    if [ ! "$DATASOURCE" ] ; then
-        echo "Error: Missing argument and configured value for SCENARIO_PACKAGE" | tee -a $LOG
+    if [ -z ${SCEN_PKG} ] ; then
+        echo "Error: Missing argument or configured value for SCENARIO_PACKAGE" | tee -a $LOG
         exit 1
     fi
 
