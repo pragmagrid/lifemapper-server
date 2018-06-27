@@ -44,6 +44,11 @@ SetDefaults () {
         TREE_BASENAME=`grep -i TREE $INIT_CONFIG | grep -v ';' | awk '{print $2}'`
         ARCHIVE_NAME=`grep -i ARCHIVE_NAME $INIT_CONFIG | grep -v ';' | awk '{print $2}'`
         BIOGEO_HYPOTHESES=`grep -i BIOGEO_HYPOTHESES $INIT_CONFIG | grep -v ';' | awk '{print $2}'`
+        echo "   Found DATASOURCE        = $DATASOURCE in $INIT_CONFIG"   | tee -a $LOG  
+        echo "   Found ARCHIVE_USER      = $ARCHIVE_USER in $INIT_CONFIG"   | tee -a $LOG  
+        echo "   Found TREE_BASENAME     = $TREE_BASENAME in $INIT_CONFIG"   | tee -a $LOG  
+        echo "   Found ARCHIVE_NAME      = $ARCHIVE_NAME in $INIT_CONFIG"   | tee -a $LOG  
+        echo "   Found BIOGEO_HYPOTHESES = $BIOGEO_HYPOTHESES in $INIT_CONFIG"   | tee -a $LOG  
     fi
 
     if [ ! "$DATASOURCE" ] ; then 
@@ -159,8 +164,8 @@ InstructUser () {
         echo "" | tee -a $LOG
         echo "*****************"   | tee -a $LOG
         echo "Process these species data, $PYINSTRUCTIONS"   | tee -a $LOG
-        echo "   \$PYTHON @LMHOME@/LmDbServer/boom/daboom.py  \"   | tee -a $LOG
-        echo "             --config_file=<configuration_file>  \"   | tee -a $LOG
+        echo "   \$PYTHON @LMHOME@/LmDbServer/boom/daboom.py  \\"   | tee -a $LOG
+        echo "             --config_file=<configuration_file>  \\"   | tee -a $LOG
         echo "             start"   | tee -a $LOG
         echo "*****************"   | tee -a $LOG
     else
@@ -170,7 +175,11 @@ InstructUser () {
     fi
     echo "" | tee -a $LOG
     	
-    if [ -z ${TREE_BASENAME} ]; then
+    if [ ! "$TREE_BASENAME" ]; then
+        echo "*****************"   | tee -a $LOG
+        echo "Notice: No tree to annotate."   | tee -a $LOG
+        echo "*****************"   | tee -a $LOG
+    else
         EXT=.nex
         trimLen=`expr length $EXT` 
         fullLen=`expr length $TREE_BASENAME`
@@ -179,27 +188,23 @@ InstructUser () {
         echo "" | tee -a $LOG
         echo "*****************"   | tee -a $LOG
         echo "Annotate the tree with processed species identifiers, $PYINSTRUCTIONS"   | tee -a $LOG
-        echo "   \$PYTHON @LMHOME@/LmServer/tools/boomInputs.py \"   | tee -a $LOG
-        echo "            --user=$ARCHIVE_USER  \"   | tee -a $LOG
+        echo "   \$PYTHON @LMHOME@/LmServer/tools/boomInputs.py \\"   | tee -a $LOG
+        echo "            --user=$ARCHIVE_USER  \\"   | tee -a $LOG
         echo "            --tree_name=$TREENAME"   | tee -a $LOG
-        echo "*****************"   | tee -a $LOG
-    else
-        echo "*****************"   | tee -a $LOG
-        echo "Notice: No tree to annotate."   | tee -a $LOG
         echo "*****************"   | tee -a $LOG
     fi
 
     echo "" | tee -a $LOG
-    if [ -z ${BIOGEO_HYPOTHESES} ]; then
+    if [ ! "$BIOGEO_HYPOTHESES" ]; then
         echo "*****************"   | tee -a $LOG
-        echo "Encode the biogeographic hypotheses into a matrix, $PYINSTRUCTIONS"   | tee -a $LOG
-        echo "   \$PYTHON @LMHOME@/LmServer/tools/boomInputs.py  \"   | tee -a $LOG
-        echo "            --user=$ARCHIVE_USER  \"   | tee -a $LOG
-        echo "            --gridset_name=$ARCHIVE_NAME"   | tee -a $LOG
+        echo "Notice: No biogeographic hypotheses to encode."   | tee -a $LOG
         echo "*****************"   | tee -a $LOG
     else
         echo "*****************"   | tee -a $LOG
-        echo "Notice: No biogeographic hypotheses to encode."   | tee -a $LOG
+        echo "Encode the biogeographic hypotheses into a matrix, $PYINSTRUCTIONS"   | tee -a $LOG
+        echo "   \$PYTHON @LMHOME@/LmServer/tools/boomInputs.py  \\"   | tee -a $LOG
+        echo "            --user=$ARCHIVE_USER  \\"   | tee -a $LOG
+        echo "            --gridset_name=$ARCHIVE_NAME"   | tee -a $LOG
         echo "*****************"   | tee -a $LOG
     fi
 }
