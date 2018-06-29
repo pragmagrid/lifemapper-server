@@ -124,7 +124,6 @@ TimeStamp "# Start"
 pull_scenario_data
 create_user_dir
 move_scenario_data
-@LMHOME@/rocks/bin/transformData $SCEN_PKG
 instruct_user
 
 TimeStamp "# End"
