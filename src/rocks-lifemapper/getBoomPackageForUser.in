@@ -79,7 +79,7 @@ read_boom_datanames () {
 
     TEMP_PARAM_FILE=$TEMP_DIR/$BOOM_PARAM_BASENAME
     # Read Params 
-    BOOM_ARCHIVE_NAME=`grep -i ARCHIVE_NAME $TEMP_PARAM_FILE | grep -v ';' | awk '{print $2}'`
+    BOOM_ARCHIVE=`grep -i ARCHIVE_NAME $TEMP_PARAM_FILE | grep -v ';' | awk '{print $2}'`
     SCEN_PKG=`grep -i SCENARIO_PACKAGE $TEMP_PARAM_FILE | grep -v ';' | awk '{print $2}'`
     SCEN_META_FILE=@DATADIR_SHARED@/@ENV_DATA_DIR@/$SCEN_PKG.py
 }
@@ -204,12 +204,18 @@ instruct_user () {
     echo ""   | tee -a $LOG
     echo ""   | tee -a $LOG
     echo ""   | tee -a $LOG
+    
+    echo "*****************"   | tee -a $LOG
+    if [ -f $SCEN_META_FILE ]; then
+	    echo "$SCEN_META_FILE metadata are present for this archive"    | tee -a $LOG
+	else:
+	    echo "Missing $SCEN_META_FILE metadata, run"    | tee -a $LOG
+	    echo "   @LMHOME@/rocks/bin/getScenPackageForUser $SCEN_PKG $THIS_USER"   | tee -a $LOG
+	fi
+    echo "*****************"   | tee -a $LOG
 
     echo "*****************"   | tee -a $LOG
-    echo "Make sure the $SCEN_PKG data and $SCEN_META_FILE metadata are present"    | tee -a $LOG
-    echo "   if not, run"    | tee -a $LOG
-    echo "   @LMHOME@/rocks/bin/getScenPackageForUser $SCEN_PKG $THIS_USER"   | tee -a $LOG
-    echo "then catalog input data for BOOM computations with"   | tee -a $LOG
+    echo "Next, catalog input data for BOOM computations with"   | tee -a $LOG
     echo "   @LMHOME@/rocks/bin/catalogBoomJob $USER_DIR/$BOOM_PARAM_BASENAME"   | tee -a $LOG
     echo "*****************"   | tee -a $LOG
 }
