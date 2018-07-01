@@ -89,8 +89,11 @@ set_user_and_directory () {
 	 # Replace default Boom user name with userId argument
     if [ -f $TEMP_PARAM_FILE ]; then
         echo "REPLACE ARCHIVE_USER with $THIS_USER in $TEMP_PARAM_FILE" | tee -a $LOG
-        DEFAULT_USER=`grep -i ARCHIVE_USER $TEMP_PARAM_FILE | grep -v _EMAIL | grep -v ';' | awk '{print $2}'`
-        sed -i s%$DEFAULT_USER%$THIS_USER%g $TEMP_PARAM_FILE
+        DEF_USER=`grep -in "^ARCHIVE_USER" $TEMP_PARAM_FILE | grep -vi EMAIL | awk '{print $2}'`
+        TMP=`grep -in "^ARCHIVE_USER" $TEMP_PARAM_FILE | grep -vi EMAIL | awk '{print $1}'`
+        LNUM=${TMP%%:*}
+        
+        sed -i "${LNUM}s%$DEF_USER%$THIS_USER%"  $TEMP_PARAM_FILE
     else 
         echo "Failed to find $TEMP_PARAM_FILE" | tee -a $LOG
         exit 1
@@ -208,7 +211,7 @@ instruct_user () {
     echo "*****************"   | tee -a $LOG
     if [ -f $SCEN_META_FILE ]; then
 	    echo "$SCEN_META_FILE metadata are present for this archive"    | tee -a $LOG
-	else:
+	else
 	    echo "Missing $SCEN_META_FILE metadata, run"    | tee -a $LOG
 	    echo "   @LMHOME@/rocks/bin/getScenPackageForUser $SCEN_PKG $THIS_USER"   | tee -a $LOG
 	fi
