@@ -17,7 +17,7 @@ ENV_DATA_DIR   = layers
 PYTHONVER			= python2.7
 PYTHON27			= /opt/python/bin/$(PYTHONVER)
 PYTHON27_PACKAGES	= /opt/python/lib/$(PYTHONVER)/site-packages
-PGSQLVER			= 9.1
+PGSQLVER			= 9.2
 UNIXSOCKET			= /var/run/postgresql
 SMTPSERVER			= localhost
 SMTPSENDER			= no-reply-lifemapper@@PUBLIC_FQDN@
@@ -39,4 +39,4 @@ GRID_NAME				= lmgrid_1d
 GRID_CELLSIZE			= 1
 
 # Code version
-CODEVERSION			= 2.3.5
+CODEVERSION			= 2.3.7
