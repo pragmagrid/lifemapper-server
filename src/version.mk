@@ -39,4 +39,4 @@ GRID_NAME				= lmgrid_1d
 GRID_CELLSIZE			= 1
 
 # Code version
-CODEVERSION			= 2.3.7
+CODEVERSION			= 2.3.8
