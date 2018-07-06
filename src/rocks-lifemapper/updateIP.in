@@ -26,6 +26,8 @@ getMakeflowParams () {
     if [ $cpuTotal = 0 ]; then
         nodecount=`/opt/rocks/bin/rocks list host | grep Compute | wc -l`
         node1cpus=`/opt/rocks/bin/rocks list host | grep Compute | awk '{print $3}' | sed -n '1 p'`
+        # Get SIZE of /state/partion1 (not START)
+        node1disk=`/opt/rocks/bin/rocks list host partition | grep compute | grep partition1 | awk '{print $5}' 
         cpuTotal=$(( $nodecount * $node1cpus ))
         echo 'alternate method:'
         echo '  nodecount is' $nodecount
@@ -36,6 +38,16 @@ getMakeflowParams () {
     tmpMaxMFs=$(( $cpuTotal / 10 ))
     MaxMakeflows=$(($tmpMaxMFs>2?$tmpMaxMFs:2))
     echo '  MaxWorkers, MaxMakeflows =' $MaxWorkers $MaxMakeflows
+}
+
+getWorkerOptions () {
+    # Get SIZE of /state/partion1 (not START)
+    node1cpus=`/opt/rocks/bin/rocks list host | grep Compute | awk '{print $3}' | sed -n '1 p'`
+    node1disk=`/opt/rocks/bin/rocks list host partition | grep compute | grep partition1 | awk '{print $5}' | sed -n '1 p'`
+    cacheLimit=$(( $node1disk * 0.8 ))
+    cacheLimitPerWorker=$(( $cacheLimit / $node1cpus ))
+    WorkerOptions=`echo --disk=$cacheLimitPerWorker`
+    echo '  node1disk, cacheLimit, cacheLimitPerWorker =' $node1disk $cacheLimit $cacheLimitPerWorker
 }
 
 getAddress () {
@@ -78,7 +90,9 @@ updateConfigVars () {
           s%@WEB_FQDN@%$AddrWebserver%g; \
           s%@DB_FQDN@%$AddrDbserver%g; \
           s%@MAX_MAKEFLOWS@%$MaxMakeflows%g; \
-          s%@MAX_WORKERS@%$MaxWorkers%g" $infile > $outfile
+          s%@MAX_WORKERS@%$MaxWorkers%g; \
+          s%@EXTRA_WORKER_OPTIONS@%$WorkerOptions%g" $infile > $outfile
+          
 }
 
 updateWebhost () {
@@ -117,5 +131,6 @@ fi
 getAddress
 ## updateWebhost
 getMakeflowParams
+getWorkerOptions
 updateConfigVars
 updatePerms
