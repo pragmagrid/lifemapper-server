@@ -39,7 +39,6 @@ getMakeflowParams () {
 }
 
 getWorkerOptions () {
-    # Get SIZE of /state/partion1 (not START)
     node1cpus=`/opt/rocks/bin/rocks list host | grep Compute | awk '{print $3}' | sed -n '1 p'`
     node1Mb=`/opt/rocks/bin/rocks run host "(df -m | grep partition1 )" | awk '{print $4}' | sed -n '1 p'`
     
