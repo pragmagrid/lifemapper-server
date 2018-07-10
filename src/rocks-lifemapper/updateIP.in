@@ -26,8 +26,6 @@ getMakeflowParams () {
     if [ $cpuTotal = 0 ]; then
         nodecount=`/opt/rocks/bin/rocks list host | grep Compute | wc -l`
         node1cpus=`/opt/rocks/bin/rocks list host | grep Compute | awk '{print $3}' | sed -n '1 p'`
-        # Get SIZE of /state/partion1 (not START)
-        node1disk=`/opt/rocks/bin/rocks list host partition | grep compute | grep partition1 | awk '{print $5}' 
         cpuTotal=$(( $nodecount * $node1cpus ))
         echo 'alternate method:'
         echo '  nodecount is' $nodecount
@@ -43,11 +41,12 @@ getMakeflowParams () {
 getWorkerOptions () {
     # Get SIZE of /state/partion1 (not START)
     node1cpus=`/opt/rocks/bin/rocks list host | grep Compute | awk '{print $3}' | sed -n '1 p'`
-    node1disk=`/opt/rocks/bin/rocks list host partition | grep compute | grep partition1 | awk '{print $5}' | sed -n '1 p'`
-    cacheLimit=$(( $node1disk * 0.8 ))
+    node1Mb=`/opt/rocks/bin/rocks run host "(df -m | grep partition1 )" | awk '{print $4}' | sed -n '1 p'`
+    
+    cacheLimit=$(( ($node1Mb * 8) / 10 ))
     cacheLimitPerWorker=$(( $cacheLimit / $node1cpus ))
     WorkerOptions=`echo --disk=$cacheLimitPerWorker`
-    echo '  node1disk, cacheLimit, cacheLimitPerWorker =' $node1disk $cacheLimit $cacheLimitPerWorker
+    echo '  node1Mb, cacheLimit, cacheLimitPerWorker =' $node1Mb $cacheLimit $cacheLimitPerWorker
 }
 
 getAddress () {
