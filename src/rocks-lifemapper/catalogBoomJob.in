@@ -8,11 +8,8 @@ usage ()
 {
     echo "Usage: $0  [BOOM_PARAM_FILENAME]  [DO_WALK_NOW]"
     echo "This script is run by the superuser. It will "
-    echo "    run initboom.py to populate the databases with BOOM inputs"
+    echo "    run catalogBoomJob.py to populate the databases with BOOM inputs"
     echo "       in the BOOM_PARAM_FILENAME or the default configuration"
-    echo "    If DO_WALK_NOW is 1 it will walk the entire species dataset"
-    echo "        and create jobs.  If it is anything else, or missing, "
-    echo "        'daboom' may be run at a later time as a daemon process. "
     echo "   "
     echo "The output of the script is in @LMSCRATCHDISK@/log/`/bin/basename $0`.log"
 }
@@ -28,16 +25,25 @@ SetDefaults () {
     # config files
     CONFIG_FILE=@LMHOME@/config/config.lmserver.ini
     SITE_CONFIG_FILE=@LMHOME@/config/config.site.ini
+    if [[ -f $INIT_CONFIG ]] ; then
+		INIT_CONFIG=$SITE_CONFIG_FILE
+	fi
 
     # script
-    POPULATE_BOOM=@LMHOME@/LmDbServer/tools/catalogBoomJob.py    
+    POPULATE_BOOM=@LMHOME@/LmDbServer/tools/catalogBoomJob.py
+    if [[ -f $POPULATE_BOOM ]] ; then
+        echo "$POPULATE_BOOM exists" | tee -a $LOG
+    else
+        echo "Error: Missing file $POPULATE_BOOM" | tee -a $LOG
+        exit 1
+    fi
 
     THISNAME=`/bin/basename $0`
     LOG=@LMSCRATCHDISK@/log/$THISNAME.log
     rm -f $LOG
     touch $LOG
 
-    if [ -f $INIT_CONFIG ] ; then
+    if [[ -f $INIT_CONFIG ]] ; then
         echo "Looking for DATASOURCE, ARCHIVE_USER, TREE in user config file $INIT_CONFIG"   | tee -a $LOG  
         DATASOURCE=`grep -i DATASOURCE $INIT_CONFIG | grep -v ';' | awk '{print $2}'`
         ARCHIVE_USER=`grep -i ARCHIVE_USER $INIT_CONFIG | grep -v _EMAIL | grep -v ';' | awk '{print $2}'`
@@ -52,45 +58,25 @@ SetDefaults () {
     fi
 
     if [ ! "$DATASOURCE" ] ; then 
-        # look in config.site.ini
-        if [ -f $SITE_CONFIG_FILE ] ; then        
-            echo "Looking for DATASOURCE in site config file"   | tee -a $LOG  
-            DATASOURCE=`grep -i DATASOURCE $SITE_CONFIG_FILE | grep -v ';' | awk '{print $2}'`
-            echo "   Found $DATASOURCE in site config file"   | tee -a $LOG  
-        fi
-        
-        # look in installed config file        
-        if [ ! "$DATASOURCE" ] ; then 
-            echo "Looking for DATASOURCE in installed config file"   | tee -a $LOG  
-            DATASOURCE=`grep -i DATASOURCE $CONFIG_FILE | grep -v ';' | awk '{print $2}'`
-            echo "   Found $DATASOURCE in installed config file"   | tee -a $LOG  
-        fi
+        DATASOURCE=`grep -i DATASOURCE $CONFIG_FILE | grep -v ';' | awk '{print $2}'`
+	    if [ ! "$DATASOURCE" ] ; then
+	        echo "Error: Missing value for DATASOURCE" | tee -a $LOG
+	        exit 1
+	    else
+	        echo "   Found $DATASOURCE in installed config file"   | tee -a $LOG  
+	    fi
     fi
     
     if [ ! "$ARCHIVE_USER" ] ; then 
-        # look in config.site.ini
-        if [ -f $SITE_CONFIG_FILE ] ; then        
-            echo "Looking for ARCHIVE_USER in site config file"   | tee -a $LOG  
-            ARCHIVE_USER=`grep -i ARCHIVE_USER $SITE_CONFIG_FILE | grep -v _EMAIL | grep -v ';' | awk '{print $2}'`
-            echo "   Found $ARCHIVE_USER in site config file"   | tee -a $LOG  
-        fi
-        
-        # look in installed config file        
-        if [ ! "$ARCHIVE_USER" ] ; then 
-            echo "Looking for ARCHIVE_USER in installed config file"   | tee -a $LOG  
-            ARCHIVE_USER=`grep -i ARCHIVE_USER $CONFIG_FILE | grep -v _EMAIL | grep -v ';' | awk '{print $2}'`
-            echo "   Found $ARCHIVE_USER in site config file"   | tee -a $LOG  
-        fi
+        ARCHIVE_USER=`grep -i ARCHIVE_USER $CONFIG_FILE | grep -v _EMAIL | grep -v ';' | awk '{print $2}'`
+	    if [ ! "$ARCHIVE_USER" ] ; then
+	        echo "Error: Missing value for ARCHIVE_USER" | tee -a $LOG
+	        exit 1
+	    else
+            echo "   Found $ARCHIVE_USER in installed config file"   | tee -a $LOG  
+	    fi
     fi
     
-    if [ ! "$ARCHIVE_USER" ] ; then
-        echo "Error: Missing value for ARCHIVE_USER" | tee -a $LOG
-        exit 1
-    fi
-    if [ ! "$DATASOURCE" ] ; then
-        echo "Error: Missing value for DATASOURCE" | tee -a $LOG
-        exit 1
-    fi
     
     ARCHIVE_USER_DATA_DIR=@DATADIR_SHARED@/archive/$ARCHIVE_USER    
 }
@@ -101,19 +87,14 @@ TimeStamp () {
 
 ### populate lifemapper DB with Archive BOOM inputs
 Populate () {
-    if [[ -f $POPULATE_BOOM ]] ; then
-        if [[ $DO_WORK -ne '1' ]]; then
-            echo "Running '$POPULATE_BOOM' with $INIT_CONFIG ..." | tee -a $LOG
-            /opt/python/bin/@PYTHONVER@ $POPULATE_BOOM \
-                                         --param_file=$INIT_CONFIG \
-                                         2>&1 | tee -a $LOG
-        else
-            echo "Running '$POPULATE_BOOM' with default values ..." | tee -a $LOG
-            /opt/python/bin/@PYTHONVER@ $POPULATE_BOOM  2>&1 | tee -a $LOG
-        fi
+    if [[ -f $INIT_CONFIG ]] ; then
+        echo "Running '$POPULATE_BOOM' with $INIT_CONFIG ..." | tee -a $LOG
+        /opt/python/bin/@PYTHONVER@ $POPULATE_BOOM \
+                                     --param_file=$INIT_CONFIG \
+                                     2>&1 | tee -a $LOG
     else
-        echo "Error: Missing file $POPULATE_BOOM" | tee -a $LOG
-        exit 1
+        echo "Running '$POPULATE_BOOM' with default values ..." | tee -a $LOG
+        /opt/python/bin/@PYTHONVER@ $POPULATE_BOOM  2>&1 | tee -a $LOG
     fi
 }
 
@@ -147,38 +128,24 @@ CheckForTaxonomy () {
 
 InstructUser () {
 	PYINSTRUCTIONS="as the 'lmwriter' user, with the python script:"
+    echo "*****************"   | tee -a $LOG
     if [ "$DATASOURCE" == "GBIF" ] || [ "$DATASOURCE" == "IDIGBIO" ] ; then
         echo "" | tee -a $LOG
-        echo "*****************"   | tee -a $LOG
         echo "Add GBIF Backbone Taxonomy to the database with bash script:"   | tee -a $LOG
         echo "   @LMHOME@/rocks/bin/fillGBIFTaxonomy"   | tee -a $LOG
-        echo "*****************"   | tee -a $LOG
     else
-        echo "*****************"   | tee -a $LOG
         echo "Notice: DATASOURCE=$DATASOURCE: No taxonomy to ingest" | tee -a $LOG
-        echo "*****************"   | tee -a $LOG
     fi
     echo "" | tee -a $LOG
-   
-    if [ $DO_WORK -ne '1' ]; then
-        echo "" | tee -a $LOG
-        echo "*****************"   | tee -a $LOG
-        echo "Process these species data, $PYINSTRUCTIONS"   | tee -a $LOG
-        echo "   \$PYTHON @LMHOME@/LmDbServer/boom/daboom.py  \\"   | tee -a $LOG
-        echo "             --config_file=<configuration_file>  \\"   | tee -a $LOG
-        echo "             start"   | tee -a $LOG
-        echo "*****************"   | tee -a $LOG
-    else
-        echo "*****************"   | tee -a $LOG
-        echo "Notice: Species data is now booming."   | tee -a $LOG
-        echo "*****************"   | tee -a $LOG
-    fi
+    
+    echo "Process these species data, $PYINSTRUCTIONS"   | tee -a $LOG
+    echo "   \$PYTHON @LMHOME@/LmDbServer/boom/daboom.py  \\"   | tee -a $LOG
+    echo "             --config_file=<configuration_file>  \\"   | tee -a $LOG
+    echo "             start"   | tee -a $LOG
     echo "" | tee -a $LOG
     	
     if [ ! "$TREE_BASENAME" ]; then
-        echo "*****************"   | tee -a $LOG
         echo "Notice: No tree to annotate."   | tee -a $LOG
-        echo "*****************"   | tee -a $LOG
     else
         EXT=.nex
         trimLen=`expr length $EXT` 
@@ -186,37 +153,28 @@ InstructUser () {
         len=`expr $fullLen - $trimLen`
         TREENAME=${TREE_BASENAME:0:len}
         echo "" | tee -a $LOG
-        echo "*****************"   | tee -a $LOG
         echo "Annotate the tree with processed species identifiers, $PYINSTRUCTIONS"   | tee -a $LOG
         echo "   \$PYTHON @LMHOME@/LmServer/tools/boomInputs.py \\"   | tee -a $LOG
         echo "            --user=$ARCHIVE_USER  \\"   | tee -a $LOG
         echo "            --tree_name=$TREENAME"   | tee -a $LOG
-        echo "*****************"   | tee -a $LOG
     fi
-
     echo "" | tee -a $LOG
+
     if [ ! "$BIOGEO_HYPOTHESES" ]; then
-        echo "*****************"   | tee -a $LOG
         echo "Notice: No biogeographic hypotheses to encode."   | tee -a $LOG
-        echo "*****************"   | tee -a $LOG
     else
-        echo "*****************"   | tee -a $LOG
         echo "Encode the biogeographic hypotheses into a matrix, $PYINSTRUCTIONS"   | tee -a $LOG
         echo "   \$PYTHON @LMHOME@/LmServer/tools/boomInputs.py  \\"   | tee -a $LOG
         echo "            --user=$ARCHIVE_USER  \\"   | tee -a $LOG
         echo "            --gridset_name=$ARCHIVE_NAME"   | tee -a $LOG
-        echo "*****************"   | tee -a $LOG
     fi
+    echo "" | tee -a $LOG
 }
 
 ### Main ###
-if [[ $# -gt 2 ]]; then
+if [[ $# -gt 1 ]]; then
     usage
     exit 0
-elif [[ $# -eq 1 ]]; then
-    DO_WORK=0
-else
-	DO_WORK=$2
 fi 
 
 SetDefaults $1 
