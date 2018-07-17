@@ -67,15 +67,15 @@ version.mk:
 
 build:
 	tar xzvf  $(ARCHIVENAME)-$(VERSION).$(TARBALL_POSTFIX) 
-	(
-		cd $(ARCHIVENAME)-$(VERSION);	\
+	(						\
+		cd $(ARCHIVENAME)-$(VERSION);		\
 		./configure --with-python=/opt/python/bin/$(PYTHONVER) --prefix=$(PKGROOT);	\
-		$(MAKE);						\
+		$(MAKE);				\
 	)
 	
 install::
 	mkdir -p $(ROOT)/$(PKGROOT)/bin
-	(
+	(						\
 		cd $(ARCHIVENAME)-$(VERSION);		\
 		$(MAKE) DESTDIR=$(ROOT)/ install;	\
 	)
