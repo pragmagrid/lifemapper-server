@@ -25,9 +25,10 @@ SetDefaults () {
     # config files
     CONFIG_FILE=@LMHOME@/config/config.lmserver.ini
     SITE_CONFIG_FILE=@LMHOME@/config/config.site.ini
-    if [[ -f $INIT_CONFIG ]] ; then
-		INIT_CONFIG=$SITE_CONFIG_FILE
-	fi
+    if [[ ! -f $INIT_CONFIG ]] ; then
+        INIT_CONFIG=$SITE_CONFIG_FILE
+    fi
+    echo "Looking for parameters in file $INIT_CONFIG"   | tee -a $LOG  
 
     # script
     POPULATE_BOOM=@LMHOME@/LmDbServer/tools/catalogBoomJob.py
