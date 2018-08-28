@@ -2,9 +2,10 @@
 
 PYBIN=/opt/python/bin
 LMBIN=@PKGROOT@/bin
+CCBIN=@PKGROOT@/cctools/bin
 PGSQLBIN=/usr/pgsql-@PGSQLVER@/bin
 
-export PATH=$PGSQLBIN:$PYBIN:$LMBIN:$PATH
+export PATH=$PGSQLBIN:$PYBIN:$LMBIN:$CCBIN:$PATH
 export PYTHON=$PYBIN/@PYTHONVER@
 
 export PYTHONPATH=@LMHOME@:@LMHOME@/LmClient/LmPython/lifemapper:@PKGROOT@
