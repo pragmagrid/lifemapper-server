@@ -80,13 +80,11 @@ prep: prepSrc.sh
 	make prepSrc.sh
 	./prepSrc.sh
 
-build:
-	echo $(ARCHIVENAME)
+build: version.mk
 
 install::
 	mkdir -p $(ROOT)/$(PKGROOT)/cctools
-	tar xzvf  $(ARCHIVENAME).$(TARBALL_POSTFIX)  -C $(ROOT)/$(PKGROOT)/
-	mv $(ROOT)/$(PKGROOT)/$(ARCHIVENAME)/*  $(ROOT)/$(PKGROOT)/cctools/
+	tar xzvf  $(ARCHIVENAME).$(TARBALL_POSTFIX) --strip 1 -C $(ROOT)/$(PKGROOT)/cctools
 
 clean::
 	rm -rf $(ARCHIVENAME) version.mk prepSrc.sh

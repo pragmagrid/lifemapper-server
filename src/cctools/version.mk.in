@@ -8,5 +8,4 @@ TARBALL_POSTFIX	= tar.gz
 
 RPM.EXTRAS = "AutoReq: no"
 
-RPM.FILES = \
-    $(PKGROOT)/cctools/*
+RPM.FILES = $(PKGROOT)/cctools/*
