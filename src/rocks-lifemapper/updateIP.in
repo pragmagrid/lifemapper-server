@@ -40,9 +40,9 @@ getMakeflowParams () {
 
 getWorkerOptions () {
     node1cpus=`/opt/rocks/bin/rocks list host | grep Compute | awk '{print $3}' | sed -n '1 p'`
-    node1Mb=`/opt/rocks/bin/rocks run host "(df -m | grep partition1 )" | awk '{print $4}' | sed -n '1 p'`
+    node1Mb=`/opt/rocks/bin/rocks run host "df -m" | grep partition1 | awk '{print $4}' | sed -n '1 p'`
     
-    cacheLimit=$(( ($node1Mb * 8) / 10 ))
+    cacheLimit=$(( ( $node1Mb * 8 ) / 10 ))
     cacheLimitPerWorker=$(( $cacheLimit / $node1cpus ))
     WorkerOptions=`echo --disk=$cacheLimitPerWorker`
     echo '  node1Mb, cacheLimit, cacheLimitPerWorker =' $node1Mb $cacheLimit $cacheLimitPerWorker
