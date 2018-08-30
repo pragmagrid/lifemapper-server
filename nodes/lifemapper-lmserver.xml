@@ -48,7 +48,7 @@ if [ "$attrDbserver" = "" ] ; then
 fi
 
 /usr/sbin/usermod -G postgres pgbouncer
-export PATH=/usr/pgsql-9.1/bin:$PATH
+export PATH=/usr/pgsql-9.2/bin:$PATH
 
 # set mode to strict (2) to prevent postgres being killed  by OOM 
 /sbin/sysctl -w vm.overcommit_memory=2
@@ -65,12 +65,10 @@ vm.overcommit_memory = 2
 /bin/chown postgres:postgres /var/run/postgresql
 /bin/chmod 0775 /var/run/postgresql
 
-PG=`basename /etc/init.d/postgresql-*`
-/sbin/chkconfig --add $PG 
-/sbin/chkconfig $PG on
+PG=`basename /usr/lib/systemd/system/postgresql-*.service`
+/usr/bin/systemctl enable $PG
 
-/sbin/chkconfig --add pgbouncer 
-/sbin/chkconfig pgbouncer on
+/usr/bin/systemctl enable pgbouncer
 
 <file name="/etc/rc.d/rocksconfig.d/post-99-lifemapper-lmserver" perms="0700">
 #!/bin/bash
