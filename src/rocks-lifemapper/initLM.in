@@ -30,7 +30,7 @@ fi
 
 set_defaults() {
     THISNAME=`/bin/basename $0`
-    PG=`basename /etc/init.d/postgresql-*`
+    PG=`basename /usr/lib/systemd/system/postgresql-*.service`
     PROFILE=/var/lib/pgsql/.bash_profile
     BIN=@PKGROOT@/rocks/bin
     USERSFILE=@PKGROOT@/rocks/etc/users
@@ -135,11 +135,11 @@ stop_services () {
     echo "-- stop $PG and pgbouncer daemons " >> $LOG
 
     if [ -f /var/run/pgbouncer/pgbouncer.pid ]; then
-        /sbin/service pgbouncer stop >> $LOG
+    	/usr/bin/systemctl stop pgbouncer >> $LOG
     fi
 
     if [ -f /var/run/$PG.pid ] ; then
-        /sbin/service $PG stop >> $LOG
+        /usr/bin/systemctl stop $PG >> $LOG
     fi
 
     prog="postmaster"
@@ -156,11 +156,12 @@ init_postgres () {
     # OPT="-E 'UTF-8' --lc-collate='en_US.UTF-8' --lc-ctype='en_US.UTF-8'"
     # OPT needs testing
     OPT="en_US.UTF-8"
-    /sbin/service $PG initdb $OPT  >> $LOG
+    /usr/pgsql-9.2/bin/postgresql92-setup initdb >> $LOG
+    # /sbin/service $PG initdb $OPT  >> $LOG
 
     # start postgres with default config
     echo "-- start postgres with default config" >> $LOG
-    /sbin/service $PG start >> $LOG
+    /usr/bin/systemctl start $PG >> $LOG
     /bin/sleep 15
 }
 
@@ -248,11 +249,11 @@ start_services() {
 
     # restart postgres with updated configuration
     echo "-- restart postgres with new configuration" >> $LOG
-    /sbin/service $PG restart >> $LOG
+    /usr/bin/systemctl restart $PG >> $LOG
 
     # start pgbouncer
     echo "-- restart pgbouncer with new configuration" >> $LOG
-    /sbin/service pgbouncer start >> $LOG
+    /usr/bin/systemctl restart pgbouncer >> $LOG
 }
 
 # run updateIP to put correct IP lmserver's config.lmserver.ini 
