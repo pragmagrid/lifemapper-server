@@ -193,24 +193,41 @@ class Baseconfig:
         self.feCPUCount = cpuCount
         print "in base self.feCPUCount = %d" % self.feCPUCount
 
+    def findRocksVer(self):
+        """find Rocks version"""
+        cmd = "rocks list roll | grep base | awk '{print $2}'"
+        info, err = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()
+        tmp = info.strip()
+        ver = float(tmp)
+        return ver
+
     def findIfaceVals(self, iface):
         """find ip, netmask, subnet, cidr for a given interface. return as a tuple"""
         __name__ = "findIfaceVals"
+        rocksver = findRocksVer()
 
-        cmd = '/sbin/ifconfig %s | grep netmask' % iface
-
+        cmd = '/sbin/ifconfig %s | grep -i mask' % iface
         info, err = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()
         if err: 
             print "/sbin/ifconfig returned error: %s" % err
         parts = info.split()
-        try:
-            ipidx = parts.index['inet']
-            ip = parts[ipidx+1]
-            mskidx = parts.index['netmask']
-            netmask = parts[mskidx+1]
-        except:
-            print "ERROR: can't find information for %s interface" % iface
-            sys.exit(1)
+        
+        if rocksver < 7:
+            try:
+                tmp, ip = parts[1].split(':')
+                tmp, netmask = parts[3].split(':')
+            except:
+                print "ERROR: can't find information for %s interface" % iface
+                sys.exit(1)
+        else:
+            try:
+                ipidx = parts.index['inet']
+                ip = parts[ipidx+1]
+                mskidx = parts.index['netmask']
+                netmask = parts[mskidx+1]
+            except:
+                print "ERROR: can't find information for %s interface" % iface
+                sys.exit(1)
 
         i = IP(ip).make_net(netmask)
         subnet, cidr = (i.strNormal()).split('/')

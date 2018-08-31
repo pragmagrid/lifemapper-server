@@ -29,8 +29,15 @@ if [ $# -ne 0 ]; then
 fi 
 
 set_defaults() {
+    # Rocks version
+    ROCKS_VER=`rocks list roll | grep base | awk '{print $2}'`
+
     THISNAME=`/bin/basename $0`
-    PG=`basename /usr/lib/systemd/system/postgresql-*.service`
+    if [ $ROCKS_VER = '7.0' ]; then
+    	PG=`basename /usr/lib/systemd/system/postgresql-*.service`
+    else
+    	PG=`basename /etc/init.d/postgresql-*`
+    fi
     PROFILE=/var/lib/pgsql/.bash_profile
     BIN=@PKGROOT@/rocks/bin
     USERSFILE=@PKGROOT@/rocks/etc/users
@@ -47,8 +54,7 @@ set_defaults() {
     # config files
     CONFIG_FILE=@LMHOME@/config/config.lmserver.ini
     SITE_CONFIG_FILE=@LMHOME@/config/config.site.ini
-
-
+    
     # Find SCENARIO_PACKAGE
     if [ -f $SITE_CONFIG_FILE ] ; then        
         echo "Looking for SCENARIO_PACKAGE in site config file"   | tee -a $LOG  
@@ -94,6 +100,16 @@ set_defaults() {
     fi
 }
 
+cmd_service () {
+	svc=$1
+	cmd=$2
+	if [ $ROCKS_VER = '7.0' ]; then
+    	/usr/bin/systemctl $2 $1  >> $LOG
+    else
+    	/sbin/service $1 $2  >> $LOG
+    fi
+}
+
 set_permissions () {
     /bin/egrep -i "^lmwriter" /etc/passwd
     if [ $? -ne 0 ]; then
@@ -135,11 +151,13 @@ stop_services () {
     echo "-- stop $PG and pgbouncer daemons " >> $LOG
 
     if [ -f /var/run/pgbouncer/pgbouncer.pid ]; then
-    	/usr/bin/systemctl stop pgbouncer >> $LOG
+    	cmd_service pgbouncer stop
+    	# /usr/bin/systemctl stop pgbouncer >> $LOG
     fi
 
     if [ -f /var/run/$PG.pid ] ; then
-        /usr/bin/systemctl stop $PG >> $LOG
+    	cmd_service $PG stop
+    	# /usr/bin/systemctl stop $PG >> $LOG
     fi
 
     prog="postmaster"
@@ -156,12 +174,17 @@ init_postgres () {
     # OPT="-E 'UTF-8' --lc-collate='en_US.UTF-8' --lc-ctype='en_US.UTF-8'"
     # OPT needs testing
     OPT="en_US.UTF-8"
-    /usr/pgsql-9.2/bin/postgresql92-setup initdb >> $LOG
-    # /sbin/service $PG initdb $OPT  >> $LOG
+    
+	if [ $ROCKS_VER = '7.0' ]; then
+    	/usr/pgsql-9.2/bin/postgresql92-setup initdb >> $LOG
+    else
+    	/sbin/service $PG initdb $OPT  >> $LOG
+    fi
 
     # start postgres with default config
     echo "-- start postgres with default config" >> $LOG
-    /usr/bin/systemctl start $PG >> $LOG
+    cmd_service $PG start
+    # /usr/bin/systemctl start $PG >> $LOG
     /bin/sleep 15
 }
 
@@ -249,11 +272,13 @@ start_services() {
 
     # restart postgres with updated configuration
     echo "-- restart postgres with new configuration" >> $LOG
-    /usr/bin/systemctl restart $PG >> $LOG
+    cmd_service $PG restart
+    # /usr/bin/systemctl restart $PG >> $LOG
 
     # start pgbouncer
     echo "-- restart pgbouncer with new configuration" >> $LOG
-    /usr/bin/systemctl restart pgbouncer >> $LOG
+    cmd_service pgbouncer restart
+    # /usr/bin/systemctl restart pgbouncer >> $LOG
 }
 
 # run updateIP to put correct IP lmserver's config.lmserver.ini 
