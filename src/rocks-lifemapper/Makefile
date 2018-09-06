@@ -61,6 +61,10 @@ include Rules.mk
 
 PY.PATH = /opt/python/bin/$(PYTHONVER)
 
+YR=`date +'%Y'`
+MO=`date +'%_m'`
+DY=`date +'%_d'`
+
 version.mk:
 	cat ../version.mk version.mk.in > version.mk
 
@@ -83,7 +87,10 @@ SEDSPEC += \
         -e 's%@LMURL@%$(LMURL)%g' \
         -e 's%@TARBALL_POSTFIX@%$(TARBALL_POSTFIX)%g' \
         -e 's%@LMCLIENT@%$(LMCLIENT)%g' \
-        -e 's%@DASHBOARD@%$(DASHBOARD)%g'
+        -e 's%@DASHBOARD@%$(DASHBOARD)%g' \
+		-e "s%@SPECIES_EXP_YEAR@%$(YR)%g" \
+		-e "s%@SPECIES_EXP_MONTH@%$(MO)%g" \
+		-e "s%@SPECIES_EXP_DAY@%$(DY)%g"
         
 PROFILES = \
 	lifemapper.sh \
@@ -131,12 +138,15 @@ EXECFILES = \
 	confPostgres \
 	confUsers 
 
+PARAMS = \
+	defaultArchiveParams.ini
+
 %: %.in
 	$(SED) $(SEDSPEC) $^ > $@
 
 .SUFFIXES:
 
-build: $(SCRIPTS) $(PROFILES) $(CRONS) $(PROGS) $(PYFILES) $(EXECFILES)
+build: $(SCRIPTS) $(PROFILES) $(CRONS) $(PROGS) $(PYFILES) $(EXECFILES) $(PARAMS)
 	
 install::
 
@@ -162,6 +172,7 @@ install::
 	install -m 755 $(EXECFILES) $(ROOT)/$(PKGROOT)/rocks/bin
 
 	mkdir -p $(ROOT)/$(PKGROOT)/rocks/etc
+	install -m 644 defaultArchiveParams.ini $(ROOT)/$(PKGROOT)/rocks/etc
 	install -m 644 dbDefineTables.sql $(ROOT)/$(PKGROOT)/rocks/etc
 	install -m 644 dbAddFunctions.sql $(ROOT)/$(PKGROOT)/rocks/etc
 	install -m 644 dbUpdateTables.sql $(ROOT)/$(PKGROOT)/rocks/etc
@@ -174,7 +185,7 @@ install::
 	install -m 644 roles.sql.template $(ROOT)/$(PKGROOT)/rocks/sql
 
 clean::
-	rm -rf version.mk $(SCRIPTS) $(PROFILES) $(PROGS) confconst.py
+	rm -rf version.mk $(SCRIPTS) $(PROFILES) $(PROGS) $(PARAMS) confconst.py
 	rm -rf *.pyc 
 
 	

@@ -35,6 +35,10 @@ MAPUNITS			= dd
 
 USER_SPECIES_DATA		= sorted_seasia_gbif
 
+GBIF_TAXONOMY_FILENAME		= gbif_taxonomy_2018-03-08.csv
+GBIF_OCCURRENCE_FILENAME	= gbif_occurrence_2018-03-08.csv
+GBIF_PROVIDER_FILENAME		= gbif_orgs.txt
+
 GRID_NAME				= lmgrid_1d
 GRID_CELLSIZE			= 1
 

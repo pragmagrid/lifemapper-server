@@ -64,6 +64,9 @@ version.mk:
 
 PY.PATH = /opt/python/bin/$(PYTHONVER)
 
+YR=`date +'%Y'`
+MO=`date +'%_m'`
+DY=`date +'%_d'`
 
 SEDSPEC += \
         -e 's%@PKGROOT@%$(PKGROOT)%g' \
@@ -82,7 +85,10 @@ SEDSPEC += \
         -e 's%@SCENARIO_PACKAGE@%$(SCENARIO_PACKAGE)%g' \
         -e 's%@EPSG@%$(EPSG)%g' \
         -e 's%@MAPUNITS@%$(MAPUNITS)%g' \
-        -e 's%@JAVABIN@%$(JAVABIN)%g'
+        -e 's%@JAVABIN@%$(JAVABIN)%g' \
+		-e "s%@SPECIES_EXP_YEAR@%$(YR)%g" \
+		-e "s%@SPECIES_EXP_MONTH@%$(MO)%g" \
+		-e "s%@SPECIES_EXP_DAY@%$(DY)%g"
 
 SCRIPTS = config.lmserver.ini \
           boomInit.sample.ini \
