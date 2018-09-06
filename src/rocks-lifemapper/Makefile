@@ -106,8 +106,7 @@ CRONS = \
 	lmserver_count_completed
 
 PROGS = \
-	catalogBoomJob \
-	catalogScenPackageForUser \
+	catalogDefaults \
 	checkLibs \
 	clearUser \
 	confconst.py \
@@ -116,7 +115,6 @@ PROGS = \
 	initLM \
 	initPostgis \
 	installServerCronJobs \
-	fillGBIFTaxonomy \
 	getScenPackageForUser \
 	getBoomPackageForUser \
 	updateIP
