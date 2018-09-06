@@ -82,7 +82,10 @@ SEDSPEC += \
         -e 's%@SCENARIO_PACKAGE@%$(SCENARIO_PACKAGE)%g' \
         -e 's%@EPSG@%$(EPSG)%g' \
         -e 's%@MAPUNITS@%$(MAPUNITS)%g' \
-        -e 's%@JAVABIN@%$(JAVABIN)%g'
+        -e 's%@JAVABIN@%$(JAVABIN)%g' \
+        -e 's%@GRID_NAME@%$(GRID_NAME)%g' \
+        -e 's%@GRID_CELLSIZE@%$(GRID_CELLSIZE)%g' \
+        -e 's%@GRID_NUM_SIDES@%$(GRID_NUM_SIDES)%g'
 
 SCRIPTS = config.lmserver.ini \
           boomInit.sample.ini \
