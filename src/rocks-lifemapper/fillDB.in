@@ -6,13 +6,18 @@
 
 usage () 
 {
-    echo "Usage: $0 [optional initialization filename]"
+    echo "Usage: $0 <initialization filename>"
     echo "This script is run by the superuser. It will "
     echo "     - run initboom.py to populate the databases with BOOM inputs"
     echo "       in the initialization file or the default configuration"
     echo "   "
     echo "The output of the script is in @LMSCRATCHDISK@/log/`/bin/basename $0`.log"
 }
+
+if [ $# -ne 1 ]; then
+    usage
+    exit 0
+fi 
 
 ### define varibles
 SetDefaults () {
@@ -27,7 +32,10 @@ SetDefaults () {
     SITE_CONFIG_FILE=@LMHOME@/config/config.site.ini
 
     # script
-    BORG_POPULATEPY=@LMHOME@/LmDbServer/boom/initboom.py    
+    DEFCAT_PY=@LMHOME@/LmDbServer/tools/catalogDefaults.py    
+    SCENCAT_PY=@LMHOME@/LmDbServer/tools/catalogScenPkg.py    
+    TAXCAT_PY=@LMHOME@/LmDbServer/tools/catalogTaxonomy.py    
+    BOOMCAT_PY=@LMHOME@/LmDbServer/tools/catalogBoomJob.py    
 
     THISNAME=`/bin/basename $0`
     LOG=@LMSCRATCHDISK@/log/$THISNAME.log
@@ -38,6 +46,7 @@ SetDefaults () {
         echo "Looking for DATASOURCE, ARCHIVE_USER, TREE in user config file $INIT_CONFIG"   | tee -a $LOG  
         DATASOURCE=`grep -i DATASOURCE $INIT_CONFIG | grep -v ';' | awk '{print $2}'`
         ARCHIVE_USER=`grep -i ARCHIVE_USER $INIT_CONFIG | grep -v _EMAIL | grep -v ';' | awk '{print $2}'`
+        SCEN_PKG==`grep -i SCENARIO_PACKAGE $INIT_CONFIG | grep -v ';' | awk '{print $2}'`
         TREE_BASENAME=`grep -i TREE $INIT_CONFIG | grep -v ';' | awk '{print $2}'`
         ARCHIVE_NAME=`grep -i ARCHIVE_NAME $INIT_CONFIG | grep -v ';' | awk '{print $2}'`
         BIOGEO_HYPOTHESES=`grep -i BIOGEO_HYPOTHESES $INIT_CONFIG | grep -v ';' | awk '{print $2}'`
@@ -71,12 +80,29 @@ SetDefaults () {
         fi
     fi
     
+    if [ ! "$SCEN_PKG" ] ; then 
+        # look in config.site.ini
+        if [ -f $SITE_CONFIG_FILE ] ; then        
+            echo "Looking for SCENARIO_PACKAGE in site config file"   | tee -a $LOG  
+            SCEN_PKG=`grep -i SCENARIO_PACKAGE $SITE_CONFIG_FILE | grep -v ';' | awk '{print $2}'`
+        fi
+        
+        # look in installed config file        
+        if [ ! "$SCEN_PKG" ] ; then 
+            echo "Looking for SCENARIO_PACKAGE in installed config file"   | tee -a $LOG  
+            SCEN_PKG=`grep -i SCENARIO_PACKAGE $CONFIG_FILE | grep -v ';' | awk '{print $2}'`
+        fi
+    fi
     if [ ! "$ARCHIVE_USER" ] ; then
         echo "Error: Missing value for ARCHIVE_USER" | tee -a $LOG
         exit 1
     fi
     if [ ! "$DATASOURCE" ] ; then
         echo "Error: Missing value for DATASOURCE" | tee -a $LOG
+        exit 1
+    fi
+    if [ ! "$SCEN_PKG" ] ; then
+        echo "Error: Missing value for SCENARIO_PACKAGE" | tee -a $LOG
         exit 1
     fi
     
@@ -87,22 +113,36 @@ TimeStamp () {
     echo $1 `/bin/date` >> $LOG
 }
 
-### populate lifemapper DB with Archive BOOM inputs
-Populate () {
-    if [ -f $BORG_POPULATEPY ] ; then
-        if [ -f $INIT_CONFIG ] ; then
-            echo "Running '$BORG_POPULATEPY' with $INIT_CONFIG ..." | tee -a $LOG
-            /opt/python/bin/@PYTHONVER@ $BORG_POPULATEPY \
-                                         --config_file $INIT_CONFIG \
-                                         --is_first_run \
+### populate lifemapper DB with Algorithms and default metadata
+PopulateDefaults () {
+    if [ -f $BORG_DEFCAT_PY ] ; then
+        echo "Running '$DEFCAT_PY' ..." | tee -a $LOG
+        /opt/python/bin/@PYTHONVER@ $DEFCAT_PY 2>&1 | tee -a $LOG
+    else
+        echo "Error: Missing file $DEFCAT_PY" | tee -a $LOG
+        exit 1
+    fi
+}
+
+### populate lifemapper DB with environmental scenario inputs for default users
+PopulateScenariosForUser () {
+    if [ -f $SCENCAT_PY ] ; then
+        echo "Running '$SCENCAT_PY' with $INIT_CONFIG ..." | tee -a $LOG
+        /opt/python/bin/@PYTHONVER@ $SCENCAT_PY  $SCEN_PKG  $ARCHIVE_USER \
                                          2>&1 | tee -a $LOG
-        else
-            echo "Running '$BORG_POPULATEPY' with default values ..." | tee -a $LOG
-            /opt/python/bin/@PYTHONVER@ $BORG_POPULATEPY \
-                                         --is_first_run 2>&1 | tee -a $LOG
-        fi
     else
         echo "Error: Missing file $BORG_POPULATEPY" | tee -a $LOG
+        exit 1
+    fi
+}
+
+### populate lifemapper DB with GBIF Backbone Taxonomy
+PopulateTaxonomy () {
+    if [ -f $TAXCAT_PY ] ; then
+        echo "Running '$TAXCAT_PY' with GBIF Taxonomy ..." | tee -a $LOG
+        /opt/python/bin/@PYTHONVER@ $TAXCAT_PY  2>&1 | tee -a $LOG
+    else
+        echo "Error: Missing file $TAXCAT_PY" | tee -a $LOG
         exit 1
     fi
 }
@@ -118,19 +158,6 @@ FixPermissions () {
     echo "Update lmwriter group permissions on $ARCHIVE_USER_DATA_DIR" | tee -a $LOG
     /bin/chgrp -R lmwriter $ARCHIVE_USER_DATA_DIR
     /bin/chmod -R g+ws     $ARCHIVE_USER_DATA_DIR
-}
-
-### check for possible taxonomy
-CheckForTaxonomy () {
-    if [ "$DATASOURCE" == "GBIF" ] || [ "$DATASOURCE" == "IDIGBIO" ] ; then
-        echo "*****************"   | tee -a $LOG
-        echo "Add GBIF Backbone Taxonomy to the database with the bash script:"   | tee -a $LOG
-        echo "   @LMHOME@/rocks/bin/fillGBIFTaxonomy"   | tee -a $LOG
-        echo "*****************"   | tee -a $LOG
-    else
-        echo "Notice: DATASOURCE=$DATASOURCE: No taxonomy to ingest" | tee -a $LOG
-        return 
-    fi
 }
 
 
@@ -192,7 +219,19 @@ fi
 
 SetDefaults $1
 TimeStamp "# Start"
-Populate
+
+PopulateDefaults
+PopulateScenariosForUser
+
+if [ "$DATASOURCE" == "GBIF" ] || [ "$DATASOURCE" == "IDIGBIO" ] ; then
+    echo "*****************"   | tee -a $LOG
+    echo "Catalog the default GBIF Backbone taxonomy with the args:"   | tee -a $LOG
+    echo "   $TAXCAT_PY"   | tee -a $LOG
+    echo "*****************"   | tee -a $LOG
+    #PopulateTaxonomy
+fi
+
 FixPermissions
 InstructUser
+
 TimeStamp "# End"

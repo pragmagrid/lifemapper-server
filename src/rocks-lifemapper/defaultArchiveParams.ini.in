@@ -1,0 +1,62 @@
+;;; ...........................................................................
+;;; ...........................................................................
+;;; Values to initialize a default BOOM archive 
+;;;    (using global 10min past, present, future environmental inputs).  
+;;; Values are aggregated with environmental data on initial data population, 
+;;; and written to /share/lm/data/archive/<ARCHIVE_USER>/<ARCHIVE_NAME>.ini
+;;; ...........................................................................
+;;; ...........................................................................
+
+[BOOM]
+
+ARCHIVE_NAME: global_PAM
+ARCHIVE_USER: kubi
+
+;;; SDM 
+SCENARIO_PACKAGE: @SCENARIO_PACKAGE@
+DATASOURCE: GBIF
+GBIF_TAXONOMY_FILENAME: gbif_taxonomy_2018-03-08.csv
+GBIF_OCCURRENCE_FILENAME: gbif_occurrence_2018-03-08.csv
+GBIF_PROVIDER_FILENAME: gbif_orgs.txt
+SPECIES_EXP_YEAR: @SPECIES_EXP_YEAR@
+SPECIES_EXP_MONTH: @SPECIES_EXP_MONTH@
+SPECIES_EXP_DAY: @SPECIES_EXP_DAY@
+
+;;; Minimum number of points required for SDM computation 
+POINT_COUNT_MIN: 30
+
+;;; Assemble the intersected projections into Global PAMs for multi-species analyses 
+ASSEMBLE_PAMS: True
+
+;;; Size, in mapunits, of cells in the grid used for Global PAM
+;;; value should be larger than the SCENARIO_PACKAGE resolution
+GRID_CELLSIZE: @GRID_CELLSIZE@
+
+;;; Number of cell sides (square=4, hexagon=6) for the grid used for Global PAM
+GRID_NUM_SIDES: 4
+
+;;; Bounding box for intersection, minX,minY,maxX,maxY (no spaces)
+;;; value should be equal to or a subset of the SCENARIO_PACKAGE bbox
+GRID_BBOX: -180.0,-90.0,180.0,83.0
+
+;;; Intersection parameters for archive
+INTERSECT_VALNAME: pixel
+INTERSECT_MINPRESENCE: 1  
+INTERSECT_MAXPRESENCE: 255
+INTERSECT_MINPERCENT: 25
+
+TREE: heuchera.nex
+BIOGEO_HYPOTHESES: na_hypotheses
+
+COMPUTE_PAM_STATS: 1
+
+;;; data should exist in the SCENARIO_PACKAGE
+[PREPROCESSING SDM_MASK]
+CODE: hull_region_intersect
+buffer: .5
+region: ecoreg_30sec_NA.tif
+
+[ALGORITHM - 1]
+CODE: ATT_MAXENT
+allowpartialdata:  1
+extrapolate: 0
