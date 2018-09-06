@@ -41,6 +41,7 @@ GBIF_PROVIDER_FILENAME		= gbif_orgs.txt
 
 GRID_NAME				= lmgrid_1d
 GRID_CELLSIZE			= 1
+GRID_NUM_SIDES			= 4
 
 # Code version
 CODEVERSION			= 2.4.3

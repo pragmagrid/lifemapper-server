@@ -86,6 +86,9 @@ SEDSPEC += \
         -e 's%@EPSG@%$(EPSG)%g' \
         -e 's%@MAPUNITS@%$(MAPUNITS)%g' \
         -e 's%@JAVABIN@%$(JAVABIN)%g' \
+        -e 's%@GRID_NAME@%$(GRID_NAME)%g' \
+        -e 's%@GRID_CELLSIZE@%$(GRID_CELLSIZE)%g' \
+        -e 's%@GRID_NUM_SIDES@%$(GRID_NUM_SIDES)%g' \
 		-e "s%@SPECIES_EXP_YEAR@%$(YR)%g" \
 		-e "s%@SPECIES_EXP_MONTH@%$(MO)%g" \
 		-e "s%@SPECIES_EXP_DAY@%$(DY)%g"
