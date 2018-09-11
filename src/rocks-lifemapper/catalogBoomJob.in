@@ -1,0 +1,178 @@
+#!/bin/bash 
+
+# Purpose: define a BOOM archive and populate the database with input metadata
+#
+# This script is run by a superuser
+
+usage () 
+{
+    echo "Usage: $0 <initialization filename>"
+    echo "This script is run by the superuser. It will "
+    echo "     - run initboom.py to populate the databases with BOOM inputs"
+    echo "       in the initialization file or the default configuration"
+    echo "   "
+    echo "The output of the script is in @LMSCRATCHDISK@/log/`/bin/basename $0`.log"
+}
+
+if [ $# -ne 1 ]; then
+    usage
+    exit 0
+fi 
+
+### define varibles
+SetDefaults () {
+    INIT_CONFIG=$1
+
+    # config files
+    CONFIG_FILE=@LMHOME@/config/config.lmserver.ini
+    SITE_CONFIG_FILE=@LMHOME@/config/config.site.ini
+
+    # script
+    SCENCAT_PY=@LMHOME@/LmDbServer/tools/catalogScenPkg.py    
+    TAXCAT_PY=@LMHOME@/LmDbServer/tools/catalogTaxonomy.py    
+    BOOMCAT_PY=@LMHOME@/LmDbServer/tools/catalogBoomJob.py
+    BG_ENCODE_PY=@LMHOME@/LmServer/tools/encodeBioGeoHypotheses.py
+    TREE_ENCODE_PY=@LMHOME@/LmServer/tools/encodeTree.py
+
+    THISNAME=`/bin/basename $0`
+    LOG=@LMSCRATCHDISK@/log/$THISNAME.log
+    rm -f $LOG
+    touch $LOG
+
+    if [ -f $INIT_CONFIG ] ; then
+        echo "Looking for DATASOURCE, ARCHIVE_USER, TREE in user config file $INIT_CONFIG"   | tee -a $LOG  
+        DATASOURCE=`grep -i DATASOURCE $INIT_CONFIG | grep -v ';' | awk '{print $2}'`
+        ARCHIVE_USER=`grep -i ARCHIVE_USER $INIT_CONFIG | grep -v _EMAIL | grep -v ';' | awk '{print $2}'`
+        SCEN_PKG==`grep -i SCENARIO_PACKAGE $INIT_CONFIG | grep -v ';' | awk '{print $2}'`
+        TREE_BASENAME=`grep -i TREE $INIT_CONFIG | grep -v ';' | awk '{print $2}'`
+        ARCHIVE_NAME=`grep -i ARCHIVE_NAME $INIT_CONFIG | grep -v ';' | awk '{print $2}'`
+        BIOGEO_HYPOTHESES=`grep -i BIOGEO_HYPOTHESES $INIT_CONFIG | grep -v ';' | awk '{print $2}'`
+    fi
+
+    if [ ! "$ARCHIVE_USER" ] ; then
+        echo "Error: Missing value for ARCHIVE_USER" | tee -a $LOG
+        exit 1
+    fi
+    if [ ! "$ARCHIVE_NAME" ] ; then
+        echo "Error: Missing value for ARCHIVE_NAME" | tee -a $LOG
+        exit 1
+    fi
+    if [ ! "$DATASOURCE" ] ; then
+        echo "Error: Missing value for DATASOURCE" | tee -a $LOG
+        exit 1
+    fi
+    if [ ! "$SCEN_PKG" ] ; then
+        echo "Error: Missing value for SCENARIO_PACKAGE" | tee -a $LOG
+        exit 1
+    fi
+    
+    ARCHIVE_USER_DATA_DIR=@DATADIR_SHARED@/archive/$ARCHIVE_USER    
+}
+
+TimeStamp () {
+    echo $1 `/bin/date` >> $LOG
+}
+
+
+### populate lifemapper DB with environmental scenario inputs for default users, no makeflow
+PopulateScenariosForUser () {
+    if [ -f $SCENCAT_PY ] ; then
+        echo "Cataloging env data $SCEN_PKG for user $ARCHIVE_USER with '$SCENCAT_PY' ..." | tee -a $LOG
+        /opt/python/bin/@PYTHONVER@ $SCENCAT_PY  $SCEN_PKG  $ARCHIVE_USER \
+                                         2>&1 | tee -a $LOG
+    else
+        echo "Error: Missing file $SCENCAT_PY" | tee -a $LOG
+        exit 1
+    fi
+}
+
+### create a makeflow to populate lifemapper DB with GBIF Backbone Taxonomy
+# TODO: function should create a makeflow to call $TAXCAT_PY script
+PopulateTaxonomy () {
+    if [ -f $TAXCAT_PY ] ; then
+        echo "Inserting a makeflow to catalog GBIF Taxonomy with $TAXCAT_PY ..." | tee -a $LOG
+        /opt/python/bin/@PYTHONVER@ $TAXCAT_PY  2>&1 | tee -a $LOG
+    else
+        echo "Error: Missing file $TAXCAT_PY" | tee -a $LOG
+        exit 1
+    fi
+}
+
+
+### encode default tree with unique ids to match species data
+# this must be run *AFTER* the taxonomy or species data has been inserted
+# TODO: function should create a makeflow to call $ENCODE_PY script
+EncodeTree () {
+    if [ -f $ENCODE_PY ] ; then
+    	# TREE value is filename with extension
+    	EXT=.nex
+	    trimLen=`expr length $EXT` 
+	    fullLen=`expr length $TREE_BASENAME`
+	    len=`expr $fullLen - $trimLen`
+	    TREENAME=${TREE_BASENAME:0:len}
+
+        echo "*****************"   | tee -a $LOG
+        echo "Encode the $TREE with existing LM species identifiers"   | tee -a $LOG
+        echo "   $ENCODE_PY"  --user=$ARCHIVE_USER  --tree_name=$TREENAME  | tee -a $LOG
+        echo "*****************"   | tee -a $LOG
+        #echo "Running $ENCODE_PY for user tree ..." | tee -a $LOG
+        #/opt/python/bin/@PYTHONVER@ $ENCODE_PY --user=$ARCHIVE_USER --tree_name=$TREENAME 2>&1 | tee -a $LOG
+    else
+        echo "Error: Missing file $ENCODE_PY" | tee -a $LOG
+        exit 1
+    fi
+}
+
+### encode biogeographic hypotheses into matrix for this gridset
+# this must be run *AFTER* the BOOM workflow has been initialized 
+# TODO: function should create a makeflow to call $ENCODE_PY script
+EncodeBioGeo () {
+    if [ -f $ENCODE_PY ] ; then
+        echo "*****************"   | tee -a $LOG
+        echo "Encode the $BIOGEO_HYPOTHESES into matrix for gridset $ARCHIVE_NAME"   | tee -a $LOG
+        echo "   $ENCODE_PY"  --user=$ARCHIVE_USER  --gridset_name=$ARCHIVE_NAME  | tee -a $LOG
+        echo "*****************"   | tee -a $LOG
+        #echo "Running $ENCODE_PY for biogeographic hypotheses ..." | tee -a $LOG
+        #/opt/python/bin/@PYTHONVER@ $ENCODE_PY --user=$ARCHIVE_USER --gridset_name=$ARCHIVE_NAME 2>&1 | tee -a $LOG
+    else
+        echo "Error: Missing file $ENCODE_PY" | tee -a $LOG
+        exit 1
+    fi
+}
+
+### populate lifemapper DB with inputs for Global PAM and 
+### a makeflow to begin computing the BOOM workflow
+PopulateBoomInputs () {
+    if [ -f $BOOMCAT_PY ] ; then
+        echo "Catalog BOOM $INIT_CONFIG inputs then insert a makeflow to create and run tasks with '$BOOMCAT_PY' ..." | tee -a $LOG
+        /opt/python/bin/@PYTHONVER@ $BOOMCAT_PY  $INIT_CONFIG --init_makeflow=True \
+                                         2>&1 | tee -a $LOG
+    else
+        echo "Error: Missing file $BOOMCAT_PY" | tee -a $LOG
+        exit 1
+    fi   
+}
+
+
+FixPermissions () {
+    /bin/egrep -i "^lmwriter" /etc/passwd
+    if [ $? -ne 0 ]; then
+        echo "Error: user lmwriter does not exist" | tee -a $LOG
+        exit 1
+    fi
+
+    # This script is run by root, so set group write permission on data dir if default
+    echo "Update lmwriter group permissions on $ARCHIVE_USER_DATA_DIR" | tee -a $LOG
+    /bin/chgrp -R lmwriter $ARCHIVE_USER_DATA_DIR
+    /bin/chmod -R g+ws     $ARCHIVE_USER_DATA_DIR
+}
+
+
+### Main ###
+SetDefaults $1
+TimeStamp "# Start"
+
+PopulateBoomInputs
+
+FixPermissions
+TimeStamp "# End"
