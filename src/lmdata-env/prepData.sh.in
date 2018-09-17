@@ -18,7 +18,8 @@ get_ecoregion_data () {
 create_climate_data () {
   echo ""
   echo "Fetch climate data"
-  curl -L "@LMURL@/@SCENARIO_PACKAGE@-@VERSION@.@TARBALL_POSTFIX@" -o ../lmdata-env/@SCENARIO_PACKAGE@.@TARBALL_POSTFIX@
+  curl -L "@LMURL@/@SCENARIO_PACKAGE@-@VERSION@.@TARBALL_POSTFIX@" \
+       -o ../lmdata-env/@SCENARIO_PACKAGE@-@VERSION@.@TARBALL_POSTFIX@
 }
 
 ### main ###
