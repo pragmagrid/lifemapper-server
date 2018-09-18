@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# Purpose: Fetch CCTools source  
+
+SRC_URL=https://github.com/jdunck/python-unicodecsv/archive/
+SRC_PKG=@VERSION@.@TARBALL_POSTFIX@
+
+get_source_files () {
+  echo "Fetch python-unicodecsv source code"
+  wget "$SRC_URL/$SRC_PKG" 
+}
+
+### main ###
+get_source_files
