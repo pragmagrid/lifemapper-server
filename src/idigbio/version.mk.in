@@ -1,6 +1,6 @@
-NAME            = opt-lifemapper-unicodecsv
-VERSION         = 0.14.1
-ARCHIVENAME     = python-unicodecsv
+NAME            = opt-lifemapper-idigbio
+VERSION         = 0.8.5
+ARCHIVENAME     = idigbio-python-client
 RELEASE         = 0
 TARBALL_POSTFIX	= tar.gz
 
