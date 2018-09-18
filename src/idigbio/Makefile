@@ -67,6 +67,7 @@ version.mk:
 
 SEDSPEC += \
         -e 's%@ARCHIVENAME@%$(ARCHIVENAME)%g'  \
+        -e 's%@VERSION@%$(VERSION)%g'  \
         -e 's%@TARBALL_POSTFIX@%$(TARBALL_POSTFIX)%g'
 
 prepSrc.sh: prepSrc.sh.in
