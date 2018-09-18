@@ -12,7 +12,8 @@ DATADIR_SERVER  = /share/lmserver/data
 LMSCRATCHDISK	= /state/partition1/lmscratch
 
 ## Matches ENV_DATA_DIR in the lifemapper-compute roll
-ENV_DATA_DIR   = layers
+ENV_DATA_DIR		= layers
+SPECIES_DATA_DIR	= species
 
 PYTHONVER			= python2.7
 PYTHON27			= /opt/python/bin/$(PYTHONVER)
@@ -35,9 +36,10 @@ MAPUNITS			= dd
 
 USER_SPECIES_DATA		= sorted_seasia_gbif
 
-GBIF_TAXONOMY_FILENAME		= gbif_taxonomy_2018-03-08.csv
-GBIF_OCCURRENCE_FILENAME	= gbif_occurrence_2018-03-08.csv
-GBIF_PROVIDER_FILENAME		= gbif_orgs.txt
+GBIF_TAXONOMY		= gbif_taxonomy
+GBIF_OCCURRENCES	= gbif_occ_subset
+GBIF_PROVIDER		= gbif_orgs
+GBIF_VERSION		= 2018.03.08
 
 GRID_NAME				= lmgrid_1d
 GRID_CELLSIZE			= 1
