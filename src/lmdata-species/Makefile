@@ -61,7 +61,7 @@ RPM.ARCH = noarch
 REDHAT.ROOT = $(CURDIR)/../../
 
 # SPECIES_DATA_PATH also defined in LmServerCommon.common.lmconstants
-EXPORTDIR=$(subst share,state/partition1,$(DATADIR_SERVER))/$(SPECIES_DATA_PATH)
+EXPORTDIR=$(subst share,state/partition1,$(DATADIR_SERVER))/$(SPECIES_DATA_DIR)
 
 -include $(ROCKSROOT)/etc/Rules.mk
 include Rules.mk
@@ -72,11 +72,11 @@ version.mk:
 SEDSPEC += \
         -e 's%@LMURL@%$(LMURL)%g' \
         -e 's%@GBIF_DATA@%$(GBIF_DATA)%g' \
-        -e 's%@GBIF_META@%$(GBIF_META)%g' \
+        -e 's%@GBIF_VERSION@%$(GBIF_VERSION)%g' \
         -e 's%@IDIG_DATA@%$(IDIG_DATA)%g' \
         -e 's%@BIOTAPHY_TREE@%$(BIOTAPHY_TREE)%g' \
         -e 's%@USER_SPECIES_DATA@%$(USER_SPECIES_DATA)%g' \
-        -e 's%@SPECIES_DATA_PATH@%$(SPECIES_DATA_PATH)%g' \
+        -e 's%@SPECIES_DATA_DIR@%$(SPECIES_DATA_DIR)%g' \
         -e 's%@TARBALL_POSTFIX@%$(TARBALL_POSTFIX)%g' \
         -e 's%@SCENARIO_PACKAGE@%$(SCENARIO_PACKAGE)%g'
 
@@ -94,7 +94,6 @@ install::
 	mkdir -p $(ROOT)/$(EXPORTDIR)
 	tar -xzf  $(USER_SPECIES_DATA).$(TARBALL_POSTFIX)  -C  $(ROOT)/$(EXPORTDIR)/
 	tar -xzf  $(GBIF_DATA).$(TARBALL_POSTFIX)  -C  $(ROOT)/$(EXPORTDIR)/
-	tar -xzf  $(GBIF_META).$(TARBALL_POSTFIX)  -C  $(ROOT)/$(EXPORTDIR)/
 	install -m 644  $(IDIG_DATA).$(TARBALL_POSTFIX)  $(ROOT)/$(EXPORTDIR)/
 	install -m 644  $(BIOTAPHY_TREE).$(TARBALL_POSTFIX)  $(ROOT)/$(EXPORTDIR)/
 

@@ -4,17 +4,20 @@
 
 create_species_data () {
    echo "Fetch example user species data @USER_SPECIES_DATA@"
-   curl -L "@LMURL@/@USER_SPECIES_DATA@.@TARBALL_POSTFIX@" -o ../lmdata-species/@USER_SPECIES_DATA@.@TARBALL_POSTFIX@
+   curl -L "@LMURL@/@USER_SPECIES_DATA@.@TARBALL_POSTFIX@"  \
+        -o ../lmdata-species/@USER_SPECIES_DATA@.@TARBALL_POSTFIX@
 
    echo "Fetch gbif data and metadata"
-   curl -L "@LMURL@/@GBIF_DATA@.@TARBALL_POSTFIX@" -o ../lmdata-species/@GBIF_DATA@.@TARBALL_POSTFIX@     
-   curl -L "@LMURL@/@GBIF_META@.@TARBALL_POSTFIX@" -o ../lmdata-species/@GBIF_META@.@TARBALL_POSTFIX@     
+   curl -L "@LMURL@/@GBIF_DATA@-@GBIF_VERSION@.@TARBALL_POSTFIX@" \
+        -o ../lmdata-species/@GBIF_DATA@-@GBIF_VERSION@.@TARBALL_POSTFIX@     
 
    echo "Fetch iDigBio list of GBIF-taxonIDs"
-   curl -L "@LMURL@/@IDIG_DATA@.@TARBALL_POSTFIX@" -o ../lmdata-species/@IDIG_DATA@.@TARBALL_POSTFIX@
+   curl -L "@LMURL@/@IDIG_DATA@.@TARBALL_POSTFIX@"  \
+        -o ../lmdata-species/@IDIG_DATA@.@TARBALL_POSTFIX@
    
    echo "Fetch OpenTree North American eukaryote tree"
-   curl -L "@LMURL@/@BIOTAPHY_TREE@.@TARBALL_POSTFIX@" -o ../lmdata-species/@BIOTAPHY_TREE@.@TARBALL_POSTFIX@
+   curl -L "@LMURL@/@BIOTAPHY_TREE@.@TARBALL_POSTFIX@"  \
+        -o ../lmdata-species/@BIOTAPHY_TREE@.@TARBALL_POSTFIX@
 }
 
 ### main ###
