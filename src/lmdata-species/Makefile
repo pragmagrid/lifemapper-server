@@ -93,7 +93,7 @@ build:
 install::
 	mkdir -p $(ROOT)/$(EXPORTDIR)
 	tar -xzf  $(USER_SPECIES_DATA).$(TARBALL_POSTFIX)  -C  $(ROOT)/$(EXPORTDIR)/
-	tar -xzf  $(GBIF_DATA).$(TARBALL_POSTFIX)  -C  $(ROOT)/$(EXPORTDIR)/
+	tar -xzf  $(GBIF_DATA)-$(GBIF_VERSION).$(TARBALL_POSTFIX)  -C  $(ROOT)/$(EXPORTDIR)/
 	install -m 644  $(IDIG_DATA).$(TARBALL_POSTFIX)  $(ROOT)/$(EXPORTDIR)/
 	install -m 644  $(BIOTAPHY_TREE).$(TARBALL_POSTFIX)  $(ROOT)/$(EXPORTDIR)/
 

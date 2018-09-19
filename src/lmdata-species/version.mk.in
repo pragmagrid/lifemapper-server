@@ -11,4 +11,4 @@ VERSION           = 1.8
 RELEASE 	  = 0
 TARBALL_POSTFIX	  = tar.gz
 
-RPM.FILES = $(subst share,state/partition1,$(DATADIR_SERVER))/@SPECIES_DATA_DIR@/*
+RPM.FILES = $(subst share,state/partition1,$(DATADIR_SERVER))/$(SPECIES_DATA_DIR)/*
