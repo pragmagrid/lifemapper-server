@@ -74,6 +74,7 @@ SEDSPEC += \
         -e 's%@PYBIN@%$(PY.PATH)%g' \
         -e 's%@DATADIR_SERVER@%$(DATADIR_SERVER)%g' \
         -e 's%@DATADIR_SHARED@%$(DATADIR_SHARED)%g' \
+        -e 's%@SPECIES_DATA_DIR@%$(SPECIES_DATA_DIR)%g' \
         -e 's%@LMHOME@%$(LMHOME)%g' \
         -e 's%@SMTPSERVER@%$(SMTPSERVER)%g' \
         -e 's%@LMSCRATCHDISK@%$(LMSCRATCHDISK)%g' \
@@ -89,9 +90,13 @@ SEDSPEC += \
         -e 's%@GRID_NAME@%$(GRID_NAME)%g' \
         -e 's%@GRID_CELLSIZE@%$(GRID_CELLSIZE)%g' \
         -e 's%@GRID_NUM_SIDES@%$(GRID_NUM_SIDES)%g' \
-		-e "s%@SPECIES_EXP_YEAR@%$(YR)%g" \
-		-e "s%@SPECIES_EXP_MONTH@%$(MO)%g" \
-		-e "s%@SPECIES_EXP_DAY@%$(DY)%g"
+        -e 's%@GBIF_VERSION@%$(GBIF_VERSION)%g' \
+        -e 's%@GBIF_TAXONOMY@%$(GBIF_TAXONOMY)%g' \
+        -e 's%@GBIF_OCCURRENCES@%$(GBIF_OCCURRENCES)%g' \
+        -e 's%@GBIF_PROVIDER@%$(GBIF_PROVIDER)%g' \
+	-e "s%@SPECIES_EXP_YEAR@%$(YR)%g" \
+	-e "s%@SPECIES_EXP_MONTH@%$(MO)%g" \
+	-e "s%@SPECIES_EXP_DAY@%$(DY)%g"
 
 SCRIPTS = config.lmserver.ini \
           boomInit.sample.ini \
