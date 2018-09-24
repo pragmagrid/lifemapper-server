@@ -60,7 +60,6 @@ RPM.ARCH = noarch
 
 REDHAT.ROOT = $(CURDIR)/../../
 
-# ENV_DATA_DIR also defined in LmServerCommon.common.lmconstants
 EXPORTDIR=$(subst share,state/partition1,$(DATADIR_SHARED))/$(ENV_DATA_DIR)
 
 -include $(ROCKSROOT)/etc/Rules.mk
