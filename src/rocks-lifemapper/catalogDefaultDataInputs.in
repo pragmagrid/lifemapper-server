@@ -14,11 +14,6 @@ usage ()
     echo "The output of the script is in @LMSCRATCHDISK@/log/`/bin/basename $0`.log"
 }
 
-if [ $# -ne 1 ]; then
-    usage
-    exit 0
-fi 
-
 ### define varibles
 SetDefaults () {
     if [ $# -eq 0 ]; then
@@ -139,7 +134,6 @@ PopulateScenariosForUser () {
 }
 
 ### create a makeflow to populate lifemapper DB with GBIF Backbone Taxonomy
-# TODO: function should create a makeflow to call $TAXCAT_PY script
 PopulateTaxonomy () {
     if [ -f $TAXCAT_PY ] ; then
         echo "Inserting a makeflow to catalog GBIF Taxonomy with $TAXCAT_PY ..." | tee -a $LOG
