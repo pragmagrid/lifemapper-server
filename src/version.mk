@@ -11,7 +11,6 @@ DATADIR_SHARED  = /share/lm/data
 DATADIR_SERVER  = /share/lmserver/data
 LMSCRATCHDISK	= /state/partition1/lmscratch
 
-## Matches ENV_DATA_DIR in the lifemapper-compute roll
 ENV_DATA_DIR		= layers
 SPECIES_DATA_DIR	= species
 
@@ -46,4 +45,4 @@ GRID_CELLSIZE			= 1
 GRID_NUM_SIDES			= 4
 
 # Code version
-CODEVERSION			= 2.4.6
+CODEVERSION			= 2.4.7
