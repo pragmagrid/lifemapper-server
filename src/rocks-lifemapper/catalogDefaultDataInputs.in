@@ -7,9 +7,11 @@
 usage () 
 {
     echo "Usage: $0 <initialization filename>"
-    echo "This script is run by the superuser. It will "
-    echo "     - run initboom.py to populate the databases with BOOM inputs"
-    echo "       in the initialization file or the default configuration"
+    echo "This script is run by the superuser. It will populate the database by running"
+    echo "     - catalogDefaults.py for default users, datasources and algorithms"
+    echo "     - catalogScenPkg.py for environmental scenarios for the public user"
+    echo "     - catalogBoomInputs.py to create the archive defined by the"
+    echo "       provided initialization file "
     echo "   "
     echo "The output of the script is in @LMSCRATCHDISK@/log/`/bin/basename $0`.log"
 }
@@ -30,9 +32,7 @@ SetDefaults () {
     # script
     DEFCAT_PY=@LMHOME@/LmDbServer/tools/catalogDefaults.py    
     SCENCAT_PY=@LMHOME@/LmDbServer/tools/catalogScenPkg.py    
-    TAXCAT_PY=@LMHOME@/LmDbServer/tools/catalogTaxonomy.py    
-    BOOMCAT_PY=@LMHOME@/LmDbServer/tools/catalogBoomJob.py
-    ENCODE_PY=@LMHOME@/LmServer/tools/boomInputs.py
+    BOOMCAT_PY=@LMHOME@/LmDbServer/tools/catalogBoomInputs.py
 
     THISNAME=`/bin/basename $0`
     LOG=@LMSCRATCHDISK@/log/$THISNAME.log
@@ -125,21 +125,10 @@ PopulateDefaults () {
 PopulateScenariosForUser () {
     if [ -f $SCENCAT_PY ] ; then
         echo "Cataloging env data $SCEN_PKG for user $ARCHIVE_USER with '$SCENCAT_PY' ..." | tee -a $LOG
-        /opt/python/bin/@PYTHONVER@ $SCENCAT_PY  $SCEN_PKG  $ARCHIVE_USER \
+        /opt/python/bin/@PYTHONVER@ $SCENCAT_PY  $ARCHIVE_USER  $SCEN_PKG \
                                          2>&1 | tee -a $LOG
     else
         echo "Error: Missing file $SCENCAT_PY" | tee -a $LOG
-        exit 1
-    fi
-}
-
-### create a makeflow to populate lifemapper DB with GBIF Backbone Taxonomy
-PopulateTaxonomy () {
-    if [ -f $TAXCAT_PY ] ; then
-        echo "Inserting a makeflow to catalog GBIF Taxonomy with $TAXCAT_PY ..." | tee -a $LOG
-        /opt/python/bin/@PYTHONVER@ $TAXCAT_PY  2>&1 | tee -a $LOG
-    else
-        echo "Error: Missing file $TAXCAT_PY" | tee -a $LOG
         exit 1
     fi
 }
@@ -183,10 +172,6 @@ SetDefaults $1
 TimeStamp "# Start"
 PopulateDefaults
 PopulateScenariosForUser
-
-#if [ "$DATASOURCE" == "GBIF" ] || [ "$DATASOURCE" == "IDIGBIO" ] ; then
-#    PopulateTaxonomy
-#fi
 
 PopulateBoomInputs
 FixPermissions

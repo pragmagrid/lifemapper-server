@@ -12,6 +12,8 @@ usage ()
     echo "       in the initialization file or the default configuration"
     echo "   "
     echo "The output of the script is in @LMSCRATCHDISK@/log/`/bin/basename $0`.log"
+    # psql -U admin -d borg -c "COPY (select * from lm_v3.taxon where taxonomysourceid = 1) 
+    # TO STDOUT WITH CSV HEADER" > /tmp/taxon.csv
 }
 
 if [ $# -ne 1 ]; then
@@ -29,7 +31,7 @@ SetDefaults () {
 
     # script
     BOOMCAT_PY=@LMHOME@/LmDbServer/tools/catalogBoomInputs.py
-    BOOMFLOW_PY=@LMHOME@/LmDbServer/tools/catalogWriteBoomMakeflows.py
+#     BOOMFLOW_PY=@LMHOME@/LmDbServer/tools/catalogWriteBoomMakeflows.py
 
     THISNAME=`/bin/basename $0`
     LOG=@LMSCRATCHDISK@/log/$THISNAME.log
@@ -74,7 +76,7 @@ TimeStamp () {
 ### makeflows to begin computing the BOOM workflow
 PopulateBoomInputs () {
     if [ -f $BOOMCAT_PY ] ; then
-        echo "Catalog BOOM $INIT_CONFIG inputs then insert a makeflow to create and run tasks with '$BOOMCAT_PY' ..." | tee -a $LOG
+        echo "Catalogs BOOM $INIT_CONFIG inputs then inserts a makeflow to create and run tasks with '$BOOMCAT_PY' ..." | tee -a $LOG
         /opt/python/bin/@PYTHONVER@ $BOOMCAT_PY  $INIT_CONFIG --init_makeflow=True \
                                          2>&1 | tee -a $LOG
     else
@@ -83,16 +85,16 @@ PopulateBoomInputs () {
     fi   
 }
 
-### write and catalog makeflows to begin computing the BOOM workflow
-WriteBoomMakeflows () {
-    if [ -f $BOOMFLOW_PY ] ; then
-        echo "Catalog and write BOOM $INIT_CONFIG makeflows to run tasks with '$BOOMFLOW_PY' ..." | tee -a $LOG
-        /opt/python/bin/@PYTHONVER@ $BOOMFLOW_PY  $INIT_CONFIG  2>&1 | tee -a $LOG
-    else
-        echo "Error: Missing file $BOOMFLOW_PY" | tee -a $LOG
-        exit 1
-    fi   
-}
+# ### write and catalog makeflows to begin computing the BOOM workflow
+# WriteBoomMakeflows () {
+#     if [ -f $BOOMFLOW_PY ] ; then
+#         echo "Catalog and write BOOM $INIT_CONFIG makeflows to run tasks with '$BOOMFLOW_PY' ..." | tee -a $LOG
+#         /opt/python/bin/@PYTHONVER@ $BOOMFLOW_PY  $INIT_CONFIG  2>&1 | tee -a $LOG
+#     else
+#         echo "Error: Missing file $BOOMFLOW_PY" | tee -a $LOG
+#         exit 1
+#     fi   
+# }
 
 
 FixPermissions () {
@@ -114,7 +116,8 @@ SetDefaults $1
 TimeStamp "# Start"
 
 PopulateBoomInputs
-# TODO: separate Makeflow creation into different script
+# TODO: separate Makeflow creation into different script, but need config file
+# output by PopulateBoomInputs.
 #WriteBoomMakeflows
 
 FixPermissions

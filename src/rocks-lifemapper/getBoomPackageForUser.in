@@ -197,6 +197,15 @@ fix_permissions () {
     rm -f $BOOM_META_FILE
 }
 
+findget_scen_data () {
+    if [ -f $SCEN_META_FILE ]; then
+	    echo "$SCEN_META_FILE metadata are present for this archive"    | tee -a $LOG
+	else
+	    echo "Missing $SCEN_META_FILE, getting $SCEN_PKG for $THIS_USER" | tee -a $LOG
+	    @LMHOME@/rocks/bin/getScenPackageForUser $SCEN_PKG $THIS_USER   | tee -a $LOG
+	fi
+}
+
 
 instruct_user () {
     echo ""   | tee -a $LOG
@@ -209,17 +218,8 @@ instruct_user () {
     echo ""   | tee -a $LOG
     
     echo "*****************"   | tee -a $LOG
-    if [ -f $SCEN_META_FILE ]; then
-	    echo "$SCEN_META_FILE metadata are present for this archive"    | tee -a $LOG
-	else
-	    echo "Missing $SCEN_META_FILE metadata, run"    | tee -a $LOG
-	    echo "   @LMHOME@/rocks/bin/getScenPackageForUser $SCEN_PKG $THIS_USER"   | tee -a $LOG
-	fi
-    echo "*****************"   | tee -a $LOG
-
-    echo "*****************"   | tee -a $LOG
     echo "Next, catalog input data for BOOM computations with"   | tee -a $LOG
-    echo "   @LMHOME@/rocks/bin/catalogBoomJob $USER_DIR/$BOOM_PARAM_BASENAME"   | tee -a $LOG
+    echo "   @LMHOME@/rocks/bin/catalogBoomInputs $USER_DIR/$BOOM_PARAM_BASENAME"   | tee -a $LOG
     echo "*****************"   | tee -a $LOG
 }
 
@@ -238,6 +238,7 @@ TimeStamp "# Start"
 
 pull_boom_package
 read_boom_datanames
+findget_scen_data
 set_user_and_directory 
 install_param_file
 install_occ_data
