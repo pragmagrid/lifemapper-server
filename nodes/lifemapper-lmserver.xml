@@ -16,7 +16,6 @@
 	<changelog>
 	</changelog>
         <package>opt-lifemapper-MySQL-python</package>
-        <package>opt-lifemapper-rtree</package>
         <package>lifemapper-spatialindex</package>
         <package>strace</package>
 
