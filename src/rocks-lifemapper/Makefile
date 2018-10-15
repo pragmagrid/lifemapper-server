@@ -88,6 +88,7 @@ SEDSPEC += \
         -e 's%@TARBALL_POSTFIX@%$(TARBALL_POSTFIX)%g' \
         -e 's%@LMCLIENT@%$(LMCLIENT)%g' \
         -e 's%@DASHBOARD@%$(DASHBOARD)%g' \
+        -e 's%@PUBLIC_USER@%$(PUBLIC_USER)%g' \
         -e 's%@GRID_NAME@%$(GRID_NAME)%g' \
         -e 's%@GRID_CELLSIZE@%$(GRID_CELLSIZE)%g' \
         -e 's%@GRID_NUM_SIDES@%$(GRID_NUM_SIDES)%g' \

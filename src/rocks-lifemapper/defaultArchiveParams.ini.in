@@ -10,7 +10,7 @@
 [BOOM]
 
 ARCHIVE_NAME: global_PAM
-ARCHIVE_USER: kubi
+ARCHIVE_USER: @PUBLIC_USER@
 
 ;;; SDM 
 SCENARIO_PACKAGE: @SCENARIO_PACKAGE@
@@ -51,7 +51,7 @@ INTERSECT_MINPERCENT: 25
 
 COMPUTE_PAM_STATS: 1
 
-;;; data should exist in the @SCENARIO_PACKAGE@
+;;; data must exist in the @SCENARIO_PACKAGE@
 [PREPROCESSING SDM_MASK]
 CODE: hull_region_intersect
 buffer: .5
