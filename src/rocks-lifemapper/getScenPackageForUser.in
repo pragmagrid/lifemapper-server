@@ -1,11 +1,12 @@
 #!/bin/bash
 #
-# This script downloads a boom data package, containing a scenario package, 
-# occurrence package, and a BOOM parameter file.  It optionally contains a 
-# tree in Nexus format and a compressed file of biogeographic hypotheses. 
-# It uncompresses and places data in the correct directories.
-# The script can be run at any time to download boom data, 
-# and install environmental data, catalog scenarios and processing an SDM workflow.
+# This script downloads a scenario data package, containing a scenario metadata, 
+# and raster files. It uncompresses and places data in the correct directory,
+# and transforms data into mxe format for Maxent modeling.
+#
+# The functions in this script are also included in getBoomPackageForUser
+#
+# The script can be run at any time to download and install environmental data.
 
 usage () 
 {
@@ -35,7 +36,8 @@ set_defaults() {
     LMURL=@LMURL@
     THISNAME=`/bin/basename $0`
     
-    TRANSFORM_SCRIPT=@LMHOME@/rocks/bin/transformData
+    PYBIN=/opt/python/bin/@PYTHONVER@
+    TRANSFORMPY=@LMHOME@/LmBackend/tools/convert_layers_in_package.py
 
     LOG=@LMSCRATCHDISK@/log/$THISNAME.log
     # Append to existing logfile
@@ -100,6 +102,18 @@ move_scenario_data () {
     fi
 }
 
+### Create ASCII and MXE layers from TIFFs
+transform_layers () {
+    if [ -f $TRANSFORMPY ] ; then
+	    NEW_CLIMATE_DIR=$CLIMATE_DIR/$SCEN_PKG      
+        echo "Convert layers for $SCEN_PKG to ascii and mxe ..." | tee -a $LOG
+        $PYBIN $TRANSFORMPY $NEW_CLIMATE_DIR 2>&1 | tee -a $LOG
+    else
+        echo "Error: Missing file $TRANSFORMPY" | tee -a $LOG
+        exit 1
+    fi
+}
+
 instruct_user () {
     echo ""   | tee -a $LOG
     echo "*****************"   | tee -a $LOG
@@ -124,6 +138,7 @@ TimeStamp "# Start"
 pull_scenario_data
 create_user_dir
 move_scenario_data
+transform_layers
 instruct_user
 
 TimeStamp "# End"

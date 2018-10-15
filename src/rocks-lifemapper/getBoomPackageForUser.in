@@ -3,9 +3,16 @@
 # This script downloads a boom data package, containing an occurrence package, 
 # and a BOOM parameter file.  It optionally contains a 
 # tree in Nexus format and a compressed file of biogeographic hypotheses. 
-# It uncompresses and places data in the correct directories.
-# The script can be run at any time to download boom data, 
-# and install environmental data, catalog scenarios and processing an SDM workflow.
+# The script also downloads the named scenario data package (if it is not 
+# present), containing scenario metadata, and raster files, and transforms data 
+# into mxe format for Maxent modeling. It uncompresses and places data in the 
+# correct directories.
+#
+# The scenario download/transform functions in this script are also included in 
+# getScenarioPackageForUser
+#
+# The script can be run at any time to download and install boom data, 
+# environmental data.
 
 usage () 
 {
@@ -13,9 +20,12 @@ usage ()
     echo "This script is run on an existing lifemapper-server installation. "
     echo "It will:"
     echo "     - download the BOOM_PACKAGE_NAME data into the "
-    echo "       @LMSCRATCHDISK@/temp directory, then install "
-    echo "       species, tree, and hypotheses data into the "
+    echo "       @LMSCRATCHDISK@/temp directory, then "
+    echo "     - install species, tree, and hypotheses data into the "
     echo "       @DATADIR_SHARED@/archive/<user> directory"
+    echo "     - identify then download scenario data (if missing) into the "
+    echo "       @DATADIR_SHARED@/layers directory, and transform layerb data"
+    echo "       into mxe format for Maxent modeling"
     echo "   "
     echo "The script can be run at any time to download and install data for"
     echo "a BOOM run."
@@ -34,7 +44,13 @@ set_defaults() {
     
     TEMP_DIR=@LMSCRATCHDISK@/temp
     USER_DIR=@DATADIR_SHARED@/archive/$THIS_USER
-
+    CLIMATE_DIR=@DATADIR_SHARED@/@ENV_DATA_DIR@
+    
+    # Python and python/bash scripts
+    PYBIN=/opt/python/bin/@PYTHONVER@
+    BOOM_POPULATE=@LMHOME@/rocks/bin/catalogBoomJob
+    TRANSFORMPY=@LMHOME@/LmBackend/tools/convert_layers_in_package.py
+    
     # *_PKG variables are file basenames, no path or file extension
     BOOM_PKG_FILE=$TEMP_DIR/$BOOM_PKG.@TARBALL_POSTFIX@
     BOOM_META_FILE=$TEMP_DIR/$BOOM_PKG.ini
@@ -179,7 +195,7 @@ install_hypotheses_data () {
     fi
 }
 
-### Fix CLIMATE_DIR and USER_DIR to group lmwriter with write permission 
+### Fix USER_DIR to group lmwriter with write permission 
 fix_permissions () {
     /bin/egrep -i "^lmwriter" /etc/passwd
     if [ $? -ne 0 ]; then
@@ -206,6 +222,18 @@ findget_scen_data () {
 	fi
 }
 
+### Create ASCII and MXE layers from TIFFs
+transform_layers () {
+    if [ -f $TRANSFORMPY ] ; then
+	    NEW_CLIMATE_DIR=$CLIMATE_DIR/$SCEN_PKG      
+        echo "Convert layers for $SCEN_PKG to ascii and mxe ..." | tee -a $LOG
+        $PYBIN $TRANSFORMPY $NEW_CLIMATE_DIR 2>&1 | tee -a $LOG
+    else
+        echo "Error: Missing file $TRANSFORMPY" | tee -a $LOG
+        exit 1
+    fi
+}
+
 
 instruct_user () {
     echo ""   | tee -a $LOG
@@ -219,7 +247,7 @@ instruct_user () {
     
     echo "*****************"   | tee -a $LOG
     echo "Next, catalog input data for BOOM computations with"   | tee -a $LOG
-    echo "   @LMHOME@/rocks/bin/catalogBoomInputs $USER_DIR/$BOOM_PARAM_BASENAME"   | tee -a $LOG
+    echo "   $BOOM_POPULATE $USER_DIR/$BOOM_PARAM_BASENAME"   | tee -a $LOG
     echo "*****************"   | tee -a $LOG
 }
 
@@ -239,6 +267,7 @@ TimeStamp "# Start"
 pull_boom_package
 read_boom_datanames
 findget_scen_data
+transform_layers
 set_user_and_directory 
 install_param_file
 install_occ_data
