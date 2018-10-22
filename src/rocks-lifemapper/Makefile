@@ -133,6 +133,7 @@ PROGS = \
 	installServerCronJobs \
 	getScenPackageForUser \
 	getBoomPackageForUser \
+	solrIndexTaxonomy \
 	updateIP
 
 PYFILES = __init__.py \
