@@ -30,14 +30,15 @@ set_defaults() {
     THISNAME=`/bin/basename $0`
     TSTAMP=`date +'%F_%T'`
 
-    OUTFILE=@LMSCRATCHDISK@/temp/taxon.$TSTAMP.csv
-    LOG=@LMSCRATCHDISK@/log/$THISNAME.$TSTAMP.log
+    TAXONCSV=/state/partition1/lmscratch/temp/taxon.$TSTAMP.csv
+    LOG=/state/partition1/lmscratch/log/$THISNAME.$TSTAMP.log
     # Append to existing logfile
     touch $LOG
     
-    USERSFILE=@PKGROOT@/rocks/etc/users
+    USERSFILE=/opt/lifemapper/rocks/etc/users
     SQL_CMD="select * from lm_v3.taxon where taxonomysourceid = $TAXSOURCEID"
-    SOLRIDX_PY=@LMHOME@/LmDbServer/tools/index_taxonomy_from_csv.py
+    PYBIN=/opt/python/bin/python2.7
+    SOLRIDX_PY=/opt/lifemapper/LmDbServer/tools/index_taxonomy_from_csv.py
 }
 
 
@@ -67,11 +68,11 @@ set_password () {
 ### Retrieve boom package named in BOOM_PKG
 get_taxonomy_for_solr () {
     # find metadata file testpkgname.ini
-    if [ -f $OUTFILE ]; then
-        echo "Output file $OUTFILE already present" | tee -a $LOG
+    if [ -f $TAXONCSV ]; then
+        echo "Output file $TAXONCSV already present" | tee -a $LOG
     else  
-        echo "Fetch test data into $OUTFILE" | tee -a $LOG
-        psql -U admin -d borg -c "COPY ($SQL_CMD) TO STDOUT WITH CSV HEADER" > $OUTFILE
+        echo "Fetch test data into $TAXONCSV" | tee -a $LOG
+        psql -U admin -d borg -c "COPY ($SQL_CMD) TO STDOUT WITH CSV HEADER" > $TAXONCSV
     fi     
 }
 
@@ -79,7 +80,8 @@ get_taxonomy_for_solr () {
 solr_index_taxonomy () {
     if [ -f $SOLRIDX_PY ] ; then
         echo "Index taxonomy into solr with '$CMD_PY' ..." | tee -a $LOG
-        /opt/python/bin/@PYTHONVER@ $SOLRIDX_PY  2>&1 | tee -a $LOG
+        /opt/python/bin/@PYTHONVER@ $SOLRIDX_PY $TAXONCSV  \
+                                                2>&1 | tee -a $LOG
     else
         echo "Error: Missing file $SOLRIDX_PY" | tee -a $LOG
         exit 1
