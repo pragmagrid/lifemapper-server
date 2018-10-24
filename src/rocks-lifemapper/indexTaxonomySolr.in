@@ -79,7 +79,7 @@ get_taxonomy_for_solr () {
 ### Populate a solr index with taxonomy for chosen source
 solr_index_taxonomy () {
     if [ -f $SOLRIDX_PY ] ; then
-        echo "Index taxonomy into solr with '$CMD_PY' ..." | tee -a $LOG
+        echo "Index taxonomy into solr with '$SOLRIDX_PY ..." | tee -a $LOG
         /opt/python/bin/@PYTHONVER@ $SOLRIDX_PY $TAXONCSV  \
                                                 2>&1 | tee -a $LOG
     else
@@ -89,7 +89,7 @@ solr_index_taxonomy () {
 }
 
 
-set_defaults
+set_defaults $1
 set_password
 get_taxonomy_for_solr
 solr_index_taxonomy
