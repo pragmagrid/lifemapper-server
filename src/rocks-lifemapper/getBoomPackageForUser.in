@@ -222,16 +222,17 @@ findget_scen_data () {
     if [ -f $SCEN_META_FILE ]; then
 	    echo "$SCEN_META_FILE metadata are present for this archive"    | tee -a $LOG
 	else
-	    echo "Missing $SCEN_META_FILE, getting $SCEN_PKG for $THIS_USER" | tee -a $LOG
+	    echo "Get and convert layers in $SCEN_PKG for $THIS_USER" | tee -a $LOG
 	    @LMHOME@/rocks/bin/getScenPackageForUser $SCEN_PKG $THIS_USER   | tee -a $LOG
 	fi
 }
 
 ### Create ASCII and MXE layers from TIFFs
+# Not needed, getScenPackageForUser transforms layers also
 transform_layers () {
     if [ -f $TRANSFORMPY ] ; then
 	    NEW_CLIMATE_DIR=$CLIMATE_DIR/$SCEN_PKG      
-        echo "Convert layers for $SCEN_PKG to ascii and mxe ..." | tee -a $LOG
+        echo "Convert layers in $NEW_CLIMATE_DIR to ascii and mxe ..." | tee -a $LOG
         $PYBIN $TRANSFORMPY $NEW_CLIMATE_DIR 2>&1 | tee -a $LOG
     else
         echo "Error: Missing file $TRANSFORMPY" | tee -a $LOG
@@ -272,7 +273,7 @@ TimeStamp "# Start"
 pull_boom_package
 read_boom_datanames
 findget_scen_data
-transform_layers
+#transform_layers
 set_user_and_directory 
 install_param_file
 install_occ_data

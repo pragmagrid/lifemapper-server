@@ -60,7 +60,7 @@ pull_scenario_data () {
     if [ -f $SCEN_META_FILE ]; then
         echo "Scenario metadata $SCEN_META_FILE already present" | tee -a $LOG
     else  
-        echo "Fetch scenario data into $SCEN_PKG_FILE" | tee -a $LOG
+        echo "Fetch scenario $TEMP_SCEN_PKG_FILE" | tee -a $LOG
         curl -L "$LMURL/$SCEN_PKG.@TARBALL_POSTFIX@" -o $TEMP_SCEN_PKG_FILE   
     fi
 }
@@ -105,9 +105,8 @@ move_scenario_data () {
 ### Create ASCII and MXE layers from TIFFs
 transform_layers () {
     if [ -f $TRANSFORMPY ] ; then
-	    NEW_CLIMATE_DIR=$CLIMATE_DIR/$SCEN_PKG      
         echo "Convert layers for $SCEN_PKG to ascii and mxe ..." | tee -a $LOG
-        $PYBIN $TRANSFORMPY $NEW_CLIMATE_DIR 2>&1 | tee -a $LOG
+        $PYBIN $TRANSFORMPY $NEW_SCEN_DATA_DIR 2>&1 | tee -a $LOG
     else
         echo "Error: Missing file $TRANSFORMPY" | tee -a $LOG
         exit 1
