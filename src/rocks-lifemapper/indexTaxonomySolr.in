@@ -21,7 +21,6 @@ usage ()
 }
 
 set_defaults() {
-    TAXSOURCEID=$1
     THISNAME=`/bin/basename $0`
     TSTAMP=`date +'%F_%T'`
 
@@ -87,6 +86,8 @@ solr_index_taxonomy () {
 ###............................................................................
 ### main
 
+set_defaults
+set_password
 if [ $# -eq 1 ]; then
     TAXSOURCEID=$1
 else  
@@ -94,9 +95,6 @@ else
     GET_ID_CMD="select taxonomysourceid from taxonomysource where datasetidentifier = 'GBIF Backbone Taxonomy'"
     TAXSOURCEID=`psql -U admin -d borg -c "COPY ($GET_ID_CMD) TO STDOUT"`
 fi 
-
-set_defaults
-set_password
 get_taxonomy_for_solr
 solr_index_taxonomy
 
