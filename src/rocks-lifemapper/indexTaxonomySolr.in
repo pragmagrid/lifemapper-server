@@ -6,19 +6,14 @@
 # userId.  If the value is an integer, it will filter by taxonomysourceId, 
 # if it is a string, it will be filtered by userId.
 
-if [ $# -ne 1 ]; then
-    usage
-    exit 0
-fi 
-
 
 usage () 
 {
-    echo "Usage: $0 <TAXONOMY_SOURCE_ID>"
+    echo "Usage: $0 [TAXONOMY_SOURCE_ID]"
     echo "This script is run on an existing lifemapper-server installation. "
     echo "It will:"
     echo "     - dump the contents of the taxon table records for "
-    echo "       taxonomy source id "
+    echo "       the GBIF Backbone Taxonomy or a provided taxonomy source id "
     echo "   "
     echo "The script can be run at any time to solr-index data for"
     echo "a taxonomy."
@@ -36,7 +31,6 @@ set_defaults() {
     touch $LOG
     
     USERSFILE=/opt/lifemapper/rocks/etc/users
-    SQL_CMD="select * from lm_v3.taxon where taxonomysourceid = $TAXSOURCEID"
     PYBIN=/opt/python/bin/python2.7
     SOLRIDX_PY=/opt/lifemapper/LmDbServer/tools/index_taxonomy_from_csv.py
 }
@@ -65,14 +59,16 @@ set_password () {
 }
 
 
+
 ### Retrieve boom package named in BOOM_PKG
 get_taxonomy_for_solr () {
     # find metadata file testpkgname.ini
     if [ -f $TAXONCSV ]; then
         echo "Output file $TAXONCSV already present" | tee -a $LOG
     else  
+    	GET_TAX_CMD="select * from lm_v3.taxon where taxonomysourceid = $TAXSOURCEID"
         echo "Fetch test data into $TAXONCSV" | tee -a $LOG
-        psql -U admin -d borg -c "COPY ($SQL_CMD) TO STDOUT WITH CSV HEADER" > $TAXONCSV
+        psql -U admin -d borg -c "COPY ($GET_TAX_CMD) TO STDOUT WITH CSV HEADER" > $TAXONCSV
     fi     
 }
 
@@ -88,12 +84,22 @@ solr_index_taxonomy () {
     fi
 }
 
+###............................................................................
+### main
 
-set_defaults $1
+if [ $# -eq 1 ]; then
+    TAXSOURCEID=$1
+else  
+    echo "Fetch GBIF taxonomy source ID" | tee -a $LOG
+    GET_ID_CMD="select taxonomysourceid from taxonomysource where datasetidentifier = 'GBIF Backbone Taxonomy'"
+    TAXSOURCEID=`psql -U admin -d borg -c "COPY ($GET_ID_CMD) TO STDOUT"`
+fi 
+
+set_defaults
 set_password
 get_taxonomy_for_solr
 solr_index_taxonomy
 
 
 #psql -U admin -d borg -c "COPY (select * from lm_v3.taxon where taxonomysourceid = 1) TO STDOUT WITH CSV HEADER" > /tmp/taxon.csv
-
+ | awk '{print $2}'
