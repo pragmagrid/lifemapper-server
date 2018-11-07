@@ -99,5 +99,4 @@ get_taxonomy_for_solr
 solr_index_taxonomy
 
 
-#psql -U admin -d borg -c "COPY (select * from lm_v3.taxon where taxonomysourceid = 1) TO STDOUT WITH CSV HEADER" > /tmp/taxon.csv
- | awk '{print $2}'
+#psql -U admin -d borg -c "COPY (select * from lm_v3.taxon where taxonomysourceid = 1) TO STDOUT WITH CSV HEADER" > /tmp/taxon.csv | awk '{print $2}'

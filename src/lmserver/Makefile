@@ -85,6 +85,7 @@ SEDSPEC += \
         -e 's%@USER_SPECIES_DATA@%$(USER_SPECIES_DATA)%g' \
         -e 's%@SCENARIO_PACKAGE@%$(SCENARIO_PACKAGE)%g' \
         -e 's%@EPSG@%$(EPSG)%g' \
+        -e 's%@PUBLIC_USER@%$(PUBLIC_USER)%g' \
         -e 's%@MAPUNITS@%$(MAPUNITS)%g' \
         -e 's%@JAVABIN@%$(JAVABIN)%g' \
         -e 's%@GRID_NAME@%$(GRID_NAME)%g' \
@@ -94,9 +95,9 @@ SEDSPEC += \
         -e 's%@GBIF_TAXONOMY@%$(GBIF_TAXONOMY)%g' \
         -e 's%@GBIF_OCCURRENCES@%$(GBIF_OCCURRENCES)%g' \
         -e 's%@GBIF_PROVIDER@%$(GBIF_PROVIDER)%g' \
-	-e "s%@SPECIES_EXP_YEAR@%$(YR)%g" \
-	-e "s%@SPECIES_EXP_MONTH@%$(MO)%g" \
-	-e "s%@SPECIES_EXP_DAY@%$(DY)%g"
+        -e "s%@SPECIES_EXP_YEAR@%$(YR)%g" \
+        -e "s%@SPECIES_EXP_MONTH@%$(MO)%g" \
+        -e "s%@SPECIES_EXP_DAY@%$(DY)%g"
 
 SCRIPTS = config.lmserver.ini \
           boomInit.sample.ini \
