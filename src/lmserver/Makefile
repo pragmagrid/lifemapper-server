@@ -84,6 +84,7 @@ SEDSPEC += \
         -e 's%@TARBALL_POSTFIX@%$(TARBALL_POSTFIX)%g' \
         -e 's%@USER_SPECIES_DATA@%$(USER_SPECIES_DATA)%g' \
         -e 's%@SCENARIO_PACKAGE@%$(SCENARIO_PACKAGE)%g' \
+        -e 's%@ECOREGION_LAYER@%$(ECOREGION_LAYER)%g' \
         -e 's%@EPSG@%$(EPSG)%g' \
         -e 's%@PUBLIC_USER@%$(PUBLIC_USER)%g' \
         -e 's%@MAPUNITS@%$(MAPUNITS)%g' \
@@ -101,6 +102,7 @@ SEDSPEC += \
 
 SCRIPTS = config.lmserver.ini \
           boomInit.sample.ini \
+          boom.public.params \
           cherrypy.conf
           
 TOPDIR =  $(REPONAME)-$(VERSION)
@@ -116,6 +118,10 @@ cherrypy.conf: $(TOPDIR)/LmWebServer/config/cherrypy.conf.in
 
 boomInit.sample.ini:
 	cat $(TOPDIR)/LmServer/config/$@ > $(TOPDIR)/config/$@
+
+boom.public.params: $(TOPDIR)/LmServer/config/boom.public.params.in
+	$(SED) -i $(SEDSPEC) $^ 
+	cat $^ > $(TOPDIR)/config/$@
 
 prepSrc.sh: prepSrc.sh.in
 	$(SED) $(SEDSPEC) $^ > $@

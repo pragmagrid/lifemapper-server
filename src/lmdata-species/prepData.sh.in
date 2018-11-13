@@ -7,17 +7,17 @@ create_species_data () {
    curl -L "@LMURL@/@USER_SPECIES_DATA@.@TARBALL_POSTFIX@"  \
         -o ../lmdata-species/@USER_SPECIES_DATA@.@TARBALL_POSTFIX@
 
-   echo "Fetch gbif data and metadata"
+   echo "Fetch gbif occurrence data subset, taxonomy and provider metadata"
    curl -L "@LMURL@/@GBIF_DATA@-@GBIF_VERSION@.@TARBALL_POSTFIX@" \
         -o ../lmdata-species/@GBIF_DATA@-@GBIF_VERSION@.@TARBALL_POSTFIX@     
 
-   echo "Fetch iDigBio list of GBIF-taxonIDs"
-   curl -L "@LMURL@/@IDIG_DATA@.@TARBALL_POSTFIX@"  \
-        -o ../lmdata-species/@IDIG_DATA@.@TARBALL_POSTFIX@
-   
-   echo "Fetch OpenTree North American eukaryote tree"
-   curl -L "@LMURL@/@BIOTAPHY_TREE@.@TARBALL_POSTFIX@"  \
-        -o ../lmdata-species/@BIOTAPHY_TREE@.@TARBALL_POSTFIX@
+#    echo "Fetch iDigBio list of GBIF-taxonIDs"
+#    curl -L "@LMURL@/@IDIG_DATA@.@TARBALL_POSTFIX@"  \
+#         -o ../lmdata-species/@IDIG_DATA@.@TARBALL_POSTFIX@
+#   
+#    echo "Fetch OpenTree North American eukaryote tree"
+#    curl -L "@LMURL@/@BIOTAPHY_TREE@.@TARBALL_POSTFIX@"  \
+#         -o ../lmdata-species/@BIOTAPHY_TREE@.@TARBALL_POSTFIX@
 }
 
 ### main ###

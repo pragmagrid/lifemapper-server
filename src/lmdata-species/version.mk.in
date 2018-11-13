@@ -1,13 +1,9 @@
 NAME              = lifemapper-species-data
 
 GBIF_DATA         = gbif_data
-GBIF_VERSION      = 2018.03.08
-
-IDIG_DATA         = idig_occurrences_localities
-IDIG_VERSION      = 2017.08.23          
 BIOTAPHY_TREE     = NAM_binary_mod.json
 
-VERSION           = 1.8
+VERSION           = 1.9
 RELEASE           = 0
 TARBALL_POSTFIX	  = tar.gz
 

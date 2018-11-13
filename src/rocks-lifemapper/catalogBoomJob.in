@@ -67,6 +67,12 @@ SetDefaults () {
     fi
     
     ARCHIVE_USER_DATA_DIR=@DATADIR_SHARED@/archive/$ARCHIVE_USER    
+    SCEN_PKG_META=@DATADIR_SHARED@/layers/$SCEN_PKG.py   
+    
+    # TODO: get epsg from metadata
+    #EPSG=`grep -i epsg $SCEN_PKG_META | awk '{print $2}'`
+    EPSG=4326
+    LAYER_DIR=$ARCHIVE_USER_DATA_DIR/$EPSG/Layers 
 }
 
 TimeStamp () {
@@ -78,24 +84,14 @@ TimeStamp () {
 PopulateBoomInputs () {
     if [ -f $BOOMCAT_PY ] ; then
         echo "Catalogs BOOM $INIT_CONFIG inputs then inserts a makeflow to create and run tasks with '$BOOMCAT_PY' ..." | tee -a $LOG
-        /opt/python/bin/@PYTHONVER@ $BOOMCAT_PY  $INIT_CONFIG --init_makeflow=True \
+        /opt/python/bin/@PYTHONVER@ $BOOMCAT_PY  $INIT_CONFIG \
+                             			 --init_makeflow=True \
                                          2>&1 | tee -a $LOG
     else
         echo "Error: Missing file $BOOMCAT_PY" | tee -a $LOG
         exit 1
     fi   
 }
-
-# ### write and catalog makeflows to begin computing the BOOM workflow
-# WriteBoomMakeflows () {
-#     if [ -f $BOOMFLOW_PY ] ; then
-#         echo "Catalog and write BOOM $INIT_CONFIG makeflows to run tasks with '$BOOMFLOW_PY' ..." | tee -a $LOG
-#         /opt/python/bin/@PYTHONVER@ $BOOMFLOW_PY  $INIT_CONFIG  2>&1 | tee -a $LOG
-#     else
-#         echo "Error: Missing file $BOOMFLOW_PY" | tee -a $LOG
-#         exit 1
-#     fi   
-# }
 
 
 FixPermissions () {
@@ -106,9 +102,9 @@ FixPermissions () {
     fi
 
     # This script is run by root, so set group write permission on data dir if default
-    echo "Update lmwriter group permissions on $ARCHIVE_USER_DATA_DIR" | tee -a $LOG
-    /bin/chgrp -R lmwriter $ARCHIVE_USER_DATA_DIR
-    /bin/chmod -R g+ws     $ARCHIVE_USER_DATA_DIR
+    echo "Check lmwriter group permissions on $ARCHIVE_USER_DATA_DIR" | tee -a $LOG
+#     /bin/chgrp -R lmwriter $ARCHIVE_USER_DATA_DIR
+#     /bin/chmod -R g+ws     $ARCHIVE_USER_DATA_DIR
 }
 
 
@@ -117,9 +113,6 @@ SetDefaults $1
 TimeStamp "# Start"
 
 PopulateBoomInputs
-# TODO: separate Makeflow creation into different script, but need config file
-# output by PopulateBoomInputs.
-#WriteBoomMakeflows
 
 FixPermissions
 TimeStamp "# End"

@@ -30,6 +30,8 @@ DASHBOARD			= lmdashboard
 # SCENARIO_PACKAGE matches SCENARIO_PACKAGE in the lifemapper-compute roll
 # and lifemapper-env-data rpm in both rolls
 SCENARIO_PACKAGE	= 10min-past-present-future
+ECOREGION_LAYER		= ecoreg_10min_global
+
 EPSG				= 4326
 MAPUNITS			= dd
 
@@ -39,11 +41,11 @@ PUBLIC_USER			= kubi
 GBIF_TAXONOMY		= gbif_taxonomy
 GBIF_OCCURRENCES	= gbif_occ_subset
 GBIF_PROVIDER		= gbif_orgs
-GBIF_VERSION		= 2018.03.08
+GBIF_VERSION		= 2018.09.14
 
 GRID_NAME				= lmgrid_1d
 GRID_CELLSIZE			= 1
 GRID_NUM_SIDES			= 4
 
 # Code version
-CODEVERSION			= 2.5.5
+CODEVERSION			= 2.5.8
