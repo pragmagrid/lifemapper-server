@@ -20,7 +20,7 @@ LoadModule status_module modules/mod_status.so
 
 # Enable MapServer debugging
 SetEnv MS_ERRORFILE "@MAPSERVER_TMP@/mapserver_error.txt"
-SetEnv MS_DEBUGLEVEL 5
+SetEnv MS_DEBUGLEVEL 2
 
 # Custom logs
 LogLevel debug
