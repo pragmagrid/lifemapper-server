@@ -37,6 +37,12 @@ set_defaults() {
     THIS_USER=$2
     LMURL=@LMURL@
     THISNAME=`/bin/basename $0`
+    
+    /bin/egrep -i "^lmwriter" /etc/passwd
+    if [ $? -ne 0 ]; then
+        echo "Error: user lmwriter does not exist" | tee -a $LOG
+        exit 1
+    fi    
 
     LOG=@LMSCRATCHDISK@/log/$THISNAME.log
     # Append to existing logfile
@@ -126,6 +132,7 @@ set_user_and_directory () {
     else 
         echo "Create data directory $USER_DIR" | tee -a $LOG
         /bin/mkdir $USER_DIR 
+        fix_permissions $USER_DIR 
     fi
     
     # Set User data filenames
@@ -200,23 +207,24 @@ install_hypotheses_data () {
     fi
 }
 
-### Fix USER_DIR to group lmwriter with write permission 
+### Fix THIS_DIR to group lmwriter with write permission 
 fix_permissions () {
-    /bin/egrep -i "^lmwriter" /etc/passwd
-    if [ $? -ne 0 ]; then
-        echo "Error: user lmwriter does not exist" | tee -a $LOG
-        exit 1
-    fi
+	THIS_DIR=$1
 
-    echo "Set/reset group and write permission on $USER_DIR data dir"   | tee -a $LOG
-    if [ -d $USER_DIR ]; then
-        /bin/chgrp -R lmwriter $USER_DIR
-        /bin/chmod -R g+ws     $USER_DIR
-    fi
-    
+    echo "Set/reset group and write permission on $THIS_DIR data dir"   | tee -a $LOG
+    if [ -d $THIS_DIR ]; then
+        /bin/chgrp -R lmwriter $THIS_DIR
+        /bin/chmod -R g+ws     $THIS_DIR
+    fi    
+}
+
+
+### Remove temporary package contents file 
+cleanup () {
     echo "Cleanup files in $TEMP_DIR"   | tee -a $LOG
     rm -f $BOOM_CONTENTS_FILE
 }
+
 
 findget_scen_data () {
     if [ -f $SCEN_META_FILE ]; then
@@ -279,7 +287,7 @@ install_param_file
 install_occ_data
 install_tree_data
 install_hypotheses_data
-fix_permissions
 instruct_user
+cleanup
 
 TimeStamp "# End"

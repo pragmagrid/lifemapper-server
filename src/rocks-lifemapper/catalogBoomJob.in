@@ -26,6 +26,12 @@ fi
 SetDefaults () {
     INIT_CONFIG=$1
 
+    /bin/egrep -i "^lmwriter" /etc/passwd
+    if [ $? -ne 0 ]; then
+        echo "Error: user lmwriter does not exist" | tee -a $LOG
+        exit 1
+    fi
+
     # config files
     CONFIG_FILE=@LMHOME@/config/config.lmserver.ini
     SITE_CONFIG_FILE=@LMHOME@/config/config.site.ini
@@ -72,7 +78,6 @@ SetDefaults () {
     # TODO: get epsg from metadata
     #EPSG=`grep -i epsg $SCEN_PKG_META | awk '{print $2}'`
     EPSG=4326
-    LAYER_DIR=$ARCHIVE_USER_DATA_DIR/$EPSG/Layers 
 }
 
 TimeStamp () {
@@ -83,6 +88,11 @@ TimeStamp () {
 ### makeflows to begin computing the BOOM workflow
 PopulateBoomInputs () {
     if [ -f $BOOMCAT_PY ] ; then
+        LAYER_DIR=$ARCHIVE_USER_DATA_DIR/$EPSG/Layers 
+        MF_DIR=$ARCHIVE_USER_DATA_DIR/makeflow
+         
+    	FixPermissions $LAYER_DIR
+    	FixPermissions $MF_DIR
         echo "Catalogs BOOM $INIT_CONFIG inputs then inserts a makeflow to create and run tasks with '$BOOMCAT_PY' ..." | tee -a $LOG
         /opt/python/bin/@PYTHONVER@ $BOOMCAT_PY  $INIT_CONFIG \
                              			 --init_makeflow=True \
@@ -95,16 +105,14 @@ PopulateBoomInputs () {
 
 
 FixPermissions () {
-    /bin/egrep -i "^lmwriter" /etc/passwd
-    if [ $? -ne 0 ]; then
-        echo "Error: user lmwriter does not exist" | tee -a $LOG
-        exit 1
-    fi
-
+	THIS_DIR=$1
+	
     # This script is run by root, so set group write permission on data dir if default
-    echo "Check lmwriter group permissions on $ARCHIVE_USER_DATA_DIR" | tee -a $LOG
-#     /bin/chgrp -R lmwriter $ARCHIVE_USER_DATA_DIR
-#     /bin/chmod -R g+ws     $ARCHIVE_USER_DATA_DIR
+    echo "Check lmwriter group permissions on $THIS_DIR" | tee -a $LOG
+    if [ -d $THIS_DIR ]; then
+        /bin/chgrp -R lmwriter $THIS_DIR
+        /bin/chmod -R g+ws     $THIS_DIR
+    fi
 }
 
 
