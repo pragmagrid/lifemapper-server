@@ -76,7 +76,7 @@ SetDefaults () {
     #EPSG=`grep -i epsg $SCEN_PKG_META | awk '{print $2}'`
     EPSG=4326
     ARCHIVE_USER_DATA_DIR=@DATADIR_SHARED@/archive/$ARCHIVE_USER    
-    LAYER_DIR=$ARCHIVE_USER_DATA_DIR/$EPSG/Layers 
+    LAYER_DIR=$ARCHIVE_USER_DATA_DIR/$EPSG
     MF_DIR=$ARCHIVE_USER_DATA_DIR/makeflow
     SCEN_PKG_META=@DATADIR_SHARED@/layers/$SCEN_PKG.py   
 }
