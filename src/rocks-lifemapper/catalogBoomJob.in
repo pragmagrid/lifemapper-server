@@ -89,7 +89,7 @@ TimeStamp () {
 ### makeflows to begin computing the BOOM workflow
 PopulateBoomInputs () {
     if [ -f $BOOMCAT_PY ] ; then         
-        echo "Catalogs BOOM $INIT_CONFIG inputs then inserts a makeflow to create and run tasks with '$BOOMCAT_PY' ..." | tee -a $LOG
+        echo "Catalog BOOM $INIT_CONFIG inputs then insert a makeflow to create and run tasks with '$BOOMCAT_PY' ..." | tee -a $LOG
         /opt/python/bin/@PYTHONVER@ $BOOMCAT_PY  $INIT_CONFIG \
                              			 --init_makeflow=True \
                                          2>&1 | tee -a $LOG
@@ -104,7 +104,7 @@ PopulateBoomInputs () {
 
 FixPermissions () {    	
     # This script is run by root, so set group write permission on data dir if default
-    echo "Check lmwriter group permissions on $LAYER_DIR and $MF_DIR" | tee -a $LOG
+    echo "Fix lmwriter group permissions on $LAYER_DIR and $MF_DIR" | tee -a $LOG
     if [ -d $LAYER_DIR ]; then
         /bin/chgrp -R lmwriter $LAYER_DIR
         /bin/chmod -R g+ws     $LAYER_DIR
