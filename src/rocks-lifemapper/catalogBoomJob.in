@@ -71,13 +71,14 @@ SetDefaults () {
         echo "Error: Missing value for SCENARIO_PACKAGE" | tee -a $LOG
         exit 1
     fi
-    
-    ARCHIVE_USER_DATA_DIR=@DATADIR_SHARED@/archive/$ARCHIVE_USER    
-    SCEN_PKG_META=@DATADIR_SHARED@/layers/$SCEN_PKG.py   
-    
+        
     # TODO: get epsg from metadata
     #EPSG=`grep -i epsg $SCEN_PKG_META | awk '{print $2}'`
     EPSG=4326
+    ARCHIVE_USER_DATA_DIR=@DATADIR_SHARED@/archive/$ARCHIVE_USER    
+    LAYER_DIR=$ARCHIVE_USER_DATA_DIR/$EPSG/Layers 
+    MF_DIR=$ARCHIVE_USER_DATA_DIR/makeflow
+    SCEN_PKG_META=@DATADIR_SHARED@/layers/$SCEN_PKG.py   
 }
 
 TimeStamp () {
@@ -87,16 +88,13 @@ TimeStamp () {
 ### populate lifemapper DB with inputs for Global PAM and 
 ### makeflows to begin computing the BOOM workflow
 PopulateBoomInputs () {
-    if [ -f $BOOMCAT_PY ] ; then
-        LAYER_DIR=$ARCHIVE_USER_DATA_DIR/$EPSG/Layers 
-        MF_DIR=$ARCHIVE_USER_DATA_DIR/makeflow
-         
-    	FixPermissions $LAYER_DIR
-    	FixPermissions $MF_DIR
+    if [ -f $BOOMCAT_PY ] ; then         
         echo "Catalogs BOOM $INIT_CONFIG inputs then inserts a makeflow to create and run tasks with '$BOOMCAT_PY' ..." | tee -a $LOG
         /opt/python/bin/@PYTHONVER@ $BOOMCAT_PY  $INIT_CONFIG \
                              			 --init_makeflow=True \
                                          2>&1 | tee -a $LOG
+#     	 FixPermissions $LAYER_DIR
+#     	 FixPermissions $MF_DIR
     else
         echo "Error: Missing file $BOOMCAT_PY" | tee -a $LOG
         exit 1
@@ -104,14 +102,17 @@ PopulateBoomInputs () {
 }
 
 
-FixPermissions () {
-	THIS_DIR=$1
-	
+FixPermissions () {    	
     # This script is run by root, so set group write permission on data dir if default
-    echo "Check lmwriter group permissions on $THIS_DIR" | tee -a $LOG
-    if [ -d $THIS_DIR ]; then
-        /bin/chgrp -R lmwriter $THIS_DIR
-        /bin/chmod -R g+ws     $THIS_DIR
+    echo "Check lmwriter group permissions on $LAYER_DIR and $MF_DIR" | tee -a $LOG
+    if [ -d $LAYER_DIR ]; then
+        /bin/chgrp -R lmwriter $LAYER_DIR
+        /bin/chmod -R g+ws     $LAYER_DIR
+    fi
+
+	    if [ -d $MF_DIR ]; then
+        /bin/chgrp -R lmwriter $MF_DIR
+        /bin/chmod -R g+ws     $MF_DIR
     fi
 }
 
