@@ -54,7 +54,7 @@ set_defaults() {
     
     # Python and python/bash scripts
     PYBIN=/opt/python/bin/@PYTHONVER@
-    BOOM_POPULATE=@LMHOME@/rocks/bin/catalogBoomJob
+    BOOM_POPULATE=@LMHOME@/rocks/bin/initBoomJob
     TRANSFORMPY=@LMHOME@/LmBackend/tools/convert_layers_in_package.py
     
     # *_PKG variables are file basenames, no path or file extension

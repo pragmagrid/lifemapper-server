@@ -10,7 +10,7 @@ usage ()
     echo "This script is run by the superuser. It will populate the database by running"
     echo "     - catalogDefaults.py for default users, datasources and algorithms"
     echo "     - catalogScenPkg.py for environmental scenarios for the public user"
-    echo "     - catalogBoomInputs.py to create the archive defined by the"
+    echo "     - initBoomJob.py to create the archive defined by the"
     echo "       provided initialization file "
     echo "   "
     echo "The output of the script is in @LMSCRATCHDISK@/log/`/bin/basename $0`.log"
@@ -32,7 +32,7 @@ SetDefaults () {
     # script
     DEFCAT_PY=@LMHOME@/LmDbServer/tools/catalogDefaults.py    
     SCENCAT_PY=@LMHOME@/LmDbServer/tools/catalogScenPkg.py    
-    BOOMCAT_PY=@LMHOME@/LmDbServer/tools/catalogBoomInputs.py
+    BOOMCAT_PY=@LMHOME@/LmDbServer/tools/initBoomJob.py
 
     THISNAME=`/bin/basename $0`
     LOG=@LMSCRATCHDISK@/log/$THISNAME.log

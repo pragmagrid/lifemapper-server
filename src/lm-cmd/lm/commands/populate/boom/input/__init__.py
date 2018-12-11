@@ -22,7 +22,7 @@ class Command(lm.commands.populate.command):
    """
    def run(self, params, args):
       print "TESTME lm populate boom input", self.version
-      from LmDbServer.boom.catalogBoomJob import BoomFiller
+      from LmDbServer.boom.initBoomInputs import BoomFiller
       
       configFname = None
       if len(args)> 0 :
