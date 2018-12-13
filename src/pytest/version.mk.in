@@ -1,0 +1,6 @@
+NAME		= opt-lifemapper-pytest
+VERSION		= 2.7.0
+ARCHIVENAME = coverage
+RELEASE		= 0
+
+RPM.FILES	= $(PYTHON27_PACKAGES)/*
