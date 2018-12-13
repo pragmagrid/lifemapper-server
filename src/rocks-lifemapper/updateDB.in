@@ -1,0 +1,130 @@
+#!/bin/bash 
+#
+# Update @LMHOME@/config/config.lmserver.ini file with correct ip info  
+#
+
+
+usage () 
+{
+    echo "Usage: $0"
+    echo "This script updates database tables (if needed), plus types, views," 
+    echo "and functions"
+}
+
+set_defaults() {
+    THISNAME=`/bin/basename $0`
+    PROFILE=/var/lib/pgsql/.bash_profile
+    BIN=@PKGROOT@/rocks/bin
+    USERSFILE=@PKGROOT@/rocks/etc/users
+
+    DEFINE_TABLES_SQL=@LMHOME@/rocks/etc/dbDefineTables.sql
+    UPDATE_TABLES_SQL=@LMHOME@/rocks/etc/dbUpdateTables.sql
+    ADD_FUNCTIONS_SQL=@LMHOME@/rocks/etc/dbAddFunctions.sql
+
+    LOG=@LMSCRATCHDISK@/log/$THISNAME.log
+    rm -f $LOG
+    touch $LOG
+}
+
+
+### sets the password for db "admin" user to execute sql commands
+set_password () {
+    # check if users file exists
+    if [ ! -f $USERSFILE ] ; then
+        echo "Error: missing file $USERSFILE" >> $LOG
+        exit 1
+    fi
+
+    # check who is running the scipt
+    cat $USERSFILE > /dev/null
+    RETVAL=$?
+    if [ $RETVAL -ne 0 ]; then
+        echo "Error: You must be root to run this script" >> $LOG
+        exit 1
+    fi
+
+    # get the password from 'users' file
+    echo "-- setting postgres password" >> $LOG
+    PASS=`grep admin $USERSFILE | awk '{print $2}'`
+    export PGPASSWORD=$PASS
+}
+
+cmd_service () {
+	svc=$1
+	cmd=$2
+	if [ $ROCKS_VER = '7.0' ]; then
+    	/usr/bin/systemctl $2 $1  >> $LOG
+    else
+    	/sbin/service $1 $2  >> $LOG
+    fi
+}
+
+# stop and restart services 
+restart_services () {
+    echo "-- stop $PG and pgbouncer daemons " >> $LOG
+
+    if [ -f /var/run/pgbouncer/pgbouncer.pid ]; then
+    	cmd_service pgbouncer stop
+    fi
+
+    if [ -f /var/run/$PG.pid ] ; then
+    	cmd_service $PG stop
+    fi
+
+    prog="postmaster"
+    if [ -n "`pidof $prog`" ]; then
+        killproc  $prog
+    fi
+
+    # start postgres 
+    echo "-- start postgres " >> $LOG
+    cmd_service $PG start
+
+    # start pgbouncer
+    echo "-- start pgbouncer" >> $LOG
+    cmd_service pgbouncer start
+}
+
+### add database views, types, functions 
+update_lm_tables () {
+    if [ -f $UPDATE_TABLES_SQL ] ; then
+        echo "Running $UPDATE_TABLES_SQL ..." >> $LOG
+        psql -U admin -d template1 -f $UPDATE_TABLES_SQL 2>&1 | tee -a $LOG
+    else
+        echo "Error: missing file $UPDATE_TABLES_SQL" >> $LOG
+        exit 1
+    fi
+}
+
+### add database views, types, functions 
+add_lm_functions () {
+    if [ -f $ADD_FUNCTIONS_SQL ] ; then
+        echo "Running $ADD_FUNCTIONS_SQL ..." >> $LOG
+        psql -U admin -d template1 -f $ADD_FUNCTIONS_SQL 2>&1 | tee -a $LOG
+    else
+        echo "Error: missing file $ADD_FUNCTIONS_SQL" >> $LOG
+        exit 1
+    fi
+}
+
+
+
+#### Main ####
+
+if [ $# -ne 0 ]; then
+    usage
+    exit 0
+fi 
+
+set_defaults
+TimeStamp "# Start"
+restart_services
+if [ -d /var/lib/pgsql/@PGSQLVER@/data ] && [ "$(ls -A /var/lib/pgsql/@PGSQLVER@/data)" ]; then
+    echo "postgres db exists" >> $LOG
+    set_password 
+    update_lm_tables
+    add_lm_functions
+else
+    echo "Database does not exist!" >> $LOG
+fi
+TimeStamp "# End"
