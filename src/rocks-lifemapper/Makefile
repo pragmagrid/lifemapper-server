@@ -134,6 +134,7 @@ PROGS = \
 	getScenPackageForUser \
 	getBoomPackageForUser \
 	indexTaxonomySolr \
+	updateDB \
 	updateIP
 
 PYFILES = __init__.py \
