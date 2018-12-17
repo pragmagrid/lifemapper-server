@@ -11,8 +11,20 @@ usage ()
     echo "and functions"
 }
 
+TimeStamp () {
+    echo $1 `/bin/date` >> $LOG
+}
+
+
 set_defaults() {
+	ROCKS_VER=`rocks list roll | grep base | awk '{print $2}'`
+	
     THISNAME=`/bin/basename $0`
+    if [ $ROCKS_VER = '7.0' ]; then
+    	PG=`basename /usr/lib/systemd/system/postgresql-*.service`
+    else
+    	PG=`basename /etc/init.d/postgresql-*`
+    fi
     PROFILE=/var/lib/pgsql/.bash_profile
     BIN=@PKGROOT@/rocks/bin
     USERSFILE=@PKGROOT@/rocks/etc/users
@@ -24,6 +36,13 @@ set_defaults() {
     LOG=@LMSCRATCHDISK@/log/$THISNAME.log
     rm -f $LOG
     touch $LOG
+
+    if [ -d /var/lib/pgsql/@PGSQLVER@/data ] && [ "$(ls -A /var/lib/pgsql/@PGSQLVER@/data)" ]; then
+	    echo "postgres db exists" >> $LOG
+	    EXISTING_DB=true
+    else
+	    EXISTING_DB=false
+    fi
 }
 
 
