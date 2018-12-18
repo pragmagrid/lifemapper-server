@@ -23,7 +23,7 @@ SetDefaults () {
     THISNAME=`/bin/basename $0`
     # scripts
     CLEANUP_SCRIPT=@LMHOME@/LmDbServer/tools/janitor.py
-    USER = $1
+    USER_OR_GRIDSETID = $1
     
     LOG=@LMSCRATCHDISK@/log/$THISNAME.log
     rm -f $LOG
@@ -35,10 +35,10 @@ TimeStamp () {
 }
 
 ### delete user computed data from lifemapper DB and filesystem
-ClearUser () {
+ClearData () {
     if [ -f $CLEANUP_SCRIPT ] ; then
         echo "Running '$CLEANUP_SCRIPT'..." | tee -a $LOG
-        /opt/python/bin/@PYTHONVER@ $CLEANUP_SCRIPT --user=$USER 2>&1 | tee -a $LOG
+        /opt/python/bin/@PYTHONVER@ $CLEANUP_SCRIPT $USER_OR_GRIDSETID 2>&1 | tee -a $LOG
     else
         echo "Error: Missing file $CLEANUP_SCRIPT" | tee -a $LOG
         exit 1
@@ -54,5 +54,5 @@ fi
 
 SetDefaults
 TimeStamp "# Start"
-ClearUser
+ClearData
 TimeStamp "# End"

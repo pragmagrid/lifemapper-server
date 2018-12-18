@@ -124,7 +124,7 @@ PROGS = \
 	catalogDefaultDataInputs \
 	initBoomJob \
 	checkLibs \
-	clearUser \
+	clearData \
 	confconst.py \
 	cycleMatt \
 	initDbserver \
