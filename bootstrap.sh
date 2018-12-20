@@ -35,7 +35,8 @@
 #yumdownloader --resolve --enablerepo epel fribidi.x86_64; \
 #yumdownloader --resolve --enablerepo epel mapserver.x86_64; \
 #yumdownloader --resolve --enablerepo epel proj.x86_64; \
-#
+# Add pytest and deps for Rocks 7.0 roll
+
 #yumdownloader --resolve --enablerepo pgdg92 geos.x86_64; \
 #yumdownloader --resolve --enablerepo pgdg92 postgresql92.x86_64; \
 #yumdownloader --resolve --enablerepo pgdg92 postgresql92-devel.x86_64; \
@@ -51,6 +52,8 @@
 #yumdownloader --resolve --enablerepo base byacc.x86_64; \
 #yumdownloader --resolve --enablerepo base screen.x86_64; \
 #)
+
+# Add pytest and deps for Rocks 7.0 roll
 
 # Add PGDG repo for Postgresql and geospatial libs
 rpm -i src/RPMS/pgdg-centos92-9.2-3.noarch.rpm

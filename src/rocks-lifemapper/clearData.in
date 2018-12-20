@@ -6,24 +6,22 @@
 
 usage () 
 {
-    echo "Usage: $0 <username>"
-    echo "This script is run by the superuser. It will do the following for <username>:"
-    echo "     - clear computed user data including OccurrenceLayers from the database"
-    echo "     - delete user data including OccurrenceLayers from the filesystem"
-    echo "     - delete user makeflow files from the filesystem"
-    echo "  It will not"
-    echo "     - delete user inputs (scenarios, environmental layers, trees, gridsets, matrices) from the database or filesystem"
-    echo "     - delete user configuration files from the filesystem"
+    echo "Usage: $0 <userid_or_gridsetid>"
+    echo "This script is run by the superuser. If userid_or_gridsetid is" 
+    echo "   an integer, it will clear database records and files for a gridset." 
+    echo "   a string, it will clear database records and files for a user,"
+    echo "             leaving the following files in the user's top level" 
+    echo "             directory: config files, tree files, and species input files"
     echo "   "
     echo "The output of the script is in @LMSCRATCHDISK@/log/`/bin/basename $0`.log"
 }
 
 ### define varibles
 SetDefaults () {
-    THISNAME=`/bin/basename $0`
-    # scripts
-    CLEANUP_SCRIPT=@LMHOME@/LmDbServer/tools/janitor.py
     USER_OR_GRIDSETID = $1
+
+    THISNAME=`/bin/basename $0`
+    CLEANUP_SCRIPT=@LMHOME@/LmDbServer/tools/janitor.py
     
     LOG=@LMSCRATCHDISK@/log/$THISNAME.log
     rm -f $LOG
@@ -52,7 +50,7 @@ if [ $# -ne 0 ]; then
     exit 0
 fi 
 
-SetDefaults
+SetDefaults $1
 TimeStamp "# Start"
 ClearData
 TimeStamp "# End"

@@ -22,8 +22,10 @@ set_defaults() {
     THISNAME=`/bin/basename $0`
     if [ $ROCKS_VER = '7.0' ]; then
     	PG=`basename /usr/lib/systemd/system/postgresql-*.service`
+    	PG_VER=@PGSQLVER@
     else
     	PG=`basename /etc/init.d/postgresql-*`
+    	PG_VER=9.1
     fi
     PROFILE=/var/lib/pgsql/.bash_profile
     BIN=@PKGROOT@/rocks/bin
@@ -36,13 +38,6 @@ set_defaults() {
     LOG=@LMSCRATCHDISK@/log/$THISNAME.log
     rm -f $LOG
     touch $LOG
-
-    if [ -d /var/lib/pgsql/@PGSQLVER@/data ] && [ "$(ls -A /var/lib/pgsql/@PGSQLVER@/data)" ]; then
-	    echo "postgres db exists" >> $LOG
-	    EXISTING_DB=true
-    else
-	    EXISTING_DB=false
-    fi
 }
 
 
@@ -138,7 +133,7 @@ fi
 set_defaults
 TimeStamp "# Start"
 restart_services
-if [ -d /var/lib/pgsql/@PGSQLVER@/data ] && [ "$(ls -A /var/lib/pgsql/@PGSQLVER@/data)" ]; then
+if [ -d /var/lib/pgsql/$PG_VER/data ] && [ "$(ls -A /var/lib/pgsql/$PG_VER/data)" ]; then
     echo "postgres db exists" >> $LOG
     set_password 
     update_lm_tables
