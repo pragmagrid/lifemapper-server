@@ -104,9 +104,14 @@ PopulateBoomInputs () {
 
 FixPermissions () {
     # This script is run by root, so set group write permission 
+	# set newly written (by BOOMCAT) tree file 
+  	echo 'Adding lmwriter group write permission for $ARCHIVE_USER_DATA_DIR'
+    /bin/chgrp lmwriter $ARCHIVE_USER_DATA_DIR/*.*
+    /bin/chmod g+w     $ARCHIVE_USER_DATA_DIR/*.*
 
 	# Get user dir group write permission; if new it must be enabled
-	# If top directory exists, unnecessary (and time-consuming if full of data)
+	# If top directory exists, do not do recursively b/c time-consuming if full 
+	# of data), but handle newly written tree file 
 	perm=$(stat -c %a "$ARCHIVE_USER_DATA_DIR")
 	len=${#perm}
 	if [[ "$len" = 3 ]]; then 

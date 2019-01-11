@@ -207,22 +207,44 @@ install_hypotheses_data () {
     fi
 }
 
-### Fix THIS_DIR to group lmwriter with write permission 
+### Fix THIS_ITEM (file or directory) to group lmwriter with write permission 
 fix_permissions () {
-	THIS_DIR=$1
+	THIS_ITEM=$1
 
-    echo "Set/reset group and write permission on $THIS_DIR data dir"   | tee -a $LOG
-    if [ -d $THIS_DIR ]; then
-        /bin/chgrp -R lmwriter $THIS_DIR
-        /bin/chmod -R g+ws     $THIS_DIR
-    fi    
+	# Change group write for item
+    /bin/chgrp -R lmwriter $THIS_ITEM
+
+	# Check permissions
+	perm=$(stat -c %a "$THIS_ITEM")
+	len=${#perm}
+	if [[ "$len" = 3 ]]; then 
+		gwperm=`echo ${perm:1:1}`
+	else 
+		gwperm=`echo ${perm:2:1}` 
+	fi
+    
+	# Allow group write for file or dir 
+    if [[ $gwperm = 7 ]]; then 
+    	echo 'Group write permission is correctly set'; 
+    else 
+        if [ -d $THIS_ITEM ]; then
+            echo "Set group write permission recursively on $THIS_ITEM dir"   | tee -a $LOG
+            /bin/chmod -R g+ws   $THIS_ITEM
+        elif [ -f $THIS_ITEM ]; then
+            echo "Set group write permission on $THIS_ITEM file"   | tee -a $LOG
+            /bin/chmod g+w  $THIS_ITEM
+        fi    
+    fi
 }
 
 
-### Remove temporary package contents file 
+### Remove temporary package contents file, set group and write perm for new files
 cleanup () {
     echo "Cleanup files in $TEMP_DIR"   | tee -a $LOG
     rm -f $BOOM_CONTENTS_FILE
+
+    /bin/chgrp lmwriter $USER_DIR/*
+    /bin/chmod g+w      $USER_DIR/*
 }
 
 
