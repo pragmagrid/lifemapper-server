@@ -37,7 +37,7 @@ SetDefaults () {
     SITE_CONFIG_FILE=@LMHOME@/config/config.site.ini
 
     # script
-    BOOMCAT_PY=@LMHOME@/LmDbServer/tools/initBoomJob.py
+    BOOMCAT_PY=@LMHOME@/LmDbServer/boom/initBoomJob.py
 
     THISNAME=`/bin/basename $0`
     LOG=@LMSCRATCHDISK@/log/$THISNAME.log
