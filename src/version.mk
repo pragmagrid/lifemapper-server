@@ -41,7 +41,7 @@ PUBLIC_USER			= kubi
 GBIF_TAXONOMY		= gbif_taxonomy
 GBIF_OCCURRENCES	= gbif_occ_subset
 GBIF_PROVIDER		= gbif_orgs
-GBIF_VERSION		= 2018.09.14
+GBIF_VERSION		= 2019.01.10
 
 GRID_NAME				= lmgrid_1d
 GRID_CELLSIZE			= 1
