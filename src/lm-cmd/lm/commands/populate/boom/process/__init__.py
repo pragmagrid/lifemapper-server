@@ -23,7 +23,7 @@ class Command(lm.commands.populate.command):
    def run(self, params, args):
       print "TESTME lm populate boom input", self.version
       from LmDbServer.boom.daboom import DaBoom
-      from LmDbServer.common.lmconstants import BOOM_PID_FILE
+      from LmServer.common.localconstants import BOOM_PID_FILE
       
       configFname = None
       if len(args)> 0 :

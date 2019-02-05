@@ -147,15 +147,13 @@ EXECFILES = \
 	confPostgres \
 	confUsers 
 
-PARAMS = \
-	defaultArchiveParams.ini
 
 %: %.in
 	$(SED) $(SEDSPEC) $^ > $@
 
 .SUFFIXES:
 
-build: $(SCRIPTS) $(PROFILES) $(CRONS) $(PROGS) $(PYFILES) $(EXECFILES) $(PARAMS)
+build: $(SCRIPTS) $(PROFILES) $(CRONS) $(PROGS) $(PYFILES) $(EXECFILES) 
 	
 install::
 
@@ -181,7 +179,6 @@ install::
 	install -m 755 $(EXECFILES) $(ROOT)/$(PKGROOT)/rocks/bin
 
 	mkdir -p $(ROOT)/$(PKGROOT)/rocks/etc
-	install -m 644 defaultArchiveParams.ini $(ROOT)/$(PKGROOT)/rocks/etc
 	install -m 644 dbDefineTables.sql $(ROOT)/$(PKGROOT)/rocks/etc
 	install -m 644 dbAddFunctions.sql $(ROOT)/$(PKGROOT)/rocks/etc
 	install -m 644 dbUpdateTables.sql $(ROOT)/$(PKGROOT)/rocks/etc
@@ -194,7 +191,7 @@ install::
 	install -m 644 roles.sql.template $(ROOT)/$(PKGROOT)/rocks/sql
 
 clean::
-	rm -rf version.mk $(SCRIPTS) $(PROFILES) $(PROGS) $(PARAMS) confconst.py
+	rm -rf version.mk $(SCRIPTS) $(PROFILES) $(PROGS) confconst.py
 	rm -rf *.pyc 
 
 	

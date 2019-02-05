@@ -27,7 +27,7 @@ SetDefaults () {
     # config files
     CONFIG_FILE=@LMHOME@/config/config.lmserver.ini
     SITE_CONFIG_FILE=@LMHOME@/config/config.site.ini
-    BOOM_PARAMS=@LMHOME@/rocks/etc/defaultArchiveParams.ini
+    BOOM_PARAMS=@LMHOME@/config/boom.public.params
 
     # script
     DEFCAT_PY=@LMHOME@/LmDbServer/tools/catalogDefaults.py    
