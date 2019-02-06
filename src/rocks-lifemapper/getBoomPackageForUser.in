@@ -136,7 +136,7 @@ set_user_and_directory () {
     fi
     
     # Set User data filenames
-    POINT_META_FILE=$USER_DIR/$POINT_PKG.meta
+    POINT_META_FILE=$USER_DIR/$POINT_PKG.json
 }
 
 

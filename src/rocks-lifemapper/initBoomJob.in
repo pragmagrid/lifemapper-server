@@ -47,7 +47,7 @@ SetDefaults () {
     #       but fail on KEY = VALUE (written by the python ConfigParser)
     if [ -f $INIT_CONFIG ] ; then
         echo "Looking for DATASOURCE, ARCHIVE_USER, TREE in user config file $INIT_CONFIG"   | tee -a $LOG  
-        DATASOURCE=`grep -i DATASOURCE $INIT_CONFIG | grep -v ';' | awk '{print $2}'`
+        DATA_SOURCE=`grep -i DATA_SOURCE $INIT_CONFIG | grep -v ';' | awk '{print $2}'`
         ARCHIVE_USER=`grep -i ARCHIVE_USER $INIT_CONFIG | grep -iv _EMAIL | grep -v ';' | awk '{print $2}'`
         SCEN_PKG=`grep -i SCENARIO_PACKAGE $INIT_CONFIG | grep -v ';' | awk '{print $2}'`
         TREE_BASENAME=`grep -i TREE $INIT_CONFIG | grep -v ';' | awk '{print $2}'`
@@ -63,8 +63,8 @@ SetDefaults () {
         echo "Error: Missing value for ARCHIVE_NAME" | tee -a $LOG
         exit 1
     fi
-    if [ ! "$DATASOURCE" ] ; then
-        echo "Error: Missing value for DATASOURCE" | tee -a $LOG
+    if [ ! "$DATA_SOURCE" ] ; then
+        echo "Error: Missing value for DATA_SOURCE" | tee -a $LOG
         exit 1
     fi
     if [ ! "$SCEN_PKG" ] ; then

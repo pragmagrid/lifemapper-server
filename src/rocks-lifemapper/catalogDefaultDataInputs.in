@@ -40,8 +40,8 @@ SetDefaults () {
     touch $LOG
 
     if [ -f $INIT_CONFIG ] ; then
-        echo "Looking for DATASOURCE, ARCHIVE_USER, TREE in user config file $INIT_CONFIG"   | tee -a $LOG  
-        DATASOURCE=`grep -i DATASOURCE $INIT_CONFIG | grep -v ';' | awk '{print $2}'`
+        echo "Looking for DATA_SOURCE, ARCHIVE_USER, TREE in user config file $INIT_CONFIG"   | tee -a $LOG  
+        DATA_SOURCE=`grep -i DATA_SOURCE $INIT_CONFIG | grep -v ';' | awk '{print $2}'`
         ARCHIVE_USER=`grep -i ARCHIVE_USER $INIT_CONFIG | grep -v _EMAIL | grep -v ';' | awk '{print $2}'`
         SCEN_PKG==`grep -i SCENARIO_PACKAGE $INIT_CONFIG | grep -v ';' | awk '{print $2}'`
         TREE_BASENAME=`grep -i TREE $INIT_CONFIG | grep -v ';' | awk '{print $2}'`
@@ -49,17 +49,17 @@ SetDefaults () {
         BIOGEO_HYPOTHESES=`grep -i BIOGEO_HYPOTHESES $INIT_CONFIG | grep -v ';' | awk '{print $2}'`
     fi
 
-    if [ ! "$DATASOURCE" ] ; then 
+    if [ ! "$DATA_SOURCE" ] ; then 
         # look in config.site.ini
         if [ -f $SITE_CONFIG_FILE ] ; then        
-            echo "Looking for DATASOURCE in site config file"   | tee -a $LOG  
-            DATASOURCE=`grep -i DATASOURCE $SITE_CONFIG_FILE | grep -v ';' | awk '{print $2}'`
+            echo "Looking for DATA_SOURCE in site config file"   | tee -a $LOG  
+            DATA_SOURCE=`grep -i DATA_SOURCE $SITE_CONFIG_FILE | grep -v ';' | awk '{print $2}'`
         fi
         
         # look in installed config file        
-        if [ ! "$DATASOURCE" ] ; then 
-            echo "Looking for DATASOURCE in installed config file"   | tee -a $LOG  
-            DATASOURCE=`grep -i DATASOURCE $CONFIG_FILE | grep -v ';' | awk '{print $2}'`
+        if [ ! "$DATA_SOURCE" ] ; then 
+            echo "Looking for DATA_SOURCE in installed config file"   | tee -a $LOG  
+            DATA_SOURCE=`grep -i DATA_SOURCE $CONFIG_FILE | grep -v ';' | awk '{print $2}'`
         fi
     fi
     
@@ -94,8 +94,8 @@ SetDefaults () {
         echo "Error: Missing value for ARCHIVE_USER" | tee -a $LOG
         exit 1
     fi
-    if [ ! "$DATASOURCE" ] ; then
-        echo "Error: Missing value for DATASOURCE" | tee -a $LOG
+    if [ ! "$DATA_SOURCE" ] ; then
+        echo "Error: Missing value for DATA_SOURCE" | tee -a $LOG
         exit 1
     fi
     if [ ! "$SCEN_PKG" ] ; then
