@@ -101,7 +101,6 @@ SEDSPEC += \
         -e "s%@SPECIES_EXP_DAY@%$(DY)%g"
 
 SCRIPTS = config.lmserver.ini \
-          boomInit.sample.ini \
           boom.public.params \
           cherrypy.conf
           
