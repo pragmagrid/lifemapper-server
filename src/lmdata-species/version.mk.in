@@ -3,7 +3,7 @@ NAME              = lifemapper-species-data
 GBIF_DATA         = gbif_data
 BIOTAPHY_TREE     = NAM_binary_mod.json
 
-VERSION           = 1.9
+VERSION           = @GBIF_VERSION@
 RELEASE           = 0
 TARBALL_POSTFIX	  = tar.gz
 
