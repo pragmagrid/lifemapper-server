@@ -82,7 +82,6 @@ SEDSPEC += \
         -e 's%@REPONAME@%$(REPONAME)%g' \
         -e 's%@NAME@%$(NAME)%g' \
         -e 's%@TARBALL_POSTFIX@%$(TARBALL_POSTFIX)%g' \
-        -e 's%@USER_SPECIES_DATA@%$(USER_SPECIES_DATA)%g' \
         -e 's%@SCENARIO_PACKAGE@%$(SCENARIO_PACKAGE)%g' \
         -e 's%@ECOREGION_LAYER@%$(ECOREGION_LAYER)%g' \
         -e 's%@EPSG@%$(EPSG)%g' \

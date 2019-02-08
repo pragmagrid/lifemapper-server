@@ -73,7 +73,6 @@ SEDSPEC += \
         -e 's%@LMURL@%$(LMURL)%g' \
         -e 's%@GBIF_DATA@%$(GBIF_DATA)%g' \
         -e 's%@GBIF_VERSION@%$(GBIF_VERSION)%g' \
-        -e 's%@USER_SPECIES_DATA@%$(USER_SPECIES_DATA)%g' \
         -e 's%@SPECIES_DATA_DIR@%$(SPECIES_DATA_DIR)%g' \
         -e 's%@TARBALL_POSTFIX@%$(TARBALL_POSTFIX)%g'
 
@@ -89,7 +88,6 @@ build:
 
 install::
 	mkdir -p $(ROOT)/$(EXPORTDIR)
-	tar -xzf  $(USER_SPECIES_DATA).$(TARBALL_POSTFIX)  -C  $(ROOT)/$(EXPORTDIR)/
 	tar -xzf  $(GBIF_DATA)-$(GBIF_VERSION).$(TARBALL_POSTFIX)  -C  $(ROOT)/$(EXPORTDIR)/
 
 clean::

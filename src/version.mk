@@ -35,7 +35,6 @@ ECOREGION_LAYER		= ecoreg_10min_global
 EPSG				= 4326
 MAPUNITS			= dd
 
-USER_SPECIES_DATA	= sorted_seasia_gbif
 PUBLIC_USER			= kubi
 
 GBIF_TAXONOMY		= gbif_taxonomy
