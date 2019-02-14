@@ -47,5 +47,5 @@ GRID_CELLSIZE			= 1
 GRID_NUM_SIDES			= 4
 
 # Code version
-CODEVERSION			= 2.8.7
+CODEVERSION			= 2.8.8
 
