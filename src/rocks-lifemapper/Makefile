@@ -135,7 +135,8 @@ PROGS = \
 	getBoomPackageForUser \
 	indexTaxonomySolr \
 	updateDB \
-	updateIP
+	updateIP \
+	updateSolr
 
 PYFILES = __init__.py \
 	confconst.py \

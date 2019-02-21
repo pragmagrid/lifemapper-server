@@ -1,0 +1,55 @@
+#!/bin/bash 
+#
+
+
+usage () 
+{
+    echo "Usage: $0"
+    echo "This script re-initializes solr indexes" 
+}
+
+TimeStamp () {
+    echo $1 `/bin/date` >> $LOG
+}
+
+
+set_defaults() {
+	ROCKS_VER=`rocks list roll | grep base | awk '{print $2}'`
+	
+    THISNAME=`/bin/basename $0`
+    BIN=@PKGROOT@/rocks/bin
+    LOG=@LMSCRATCHDISK@/log/$THISNAME.log
+    
+    rm -f $LOG
+    touch $LOG
+}
+
+
+
+cmd_service () {
+	svc=$1
+	cmd=$2
+    echo "-- $cmd solr daemon " >> $LOG
+	if [ $ROCKS_VER = '7.0' ]; then
+    	/usr/bin/systemctl $2 $1  >> $LOG
+    else
+    	/sbin/service $1 $2  >> $LOG
+    fi
+}
+
+
+#### Main ####
+
+if [ $# -ne 0 ]; then
+    usage
+    exit 0
+fi 
+
+set_defaults
+TimeStamp "# Start"
+
+cmd_service solr stop
+$BIN/solr-index
+cmd_service solr start
+
+TimeStamp "# End"
