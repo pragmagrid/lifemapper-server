@@ -122,7 +122,7 @@ CRONS = \
 
 PROGS = \
 	catalogDefaultDataInputs \
-	initBoomJob \
+	initWorkflow \
 	checkLibs \
 	clearData \
 	confconst.py \

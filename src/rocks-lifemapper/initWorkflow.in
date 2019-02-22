@@ -8,7 +8,7 @@ usage ()
 {
     echo "Usage: $0 <BOOM params filename>"
     echo "This script is run by the superuser. It will "
-    echo "     - run initBoomJob.py to populate the databases with "
+    echo "     - run initWorkflow.py to populate the databases with "
     echo "       BOOM inputs from the provided parameters file and the default"
     echo "       configuration"
     echo "   "
@@ -37,7 +37,7 @@ SetDefaults () {
     SITE_CONFIG_FILE=@LMHOME@/config/config.site.ini
 
     # script
-    BOOMCAT_PY=@LMHOME@/LmDbServer/boom/initBoomJob.py
+    BOOMCAT_PY=@LMHOME@/LmDbServer/boom/initWorkflow.py
 
     THISNAME=`/bin/basename $0`
     LOG=@LMSCRATCHDISK@/log/$THISNAME.log
@@ -89,7 +89,7 @@ TimeStamp () {
 ### makeflows to begin computing the BOOM workflow
 PopulateBoomInputs () {
     if [ -f $BOOMCAT_PY ] ; then         
-        echo "initBoomJob $INIT_CONFIG initializes data inputs " | tee -a $LOG
+        echo "initWorkflow $INIT_CONFIG initializes data inputs " | tee -a $LOG
         echo "then inserts a makeflow to create and run tasks " | tee -a $LOG
         echo "with '$BOOMCAT_PY' ..." | tee -a $LOG
         /opt/python/bin/@PYTHONVER@ $BOOMCAT_PY  $INIT_CONFIG \
