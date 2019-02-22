@@ -56,7 +56,7 @@ To be executed by root
    * ``compute``: runs rocks/bin/installComputeCronJobs
    * ``server``: runs rocks/bin/installServerCronJobs
 
-#. ``update IP``: runs rocks/bin/updateIP and/or updateIP-compute depending lm update ip
+#. ``update config``: runs rocks/bin/updateCfg and/or updateCfg-compute depending lm update ip
    on which rolls are installed.
 #. ``build`` solr index  lm add index
 #. ``list`` : lists database contents, will create a script for these queries lm list X

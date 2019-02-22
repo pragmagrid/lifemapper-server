@@ -280,10 +280,10 @@ start_services() {
     # /usr/bin/systemctl restart pgbouncer >> $LOG
 }
 
-# run updateIP to put correct IP lmserver's config.lmserver.ini 
+# run updateCfg to put correct IP, makeflow parameters lmserver's config.lmserver.ini 
 update_config() {
-    echo "-- update host IP in @LMHOME@/config/config.lmserver.ini" >> $LOG
-    $BIN/updateIP >> $LOG  2>&1
+    echo "-- update host IP and Makeflow/Workqueue parameters in @LMHOME@/config/config.lmserver.ini" >> $LOG
+    $BIN/updateCfg >> $LOG  2>&1
 }
 
 make_dashboard_link () {
