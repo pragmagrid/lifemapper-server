@@ -1,7 +1,7 @@
 NAME            = lifemapper-webclient
 ARCHIVENAME     = $(LMCLIENT)
 REPONAME        = rutabaga
-VERSION         = 2.2.2
+VERSION         = 2.2.3
 RELEASE         = 0
 TARBALL_POSTFIX	= tar.gz
 
