@@ -1,5 +1,6 @@
 NAME            = lifemapper-webclient
 ARCHIVENAME     = $(LMCLIENT)
+PACKAGE_GRIDSET = mcpa
 REPONAME        = rutabaga
 VERSION         = 2.2.3
 RELEASE         = 0

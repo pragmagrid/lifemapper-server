@@ -26,6 +26,8 @@ JAVABIN				= /usr/java/latest/bin/java
 # Top directory of the current webclient and metrics dashboard client
 LMCLIENT			= boom
 DASHBOARD			= lmdashboard
+# Top dir for the Results Package code
+PACKAGING_DIR       = LmWebServer/assets/gridset_package
 
 # SCENARIO_PACKAGE matches SCENARIO_PACKAGE in the lifemapper-compute roll
 # and lifemapper-env-data rpm in both rolls
