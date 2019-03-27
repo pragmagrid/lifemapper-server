@@ -2,7 +2,7 @@ NAME            = lifemapper-webclient
 ARCHIVENAME     = $(LMCLIENT)
 PACKAGE_GRIDSET = mcpa
 REPONAME        = viz_client
-VERSION         = 2.2.4
+VERSION         = 2.2.5
 RELEASE         = 0
 TARBALL_POSTFIX	= tar.gz
 

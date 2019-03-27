@@ -86,12 +86,8 @@ prep: prepSrc.sh
 	make prepSrc.sh
 	./prepSrc.sh
 
-build:
-	mkdir -p $(ROOT)/$(EXPORTDIR)
-	tar -xzf  $(ARCHIVENAME).$(TARBALL_POSTFIX)  -C  $(ROOT)/$(EXPORTDIR)/
-	mkdir -p $(ROOT)/$(LMHOME)/$(PACKAGING_DIR)
-	tar -xzf  $(PACKAGE_GRIDSET).$(TARBALL_POSTFIX)  -C  $(ROOT)/$(LMHOME)/$(PACKAGING_DIR)/
-	echo $(VERSION) > $(ROOT)/$(LMHOME)/$(PACKAGING_DIR)/VERSION.txt
+build: 
+	echo $(EXPORTDIR)
 	
 install::
 	mkdir -p $(ROOT)/$(EXPORTDIR)
