@@ -91,12 +91,14 @@ build:
 	tar -xzf  $(ARCHIVENAME).$(TARBALL_POSTFIX)  -C  $(ROOT)/$(EXPORTDIR)/
 	mkdir -p $(ROOT)/$(LMHOME)/$(PACKAGING_DIR)
 	tar -xzf  $(PACKAGE_GRIDSET).$(TARBALL_POSTFIX)  -C  $(ROOT)/$(LMHOME)/$(PACKAGING_DIR)/
+	echo $(VERSION) > $(ROOT)/$(LMHOME)/$(PACKAGING_DIR)/VERSION.txt
 	
 install::
 	mkdir -p $(ROOT)/$(EXPORTDIR)
 	tar -xzf  $(ARCHIVENAME).$(TARBALL_POSTFIX)  -C  $(ROOT)/$(EXPORTDIR)/
 	mkdir -p $(ROOT)/$(LMHOME)/$(PACKAGING_DIR)
 	tar -xzf  $(PACKAGE_GRIDSET).$(TARBALL_POSTFIX)  -C  $(ROOT)/$(LMHOME)/$(PACKAGING_DIR)/
+	echo $(VERSION) > $(ROOT)/$(LMHOME)/$(PACKAGING_DIR)/VERSION.txt
 
 clean::
 	rm -rf $(ARCHIVENAME) version.mk prepSrc.sh
