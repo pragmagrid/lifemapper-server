@@ -1,8 +1,8 @@
 NAME            = lifemapper-webclient
 ARCHIVENAME     = $(LMCLIENT)
 PACKAGE_GRIDSET = mcpa
-REPONAME        = rutabaga
-VERSION         = 2.2.3
+REPONAME        = viz_client
+VERSION         = 2.2.4
 RELEASE         = 0
 TARBALL_POSTFIX	= tar.gz
 
