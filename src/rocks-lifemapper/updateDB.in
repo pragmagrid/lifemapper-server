@@ -96,7 +96,7 @@ restart_services () {
 
     # start pgbouncer
     echo "-- start pgbouncer" >> $LOG
-    cmd_service pgbouncer start
+    cmd_service pgbouncer start    
 }
 
 ### add database views, types, functions 
@@ -112,6 +112,9 @@ update_lm_tables () {
 
 ### add database views, types, functions 
 add_lm_functions () {
+	# Stop apache to speed view creation
+    cmd_service httpd stop
+	
     if [ -f $ADD_FUNCTIONS_SQL ] ; then
         echo "Running $ADD_FUNCTIONS_SQL ..." >> $LOG
         psql -U admin -d template1 -f $ADD_FUNCTIONS_SQL 2>&1 | tee -a $LOG
@@ -119,6 +122,9 @@ add_lm_functions () {
         echo "Error: missing file $ADD_FUNCTIONS_SQL" >> $LOG
         exit 1
     fi
+   
+	# Start apache 
+    cmd_service httpd start
 }
 
 
