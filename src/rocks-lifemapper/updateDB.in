@@ -111,10 +111,7 @@ update_lm_tables () {
 }
 
 ### add database views, types, functions 
-add_lm_functions () {
-	# Stop apache to speed view creation
-    cmd_service httpd stop
-	
+add_lm_functions () {	
     if [ -f $ADD_FUNCTIONS_SQL ] ; then
         echo "Running $ADD_FUNCTIONS_SQL ..." >> $LOG
         psql -U admin -d template1 -f $ADD_FUNCTIONS_SQL 2>&1 | tee -a $LOG
@@ -122,9 +119,6 @@ add_lm_functions () {
         echo "Error: missing file $ADD_FUNCTIONS_SQL" >> $LOG
         exit 1
     fi
-   
-	# Start apache 
-    cmd_service httpd start
 }
 
 
@@ -142,8 +136,15 @@ restart_services
 if [ -d /var/lib/pgsql/$PG_VER/data ] && [ "$(ls -A /var/lib/pgsql/$PG_VER/data)" ]; then
     echo "postgres db exists" >> $LOG
     set_password 
+
+	# Stop apache to speed view creation
+    cmd_service httpd stop
+       
     update_lm_tables
     add_lm_functions
+
+	# Start apache 
+    cmd_service httpd start
 else
     echo "Database does not exist!" >> $LOG
 fi
