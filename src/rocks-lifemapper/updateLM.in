@@ -1,0 +1,88 @@
+#!/bin/bash 
+#
+# Update @LMHOME@/config/config.lmserver.ini file with correct ip info  
+#
+
+
+usage () 
+{
+    echo "Usage: $0"
+    echo "This script runs update scripts, and is intended to be run after" 
+    echo "code and rocks-l* rpms are updated on a Lifemapper installation"
+    echo "The script runs:"
+    echo "    updateCfg which updates variables in"
+    echo "              @LMHOME@/config/config.lmserver.ini file"
+    echo "    updateDB which applies needed database updates"
+}
+
+set_defaults() {
+    THISNAME=`/bin/basename $0`
+    LOG=@LMSCRATCHDISK@/log/$THISNAME.log
+    rm -f $LOG
+    touch $LOG
+
+    BIN=@PKGROOT@/rocks/bin
+    CFG_UPDATE_SCRIPT=$BIN/updateCfg
+    DB_UPDATE_SCRIPT=$BIN/updateDB
+    # Python and python/bash scripts
+    PYBIN=/opt/python/bin/@PYTHONVER@
+    BOOM_POPULATE=@LMHOME@/rocks/bin/initWorkflow
+    MATT_PY=@LMHOME@/LmServer/tools/mattDaemon.py -dl 2 start
+}
+
+time_stamp () {
+    echo $1 `/bin/date` >> $LOG
+}
+
+
+# stop mattDaemon
+stop_matt () {
+	MATT_COUNT=`ps -Alf | grep mattDaemon | wc -l`
+	COUNTER=0
+	while [ $MATT_COUNT -gt 0 ] && [$COUNTER -lt 10] ; do
+		let COUNTER+=1
+		
+		echo "-- stop mattDaemon " >> $LOG
+		su -c "@PYBIN@ $MATT_DAEMON stop" >> $LOG 2>&1
+		echo "   sleep 5 min ..." >> $LOG
+		/bin/sleep 300    
+		echo "   done sleeping" >> $LOG
+
+		MATT_COUNT=`ps -Alf | grep mattDaemon | wc -l`
+		if [ $MATT_COUNT -eq 0 ]; then
+			echo "   mattDaemon has stopped" >> $LOG
+		else
+			echo "   mattDaemon not yet stopped" >> $LOG
+		fi
+	done
+}
+
+# start mattDaemon
+start_matt () {	
+	echo "-- start mattDaemon " >> $LOG
+	su -c "@PYBIN@ $MATT_DAEMON -dl 2 start"
+}
+
+update_database () {
+    echo "-- update database" >> $LOG
+    $DB_UPDATE_SCRIPT  >> $LOG
+}
+
+update_config () {
+    echo "-- update configuration file" >> $LOG
+    $CFG_UPDATE_SCRIPT  >> $LOG
+}
+
+#### Main ####
+
+if [ $# -ne 0 ]; then
+    usage
+    exit 0
+fi 
+
+set_defaults
+
+stop_matt 
+update_config
+update_database
+start_matt

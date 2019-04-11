@@ -7,8 +7,8 @@
 usage () 
 {
     echo "Usage: $0"
-    echo "This script updates database tables (if needed), plus types, views," 
-    echo "and functions"
+    echo "This script stops apache, applies needed database table changes,"
+    echo "recreates types, views, and functions, then restarts apache"
 }
 
 TimeStamp () {

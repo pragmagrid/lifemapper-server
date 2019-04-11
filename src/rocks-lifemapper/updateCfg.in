@@ -7,9 +7,11 @@
 usage () 
 {
     echo "Usage: $0"
-    echo "This script updates IPs in @LMHOME@/config/config.lmserver.ini file from"
-    echo "the values set in rocks attributes LM_dbserver and LM_webserver."
+    echo "This script updates IPs in @LMHOME@/config/config.lmserver.ini file "
+    echo "from the values set in rocks attributes LM_dbserver and LM_webserver."
     echo "If attributes are not set then the server public IP is used"
+    echo "It also updates Makeflow and Work Queue options from the hardware"
+    echo "configuration on this server"
 
 }
 
