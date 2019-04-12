@@ -43,7 +43,7 @@ stop_matt () {
 		let COUNTER+=1
 		
 		echo "-- stop mattDaemon " >> $LOG
-		su -c "@PYBIN@ $MATT_DAEMON stop" >> $LOG 2>&1
+		su -c "@PYBIN@ $MATT_DAEMON stop" lmwriter >> $LOG 2>&1
 		echo "   sleep 5 min ..." >> $LOG
 		/bin/sleep 300    
 		echo "   done sleeping" >> $LOG
@@ -60,7 +60,7 @@ stop_matt () {
 # start mattDaemon
 start_matt () {	
 	echo "-- start mattDaemon " >> $LOG
-	su -c "@PYBIN@ $MATT_DAEMON -dl 2 start"
+	su -c "@PYBIN@ $MATT_DAEMON -dl 2 start" lmwriter
 }
 
 update_database () {
