@@ -73,7 +73,8 @@ SEDSPEC += \
         -e 's%@VERSION@%$(VERSION)%g' \
         -e 's%@LMHOME@%$(LMHOME)%g' \
         -e 's%@PACKAGING_DIR@%$(PACKAGING_DIR)%g' \
-        -e 's%@PACKAGE_GRIDSET@%$(PACKAGE_GRIDSET)%g' \
+        -e 's%@PACKAGING_CODE@%$(PACKAGING_CODE)%g' \
+        -e 's%@WEBAPP_CODE@%$(WEBAPP_CODE)%g' \
         -e 's%@LMCLIENT@%$(LMCLIENT)%g'
 
 prepSrc.sh: prepSrc.sh.in
@@ -90,10 +91,12 @@ build:
 	echo $(EXPORTDIR)
 	
 install::
-	mkdir -p $(ROOT)/$(EXPORTDIR)
-	tar -xzf  $(ARCHIVENAME).$(TARBALL_POSTFIX)  -C  $(ROOT)/$(EXPORTDIR)/
+	mkdir -p $(ROOT)/$(EXPORTDIR)/$(LMCLIENT)
+	tar -xzf  $(ARCHIVENAME).$(TARBALL_POSTFIX) --strip 1 -C  $(ROOT)/$(EXPORTDIR)/$(LMCLIENT)/
+	
 	mkdir -p $(ROOT)/$(LMHOME)/$(PACKAGING_DIR)
-	tar -xzf  $(PACKAGE_GRIDSET).$(TARBALL_POSTFIX) --strip 1 -C  $(ROOT)/$(LMHOME)/$(PACKAGING_DIR)/
+	tar -xzf  $(PACKAGING_CODE).$(TARBALL_POSTFIX) --strip 1 -C  $(ROOT)/$(LMHOME)/$(PACKAGING_DIR)/
+	
 	echo $(VERSION) > $(ROOT)/$(LMHOME)/$(PACKAGING_DIR)/VERSION.txt
 
 clean::

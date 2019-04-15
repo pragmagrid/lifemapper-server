@@ -5,8 +5,8 @@
 
 URL=https://github.com/lifemapper
 LOC=@REPONAME@/releases/download/v@VERSION@
-DL_FILE_WEBAPP=@LMCLIENT@.@TARBALL_POSTFIX@ 
-DL_FILE_PKG=@PACKAGE_GRIDSET@.@TARBALL_POSTFIX@ 
+DL_FILE_WEBAPP=@WEBAPP_CODE@.@TARBALL_POSTFIX@ 
+DL_FILE_PKG=@PACKAGING_CODE@.@TARBALL_POSTFIX@ 
 
 # download archive from lifemapper git
 download_release () {

@@ -1,6 +1,7 @@
 NAME            = lifemapper-webclient
 ARCHIVENAME     = $(LMCLIENT)
-PACKAGE_GRIDSET = mcpa
+PACKAGING_CODE	= mcpa
+WEBAPP_CODE		= boom
 REPONAME        = viz_client
 VERSION         = 2.2.11
 RELEASE         = 0
