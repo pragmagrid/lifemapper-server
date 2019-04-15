@@ -24,7 +24,7 @@ SMTPSENDER			= no-reply-lifemapper@@PUBLIC_FQDN@
 JAVABIN				= /usr/java/latest/bin/java
 
 # Top directory of the current webclient and metrics dashboard client
-LMCLIENT			= boom
+LMCLIENT			= biotaphy
 DASHBOARD			= lmdashboard
 # Top dir for the Results Package code
 PACKAGING_DIR       = LmWebServer/assets/gridset_package

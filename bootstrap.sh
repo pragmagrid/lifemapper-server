@@ -4,17 +4,6 @@
 #
 . /opt/rocks/share/devel/src/roll/etc/bootstrap-functions.sh
 
-# HDF4 not needed?
-# replace defunct rpmforge repo for hdf4 rpms
-# edit repo to point to correct URLs
-#     /etc/yum.repos.d/rpmforge.repo
-# (cd src/RPMS; 
-# RPMFORGEREPO=rpmforge-release-0.5.3-1.el6.rf.x86_64.rpm;
-# wget http://ftp.tu-chemnitz.de/pub/linux/dag/redhat/el6/en/x86_64/rpmforge/RPMS/$RPMFORGEREPO;
-# rpm -Uvh $RPMFORGEREPO;
-# )
-
-
 ### do this only once for roll distro to keep known RPMS in the roll src
 #(cd src/RPMS; 
 #wget http://li.nux.ro/download/nux/dextop/el7/x86_64//bitstream-vera-fonts-common-1.10-19.el7.nux.noarch.rpm; \
@@ -26,8 +15,6 @@
 #yumdownloader --resolve --enablerepo base c-ares.x86_64; \
 #yumdownloader --resolve --enablerepo base readline-devel.x86_64; \
 #yumdownloader --resolve --enablerepo base flex.x86_64; \
-#
-# #yumdownloader --resolve --enablerepo rpmforge hdf4.x86_64 hdf4-devel.x86_64; \
 #
 #yumdownloader --resolve --enablerepo epel hdf5.x86_64 hdf5-devel.x86_64; \
 #yumdownloader --resolve --enablerepo epel fcgi.x86_64; \
