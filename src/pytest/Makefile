@@ -56,41 +56,35 @@
 #
 # $Log$
 
-RPM.ARCH = noarch
 
 REDHAT.ROOT = $(CURDIR)/../../
-
-# SPECIES_DATA_PATH also defined in LmServerCommon.common.lmconstants
-EXPORTDIR=$(subst share,state/partition1,$(DATADIR_SERVER))/$(SPECIES_DATA_DIR)
-
 -include $(ROCKSROOT)/etc/Rules.mk
 include Rules.mk
 
+RPM.EXTRAS += "AutoReq: 0"
+
 version.mk:
 	cat ../version.mk version.mk.in > version.mk
-	
-SEDSPEC += \
-        -e 's%@LMURL@%$(LMURL)%g' \
-        -e 's%@GBIF_DATA@%$(GBIF_DATA)%g' \
-        -e 's%@GBIF_VERSION@%$(GBIF_VERSION)%g' \
-        -e 's%@SPECIES_DATA_DIR@%$(SPECIES_DATA_DIR)%g' \
-        -e 's%@TARBALL_POSTFIX@%$(TARBALL_POSTFIX)%g'
 
-prepData.sh: prepData.sh.in
-	$(SED) $(SEDSPEC) $^ > $@
-	chmod 755 $@
-
-prep: prepData.sh
-	./prepData.sh
+PY.PATH = /opt/python/bin/$(PYTHONVER)
 
 build:
-	echo $(EXPORTDIR)
+	tar xzf  $(ARCHIVENAME)-$(VERSION).tar.gz 
+	(\
+	    cd $(ARCHIVENAME)-$(VERSION);   \
+	    module load opt-python;			\
+	    $(PY.PATH) setup.py build;      \
+	    module unload opt-python;			\
+	)
+
 
 install::
-	mkdir -p $(ROOT)/$(EXPORTDIR)
-	tar -xzf  $(GBIF_DATA)-$(GBIF_VERSION).$(TARBALL_POSTFIX)  -C  $(ROOT)/$(EXPORTDIR)/
+	(\
+	    cd $(ARCHIVENAME)-$(VERSION);   \
+	    module load opt-python;			\
+	    $(PY.PATH) setup.py $@ --root=$(ROOT)/; \
+	    module unload opt-python;			\
+	)
 
 clean::
-	rm -rf version.mk
-	rm -rf prepData.sh
-	rm -rf $(ROOT)/$(EXPORTDIR)
+	rm -rf $(ARCHIVENAME)-$(VERSION) version.mk

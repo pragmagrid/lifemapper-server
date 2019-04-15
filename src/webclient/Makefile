@@ -71,6 +71,9 @@ SEDSPEC += \
         -e 's%@REPONAME@%$(REPONAME)%g' \
         -e 's%@TARBALL_POSTFIX@%$(TARBALL_POSTFIX)%g' \
         -e 's%@VERSION@%$(VERSION)%g' \
+        -e 's%@LMHOME@%$(LMHOME)%g' \
+        -e 's%@PACKAGING_DIR@%$(PACKAGING_DIR)%g' \
+        -e 's%@PACKAGE_GRIDSET@%$(PACKAGE_GRIDSET)%g' \
         -e 's%@LMCLIENT@%$(LMCLIENT)%g'
 
 prepSrc.sh: prepSrc.sh.in
@@ -83,13 +86,15 @@ prep: prepSrc.sh
 	make prepSrc.sh
 	./prepSrc.sh
 
-build:
-	mkdir -p $(ROOT)/$(EXPORTDIR)
-	tar -xzf  $(ARCHIVENAME).$(TARBALL_POSTFIX)  -C  $(ROOT)/$(EXPORTDIR)/
+build: 
+	echo $(EXPORTDIR)
 	
 install::
 	mkdir -p $(ROOT)/$(EXPORTDIR)
 	tar -xzf  $(ARCHIVENAME).$(TARBALL_POSTFIX)  -C  $(ROOT)/$(EXPORTDIR)/
+	mkdir -p $(ROOT)/$(LMHOME)/$(PACKAGING_DIR)
+	tar -xzf  $(PACKAGE_GRIDSET).$(TARBALL_POSTFIX) --strip 1 -C  $(ROOT)/$(LMHOME)/$(PACKAGING_DIR)/
+	echo $(VERSION) > $(ROOT)/$(LMHOME)/$(PACKAGING_DIR)/VERSION.txt
 
 clean::
 	rm -rf $(ARCHIVENAME) version.mk prepSrc.sh

@@ -26,6 +26,8 @@ JAVABIN				= /usr/java/latest/bin/java
 # Top directory of the current webclient and metrics dashboard client
 LMCLIENT			= biotaphy
 DASHBOARD			= lmdashboard
+# Top dir for the Results Package code
+PACKAGING_DIR       = LmWebServer/assets/gridset_package
 
 # SCENARIO_PACKAGE matches SCENARIO_PACKAGE in the lifemapper-compute roll
 # and lifemapper-env-data rpm in both rolls
@@ -35,17 +37,18 @@ ECOREGION_LAYER		= ecoreg_10min_global
 EPSG				= 4326
 MAPUNITS			= dd
 
-USER_SPECIES_DATA	= sorted_seasia_gbif
 PUBLIC_USER			= kubi
 
 GBIF_TAXONOMY		= gbif_taxonomy
 GBIF_OCCURRENCES	= gbif_occ_subset
 GBIF_PROVIDER		= gbif_orgs
-GBIF_VERSION		= 2018.09.14
+GBIF_VERSION		= 2019.01.10
 
 GRID_NAME				= lmgrid_1d
 GRID_CELLSIZE			= 1
 GRID_NUM_SIDES			= 4
 
 # Code version
-CODEVERSION			= 2.6.9
+CODEVERSION			= 3.0.9
+
+

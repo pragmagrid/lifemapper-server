@@ -7,10 +7,19 @@
 usage () 
 {
     echo "Usage: $0"
-    echo "This script updates IPs in @LMHOME@/config/config.lmserver.ini file from"
-    echo "the values set in rocks attributes LM_dbserver and LM_webserver."
+    echo "This script updates IPs in @LMHOME@/config/config.lmserver.ini file "
+    echo "from the values set in rocks attributes LM_dbserver and LM_webserver."
     echo "If attributes are not set then the server public IP is used"
+    echo "It also updates Makeflow and Work Queue options from the hardware"
+    echo "configuration on this server"
 
+}
+
+set_defaults() {
+    THISNAME=`/bin/basename $0`
+    LOG=@LMSCRATCHDISK@/log/$THISNAME.log
+    rm -f $LOG
+    touch $LOG
 }
 
 getMakeflowParams () {
@@ -18,24 +27,23 @@ getMakeflowParams () {
     nodecpus=`/opt/rocks/bin/rocks list host | grep Compute | awk '{print $3}'`
     for c in $nodecpus;
     do  
-        echo 'next:'
-        echo '  c is' $c
+        echo 'next: c is' $c >> $LOG
         cpuTotal=$(( $cpuTotal + $c ))
-        echo '  cpuTotal is' $cpuTotal
+        echo '  cpuTotal is' $cpuTotal >> $LOG
     done
     if [ $cpuTotal = 0 ]; then
         nodecount=`/opt/rocks/bin/rocks list host | grep Compute | wc -l`
         node1cpus=`/opt/rocks/bin/rocks list host | grep Compute | awk '{print $3}' | sed -n '1 p'`
         cpuTotal=$(( $nodecount * $node1cpus ))
-        echo 'alternate method:'
-        echo '  nodecount is' $nodecount
-        echo '  nodecpus is' $nodecpus
-        echo '  cpuTotal is' $cpuTotal
+        echo 'alternate method:' >> $LOG
+        echo '  nodecount is' $nodecount >> $LOG
+        echo '  nodecpus is' $nodecpus >> $LOG
+        echo '  cpuTotal is' $cpuTotal >> $LOG
     fi
     MaxWorkers=$cpuTotal
     tmpMaxMFs=$(( $cpuTotal / 10 ))
     MaxMakeflows=$(($tmpMaxMFs>2?$tmpMaxMFs:2))
-    echo '  MaxWorkers, MaxMakeflows =' $MaxWorkers $MaxMakeflows
+    echo '  MaxWorkers, MaxMakeflows =' $MaxWorkers $MaxMakeflows >> $LOG
 }
 
 getWorkerOptions () {
@@ -45,7 +53,7 @@ getWorkerOptions () {
     cacheLimit=$(( ( $node1Mb * 8 ) / 10 ))
     cacheLimitPerWorker=$(( $cacheLimit / $node1cpus ))
     WorkerOptions=`echo --disk=$cacheLimitPerWorker`
-    echo '  node1Mb, cacheLimit, cacheLimitPerWorker =' $node1Mb $cacheLimit $cacheLimitPerWorker
+    echo '  node1Mb, cacheLimit, cacheLimitPerWorker =' $node1Mb $cacheLimit $cacheLimitPerWorker >> $LOG
 }
 
 getAddress () {
@@ -78,11 +86,11 @@ updateConfigVars () {
     
     if [ -f $outfile ] ; then
         bakext=`/bin/date +%F`
-        echo '  File ' $outfile ' exists, saving to ' $outfile.$bakext 
+        echo '  File ' $outfile ' exists, saving to ' $outfile.$bakext  >> $LOG
         mv -f $outfile $outfile.$bakext
     fi
     
-    echo '  Creating ' $outfile ' from ' $infile
+    echo '  Creating ' $outfile ' from ' $infile >> $LOG
     # replace variables
     sed  "s%@PUBLIC_FQDN@%$Addr%g; \
           s%@WEB_FQDN@%$AddrWebserver%g; \
@@ -102,11 +110,11 @@ updateWebhost () {
     fi
     
     if [ -f $infile ] ; then    
-        echo '  Creating ' $outfile ' from ' $infile
+        echo '  Creating ' $outfile ' from ' $infile >> $LOG
         # replace variables
         sed  "s%@PUBLIC_FQDN@%$AddrWebserver%g" $infile > $outfile
     else
-        echo '  Missing input file ' $infile
+        echo '  Missing input file ' $infile >> $LOG
     fi
 }
 
@@ -126,6 +134,7 @@ if [ $# -ne 0 ]; then
     exit 0
 fi 
 
+set_defaults
 getAddress
 ## updateWebhost
 getMakeflowParams

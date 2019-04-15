@@ -75,6 +75,7 @@ SEDSPEC += \
         -e 's%@DATADIR_SERVER@%$(DATADIR_SERVER)%g' \
         -e 's%@DATADIR_SHARED@%$(DATADIR_SHARED)%g' \
         -e 's%@SPECIES_DATA_DIR@%$(SPECIES_DATA_DIR)%g' \
+        -e 's%@PACKAGING_DIR@%$(PACKAGING_DIR)%g' \
         -e 's%@LMHOME@%$(LMHOME)%g' \
         -e 's%@SMTPSERVER@%$(SMTPSERVER)%g' \
         -e 's%@LMSCRATCHDISK@%$(LMSCRATCHDISK)%g' \
@@ -82,7 +83,6 @@ SEDSPEC += \
         -e 's%@REPONAME@%$(REPONAME)%g' \
         -e 's%@NAME@%$(NAME)%g' \
         -e 's%@TARBALL_POSTFIX@%$(TARBALL_POSTFIX)%g' \
-        -e 's%@USER_SPECIES_DATA@%$(USER_SPECIES_DATA)%g' \
         -e 's%@SCENARIO_PACKAGE@%$(SCENARIO_PACKAGE)%g' \
         -e 's%@ECOREGION_LAYER@%$(ECOREGION_LAYER)%g' \
         -e 's%@EPSG@%$(EPSG)%g' \

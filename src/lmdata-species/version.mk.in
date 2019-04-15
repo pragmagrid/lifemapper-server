@@ -1,10 +1,10 @@
 NAME              = lifemapper-species-data
 
-GBIF_DATA         = gbif_data
+GBIF_DATA         = gbif_data_subset
 BIOTAPHY_TREE     = NAM_binary_mod.json
 
-VERSION           = 1.9
-RELEASE           = 0
+VERSION           = $(GBIF_VERSION)
+RELEASE           = 1
 TARBALL_POSTFIX	  = tar.gz
 
 RPM.FILES = $(subst share,state/partition1,$(DATADIR_SERVER))/$(SPECIES_DATA_DIR)/*

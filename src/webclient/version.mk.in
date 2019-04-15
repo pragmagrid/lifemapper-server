@@ -1,11 +1,13 @@
 NAME            = lifemapper-webclient
 ARCHIVENAME     = $(LMCLIENT)
-REPONAME        = rutabaga
-VERSION         = 2.2.0
+PACKAGE_GRIDSET = mcpa
+REPONAME        = viz_client
+VERSION         = 2.2.11
 RELEASE         = 0
 TARBALL_POSTFIX	= tar.gz
 
 RPM.EXTRAS = "AutoReq: no"
 
-RPM.FILES = $(subst share,state/partition1,$(DATADIR_SERVER))/*
+RPM.FILES = $(subst share,state/partition1,$(DATADIR_SERVER))/*  \n\
+            $(PKGROOT)/*  
 
