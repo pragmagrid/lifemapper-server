@@ -136,6 +136,7 @@ PROGS = \
 	indexTaxonomySolr \
 	updateDB \
 	updateCfg \
+	updateLM \
 	updateSolr
 
 PYFILES = __init__.py \
