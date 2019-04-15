@@ -24,7 +24,7 @@ SMTPSENDER			= no-reply-lifemapper@@PUBLIC_FQDN@
 JAVABIN				= /usr/java/latest/bin/java
 
 # Top directory of the current webclient and metrics dashboard client
-LMCLIENT			= boom
+LMCLIENT			= biotaphy
 DASHBOARD			= lmdashboard
 
 # SCENARIO_PACKAGE matches SCENARIO_PACKAGE in the lifemapper-compute roll
