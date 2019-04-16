@@ -92,7 +92,7 @@ build:
 	
 install::
 	mkdir -p $(ROOT)/$(EXPORTDIR)/$(LMCLIENT)
-	tar -xzf  $(ARCHIVENAME).$(TARBALL_POSTFIX) --strip 1 -C  $(ROOT)/$(EXPORTDIR)/$(LMCLIENT)/
+	tar -xzf  $(WEBAPP_CODE).$(TARBALL_POSTFIX) --strip 1 -C  $(ROOT)/$(EXPORTDIR)/$(LMCLIENT)/
 	
 	mkdir -p $(ROOT)/$(LMHOME)/$(PACKAGING_DIR)
 	tar -xzf  $(PACKAGING_CODE).$(TARBALL_POSTFIX) --strip 1 -C  $(ROOT)/$(LMHOME)/$(PACKAGING_DIR)/
