@@ -39,22 +39,21 @@ time_stamp () {
 
 # stop mattDaemon
 stop_matt () {
-	MATT_COUNT=`ps -Alf | grep mattDaemon | wc -l`
+	MATT_COUNT=`ps -Alf | grep mattDaemon  | grep -v grep | wc -l`
 	COUNTER=0
 	while [ $MATT_COUNT -gt 0 ] && [ $COUNTER -lt 10 ] ; do
 		let COUNTER+=1
 		
 		echo "-- stop mattDaemon " >> $LOG
 		su -c "@PYBIN@ $MATT_DAEMON stop" lmwriter >> $LOG 2>&1
-		echo "   sleep 5 min ..." >> $LOG
-		/bin/sleep 300    
-		echo "   done sleeping" >> $LOG
 
-		MATT_COUNT=`ps -Alf | grep mattDaemon | wc -l`
+		MATT_COUNT=`ps -Alf | grep mattDaemon  | grep -v grep | wc -l`
 		if [ $MATT_COUNT -eq 0 ]; then
 			echo "   mattDaemon has stopped" >> $LOG
 		else
-			echo "   mattDaemon not yet stopped" >> $LOG
+			echo "   mattDaemon not yet stopped, sleep 5 min ..." >> $LOG
+			/bin/sleep 300
+			echo "   done sleeping" >> $LOG
 		fi
 	done
 }
