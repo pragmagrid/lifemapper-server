@@ -60,8 +60,9 @@ stop_matt () {
 
 # start mattDaemon
 start_matt () {	
-	echo "-- start mattDaemon " >> $LOG
-	su -c "@PYBIN@ $MATT_DAEMON -dl 2 start" lmwriter
+	echo "-- AFTER re-installing nodes, start mattDaemon " >> $LOG
+	echo "   with following command:  su -c \"@PYBIN@ $MATT_DAEMON -dl 2 start\" lmwriter" >> $LOG
+# 	su -c "@PYBIN@ $MATT_DAEMON -dl 2 start" lmwriter
 }
 
 update_database () {
