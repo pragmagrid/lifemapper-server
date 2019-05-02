@@ -43,7 +43,6 @@ GBIF_TAXONOMY		= gbif_taxonomy
 GBIF_OCCURRENCES	= gbif_occ_subset
 GBIF_PROVIDER		= gbif_orgs
 GBIF_VERSION		= 2019.04.12
-#GBIF_VERSION		= 2019.01.10
 
 GRID_NAME				= lmgrid_1d
 GRID_CELLSIZE			= 1
