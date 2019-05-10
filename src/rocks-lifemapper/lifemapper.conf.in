@@ -38,6 +38,14 @@ SetEnv PROJ_LIB "@LMHOME@/share/proj"
 # Root for lifemapper content
 RewriteEngine on
 
+# Redirect boom page requests to new biotaphy url
+Redirect /boom/ @WEBSERVICES_ROOT@/biotaphy/
+
+# Redirect any requests to (svc|yeti).lifemapper.org to WEBSERVICES_ROOT
+RewriteCond %{HTTP_HOST} ^(svc|yeti)\.lifemapper\.org$
+RewriteRule ^/(.*)$ @WEBSERVICES_ROOT@/$1 [R=301]
+
+
 # Mod_wsgi script for Lifemapper content
 WSGIScriptAliasMatch ^/(api) @LMHOME@/LmWebServer/services/common/svcRoot.py/$1
 
