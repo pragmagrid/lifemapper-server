@@ -7,11 +7,11 @@
 usage () 
 {
     echo "Usage: $0 <userid_or_gridsetid>"
-    echo "This script is run by the superuser. If userid_or_gridsetid is" 
+    echo "   This script is run by the superuser. If userid_or_gridsetid is" 
     echo "   an integer, it will clear database records and files for a gridset." 
     echo "   a string, it will clear database records and files for a user,"
-    echo "             leaving the following files in the user's top level" 
-    echo "             directory: config files, tree files, and species input files"
+    echo "   leaving the following files in the user's top level directory:" 
+    echo "         config files, tree files, and species input files"
     echo "   "
     echo "The output of the script is in @LMSCRATCHDISK@/log/`/bin/basename $0`.log"
 }
@@ -45,7 +45,7 @@ ClearData () {
 
 
 ### Main ###
-if [ $# -ne 0 ]; then
+if [ $# -ne 1 ]; then
     usage
     exit 0
 fi 
