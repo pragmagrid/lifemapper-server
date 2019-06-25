@@ -15,8 +15,8 @@
 
 	<changelog>
 	</changelog>
-        <package>opt-lifemapper-MySQL-python</package>
-        <package>lifemapper-spatialindex</package>
+        <!-- <package>opt-lifemapper-MySQL-python</package> -->
+        <!-- <package>lifemapper-spatialindex</package> -->
         <package>strace</package>
 
         <!-- postgres and dependencies (postgresql92-python, mx needed?)-->

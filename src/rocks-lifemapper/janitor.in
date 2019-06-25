@@ -1,0 +1,95 @@
+#!/bin/bash 
+
+# Purpose: define a BOOM archive and populate the database with input metadata
+#
+# This script is run by a superuser
+
+usage () 
+{
+    echo "Usage: $0 <>"
+    echo "This script is run by the superuser. It will "
+    echo "     - run initWorkflow.py to populate the databases with "
+    echo "       BOOM inputs from the provided parameters file and the default"
+    echo "       configuration"
+    echo "   "
+    echo "Logging in @LMSCRATCHDISK@/log/`/bin/basename $0`.log"
+    # psql -U admin -d borg -c "COPY (select * from lm_v3.taxon where taxonomysourceid = 1) 
+    # TO STDOUT WITH CSV HEADER" > /tmp/taxon.csv
+}
+
+if [ $# -ne 1 ]; then
+    usage
+    exit 0
+fi 
+
+### define varibles
+SetDefaults () {
+    INIT_CONFIG=$1
+
+    /bin/egrep -i "^lmwriter" /etc/passwd
+    if [ $? -ne 0 ]; then
+        echo "Error: user lmwriter does not exist" | tee -a $LOG
+        exit 1
+    fi
+
+    # config files
+    CONFIG_FILE=@LMHOME@/config/config.lmserver.ini
+    SITE_CONFIG_FILE=@LMHOME@/config/config.site.ini
+
+    # script
+    BOOMCAT_PY=@LMHOME@/LmDbServer/boom/initWorkflow.py
+
+    THISNAME=`/bin/basename $0`
+    LOG=@LMSCRATCHDISK@/log/$THISNAME.log
+    touch $LOG
+
+    # NOTE: These commands pull values from ini files in format KEY: VALUE
+    #       but fail on KEY = VALUE (written by the python ConfigParser)
+    if [ -f $INIT_CONFIG ] ; then
+        echo "Looking for DATASOURCE, ARCHIVE_USER, TREE in user config file $INIT_CONFIG"   | tee -a $LOG  
+        DATA_SOURCE=`grep -i DATA_SOURCE $INIT_CONFIG | grep -v ';' | awk '{print $2}'`
+        ARCHIVE_USER=`grep -i ARCHIVE_USER $INIT_CONFIG | grep -iv _EMAIL | grep -v ';' | awk '{print $2}'`
+        SCEN_PKG=`grep -i SCENARIO_PACKAGE $INIT_CONFIG | grep -v ';' | awk '{print $2}'`
+        TREE_BASENAME=`grep -i TREE $INIT_CONFIG | grep -v ';' | awk '{print $2}'`
+        ARCHIVE_NAME=`grep -i ARCHIVE_NAME $INIT_CONFIG | grep -v ';' | awk '{print $2}'`
+        BIOGEO_HYPOTHESES=`grep -i BIOGEO_HYPOTHESES $INIT_CONFIG | grep -v ';' | awk '{print $2}'`
+    fi
+
+    if [ ! "$ARCHIVE_USER" ] ; then
+        echo "Error: Missing value for ARCHIVE_USER" | tee -a $LOG
+        exit 1
+    fi
+    if [ ! "$ARCHIVE_NAME" ] ; then
+        echo "Error: Missing value for ARCHIVE_NAME" | tee -a $LOG
+        exit 1
+    fi
+    if [ ! "$DATA_SOURCE" ] ; then
+        echo "Error: Missing value for DATA_SOURCE" | tee -a $LOG
+        exit 1
+    fi
+    if [ ! "$SCEN_PKG" ] ; then
+        echo "Error: Missing value for SCENARIO_PACKAGE" | tee -a $LOG
+        exit 1
+    fi
+        
+    # TODO: get epsg from metadata
+    #EPSG=`grep -i epsg $SCEN_PKG_META | awk '{print $2}'`
+    EPSG=4326
+    ARCHIVE_USER_DATA_DIR=@DATADIR_SHARED@/archive/$ARCHIVE_USER    
+    LAYER_DIR=$ARCHIVE_USER_DATA_DIR/$EPSG
+    MF_DIR=$ARCHIVE_USER_DATA_DIR/makeflow
+    SCEN_PKG_META=@DATADIR_SHARED@/layers/$SCEN_PKG.py   
+}
+
+TimeStamp () {
+    echo $1 `/bin/date` >> $LOG
+}
+
+
+
+
+### Main ###
+SetDefaults $1
+TimeStamp "# Start"
+
+TimeStamp "# End"

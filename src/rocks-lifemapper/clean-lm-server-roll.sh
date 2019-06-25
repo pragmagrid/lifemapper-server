@@ -68,7 +68,6 @@ stop-services () {
 del-possible-shared-dependencies() {
    if [ $LMROLL_COUNT = 1 ]; then
       echo "Removing SHARED hdf rpms" >> $LOG
-      $RM hdf4-devel hdf4
       $RM hdf5-devel hdf5
    fi
 }
@@ -80,13 +79,11 @@ del-lifemapper-shared() {
       $RM lifemapper-gdal
       $RM lifemapper-geos
       $RM lifemapper-proj
-      $RM lifemapper-spatialindex
       $RM lifemapper-tiff
       $RM lifemapper-env-data
       echo "Removing SHARED opt-* RPMS" >> $LOG
       $RM opt-lifemapper-egenix-mx-base
       $RM opt-lifemapper-requests
-      $RM opt-lifemapper-rtree
       $RM opt-lifemapper-dendropy   
    fi
 }
@@ -113,16 +110,15 @@ del-opt-python () {
    $RM opt-lifemapper-cython
    $RM opt-lifemapper-faulthandler
    $RM opt-lifemapper-isodate
-   $RM opt-lifemapper-MySQL-python
    $RM opt-lifemapper-numexpr
-	$RM opt-lifemapper-portend
+   $RM opt-lifemapper-portend
    $RM opt-lifemapper-processing
    $RM opt-lifemapper-psycopg2
    $RM opt-lifemapper-pytables
    $RM opt-lifemapper-pytz
    $RM opt-lifemapper-rdflib
    $RM opt-lifemapper-six
-	$RM opt-lifemapper-tempora
+   $RM opt-lifemapper-tempora
 }
 
 del-mapserver(){

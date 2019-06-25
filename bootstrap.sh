@@ -57,14 +57,11 @@ echo "/etc/alternatives/jre/lib/amd64" > /etc/ld.so.conf.d/lifemapper-server.con
 echo "/etc/alternatives/jre/lib/amd64/server" >> /etc/ld.so.conf.d/lifemapper-server.conf
 echo "/opt/lifemapper/lib" >> /etc/ld.so.conf.d/lifemapper-server.conf
 echo "/opt/python/lib/" >> /etc/ld.so.conf.d/lifemapper-server.conf
-# echo "/opt/rocks/fcgi/lib" >> /etc/ld.so.conf.d/lifemapper-server.conf
+echo "/opt/rocks/fcgi/lib" >> /etc/ld.so.conf.d/lifemapper-server.conf
 /sbin/ldconfig
 
 module unload opt-python
 rpm -i src/RPMS/screen*rpm
-
-# cmake already installed and up-to-date
-# yum --enablerepo base install cmake
 
 # for pytables hdf5 
 module unload opt-python
@@ -173,12 +170,6 @@ module unload opt-python
 install lifemapper-gdal
 /sbin/ldconfig
 
-# for rtree
-module load opt-python
-compile spatialindex
-module unload opt-python
-install lifemapper-spatialindex
-/sbin/ldconfig
 
 # # install postgresql 9.2
 yum --enablerepo pgdg92 -y install postgresql92
