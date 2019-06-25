@@ -40,7 +40,6 @@
 	<package>opt-lifemapper-coverage</package>
 	<package>opt-lifemapper-numexpr</package>
 	<package>opt-lifemapper-cython</package>
-	<package>opt-lifemapper-pytables</package>
 	<package>opt-lifemapper-egenix-mx-base</package>
 	<package>opt-lifemapper-psycopg2</package>
 	<package>opt-lifemapper-requests</package>

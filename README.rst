@@ -28,7 +28,7 @@ during the roll build.
 #. RPMs from standard yum repos:  
 
    :base:     cmake, sqlite-devel, giflib-devel, byacc, readline-devel 
-              hdf4, hdf4-devel, hdf5, hdf5-devel
+              hdf5, hdf5-devel
    :epel:     fribidi, json-c, mapserver
    :pgdg91:   postgresql91, postgresql91-devel, postgis2_91, pgbouncer
 
@@ -36,9 +36,9 @@ during the roll build.
    
    :binaries: gdal proj geos libevent libspatialindex tiff mod_wsgi cctools 
               dendropy solr
-   :python modules:         CherryPy, Cython,  egenix-mxDateTime (part of egenix-mx-base),   
-                                faulthandler, mysql-python,  numexpr,   
-                                rtree, psycopg2, pytables, setuptools, rdflib, isodate, processing
+   :python modules: CherryPy, Cython,  egenix-mxDateTime (part of egenix-mx-base),   
+                    faulthandler,  numexpr,   
+                    psycopg2, setuptools, rdflib, isodate, processing
     
 Downloads
 ~~~~~~~~~
