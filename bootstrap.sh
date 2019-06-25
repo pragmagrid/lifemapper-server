@@ -75,12 +75,6 @@ rpm -i src/RPMS/gd-devel*.rpm
 rpm -i src/RPMS/bitstream-vera-*1.10-19*.rpm
 
 # for cherrypy
-# setuptools 36.2.7 included in /opt/python 2.7
-# setuptools 20.7, needed for cherrypy build (on devapp, not in LM install)
-# module load opt-python
-# (cd src/setuptools; /opt/python/bin/python2.7 setup.py install)
-
-# for cherrypy
 # cheroot requires six
 # tempora requires six, pytz
 # portend requires tempora
