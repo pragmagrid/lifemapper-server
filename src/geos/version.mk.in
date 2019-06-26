@@ -1,7 +1,0 @@
-NAME        	= lifemapper-geos
-ARCHIVENAME     = geos
-VERSION     	= 3.5.0
-RELEASE 		= 0
-TARBALL_POSTFIX	= tar.bz2
-
-RPM.FILES	= $(PKGROOT)/*

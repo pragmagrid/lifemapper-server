@@ -1,6 +1,0 @@
-NAME		= opt-lifemapper-isodate
-VERSION		= 0.5.0
-ARCHIVENAME	= isodate
-RELEASE		= 0
-
-RPM.FILES	= $(PYTHON27_PACKAGES)/*
