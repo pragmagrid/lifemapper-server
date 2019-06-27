@@ -15,55 +15,108 @@
 	<changelog>
 	</changelog>
 
- 	<package>flex</package> 
 	<package>screen</package>
+	<package>readline-devel</package>
 
      <!-- RPM repos needed for postgresql,postgis,mapserver -->
-	<package>pgdg-centos92</package>
+	<package>pgdg-centos96</package>
 
 	<!-- lifemapper dependencies -->
-	<package>giflib-devel</package>
-	<package>byacc</package>
-	<package>readline-devel</package>
+	<package>CharLS</package>
+	<package>SuperLU</package>
+	<package>armadillo</package>
+	<package>arpack</package>
+	<package>blas</package>
+	<package>atlas</package>
+	<package>cfitsio</package>
+	<package>freexl</package>
+	<package>gpsbabel</package>
+	<package>lapack</package>
+	<!-- Add devel, python -->
+	<package>geos</package>
+	<package>geos-devel</package>
+	<package>geos-python</package>
+	<!-- Add devel -->
 	<package>hdf5</package>
 	<package>hdf5-devel</package>
+	<package>libaec</package>
+ 	<!-- Add libtiff for libgeotiff, brings --> 
+	<package>glibc</package>     
+	<package>jbigkit-libs</package>     
+	<package>libgcc</package>     
+	<package>libjpeg-turbo</package>     
+	<package>libstdc++</package>
+ 	<!-- Note: brings i686 and x86_64 -->   
+	<package>libtiff</package>  
+	<package>libtiff-devel</package>  
+	<package>nss-softokn-freebl</package>     
+	<package>zlib</package>
+	<package>libgeotiff</package>
+	<package>libgeotiff-devel</package>
+	<package>libdap</package>
+	<package>libusb</package>
+	<package>libgta</package>
+	<package>ogdi</package>
+	<package>netcdf</package>
+	<package>openblas-openmp</package>     
+	<package>postgresql-libs</package>
+	<package>openjpeg2</package>
+	<package>unixODBC</package>
+	<package>xerces-c</package>
+	<!-- Add devel, epsg, nad -->
+	<package>proj49</package>
+	<package>proj49-devel</package>
+	<package>proj49-epsg</package>
+	<package>proj49-nad</package>
+	<package>shapelib-1.3.0-2.el7.x86_64.rpm
+ 	<package>gdal</package> 
+ 	<package>gdal-libs</package> 
+ 	<package>gdal-devel</package> 
+ 	<package>gdal-python</package> 
+	<!-- Add gdal-python and resolved dependencies -->
+	<package>python-nose</package>     
+	<package>numpy</package>     
+	<package>gdal-python</package>	
+	<!-- Add geos, devel and python -->
+	<package>geos</package>
+	<package>geos-devel</package>
+	<package>geos-python</package>
+		 
+	<!-- for pgbouncer, python2-psycopg2, from pgdg96 -->
+	<package>c-ares</package>
+	<package>postgresql10-libs</package>
+	<package>python2-psycopg2</package>     
+	<package>pgbouncer</package>
+
+	<!-- mapserver and prereq -->
+	<package>bitstream-vera-fonts-common</package>
+	<package>bitstream-vera-sans-fonts</package>
+	<package>postgresql-libs</package>
+	<package>opt-lifemapper-mapserver</package>
+
 	<package>lifemapper-cctools</package>
 	<package>lifemapper-cmd</package>
-	<package>lifemapper-proj</package>
-	<package>lifemapper-geos</package>
-	<package>lifemapper-gdal</package>
-	<package>lifemapper-tiff</package>
+	<package>lifemapper-libevent</package>
 	<package>lifemapper-solr</package>
 
 	<!-- python prerequisites -->
-	<!-- no opt-lifemapper-setuptools, needed for build only -->
 	<package>opt-lifemapper-coverage</package>
-	<package>opt-lifemapper-numexpr</package>
-	<package>opt-lifemapper-cython</package>
+	<package>opt-lifemapper-dendropy</package>	
 	<package>opt-lifemapper-egenix-mx-base</package>
-	<package>opt-lifemapper-psycopg2</package>
-	<package>opt-lifemapper-requests</package>
-	<package>opt-lifemapper-dendropy</package>
-	<package>opt-lifemapper-unicodecsv</package>
 	<package>opt-lifemapper-idigbio</package>
-	
+	<package>opt-lifemapper-pytest</package>
+	<package>opt-lifemapper-requests</package>
+	<package>opt-lifemapper-unicodecsv</package>
+
 	<!-- biotaphy connectors -->
 	<package>opt-lifemapper-biotaphy-otol</package>
-	
+	<package>opt-lifemapper-idigbio</package>
+
 	<!-- lifemapper distro -->
 	<package>lifemapper-lmserver</package>
 	<package>lifemapper-webclient</package>
 	<package>rocks-lifemapper</package>
 	<package>roll-lifemapper-server-usersguide</package>
-
-	<!-- mapserver and prereq -->
-	<package>opt-lifemapper-mapserver </package>
-	<package>bitstream-vera-fonts-common</package>
-	<package>bitstream-vera-sans-fonts</package>
-	<package>fribidi</package>
-	<package>fcgi</package>
-	<package>postgresql92-libs</package>
-	<!-- removed mapserver, building from source for python mapscript -->
 
 	<!-- lifemapper data -->
 	<package>lifemapper-env-data</package>

@@ -15,53 +15,53 @@
 # yum install pgdg-centos96-9.6-3.noarch.rpm epel-release;  \
 # yum update;  \
 #
-# yumdownloader --resolve --enablerepo base screen.x86_64
-# yumdownloader --resolve --enablerepo base readline-devel.x86_64
+# yumdownloader --resolve --enablerepo=base screen.x86_64
+# yumdownloader --resolve --enablerepo=base readline-devel.x86_64
 #
 ## Add gdal, gdal-devel, gdal-python and deps from epel repo
-# yumdownloader --resolve --enablerepo epel gdal.x86_64
-# yumdownloader --resolve --enablerepo epel gdal-devel.x86_64
-# yumdownloader --resolve --enablerepo epel gdal-python.x86_64
+# yumdownloader --resolve --enablerepo=epel gdal.x86_64
+# yumdownloader --resolve --enablerepo=epel gdal-devel.x86_64
+# yumdownloader --resolve --enablerepo=epel gdal-python.x86_64
 #
 ## Add header files for dependencies proj, geos, tiff, hdf5
-# yumdownloader --resolve --enablerepo epel hdf5-devel.x86_64
-# yumdownloader --resolve --enablerepo epel proj49-devel.x86_64
-# yumdownloader --resolve --enablerepo epel proj49-epsg.x86_64
-# yumdownloader --resolve --enablerepo epel proj49-nad.x86_64
-# yumdownloader --resolve --enablerepo epel geos-devel
-# yumdownloader --resolve --enablerepo epel geos-python
-# yumdownloader --resolve --enablerepo epel libtiff
-# yumdownloader --resolve --enablerepo epel libtiff-devel
-# yumdownloader --resolve --enablerepo epel libgeotiff-devel
+# yumdownloader --resolve --enablerepo=epel hdf5-devel.x86_64
+# yumdownloader --resolve --enablerepo=epel proj49-devel.x86_64
+# yumdownloader --resolve --enablerepo=epel proj49-epsg.x86_64
+# yumdownloader --resolve --enablerepo=epel proj49-nad.x86_64
+# yumdownloader --resolve --enablerepo=epel geos-devel
+# yumdownloader --resolve --enablerepo=epel geos-python
+# yumdownloader --resolve --enablerepo=epel libtiff
+# yumdownloader --resolve --enablerepo=epel libtiff-devel
+# yumdownloader --resolve --enablerepo=epel libgeotiff-devel
 #
-# # Add PostgreSQL 9.6, devel, server, python
-# yumdownloader --resolve --enablerepo pgdg96 postgresql96
-# yumdownloader --resolve --enablerepo pgdg96 postgresql96-server 
-# yumdownloader --resolve --enablerepo pgdg96 postgresql96-contrib 
-# yumdownloader --resolve --enablerepo pgdg96 postgresql96-devel 
-# yumdownloader --resolve --enablerepo pgdg96 postgresql96-plpython
-# yumdownloader --resolve --enablerepo pgdg96 postgis24_96
-# yumdownloader --resolve --enablerepo pgdg96 pgbouncer
+## Add PostgreSQL 9.6, devel, server, python
+# yumdownloader --resolve --enablerepo=pgdg96 postgresql96
+# yumdownloader --resolve --enablerepo=pgdg96 postgresql96-server 
+# yumdownloader --resolve --enablerepo=pgdg96 postgresql96-contrib 
+# yumdownloader --resolve --enablerepo=pgdg96 postgresql96-devel 
+# yumdownloader --resolve --enablerepo=pgdg96 postgresql96-plpython
+# yumdownloader --resolve --enablerepo=pgdg96 postgis24_96
+# yumdownloader --resolve --enablerepo=pgdg96 pgbouncer
 # 
-# yumdownloader --resolve --enablerepo base flex.x86_64
+# yumdownloader --resolve --enablerepo=base flex.x86_64
 # 
-# yumdownloader --resolve --enablerepo epel fcgi.x86_64
-# yumdownloader --resolve --enablerepo epel fcgi.x86_64
-# yumdownloader --resolve --enablerepo epel fribidi.x86_64
-# yumdownloader --resolve --enablerepo epel proj.x86_64
-# yumdownloader --resolve --enablerepo epel python-psycopg2.x86_64
+# yumdownloader --resolve --enablerepo=epel fcgi.x86_64
+# yumdownloader --resolve --enablerepo=epel fcgi.x86_64
+# yumdownloader --resolve --enablerepo=epel fribidi.x86_64
+# yumdownloader --resolve --enablerepo=epel proj.x86_64
+# yumdownloader --resolve --enablerepo=epel python-psycopg2.x86_64
 # 
 ## Brings postgresql96-libs
-# yumdownloader --resolve --enablerepo pgdg96 postgresql96
-# yumdownloader --resolve --enablerepo pgdg96 postgresql96-devel.x86_64
-# yumdownloader --resolve --enablerepo pgdg96 postgresql96-server.x86_64
-# yumdownloader --resolve --enablerepo pgdg96 postgresql96-contrib.x86_64
-# yumdownloader --resolve --enablerepo pgdg96 python2_psycopg2.x86_64
-# yumdownloader --resolve --enablerepo pgdg96 pgbouncer.x86_64
+# yumdownloader --resolve --enablerepo=pgdg96 postgresql96
+# yumdownloader --resolve --enablerepo=pgdg96 postgresql96-devel.x86_64
+# yumdownloader --resolve --enablerepo=pgdg96 postgresql96-server.x86_64
+# yumdownloader --resolve --enablerepo=pgdg96 postgresql96-contrib.x86_64
+# yumdownloader --resolve --enablerepo=pgdg96 python2_psycopg2.x86_64
+# yumdownloader --resolve --enablerepo=pgdg96 pgbouncer.x86_64
 ## updated version
-# yumdownloader --resolve --enablerepo pgdg96 postgis24_96.x86_64
+# yumdownloader --resolve --enablerepo=pgdg96 postgis24_96.x86_64
 # 
-# yumdownloader --resolve --enablerepo base python2-futures.noarch
+# yumdownloader --resolve --enablerepo=base python2-futures.noarch
 # #)
 
 # Add pytest and deps for Rocks 7.0 roll
@@ -71,7 +71,10 @@
 module unload opt-python
 yum install src/RPMS/pgdg-centos96-9.6-3.noarch.rpm epel-release
 yum update
+
 module load opt-python
+# futures backport to python2
+rpm -i src/RPMS/python2-futures-3.1.1-5.el7.noarch.rpm
 
 # util
 rpm -i src/RPMS/screen*rpm
@@ -94,17 +97,17 @@ rpm -i src/RPMS/geos*-3.5.0-1.rhel7.1.x86_64.rpm
 # Add devel
 rpm -i src/RPMS/hdf5-1.8.12-10.el7.x86_64.rpm     
 rpm -i src/RPMS/libaec-1.0.4-1.el7.x86_64.rpm
-	# Add libtiff for libgeotiff, brings 
-	rpm -i src/RPMS/glibc-2.17-196.el7_4.2.i686.rpm     
-	rpm -i src/RPMS/jbigkit-libs-2.0-11.el7.i686.rpm     
-	rpm -i src/RPMS/libgcc-4.8.5-16.el7_4.1.i686.rpm     
-	rpm -i src/RPMS/libjpeg-turbo-1.2.90-5.el7.i686.rpm     
-	rpm -i src/RPMS/libstdc++-4.8.5-16.el7_4.1.i686.rpm
-	# Note: brings i686 and x86_64   
-	rpm -i src/RPMS/libtiff-4.0.3-27.el7_3.x86_64.rpm     
-	rpm -i src/RPMS/libtiff-4.0.3-27.el7_3.i686.rpm     
-	rpm -i src/RPMS/nss-softokn-freebl-3.28.3-8.el7_4.i686.rpm     
-	rpm -i src/RPMS/zlib-1.2.7-17.el7.i686.rpm
+# Add libtiff for libgeotiff, brings 
+rpm -i src/RPMS/glibc-2.17-196.el7_4.2.i686.rpm     
+rpm -i src/RPMS/jbigkit-libs-2.0-11.el7.i686.rpm     
+rpm -i src/RPMS/libgcc-4.8.5-16.el7_4.1.i686.rpm     
+rpm -i src/RPMS/libjpeg-turbo-1.2.90-5.el7.i686.rpm     
+rpm -i src/RPMS/libstdc++-4.8.5-16.el7_4.1.i686.rpm
+# Note: brings i686 and x86_64   
+rpm -i src/RPMS/libtiff-4.0.3-27.el7_3.x86_64.rpm     
+rpm -i src/RPMS/libtiff-4.0.3-27.el7_3.i686.rpm     
+rpm -i src/RPMS/nss-softokn-freebl-3.28.3-8.el7_4.i686.rpm     
+rpm -i src/RPMS/zlib-1.2.7-17.el7.i686.rpm
 rpm -i src/RPMS/libgeotiff*-1.4.0-1.rhel7.1.x86_64.rpm
 rpm -i src/RPMS/libdap-3.13.1-2.el7.x86_64.rpm
 rpm -i src/RPMS/libusb-0.1.4-3.el7.x86_64.rpm
@@ -125,54 +128,36 @@ rpm -i src/RPMS/gdal-libs-1.11.4-12.rhel7.x86_64.rpm
 rpm -i src/RPMS/python-nose-1.3.7-1.el7.noarch.rpm     
 rpm -i src/RPMS/numpy-1.7.1-11.el7.x86_64.rpm     
 rpm -i src/RPMS/gdal-python-1.11.4-12.rhel7.x86_64.rpm
-
-# Add postgresql 9.6 and related from PGDG96 repo
-rpm -i src/RPMS/postgresql96-*9.6.14-1PGDG.rhel7.x86_64.rpm                                                                                                          | 571 kB  00:00:00     
-rpm -i src/RPMS/boost-serialization-1.53.0-27.el7.x86_64.rpm                                                                                                                | 169 kB  00:00:00     
-rpm -i src/RPMS/SFCGAL-libs-1.3.1-1.rhel7.x86_64.rpm                                                                                                                        | 1.7 MB  00:00:00     
-rpm -i src/RPMS/SFCGAL-1.3.1-1.rhel7.x86_64.rpm                                                                                                                             |  14 kB  00:00:00     
-rpm -i src/RPMS/proj-4.8.0-2.rhel7.x86_64.rpm                                                                                                                               | 180 kB  00:00:00     
-rpm -i src/RPMS/CGAL-4.7-1.rhel7.1.x86_64.rpm                                                                                                                               | 254 kB  00:00:01     
-rpm -i src/RPMS/postgis2_96-2.3.2-1.rhel7.x86_64.rpm
-
-# for postgresql 9.6, pgbouncer, from pgdg96
+  
+# Postgresql 9.6 and related from pgdg96
 rpm -i src/RPMS/postgresql96*rpm
-rpm -i src/RPMS/python2-psycopg2
-rpm -i src/RPMS/c-ares*.rpm
-rpm -i src/RPMS/postgresql10-libs*.rpm
 # Add python2-psycopg2 and dependency
-rpm -i src/RPMS/python2-psycopg2-2.8.2-2.rhel7.x86_64.rpm     
 rpm -i src/RPMS/postgresql10-libs-10.9-1PGDG.rhel7.x86_64.rpm
-# Add pgbouncer and resolved dependencies 
+rpm -i src/RPMS/python2-psycopg2-2.8.2-2.rhel7.x86_64.rpm
+# Add pgbouncer and resolved dependency 
 rpm -i src/RPMS/c-ares-1.10.0-3.el7.x86_64.rpm                                                                                                                              |  78 kB  00:00:00     
 rpm -i src/RPMS/pgbouncer-1.9.0-1.rhel7.1.x86_64.rpm
-
-# Add updated postgis24_96
-# for mapserver ???
-
-# futures backport to python2
-rpm -i src/RPMS/python2-futures-3.1.1-5.el7.noarch.rpm
-
+ 
+# Add postgis and related from PGDG96 repo
+rpm -i src/RPMS/boost-serialization-1.53.0-27.el7.x86_64.rpm     
+rpm -i src/RPMS/SFCGAL-1.3.1-1.rhel7.x86_64.rpm     
+rpm -i src/RPMS/proj-4.8.0-2.rhel7.x86_64.rpm     
+rpm -i src/RPMS/CGAL-4.7-1.rhel7.1.x86_64.rpm     
+rpm -i src/RPMS/SFCGAL-libs-1.3.1-1.rhel7.x86_64.rpm     
+rpm -i src/RPMS/postgis2_96-2.3.2-1.rhel7.x86_64.rpm
 
 # add dynamic libs
-## No longer using java roll with /usr/java/latest/jre
 echo "/etc/alternatives/jre/lib/amd64" > /etc/ld.so.conf.d/lifemapper-server.conf
 echo "/etc/alternatives/jre/lib/amd64/server" >> /etc/ld.so.conf.d/lifemapper-server.conf
 echo "/opt/lifemapper/lib" >> /etc/ld.so.conf.d/lifemapper-server.conf
 echo "/opt/python/lib/" >> /etc/ld.so.conf.d/lifemapper-server.conf
-echo "/opt/rocks/fcgi/lib" >> /etc/ld.so.conf.d/lifemapper-server.conf
+# echo "/opt/rocks/fcgi/lib" >> /etc/ld.so.conf.d/lifemapper-server.conf
 /sbin/ldconfig
 
 
-# # why are these needed 
-# rpm -i src/RPMS/giflib-devel*.rpm
-# rpm -i src/RPMS/gd-devel*.rpm
-#
-# # for rdflib, from epel
-# rpm -i src/RPMS/python-html5lib-0.999-6.el7.noarch.rpm
-# rpm -i src/RPMS/python-isodate-0.5.0-3.el7.noarch.rpm
-# rpm -i src/RPMS/python-rdflib
-
+## why are these needed 
+#rpm -i src/RPMS/giflib-devel*.rpm
+#rpm -i src/RPMS/gd-devel*.rpm
 
 # for cherrypy
 # cheroot requires six
