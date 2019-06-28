@@ -68,7 +68,7 @@
 	<package>proj49-devel</package>
 	<package>proj49-epsg</package>
 	<package>proj49-nad</package>
-	<package>shapelib-1.3.0-2.el7.x86_64.rpm
+	<package>shapelib</package>
  	<package>gdal</package> 
  	<package>gdal-libs</package> 
  	<package>gdal-devel</package> 
