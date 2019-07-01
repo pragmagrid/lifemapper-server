@@ -57,7 +57,6 @@ yum update
 module load opt-python
 
 # util
-rpm -i src/RPMS/screen*rpm
 rpm -i src/RPMS/readline-devel*rpm
 rpm -i src/RPMS/bitstream-vera-*1.10-19*.rpm
 # GDAL and resolved dependencies
@@ -93,16 +92,6 @@ rpm -i src/RPMS/proj49*-4.9.3-3.rhel7.1.x86_64.rpm
 rpm -i src/RPMS/gdal-1.11.4-12.rhel7.x86_64.rpm     
 rpm -i src/RPMS/gdal-devel-1.11.4-12.rhel7.x86_64.rpm     
 rpm -i src/RPMS/libgeotiff*-1.4.0-1.rhel7.1.x86_64.rpm
-# Add libtiff for libgeotiff, brings 
-rpm -i src/RPMS/glibc-2.17-196.el7_4.2.i686.rpm     
-rpm -i src/RPMS/jbigkit-libs-2.0-11.el7.i686.rpm     
-rpm -i src/RPMS/libgcc-4.8.5-16.el7_4.1.i686.rpm     
-rpm -i src/RPMS/libjpeg-turbo-1.2.90-5.el7.i686.rpm     
-rpm -i src/RPMS/libstdc++-4.8.5-16.el7_4.1.i686.rpm
-# Note: both i686 and x86_64   
-rpm -i src/RPMS/libtiff*-4.0.3-27.el7_3.*.rpm     
-rpm -i src/RPMS/nss-softokn-freebl-3.28.3-8.el7_4.i686.rpm     
-rpm -i src/RPMS/zlib-1.2.7-17.el7.i686.rpm
 # Add gdal-python and resolved dependencies
 rpm -i src/RPMS/python-nose-1.3.7-1.el7.noarch.rpm     
 rpm -i src/RPMS/numpy-1.7.1-11.el7.x86_64.rpm     
