@@ -58,7 +58,14 @@ module load opt-python
 
 # util
 rpm -i src/RPMS/readline-devel*rpm
-rpm -i src/RPMS/bitstream-vera-*1.10-19*.rpm
+
+# for mapserver
+rpm -i src/RPMS/
+rpm -i src/RPMS/bitstream-vera-fonts-common-1.10-19.el7.nux.noarch.rpm
+
+# for postgis
+rpm -i src/RPMS/proj-4.8.0-4.el7.x86_64.rpm
+
 # GDAL and resolved dependencies
 rpm -i src/RPMS/CharLS-1.0-5.el7.x86_64.rpm
 rpm -i src/RPMS/SuperLU-5.2.0-5.el7.x86_64.rpm
