@@ -21,6 +21,50 @@ set_defaults() {
     touch $LOG
 }
 
+del-lifemapper-shared() {
+   echo "Removing shared geos, proj, tiff, and gdal dependencies RPMS" >> $LOG
+   $RM libaec libaec-devel
+   $RM hdf5 hdf5-devel
+   
+   echo "Removing SHARED lifemapper-* and prerequisite RPMS" >> $LOG	
+   $RM lifemapper-cctools
+   $RM lifemapper-gdal
+   $RM lifemapper-geos
+   $RM lifemapper-proj
+   
+   echo "Removing SHARED data RPMS" >> $LOG
+   $RM lifemapper-env-data
+   
+   echo "Removing SHARED opt-* RPMS" >> $LOG
+   $RM opt-lifemapper-cython
+   $RM opt-lifemapper-dendropy
+   $RM opt-lifemapper-egenix-mx-base
+   $RM opt-lifemapper-requests
+}
+
+del-shared-directories() {
+   echo "Removing lifemapper installation directory" >> $LOG
+   rm -rf /opt/lifemapper
+   echo "Removing shared lifemapper temp and data directories" >> $LOG
+   rm -rf /state/partition1/lmscratch
+   rm -rf /state/partition1/lm
+   echo "Removing shared lifemapper PID directory" >> $LOG
+   rm -rf /var/run/lifemapper
+}
+
+del-shared-user-group () {
+   if [ $LMUSER_COUNT = 1 ] ; then
+       echo "Remove lmwriter user/group/dirs" >> $LOG
+       userdel lmwriter
+       groupdel lmwriter
+       /bin/rm -f /var/spool/mail/lmwriter
+       /bin/rm -rf /export/home/lmwriter
+       echo "Syncing users info" >> $LOG
+       rocks sync users
+   fi
+}
+
+
 # stop Lifemapper daemons if running
 stop-lm-daemons () {
     TRYAGAIN=0
@@ -119,74 +163,12 @@ del-postgres() {
    $RM pgbouncer
 }
 
-del-shared-geospatial-dependencies() {
-   echo "Removing shared geos, proj, tiff, and gdal dependencies RPMS" >> $LOG
-   $RM CharLS
-   $RM SuperLU
-   $RM armadillo
-   $RM arpack
-   $RM blas
-   $RM atlas
-   $RM cfitsio
-   $RM freexl
-   $RM gpsbabel
-   $RM lapack
-   $RM geos geos-devel  geos-python
-   $RM hdf5-devel
-   $RM libaec
-   $RM glibc     
-   $RM jbigkit-libs     
-   $RM libgcc     
-   $RM libjpeg-turbo     
-   $RM libstdc++
-   $RM libtiff  libtiff-devel  
-   $RM nss-softokn-freebl     
-   $RM zlib
-   $RM libgeotiff libgeotiff-devel
-   $RM libdap
-   $RM libusb
-   $RM libgta
-   $RM ogdi
-   $RM netcdf
-   $RM openblas-openmp     
-   $RM postgresql-libs
-   $RM openjpeg2
-   $RM unixODBC
-   $RM xerces-c
-   $RM proj49 proj49-devel proj49-epsg proj49-nad
-   $RM shapelib
-   $RM gdal gdal-libs gdal-devel gdal-python 
-   $RM python-nose     
-   $RM numpy     
-   $RM gdal-python
-}
-
-del-lifemapper-shared() {
-   echo "Removing SHARED lifemapper-* and prerequisite RPMS" >> $LOG
-   $RM lifemapper-cctools
-   $RM lifemapper-env-data
-   echo "Removing SHARED opt-* RPMS" >> $LOG
-   $RM opt-lifemapper-egenix-mx-base
-   $RM opt-lifemapper-requests
-   $RM opt-lifemapper-dendropy
-}
-
 del-sysRPM() {
    echo "Removing pgdg repo" >> $LOG
    $RM pgdg-centos96
 }
 
-del-directories () {
-   if [ $LMROLL_COUNT = 1 ]; then
-      echo "Removing shared /opt/lifemapper"
-      rm -rf /opt/lifemapper
-      echo "Removing shared data directories"
-      rm -rf /state/partition1/lmscratch
-      rm -rf /state/partition1/lm
-      echo "Removing shared PID directory"
-      rm -rf /var/run/lifemapper
-   fi
-   
+del-directories () {   
    echo "Removing  directories used by postgres and pgbouncer" >> $LOG
    rm -rf /var/run/postgresql
    rm -rf /var/lib/pgsql
@@ -215,14 +197,6 @@ del-webstuff () {
 
 del-user-group () {
    needSync=0
-   if [ $LMUSER_COUNT = 1 ] && [ $LMROLL_COUNT = 1 ]; then
-       echo "Remove lmwriter user/group/dirs" >> $LOG
-       userdel lmwriter
-       groupdel lmwriter
-       /bin/rm -f /var/spool/mail/lmwriter
-       /bin/rm -rf /export/home/lmwriter
-       needSync=1
-   fi
 
    /bin/egrep -i "^solr" /etc/passwd
    if [ $? -eq 0 ]; then
@@ -298,15 +272,18 @@ check_lm_processes
 
 set_defaults
 TimeStamp "# Start"
+
 stop-lm-daemons
 stop-services
-del-postgres
-del-mapserver 
 
 if [ $LMROLL_COUNT = 1 ]; then
-	del-shared-geospatial-dependencies
 	del-lifemapper-shared
+	del-shared-directories
+	del-shared-user-group
 fi
+
+del-postgres
+del-mapserver 
 
 del-opt-python 
 del-lifemapper

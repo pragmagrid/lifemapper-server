@@ -1,4 +1,5 @@
 NAME		= opt-lifemapper-cherrypy
+# TODO: upgrade to 17.4.2 (last version supporting Python2.7)
 VERSION		= 10.2.1
 ARCHIVENAME = CherryPy
 RELEASE		= 0
