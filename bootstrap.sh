@@ -13,14 +13,10 @@
 ## for postgresql9.6 and postgis2 rpms
 # wget https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-7-x86_64/pgdg-centos96-9.6-3.noarch.rpm
 #
-# TODO: rm?
-#yumdownloader --resolve --enablerepo base atlas.x86_64 atlas-devel.x86_64
-#yumdownloader --resolve --enablerepo base blas.x86_64 blas-devel.x86_64
-#yumdownloader --resolve --enablerepo base lapack.x86_64 lapack-devel.x86_64
-#
 # for gdal
 #yumdownloader --resolve --enablerepo epel libaec.x86_64  libaec-devel.x86_64
 #yumdownloader --resolve --enablerepo epel hdf5.x86_64 hdf5-devel.x86_64
+# for postgis
 #yumdownloader --resolve --enablerepo epel proj.x86_64
 #
 ## Add PostgreSQL 9.6, devel, server, python

@@ -15,72 +15,14 @@
 	<changelog>
 	</changelog>
 
-	<package>screen</package>
-	<package>readline-devel</package>
-
      <!-- RPM repos needed for postgresql,postgis,mapserver -->
 	<package>pgdg-centos96</package>
 
-	<!-- lifemapper dependencies -->
-	<package>CharLS</package>
-	<package>SuperLU</package>
-	<package>armadillo</package>
-	<package>arpack</package>
-	<package>blas</package>
-	<package>atlas</package>
-	<package>cfitsio</package>
-	<package>freexl</package>
-	<package>gpsbabel</package>
-	<package>lapack</package>
-	<!-- Add devel, python -->
-	<package>geos</package>
-	<package>geos-devel</package>
-	<package>geos-python</package>
-	<!-- Add devel -->
+	<!-- gdal prerequisites -->
+	<package>libaec</package>
+	<package>libaec-devel</package>
 	<package>hdf5</package>
 	<package>hdf5-devel</package>
-	<package>libaec</package>
- 	<!-- Add libtiff for libgeotiff, brings --> 
-	<package>glibc</package>     
-	<package>jbigkit-libs</package>     
-	<package>libgcc</package>     
-	<package>libjpeg-turbo</package>     
-	<package>libstdc++</package>
- 	<!-- Note: brings i686 and x86_64 -->   
-	<package>libtiff</package>  
-	<package>libtiff-devel</package>  
-	<package>nss-softokn-freebl</package>     
-	<package>zlib</package>
-	<package>libgeotiff</package>
-	<package>libgeotiff-devel</package>
-	<package>libdap</package>
-	<package>libusb</package>
-	<package>libgta</package>
-	<package>ogdi</package>
-	<package>netcdf</package>
-	<package>openblas-openmp</package>     
-	<package>postgresql-libs</package>
-	<package>openjpeg2</package>
-	<package>unixODBC</package>
-	<package>xerces-c</package>
-	<!-- Add devel, epsg, nad -->
-	<package>proj49</package>
-	<package>proj49-devel</package>
-	<package>proj49-epsg</package>
-	<package>proj49-nad</package>
-	<package>shapelib</package>
- 	<package>gdal</package> 
- 	<package>gdal-libs</package> 
- 	<package>gdal-devel</package> 
- 	<package>gdal-python</package> 
-	<!-- Add gdal-python and resolved dependencies -->
-	<package>python-nose</package>     
-	<package>numpy</package>     
-	<package>gdal-python</package>	
-	<!-- Add geos, devel and python -->
-	<package>geos</package>
-	<package>geos-devel</package>
-	<package>geos-python</package>
 		 
 	<!-- for pgbouncer, python2-psycopg2, from pgdg96 -->
 	<package>c-ares</package>
@@ -92,6 +34,7 @@
 	<package>bitstream-vera-fonts-common</package>
 	<package>bitstream-vera-sans-fonts</package>
 	<package>postgresql-libs</package>
+
 	<package>opt-lifemapper-mapserver</package>
 
 	<package>lifemapper-cctools</package>
