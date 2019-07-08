@@ -43,7 +43,6 @@
 	<package>lifemapper-solr</package>
 
 	<!-- python prerequisites -->
-	<package>opt-lifemapper-coverage</package>
 	<package>opt-lifemapper-dendropy</package>	
 	<package>opt-lifemapper-egenix-mx-base</package>
 	<package>opt-lifemapper-idigbio</package>
