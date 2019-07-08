@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# Purpose: Fetch pytest source  
+DL_URL=https://files.pythonhosted.org/packages/dc/b1/b71b9dc7202b42403b9b7f939857e33c65973cec94fc753dd9cf237e4154
+DL_PKG=@ARCHIVENAME@-@VERSION@.@TARBALL_POSTFIX@
+
+get_source_files () {
+  echo "Fetch pytest source code"
+  wget "$DL_URL/$DL_PKG" 
+}
+
+### main ###
+get_source_files
