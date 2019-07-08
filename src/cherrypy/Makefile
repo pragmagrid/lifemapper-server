@@ -81,7 +81,7 @@ prep: prepSrc.sh
 	./prepSrc.sh
 
 build:
-	tar xzf  $(ARCHIVENAME)-$(VERSION).tar.gz 
+	tar xzf  $(ARCHIVENAME)-$(VERSION).$(TARBALL_POSTFIX)
 	(\
 	    cd $(ARCHIVENAME)-$(VERSION);   \
 	    module load opt-python;			\
@@ -98,4 +98,4 @@ install::
 	)
 
 clean::
-	rm -rf $(ARCHIVENAME)-$(VERSION) version.mk
+	rm -rf $(ARCHIVENAME)-$(VERSION) version.mk prepSrc.sh
