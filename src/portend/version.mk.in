@@ -2,5 +2,6 @@ NAME		= opt-lifemapper-portend
 VERSION		= 2.5
 ARCHIVENAME	= portend
 RELEASE		= 0
+TARBALL_POSTFIX	= tar.gz
 
 RPM.FILES	= $(PYTHON27_PACKAGES)/*

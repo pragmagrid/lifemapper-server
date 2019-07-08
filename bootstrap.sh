@@ -95,30 +95,45 @@ install lifemapper-gdal
 # cherrypy 10.2.1 requires six, cheroot>=5.2.0, portend>=1.6.1
 # cheroot requires six
 # portend requires tempora requires six, pytz
+cd src/six
+make prep
+cd ../..
 module load opt-python
 compile six
 module unload opt-python
 install opt-lifemapper-six
 /sbin/ldconfig
 
+cd src/cheroot
+make prep
+cd ../..
 module load opt-python
 compile cheroot
 module unload opt-python
 install opt-lifemapper-cheroot
 /sbin/ldconfig
 
+cd src/pytz
+make prep
+cd ../..
 module load opt-python
 compile pytz
 module unload opt-python
 install opt-lifemapper-pytz
 /sbin/ldconfig
 
+cd src/tempora
+make prep
+cd ../..
 module load opt-python
 compile tempora
 module unload opt-python
 install opt-lifemapper-tempora
 /sbin/ldconfig
 
+cd src/portend
+make prep
+cd ../..
 module load opt-python
 compile portend
 module unload opt-python

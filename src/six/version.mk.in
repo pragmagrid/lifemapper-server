@@ -1,7 +1,7 @@
 NAME		= opt-lifemapper-six
-VERSION		= 1.10.0
-#VERSION		= 1.12.0
+VERSION		= 1.12.0
 ARCHIVENAME	= six
 RELEASE		= 0
+TARBALL_POSTFIX	= tar.gz
 
 RPM.FILES	= $(PYTHON27_PACKAGES)/*
