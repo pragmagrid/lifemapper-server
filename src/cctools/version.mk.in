@@ -1,9 +1,10 @@
 NAME            = lifemapper-cctools
 VERSION         = 7.0.15
-ARCHIVENAME     = cctools-$(VERSION)-source
+ARCHIVENAME     = cctools
+PKGNAME         = $(ARCHIVENAME)-$(VERSION)-source
 RELEASE         = 0
 TARBALL_POSTFIX	= tar.gz
 
 RPM.EXTRAS = "AutoReq: no"
 
-RPM.FILES = $(PKGROOT)/cctools/*
+RPM.FILES = $(PKGROOT)/$(ARCHIVENAME)/  

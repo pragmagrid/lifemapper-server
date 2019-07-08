@@ -1,7 +1,6 @@
 #!/bin/bash
 
 # Purpose: Fetch Biotaphy OpenTree of Life service wrapper package
-
 OTOL_WRAPPER_URL=https://github.com/biotaphy/@ARCHIVENAME@/archive
 OTOL_WRAPPER_PKG=v@VERSION@.@TARBALL_POSTFIX@
 

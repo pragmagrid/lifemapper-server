@@ -91,11 +91,10 @@ install lifemapper-gdal
 /sbin/ldconfig
 
 # TODO: Upgrade cherrypy to 17.4.2 and prepSrc on it and dependencies
-# for cherrypy
+# cherrypy 17.4.2 requires six>=1.11.0, cheroot>=6.2.4, portend>=2.1.1
+# cherrypy 10.2.1 requires six, cheroot>=5.2.0, portend>=1.6.1
 # cheroot requires six
-# tempora requires six, pytz
-# portend requires tempora
-# cherrypy requires six, cheroot>=5.2.0, portend>=1.6.1
+# portend requires tempora requires six, pytz
 module load opt-python
 compile six
 module unload opt-python
