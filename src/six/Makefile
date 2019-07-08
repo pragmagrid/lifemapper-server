@@ -68,6 +68,21 @@ version.mk:
 
 PY.PATH = /opt/python/bin/$(PYTHONVER)
 
+SEDSPEC += \
+        -e 's%@ARCHIVENAME@%$(ARCHIVENAME)%g'  \
+        -e 's%@VERSION@%$(VERSION)%g'  \
+        -e 's%@TARBALL_POSTFIX@%$(TARBALL_POSTFIX)%g'
+
+prepSrc.sh: prepSrc.sh.in
+	$(SED) $(SEDSPEC) $^ > $@
+	chmod 755 $@
+
+prep: prepSrc.sh
+	rm -rf version.mk
+	make version.mk
+	make prepSrc.sh
+	./prepSrc.sh
+
 build:
 	tar xzf  $(ARCHIVENAME)-$(VERSION).tar.gz 
 	(\
