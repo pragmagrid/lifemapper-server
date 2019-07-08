@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# Purpose: Fetch Requests source
+DL_URL=https://github.com/kennethreitz/@ARCHIVENAME@/archive
+DL_PKG=v@VERSION@.@TARBALL_POSTFIX@
+OUTFILE=@ARCHIVENAME@-@VERSION@.@TARBALL_POSTFIX@
+
+get_source_files () {
+  echo "Fetch python requests source code"
+  wget --output-document=$OUTFILE  "$DL_URL/$DL_PKG"
+}
+
+### main ###
+get_source_files

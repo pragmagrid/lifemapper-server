@@ -1,6 +1,7 @@
-NAME		= opt-lifemapper-requests
-VERSION		= 2.9.1
-ARCHIVENAME	= requests
-RELEASE		= 0
+NAME = opt-lifemapper-requests
+ARCHIVENAME = requests
+VERSION = 2.22.0
+RELEASE = 0
+TARBALL_POSTFIX	= tar.gz
 
-RPM.FILES	= $(PYTHON27_PACKAGES)/*
+RPM.FILES   = /opt/python/lib/$(PYTHONVER)/site-packages/*
