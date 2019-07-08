@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# Purpose: Fetch mod_wsgi source
+DL_URL=https://files.pythonhosted.org/packages/26/03/a3ed5abc2e66c82c40b0735c2f819c898d136879b00be4f5537126b6a4a4
+DL_PKG=@ARCHIVENAME@-@VERSION@.@TARBALL_POSTFIX@
+
+get_source_files () {
+  echo "Fetch mod_wsgi source code"
+  wget "$DL_URL/$DL_PKG"
+}
+
+### main ###
+get_source_files

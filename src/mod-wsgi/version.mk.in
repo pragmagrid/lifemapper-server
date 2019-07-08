@@ -1,6 +1,6 @@
 NAME            = lifemapper-mod_wsgi
 ARCHIVENAME     = mod_wsgi
-VERSION         = 4.4.13
+VERSION         = 4.6.7
 RELEASE         = 0
 TARBALL_POSTFIX	= tar.gz
 
