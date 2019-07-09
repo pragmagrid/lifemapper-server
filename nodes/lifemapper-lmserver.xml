@@ -25,12 +25,21 @@
         <package>postgresql96-contrib</package>
 
 		<!-- Add postgis2 and dependencies from PGDG96 repo -->
-		<package>boost-serialization</package>     
-		<package>SFCGAL</package>     
-		<package>SFCGAL-libs</package>     
-		<package>proj</package>     
 		<package>CGAL</package>     
+		<package>SFCGAL-libs</package>     
+		<package>SFCGAL</package>     
+		<package>gdal-libs</package>  
+		<package>geos</package>     
+		<package>libgeotiff</package>     
+		<package>ogdi</package>     
 		<package>postgis2_96</package>
+		
+		<!-- Add python2_psycopg2 from PGDG96 repo -->
+		<package>python2_psycopg2</package>
+
+		<!-- Add pgbouncer from PGDG96 (c-ares dep installed on bootstrap) -->
+		<package>pgbouncer</package>
+		
 
 <post>
 # check for attribute before setting
