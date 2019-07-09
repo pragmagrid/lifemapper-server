@@ -34,7 +34,7 @@
 		<package>ogdi</package>     
 		<package>postgis2_96</package>
 		
-		<!-- Add python2_psycopg2 from PGDG96 repo -->
+		<!-- Add python2_psycopg2 from PGDG96 repo (also is dep for pgbouncer) -->
 		<package>python2_psycopg2</package>
 
 		<!-- Add pgbouncer from PGDG96 (c-ares dep installed on bootstrap) -->
