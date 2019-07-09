@@ -7,13 +7,25 @@
 # JTS_URL="http://central.maven.org/maven2/org/locationtech/jts/jts-core/1.15.0/"
 
 SOLR_URL="http://archive.apache.org/dist/lucene/@ARCHIVENAME@/@VERSION@/"
-SOLR_PKG=@ARCHIVENAME@-@VERSION@.@TARBALL_POSTFIX@
-SOLR_CHK="https://www.apache.org/dist/lucene/solr/@VERSION@/@ARCHIVENAME@-@VERSION@.@TARBALL_POSTFIX@.sha512"
+SOLR_PKG="@ARCHIVENAME@-@VERSION@.@TARBALL_POSTFIX@"
+SOLR_CHK_URL="https://www.apache.org/dist/lucene/solr/@VERSION@"
+SOLR_SHA="@ARCHIVENAME@-@VERSION@.@TARBALL_POSTFIX@.sha512"
 
-get_source_files () {
+get_source_file () {
   echo "Fetch solr code"
   wget "$SOLR_URL/$SOLR_PKG" 
 }
 
+check_source_file() {
+  echo "Check downloaded solr code"
+  wget "$SOLR_CHK_URL/$SOLR_SHA" 
+  
+  IS_OK=`/usr/bin/sha512sum -c $SOLR_SHA | awk '{print $2}'`
+  if [ $IS_OK != 'OK' ]; then
+  	 echo "Source code sha512 sum does not match, do NOT proceed."
+  fi
+}
+
 ### main ###
-get_source_files
+get_source_file
+check_source_file
