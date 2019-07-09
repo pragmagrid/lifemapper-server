@@ -4,6 +4,12 @@
 #
 . /opt/rocks/share/devel/src/roll/etc/bootstrap-functions.sh
 
+# Add PGDG repo for Postgresql and geospatial libs
+# No opt-python for yum
+module unload opt-python
+yum install src/RPMS/pgdg-centos96-9.6-3.noarch.rpm epel-release
+yum update
+
 ### do this only once for roll distro to keep known RPMS in the roll src
 #cd src/RPMS
 #
@@ -13,11 +19,14 @@
 ## for postgresql9.6 and postgis2 rpms
 # wget https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-7-x86_64/pgdg-centos96-9.6-3.noarch.rpm
 #
-# for gdal
-#yumdownloader --resolve --enablerepo epel libaec.x86_64  libaec-devel.x86_64
-#yumdownloader --resolve --enablerepo epel hdf5.x86_64 hdf5-devel.x86_64
-# for postgis
-#yumdownloader --resolve --enablerepo epel proj.x86_64
+## for gdal
+# yumdownloader --resolve --enablerepo epel libaec.x86_64  libaec-devel.x86_64
+# yumdownloader --resolve --enablerepo epel hdf5.x86_64 hdf5-devel.x86_64
+## for postgis
+# yumdownloader --resolve --enablerepo epel proj.x86_64
+#
+# pgbouncer, retrieves deps python2-pyscopg2, postgresql10-libs
+# yumdownloader --resolve --enablerepo=pgdg96 pgbouncer
 #
 ## Add PostgreSQL 9.6, devel, server, python
 # yumdownloader --resolve --enablerepo=pgdg96 postgresql96
@@ -25,31 +34,38 @@
 # yumdownloader --resolve --enablerepo=pgdg96 postgresql96-contrib 
 # yumdownloader --resolve --enablerepo=pgdg96 postgresql96-devel 
 # yumdownloader --resolve --enablerepo=pgdg96 postgresql96-plpython
+#
+#
+## Add postgis 
 # yumdownloader --resolve --enablerepo=pgdg96 postgis2_96
 #
-## Add Postgis, python-postgresql connector
-# yumdownloader --resolve --enablerepo=pgdg96 pgbouncer
+## Add postgresql-python connector
 # yumdownloader --resolve --enablerepo=pgdg96 python2_psycopg2.x86_64
-# 
 
-# Add PGDG repo for Postgresql and geospatial libs
-# No opt-python for yum
-module unload opt-python
-yum install src/RPMS/pgdg-centos96-9.6-3.noarch.rpm epel-release
-yum update
-
+## Add pgbouncer from PGDG and dependency c-ares from base repos
+## Must download AND INSTALL c-ares before downloading pgbouncer
+# yumdownloader --resolve --enablerepo=base c-ares.x86_64
+# yumdownloader --resolve --enablerepo=base c-ares-devel.x86_64
+# rpm -i c-ares-1.10.0-3.el7.x86_64.rpm
+# rpm -i c-ares-devel-1.10.0-3.el7.x86_64.rpm
+# yumdownloader --resolve --enablerepo=pgdg96 pgbouncer
+#
 # for gdal
 rpm -i src/RPMS/libaec-1.0.4-1.el7.x86_64.rpm
 rpm -i src/RPMS/libaec-devel-1.0.4-1.el7.x86_64.rpm
 rpm -i src/RPMS/hdf5-1.8.12-10.el7.x86_64.rpm
 rpm -i src/RPMS/hdf5-devel-1.8.12-10.el7.x86_64.rpm
 
-# for mapserver
-rpm -i src/RPMS/bitstream-vera-fonts-common-1.10-19.el7.nux.noarch.rpm
-rpm -i src/RPMS/bitstream-vera-sans-fonts-1.10-19.el7.nux.noarch.rpm
+# for pgbouncer
+rpm -i src/RPMS/c-ares-1.10.0-3.el7.x86_64.rpm
+rpm -i src/RPMS/c-ares-devel-1.10.0-3.el7.x86_64.rpm
 
 # for postgis
 rpm -i src/RPMS/proj-4.8.0-4.el7.x86_64.rpm
+
+# for mapserver
+rpm -i src/RPMS/bitstream-vera-fonts-common-1.10-19.el7.nux.noarch.rpm
+rpm -i src/RPMS/bitstream-vera-sans-fonts-1.10-19.el7.nux.noarch.rpm
 
 # add dynamic libs
 echo "/etc/alternatives/jre/lib/amd64" > /etc/ld.so.conf.d/lifemapper-server.conf
