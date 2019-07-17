@@ -15,7 +15,7 @@
 
 	<changelog>
 	</changelog>
-        <package>strace</package>
+        <!-- <package>strace</package> -->
 
 		<!-- Add postgresql 9.6 and related from PGDG96 repo -->
         <package>postgresql96</package>
