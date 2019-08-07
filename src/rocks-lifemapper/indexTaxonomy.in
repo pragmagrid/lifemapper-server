@@ -1,0 +1,83 @@
+#!/bin/bash
+#
+# This script dumps the contents of the taxon table into a CSV file, then 
+# calls a python script to read and insert the contents into a solr index.
+# An optional parameter will specify to filter by one taxonomysourceId or 
+# userId.  If the value is an integer, it will filter by taxonomysourceId, 
+# if it is a string, it will be filtered by userId.
+
+if [ $# -ne 1 ]; then
+    usage
+    exit 0
+fi 
+
+
+usage () 
+{
+    echo "Usage: $0 <TAXONOMY_SOURCE_ID>"
+    echo "This script is run on an existing lifemapper-server installation. "
+    echo "It will:"
+    echo "     - dump the contents of the taxon table records for "
+    echo "       taxonomy source id "
+    echo "   "
+    echo "The script can be run at any time to solr-index data for"
+    echo "a taxonomy."
+    echo "   "
+}
+
+set_defaults() {
+    TAXSOURCEID=$1
+    THISNAME=`/bin/basename $0`
+    TSTAMP=`date +'%F_%T'`
+
+    OUTFILE=@LMSCRATCHDISK@/temp/taxon.$TSTAMP.csv
+    LOG=@LMSCRATCHDISK@/log/$THISNAME.$TSTAMP.log
+    # Append to existing logfile
+    touch $LOG
+    
+    USERSFILE=@PKGROOT@/rocks/etc/users
+    SQL_CMD="select * from lm_v3.taxon where taxonomysourceid = $TAXSOURCEID"
+    PY_CMD=@LMHOME@LmDbServer/tools/index_taxonomy_from_csv.py
+}
+
+
+### sets the password for db "admin" user to execute sql commands
+set_password () {
+    # check if users file exists
+    if [ ! -f $USERSFILE ] ; then
+        echo "Error: missing file $USERSFILE" >> $LOG
+        exit 1
+    fi
+
+    # check who is running the scipt
+    cat $USERSFILE > /dev/null
+    RETVAL=$?
+    if [ $RETVAL -ne 0 ]; then
+        echo "Error: You must be root to run this script" >> $LOG
+        exit 1
+    fi
+
+    # get the password from 'users' file
+    echo "-- setting postgres password" >> $LOG
+    PASS=`grep admin $USERSFILE | awk '{print $2}'`
+    export PGPASSWORD=$PASS
+}
+
+
+### Retrieve boom package named in BOOM_PKG
+get_taxonomy_for_solr () {
+    # find metadata file testpkgname.ini
+    if [ -f $OUTFILE ]; then
+        echo "Output file $OUTFILE already present" | tee -a $LOG
+    else  
+        echo "Fetch test data into $OUTFILE" | tee -a $LOG
+        psql -U admin -d borg -c "COPY ($SQL_CMD) TO STDOUT WITH CSV HEADER" > $OUTFILE
+    fi     
+}
+
+set_defaults
+set_password
+get_taxonomy_for_solr
+
+
+#psql -U admin -d borg -c "COPY (select * from lm_v3.taxon where taxonomysourceid = 1) TO STDOUT WITH CSV HEADER" > /tmp/taxon.csv
