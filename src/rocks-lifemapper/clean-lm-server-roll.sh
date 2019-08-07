@@ -276,12 +276,6 @@ TimeStamp "# Start"
 stop-lm-daemons
 stop-services
 
-if [ $LMROLL_COUNT = 1 ]; then
-	del-lifemapper-shared
-	del-shared-directories
-	del-shared-user-group
-fi
-
 del-postgres
 del-mapserver 
 
@@ -295,10 +289,17 @@ del-attr
 del-cron-jobs
 del-automount-entry
 
+if [ $LMROLL_COUNT = 1 ]; then
+	del-lifemapper-shared
+	del-shared-directories
+	del-shared-user-group
+fi
+
 echo
 echo "Removing roll lifemapper-server"
 /opt/rocks/bin/rocks remove roll lifemapper-server
 echo "Rebuilding the distro"
+module unload opt-python
 (cd /export/rocks/install; rocks create distro; yum clean all)
 echo
 TimeStamp "# End"
