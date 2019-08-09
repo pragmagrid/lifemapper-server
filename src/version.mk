@@ -17,11 +17,11 @@ SPECIES_DATA_DIR	= species
 PYTHONVER			= python2.7
 PYTHON27			= /opt/python/bin/$(PYTHONVER)
 PYTHON27_PACKAGES	= /opt/python/lib/$(PYTHONVER)/site-packages
-PGSQLVER			= 9.2
+PGSQLVER			= 9.6
 UNIXSOCKET			= /var/run/postgresql
 SMTPSERVER			= localhost
 SMTPSENDER			= no-reply-lifemapper@@PUBLIC_FQDN@
-JAVABIN				= /usr/java/latest/bin/java
+JAVABIN				= /etc/alternatives/java
 
 # Top directory of the current webclient and metrics dashboard client
 LMCLIENT			= biotaphy
@@ -49,6 +49,6 @@ GRID_CELLSIZE			= 1
 GRID_NUM_SIDES			= 4
 
 # Code version
-CODEVERSION			= 3.2.4
+CODEVERSION			= 3.2.5
 
 
