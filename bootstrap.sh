@@ -8,6 +8,7 @@
 # No opt-python for yum
 module unload opt-python
 yum install src/RPMS/pgdg-centos96-9.6-3.noarch.rpm epel-release
+yum install cmake
 yum update
 
 ### do this only once for roll distro to keep known RPMS in the roll src
