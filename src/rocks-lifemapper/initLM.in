@@ -166,6 +166,13 @@ stop_services () {
     fi
 }
 
+# Command listed when making rpm
+finish_libevent_install () {
+    # Complete libevent install
+    echo "-- complete libevent install" >> $LOG
+	/usr/bin/libtool --finish @LMHOME@/lib
+}
+
 # run initdb, start postgres daemon
 init_postgres () {
     # initdb creates postgres data/*
@@ -300,6 +307,8 @@ make_client_link () {
     fi
 }
 
+libtool --finish /opt/lifemapper/lib
+
 TimeStamp () {
     echo $1 `/bin/date` >> $LOG
 }
@@ -307,6 +316,7 @@ TimeStamp () {
 ####### Main #######
 set_defaults
 TimeStamp "# Start"
+finish_libevent_install
 set_permissions
 stop_services
 
