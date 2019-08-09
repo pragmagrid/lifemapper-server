@@ -5,6 +5,5 @@ RELEASE			= 0
 TARBALL_POSTFIX	= tar.gz
 
 RPM.FILES		=  \
-    $(PKGROOT)/bin/*     \n\
-    $(PKGROOT)/sbin/*    \n\
+    $(PKGROOT)/*     \n\
     $(PYTHON27_PACKAGES)/*
