@@ -86,7 +86,7 @@ build:
 		cd $(ARCHIVENAME)-$(VERSION);			\
 		module load opt-python;				\
 		export PATH=$(PKGROOT)/bin:$(PATH);		\
-		./configure --with-python=$(PY.PATH) --with-ogr --with-geos=yes  --prefix=$(PKGROOT);	\
+		./configure --with-python=$(PY.PATH) --with-ogr --with-geos --prefix=$(PKGROOT);	\
 		$(MAKE);					\
 		cd swig/python;					\
 		module load opt-python;				\

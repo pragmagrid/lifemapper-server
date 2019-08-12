@@ -67,6 +67,9 @@ rpm -i src/RPMS/c-ares-devel-1.10.0-3.el7.x86_64.rpm
 rpm -i src/RPMS/proj-4.8.0-4.el7.x86_64.rpm
 
 # for mapserver
+module unload opt-python
+# gd-devel pulls libXpm-devel also
+yum --enablerepo base install gd-devel
 rpm -i src/RPMS/bitstream-vera-fonts-common-1.10-19.el7.nux.noarch.rpm
 rpm -i src/RPMS/bitstream-vera-sans-fonts-1.10-19.el7.nux.noarch.rpm
 rpm -i src/RPMS/giflib-devel-4.1.6-9.el7.x86_64.rpm
