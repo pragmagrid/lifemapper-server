@@ -7,13 +7,15 @@
 # Add PGDG repo for Postgresql and geospatial libs
 # No opt-python for yum
 module unload opt-python
+yum install src/RPMS/screen-4.1.0-0.25.20120314git3c2946.el7.x86_64.rpm
 yum install src/RPMS/pgdg-centos96-9.6-3.noarch.rpm epel-release
 yum install cmake
 yum update
 
 ### do this only once for roll distro to keep known RPMS in the roll src
 #cd src/RPMS
-#
+# yumdownloader --resolve --enablerepo base screen.x86_64
+
 # wget http://li.nux.ro/download/nux/dextop/el7/x86_64/bitstream-vera-fonts-common-1.10-19.el7.nux.noarch.rpm
 # wget http://li.nux.ro/download/nux/dextop/el7/x86_64/bitstream-vera-sans-fonts-1.10-19.el7.nux.noarch.rpm
 #
