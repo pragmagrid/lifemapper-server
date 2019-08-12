@@ -25,6 +25,8 @@ yum update
 # yumdownloader --resolve --enablerepo epel hdf5.x86_64 hdf5-devel.x86_64
 ## for postgis
 # yumdownloader --resolve --enablerepo epel proj.x86_64
+## for mapserver
+# yumdownloader --resolve --enablerepo base giflib-devel.x86_64
 #
 # pgbouncer, retrieves deps python2-pyscopg2, postgresql10-libs
 # yumdownloader --resolve --enablerepo=pgdg96 pgbouncer
@@ -67,6 +69,7 @@ rpm -i src/RPMS/proj-4.8.0-4.el7.x86_64.rpm
 # for mapserver
 rpm -i src/RPMS/bitstream-vera-fonts-common-1.10-19.el7.nux.noarch.rpm
 rpm -i src/RPMS/bitstream-vera-sans-fonts-1.10-19.el7.nux.noarch.rpm
+rpm -i src/RPMS/giflib-devel-4.1.6-9.el7.x86_64.rpm
 
 # add dynamic libs
 echo "/etc/alternatives/jre/lib/amd64" > /etc/ld.so.conf.d/lifemapper-server.conf

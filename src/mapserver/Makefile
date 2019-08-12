@@ -75,10 +75,8 @@ build:
 		cd $(ARCHIVENAME)-$(VERSION);			\
 		export PYTHON=$(PY.PATH);             		\
 		export PATH=$(ROOT):$(PKGROOT)/bin:$(PATH);	\
-
 		./configure --with-python --with-proj=$(PKGROOT) --with-geos --with-ogr --with-gdal --with-postgis --with-kml --prefix=$(PKGROOT);  \
 		$(MAKE); 					\
-
 		cd mapscript/python;				\
 		module load opt-python;				\
 		$(PY.PATH) setup.py build; 			\
@@ -92,10 +90,8 @@ install::
 		cd $(ARCHIVENAME)-$(VERSION); 			\
 		export PYTHON=$(PY.PATH);             		\
 		export PATH=$(ROOT)/$(PKGROOT)/bin:$(PATH);	\
-
 		$(INSTALL) $(MAPSERVERPROGS) $(ROOT)/$(PKGROOT)/bin;	\
 		$(INSTALL) mapserv $(ROOT)/$(PKGROOT)/sbin;	\
-
 		cd mapscript/python;				\
 		module load opt-python;				\
 		$(PY.PATH) setup.py $@ --root=$(ROOT)/; 	\
