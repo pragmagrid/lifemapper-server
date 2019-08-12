@@ -37,6 +37,7 @@ set_defaults() {
     
     USERSFILE=@PKGROOT@/rocks/etc/users
     SQL_CMD="select * from lm_v3.taxon where taxonomysourceid = $TAXSOURCEID"
+    module load opt-python
     PY_CMD=@LMHOME@LmDbServer/tools/index_taxonomy_from_csv.py
 }
 

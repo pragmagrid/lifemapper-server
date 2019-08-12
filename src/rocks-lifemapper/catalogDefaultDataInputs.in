@@ -29,7 +29,8 @@ SetDefaults () {
     SITE_CONFIG_FILE=@LMHOME@/config/config.site.ini
     BOOM_PARAMS=@LMHOME@/config/boom.public.params
 
-    # script
+    # scripts
+    module load opt-python
     DEFCAT_PY=@LMHOME@/LmDbServer/tools/catalogDefaults.py    
     SCENCAT_PY=@LMHOME@/LmDbServer/tools/catalogScenPkg.py    
     BOOMCAT_PY=@LMHOME@/LmDbServer/tools/initWorkflow.py

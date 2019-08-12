@@ -218,6 +218,7 @@ fill_db() {
 # update user/password file for python
 update_connect_file() {
     echo "-- update users passwords in @LMHOME@/LmServer/db/connect.py" >> $LOG
+    module load opt-python
     $BIN/confDbconnect >> $LOG  2>&1
 }
 

@@ -54,6 +54,7 @@ set_defaults() {
     
     # Python and python/bash scripts
     PYBIN=/opt/python/bin/@PYTHONVER@
+    module load opt-python
     BOOM_POPULATE=@LMHOME@/rocks/bin/initWorkflow
     TRANSFORMPY=@LMHOME@/LmBackend/tools/convert_layers_in_package.py
     

@@ -37,6 +37,7 @@ SetDefaults () {
     SITE_CONFIG_FILE=@LMHOME@/config/config.site.ini
 
     # script
+    module load opt-python
     BOOMCAT_PY=@LMHOME@/LmDbServer/boom/initWorkflow.py
 
     THISNAME=`/bin/basename $0`

@@ -49,6 +49,9 @@ set_defaults() {
     # *_PKG variables are file basenames, no path or file extension
     echo "Scenario package: $SCEN_PKG, Scenario User: $USR" | tee -a $LOG
     USER_DIR=@DATADIR_SHARED@/archive/$USR
+    
+    # Python scripts and executable
+    module load opt-python
     SCEN_META_FILE=$SCEN_DIR/$SCEN_PKG.py
     TEMP_SCEN_PKG_FILE=$TEMP_DIR/$SCEN_PKG.@TARBALL_POSTFIX@
     NEW_SCEN_DATA_DIR=$SCEN_DIR/$SCEN_PKG

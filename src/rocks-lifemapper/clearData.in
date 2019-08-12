@@ -21,6 +21,7 @@ SetDefaults () {
     USER_OR_GRIDSETID = $1
 
     THISNAME=`/bin/basename $0`
+    module load opt-python
     CLEANUP_SCRIPT=@LMHOME@/LmDbServer/tools/janitor.py
     
     LOG=@LMSCRATCHDISK@/log/$THISNAME.log
