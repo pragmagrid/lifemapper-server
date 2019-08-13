@@ -59,12 +59,10 @@ yum update
 ## Add postgresql-python connector
 # yumdownloader --resolve --enablerepo=pgdg96 python2_psycopg2.x86_64
 
-## Add pgbouncer from PGDG and dependency c-ares from base repos
+## Add pgbouncer from PGDG and dependency c-ares from epel and base repos
 ## Must download AND INSTALL c-ares before downloading pgbouncer
 # yumdownloader --resolve --enablerepo=base c-ares.x86_64
 # yumdownloader --resolve --enablerepo=base c-ares-devel.x86_64
-# rpm -i c-ares-1.10.0-3.el7.x86_64.rpm
-# rpm -i c-ares-devel-1.10.0-3.el7.x86_64.rpm
 # yumdownloader --resolve --enablerepo=pgdg96 pgbouncer
 #
 # for gdal
@@ -217,9 +215,9 @@ install opt-lifemapper-portend
 
 # install postgresql
 # yum --enablerepo base update openssl
-yum --enablerepo=pgdg96 install postgresql96-libs
-yum --enablerepo=pgdg96 install postgresql96
-yum --enablerepo=pgdg96 install postgresql96-devel
+rpm -i src/RPMS/postgresql96-libs-9.6.15-1PGDG.rhel7.x86_64
+rpm -i src/RPMS/postgresql96-9.6.15-1PGDG.rhel7.x86_64
+rpm -i src/RPMS/postgresql96-devel-9.6.15-1PGDG.rhel7.x86_64
 
 # Leave with opt-python loaded
 module load opt-python
