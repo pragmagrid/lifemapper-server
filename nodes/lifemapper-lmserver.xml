@@ -24,20 +24,46 @@
         <package>postgresql96-server</package>
         <package>postgresql96-contrib</package>
 
-		<!-- Add postgis2 and dependencies from PGDG96 repo -->
+		<!-- Add postgis2 and dependencies from epel and PGDG96 repos -->
+		<!-- gdal-libs deps -->
 		<package>CGAL</package>     
 		<package>SFCGAL-libs</package>     
 		<package>SFCGAL</package>     
-		<package>gdal-libs</package>  
 		<package>geos</package>     
 		<package>libgeotiff</package>     
 		<package>ogdi</package>     
+		<package>unixODBC</package>
+		<package>xerces-c</package>
+		<package>libdap</package>
+		<package>libdap-devel</package>
+		<package>CharLS</package>
+		<package>CharLS-devel</package>
+		<package>cfitsio</package>
+		<package>cfitsio-devel</package>
+		<package>freexl</package>
+		<package>freexl-devel</package>
+		<package>netcdf</package>
+		<package>netcdf-devel</package>
+		<package>openjpeg2</package>
+		<package>openjpeg2-tools</package>
+		<package>openjpeg2-devel</package>
+		<package>libgta</package>
+		<package>libgta-devel</package>
+		<!-- armadillo deps -->
+		<package>SuperLU</package>
+		<package>arpack</package>
+		<package>openblas-openmp</package>
+		<package>armadillo</package>
+
+		<package>gdal-libs</package>
 		<package>postgis2_96</package>
 		
-		<!-- Add python2_psycopg2 from PGDG96 repo (also is dep for pgbouncer) -->
+		<!-- Add python2_psycopg2 from PGDG96 repo (also dep for pgbouncer) -->
 		<package>python2_psycopg2</package>
 
-		<!-- Add pgbouncer from PGDG96 (c-ares dep installed on bootstrap) -->
+		<!-- Add pgbouncer from PGDG96 -->
+		<package>c-ares</package>
+		<package>c-ares-devel</package>
 		<package>pgbouncer</package>
 		
 

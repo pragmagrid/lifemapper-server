@@ -53,7 +53,7 @@ fi
 
 </file>
 
-/sbin/service httpd restart
+/sbin/systemctl restart httpd.service
 
 </post>
 

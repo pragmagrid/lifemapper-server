@@ -42,6 +42,18 @@ yum update
 #
 #
 ## Add postgis 
+# yumdownloader --resolve --enablerepo=pgdg96 boost-serialization-1.53.0-27.el7.x86_64.rpm
+# for gdal-libs
+# yumdownloader --resolve --enablerepo=epel libdap libdap-devel
+# yumdownloader --resolve --enablerepo=epel CharLS CharLS-devel 
+# yumdownloader --resolve --enablerepo=epel cfitsio cfitsio-devel
+# yumdownloader --resolve --enablerepo=epel freexl freexl-devel
+# yumdownloader --resolve --enablerepo=epel libgta libgta-devel
+# yumdownloader --resolve --enablerepo=epel netcdf netcdf-devel
+# yumdownloader --resolve --enablerepo=epel openjpeg2 openjpeg2-devel openjpeg2-tools
+## armadillo brings arpack, SuperLU, openblas-openmp
+# yumdownloader --resolve --enablerepo epel  armadillo
+
 # yumdownloader --resolve --enablerepo=pgdg96 postgis2_96
 #
 ## Add postgresql-python connector
@@ -65,7 +77,38 @@ rpm -i src/RPMS/hdf5-devel-1.8.12-10.el7.x86_64.rpm
 rpm -i src/RPMS/c-ares-1.10.0-3.el7.x86_64.rpm
 rpm -i src/RPMS/c-ares-devel-1.10.0-3.el7.x86_64.rpm
 
-# for postgis
+# for gdal-libs (for postgis) WTF?
+# rpm -i src/RPMS/libgeotiff-1.4.0-1.rhel7.1.x86_64.rpm
+# rpm -i src/RPMS/ogdi-3.2.0-4.rhel7.1.x86_64.rpm
+# rpm -i src/RPMS/unixODBC-2.3.1-11.el7.x86_64.rpm
+# rpm -i src/RPMS/xerces-c-3.1.1-8.el7_2.x86_64.rpm
+# rpm -i src/RPMS/libdap-3.13.1-2.el7.x86_64.rpm
+# rpm -i src/RPMS/libdap-devel-3.13.1-2.el7.x86_64.rpm
+# rpm -i src/RPMS/CharLS-1.0-5.el7.x86_64.rpm
+# rpm -i src/RPMS/CharLS-devel-1.0-5.el7.x86_64.rpm
+# rpm -i src/RPMS/cfitsio-3.370-10.el7.x86_64.rpm
+# rpm -i src/RPMS/cfitsio-devel-3.370-10.el7.x86_64.rpm
+# rpm -i src/RPMS/freexl-1.0.5-1.el7.x86_64.rpm
+# rpm -i src/RPMS/freexl-devel-1.0.5-1.el7.x86_64.rpm
+# rpm -i src/RPMS/netcdf-4.3.3.1-5.el7.x86_64.rpm
+# rpm -i src/RPMS/netcdf-devel-4.3.3.1-5.el7.x86_64.rpm
+# rpm -i src/RPMS/openjpeg2-2.3.1-1.el7.x86_64.rpm
+# rpm -i src/RPMS/openjpeg2-tools-2.3.1-1.el7.x86_64.rpm
+# rpm -i src/RPMS/openjpeg2-devel-2.3.1-1.el7.x86_64.rpm
+# rpm -i src/RPMS/libgta-1.0.4-1.el7.x86_64.rpm
+# rpm -i src/RPMS/libgta-devel-1.0.4-1.el7.x86_64.rpm
+# 
+# rpm -i src/RPMS/SuperLU-5.2.0-5.el7.x86_64.rpm
+# rpm -i src/RPMS/arpack-3.1.3-2.el7.x86_64.rpm
+# rpm -i src/RPMS/openblas-openmp-0.3.3-2.el7.x86_64.rpm
+# rpm -i src/RPMS/armadillo-8.300.0-1.el7.x86_64.rpm
+# 
+# rpm -i src/RPMS/gdal-libs-1.11.4-12.rhel7.x86_64.rpm
+# 
+# 
+# # rpm -i src/RPMS/boost-serialization-1.53.0-27.el7.x86_64.rpm     
+# rpm -i src/RPMS/unixODBC-2.3.1-11.el7.x86_64.rpm     
+# rpm -i src/RPMS/xerces-c-3.1.1-8.el7_2.x86_64.rpm     
 rpm -i src/RPMS/proj-4.8.0-4.el7.x86_64.rpm
 
 # for mapserver
@@ -114,6 +157,13 @@ compile gdal
 module unload opt-python
 install lifemapper-gdal
 /sbin/ldconfig
+
+# # install other deps for postgis2_96
+# rpm -i src/RPMS/proj49-4.9.3-3.rhel7.1.x86_64.rpm     
+# rpm -i src/RPMS/postgresql96-libs-9.6.15-1PGDG.rhel7.x86_64.rpm     
+# rpm -i src/RPMS/proj-4.8.0-2.rhel7.x86_64.rpm     
+# rpm -i src/RPMS/postgresql96-9.6.15-1PGDG.rhel7.x86_64.rpm
+      
 
 # TODO: Upgrade cherrypy to 17.4.2 and prepSrc on it and dependencies
 # cherrypy 17.4.2 requires six>=1.11.0, cheroot>=6.2.4, portend>=2.1.1
@@ -164,6 +214,12 @@ compile portend
 module unload opt-python
 install opt-lifemapper-portend
 /sbin/ldconfig
+
+# install postgresql
+# yum --enablerepo base update openssl
+yum --enablerepo=pgdg96 install postgresql96-libs
+yum --enablerepo=pgdg96 install postgresql96
+yum --enablerepo=pgdg96 install postgresql96-devel
 
 # Leave with opt-python loaded
 module load opt-python
