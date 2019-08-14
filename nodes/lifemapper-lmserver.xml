@@ -26,7 +26,8 @@
 
 		<!-- Add postgis2 and dependencies from epel and PGDG96 repos -->
 		<!-- gdal-libs deps -->
-		<package>CGAL</package>     
+		<package>boost_serialization</package>
+		<package>CGAL</package>
 		<package>SFCGAL-libs</package>     
 		<package>SFCGAL</package>     
 		<package>geos</package>     
@@ -56,6 +57,7 @@
 		<package>armadillo</package>
 
 		<package>gdal-libs</package>
+		<package>proj</package>
 		<package>postgis2_96</package>
 		
 		<!-- Add python2_psycopg2 from PGDG96 repo (also dep for pgbouncer) -->
