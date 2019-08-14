@@ -15,34 +15,57 @@
 
 	<changelog>
 	</changelog>
+        <!-- <package>strace</package> -->
 
-        <package>libxslt</package>
-        <package>opt-lifemapper-MySQL-python</package>
-        <package>opt-lifemapper-rtree</package>
-        <package>lifemapper-spatialindex</package>
-        <package>strace</package>
+		<!-- Add postgresql 9.6 and related from PGDG96 repo -->
+        <package>postgresql96</package>
+        <package>postgresql96-libs</package>
+        <package>postgresql96-devel</package>
+        <package>postgresql96-server</package>
+        <package>postgresql96-contrib</package>
 
-        <!-- postgres and dependencies -->
-        <package>postgresql91</package>
-        <package>postgresql91-libs</package>
-        <package>postgresql91-devel</package>
-        <package>postgresql91-server</package>
-        <package>postgresql91-docs</package>
-        <package>postgresql91-python</package>
-        <package>uuid</package>
-        <package>mx</package>
-        <package>postgresql91-contrib</package>
-        <package>postgresql91-test</package>
+		<!-- Add postgis2 and dependencies from epel and PGDG96 repos -->
+		<!-- gdal-libs deps -->
+		<package>CGAL</package>     
+		<package>SFCGAL-libs</package>     
+		<package>SFCGAL</package>     
+		<package>geos</package>     
+		<package>libgeotiff</package>     
+		<package>ogdi</package>     
+		<package>unixODBC</package>
+		<package>xerces-c</package>
+		<package>libdap</package>
+		<package>libdap-devel</package>
+		<package>CharLS</package>
+		<package>CharLS-devel</package>
+		<package>cfitsio</package>
+		<package>cfitsio-devel</package>
+		<package>freexl</package>
+		<package>freexl-devel</package>
+		<package>netcdf</package>
+		<package>netcdf-devel</package>
+		<package>openjpeg2</package>
+		<package>openjpeg2-tools</package>
+		<package>openjpeg2-devel</package>
+		<package>libgta</package>
+		<package>libgta-devel</package>
+		<!-- armadillo deps -->
+		<package>SuperLU</package>
+		<package>arpack</package>
+		<package>openblas-openmp</package>
+		<package>armadillo</package>
 
-        <!-- pgbouncer and dependencies -->
-        <package>lifemapper-libevent</package>
-        <package>pgbouncer</package>
+		<package>gdal-libs</package>
+		<package>postgis2_96</package>
+		
+		<!-- Add python2_psycopg2 from PGDG96 repo (also dep for pgbouncer) -->
+		<package>python2_psycopg2</package>
 
-        <!-- postgis and dependencies -->
-        <package>json-c</package>
-        <package>geos</package>
-        <package>proj</package>
-        <package>postgis2_91</package>
+		<!-- Add pgbouncer from PGDG96 -->
+		<package>c-ares</package>
+		<package>c-ares-devel</package>
+		<package>pgbouncer</package>
+		
 
 <post>
 # check for attribute before setting
@@ -52,7 +75,7 @@ if [ "$attrDbserver" = "" ] ; then
 fi
 
 /usr/sbin/usermod -G postgres pgbouncer
-export PATH=/usr/pgsql-9.1/bin:$PATH
+export PATH=/usr/pgsql-9.2/bin:$PATH
 
 # set mode to strict (2) to prevent postgres being killed  by OOM 
 /sbin/sysctl -w vm.overcommit_memory=2
@@ -69,12 +92,10 @@ vm.overcommit_memory = 2
 /bin/chown postgres:postgres /var/run/postgresql
 /bin/chmod 0775 /var/run/postgresql
 
-PG=`basename /etc/init.d/postgresql-*`
-/sbin/chkconfig --add $PG 
-/sbin/chkconfig $PG on
+PG=`basename /usr/lib/systemd/system/postgresql-*.service`
+/usr/bin/systemctl enable $PG
 
-/sbin/chkconfig --add pgbouncer 
-/sbin/chkconfig pgbouncer on
+/usr/bin/systemctl enable pgbouncer
 
 <file name="/etc/rc.d/rocksconfig.d/post-99-lifemapper-lmserver" perms="0700">
 #!/bin/bash

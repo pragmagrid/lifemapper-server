@@ -29,8 +29,15 @@ if [ $# -ne 0 ]; then
 fi 
 
 set_defaults() {
+    # Rocks version
+    ROCKS_VER=`rocks list roll | grep base | awk '{print $2}'`
+
     THISNAME=`/bin/basename $0`
-    PG=`basename /etc/init.d/postgresql-*`
+    if [ $ROCKS_VER = '7.0' ]; then
+    	PG=`basename /usr/lib/systemd/system/postgresql-*.service`
+    else
+    	PG=`basename /etc/init.d/postgresql-*`
+    fi
     PROFILE=/var/lib/pgsql/.bash_profile
     BIN=@PKGROOT@/rocks/bin
     USERSFILE=@PKGROOT@/rocks/etc/users
@@ -43,6 +50,39 @@ set_defaults() {
     IMAGE_DIR=@DATADIR_SERVER@/image
     LMCLIENT_DIR=@DATADIR_SERVER@/@LMCLIENT@
     DASHBOARD_DIR=@LMHOME@/LmWebServer/public_html/@DASHBOARD@
+    
+    # config files
+    CONFIG_FILE=@LMHOME@/config/config.lmserver.ini
+    SITE_CONFIG_FILE=@LMHOME@/config/config.site.ini
+    
+    # Find SCENARIO_PACKAGE
+    if [ -f $SITE_CONFIG_FILE ] ; then        
+        echo "Looking for SCENARIO_PACKAGE in site config file"   | tee -a $LOG  
+        SCEN_PKG=`grep -i SCENARIO_PACKAGE $SITE_CONFIG_FILE | grep -v ';' | awk '{print $2}'`
+    fi    
+    if [ -z ${SCEN_PKG} ] ; then 
+        echo "Looking for SCENARIO_PACKAGE in installed config file"   | tee -a $LOG  
+        SCEN_PKG=`grep -i SCENARIO_PACKAGE $CONFIG_FILE | grep -v ';' | awk '{print $2}'`
+    fi
+    # 
+    if [ -z ${SCEN_PKG} ] ; then
+        echo "Error: Missing configured value for SCENARIO_PACKAGE" | tee -a $LOG
+        exit 1
+    fi
+
+    # Find ARCHIVE_USER
+    if [ -f $SITE_CONFIG_FILE ] ; then        
+        echo "Looking for ARCHIVE_USER in site config file"   | tee -a $LOG  
+        ARCHIVE_USER=`grep -i ARCHIVE_USER $SITE_CONFIG_FILE | grep -v _EMAIL | grep -v ';' | awk '{print $2}'`
+    fi
+    if [ -z ${ARCHIVE_USER} ] ; then 
+        echo "Looking for ARCHIVE_USER in installed config file"   | tee -a $LOG  
+        ARCHIVE_USER=`grep -i ARCHIVE_USER $CONFIG_FILE | grep -v _EMAIL | grep -v ';' | awk '{print $2}'`
+    fi
+    if [ -z ${ARCHIVE_USER} ] ; then
+        echo "Error: Missing configured value for ARCHIVE_USER" | tee -a $LOG
+        exit 1
+    fi
     
     # Source function library.
     INITD=/etc/rc.d/init.d
@@ -57,6 +97,16 @@ set_defaults() {
 	    EXISTING_DB=true
 	 else
 	    EXISTING_DB=false
+    fi
+}
+
+cmd_service () {
+	svc=$1
+	cmd=$2
+	if [ $ROCKS_VER = '7.0' ]; then
+    	/usr/bin/systemctl $2 $1  >> $LOG
+    else
+    	/sbin/service $1 $2  >> $LOG
     fi
 }
 
@@ -101,17 +151,26 @@ stop_services () {
     echo "-- stop $PG and pgbouncer daemons " >> $LOG
 
     if [ -f /var/run/pgbouncer/pgbouncer.pid ]; then
-        /sbin/service pgbouncer stop >> $LOG
+    	cmd_service pgbouncer stop
+    	# /usr/bin/systemctl stop pgbouncer >> $LOG
     fi
 
     if [ -f /var/run/$PG.pid ] ; then
-        /sbin/service $PG stop >> $LOG
+    	cmd_service $PG stop
+    	# /usr/bin/systemctl stop $PG >> $LOG
     fi
 
     prog="postmaster"
     if [ -n "`pidof $prog`" ]; then
         killproc  $prog
     fi
+}
+
+# Command listed when making rpm
+finish_libevent_install () {
+    # Complete libevent install
+    echo "-- complete libevent install" >> $LOG
+	/usr/bin/libtool --finish @LMHOME@/lib
 }
 
 # run initdb, start postgres daemon
@@ -122,11 +181,17 @@ init_postgres () {
     # OPT="-E 'UTF-8' --lc-collate='en_US.UTF-8' --lc-ctype='en_US.UTF-8'"
     # OPT needs testing
     OPT="en_US.UTF-8"
-    /sbin/service $PG initdb $OPT  >> $LOG
+    
+	if [ $ROCKS_VER = '7.0' ]; then
+    	/usr/pgsql-9.2/bin/postgresql92-setup initdb >> $LOG
+    else
+    	/sbin/service $PG initdb $OPT  >> $LOG
+    fi
 
     # start postgres with default config
     echo "-- start postgres with default config" >> $LOG
-    /sbin/service $PG start >> $LOG
+    cmd_service $PG start
+    # /usr/bin/systemctl start $PG >> $LOG
     /bin/sleep 15
 }
 
@@ -143,16 +208,17 @@ init_db() {
     dbserver_init
 }
 
-# define/populate Lifemapper tables
+# populate Lifemapper tables
 fill_db() {
-    echo "-- Executing fillDB" >> $LOG
+    echo "-- Executing catalogDefaultDataInputs" >> $LOG
     . /etc/profile.d/lifemapper.sh
-    $BIN/fillDB >> $LOG
+    $BIN/catalogDefaultDataInputs >> $LOG
 }
 
 # update user/password file for python
 update_connect_file() {
     echo "-- update users passwords in @LMHOME@/LmServer/db/connect.py" >> $LOG
+    module load opt-python
     $BIN/confDbconnect >> $LOG  2>&1
 }
 
@@ -213,17 +279,19 @@ start_services() {
 
     # restart postgres with updated configuration
     echo "-- restart postgres with new configuration" >> $LOG
-    /sbin/service $PG restart >> $LOG
+    cmd_service $PG restart
+    # /usr/bin/systemctl restart $PG >> $LOG
 
     # start pgbouncer
     echo "-- restart pgbouncer with new configuration" >> $LOG
-    /sbin/service pgbouncer start >> $LOG
+    cmd_service pgbouncer restart
+    # /usr/bin/systemctl restart pgbouncer >> $LOG
 }
 
-# run updateIP to put correct IP lmserver's config.lmserver.ini 
+# run updateCfg to put correct IP, makeflow parameters lmserver's config.lmserver.ini 
 update_config() {
-    echo "-- update host IP in @LMHOME@/config/config.lmserver.ini" >> $LOG
-    $BIN/updateIP >> $LOG  2>&1
+    echo "-- update host IP and Makeflow/Workqueue parameters in @LMHOME@/config/config.lmserver.ini" >> $LOG
+    $BIN/updateCfg >> $LOG  2>&1
 }
 
 make_dashboard_link () {
@@ -240,6 +308,8 @@ make_client_link () {
     fi
 }
 
+libtool --finish /opt/lifemapper/lib
+
 TimeStamp () {
     echo $1 `/bin/date` >> $LOG
 }
@@ -247,6 +317,7 @@ TimeStamp () {
 ####### Main #######
 set_defaults
 TimeStamp "# Start"
+finish_libevent_install
 set_permissions
 stop_services
 

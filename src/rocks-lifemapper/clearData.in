@@ -1,0 +1,57 @@
+#!/bin/bash 
+
+# Purpose: remove User data
+#
+# This script is run by a superuser
+
+usage () 
+{
+    echo "Usage: $0 <userid_or_gridsetid>"
+    echo "   This script is run by the superuser. If userid_or_gridsetid is" 
+    echo "   an integer, it will clear database records and files for a gridset." 
+    echo "   a string, it will clear database records and files for a user,"
+    echo "   leaving the following files in the user's top level directory:" 
+    echo "         config files, tree files, and species input files"
+    echo "   "
+    echo "The output of the script is in @LMSCRATCHDISK@/log/`/bin/basename $0`.log"
+}
+
+### define varibles
+SetDefaults () {
+    USER_OR_GRIDSETID = $1
+
+    THISNAME=`/bin/basename $0`
+    module load opt-python
+    CLEANUP_SCRIPT=@LMHOME@/LmDbServer/tools/janitor.py
+    
+    LOG=@LMSCRATCHDISK@/log/$THISNAME.log
+    rm -f $LOG
+    touch $LOG
+}
+
+TimeStamp () {
+    echo $1 `/bin/date` >> $LOG
+}
+
+### delete user computed data from lifemapper DB and filesystem
+ClearData () {
+    if [ -f $CLEANUP_SCRIPT ] ; then
+        echo "Running '$CLEANUP_SCRIPT'..." | tee -a $LOG
+        /opt/python/bin/@PYTHONVER@ $CLEANUP_SCRIPT $USER_OR_GRIDSETID 2>&1 | tee -a $LOG
+    else
+        echo "Error: Missing file $CLEANUP_SCRIPT" | tee -a $LOG
+        exit 1
+    fi
+}
+
+
+### Main ###
+if [ $# -ne 1 ]; then
+    usage
+    exit 0
+fi 
+
+SetDefaults $1
+TimeStamp "# Start"
+ClearData
+TimeStamp "# End"

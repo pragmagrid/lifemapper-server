@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# Purpose: Fetch pytz source
+
+DL_URL=https://files.pythonhosted.org/packages/df/d5/3e3ff673e8f3096921b3f1b79ce04b832e0100b4741573154b72b756a681
+DL_PKG=@ARCHIVENAME@-@VERSION@.@TARBALL_POSTFIX@
+
+get_source_files () {
+  echo "Fetch pytz source code"
+  wget "$DL_URL/$DL_PKG"
+}
+
+### main ###
+get_source_files

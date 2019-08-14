@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# Purpose: Fetch CherryPy source
+DL_URL=https://files.pythonhosted.org/packages/0c/d9/4e13bc35e920ec63fc0f6b01f84537e9a7b9d6462a0419d903fea591a723
+DL_PKG=@ARCHIVENAME@-@VERSION@.@TARBALL_POSTFIX@
+
+get_source_files () {
+  echo "Fetch CherryPy source code"
+  wget "$DL_URL/$DL_PKG"
+}
+
+### main ###
+get_source_files

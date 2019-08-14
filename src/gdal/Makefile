@@ -65,25 +65,47 @@ version.mk:
 
 PY.PATH = /opt/python/bin/$(PYTHONVER)
 
+SEDSPEC += \
+        -e 's%@ARCHIVENAME@%$(ARCHIVENAME)%g'  \
+        -e 's%@VERSION@%$(VERSION)%g'  \
+        -e 's%@TARBALL_POSTFIX@%$(TARBALL_POSTFIX)%g'
+
+prepSrc.sh: prepSrc.sh.in
+	$(SED) $(SEDSPEC) $^ > $@
+	chmod 755 $@
+
+prep: prepSrc.sh
+	rm -rf version.mk
+	make version.mk
+	make prepSrc.sh
+	./prepSrc.sh
+
 build:
-	gunzip -c $(ARCHIVENAME)-$(VERSION).$(TARBALL_POSTFIX) | $(TAR) -xf -
-	cd patch-files && find . -type f | grep -v CVS | cpio -pduv ..
+	$(TAR) -xzvf $(ARCHIVENAME)-$(VERSION).$(TARBALL_POSTFIX)
 	( 							\
-		cd $(ARCHIVENAME)-$(VERSION);				\
-		export PYTHON=$(PY.PATH);             		\
+		cd $(ARCHIVENAME)-$(VERSION);			\
+		module load opt-python;				\
 		export PATH=$(PKGROOT)/bin:$(PATH);		\
-		./configure --with-python --with-ogr --with-geos=yes  --prefix=$(PKGROOT);	\
+		./configure --with-python=$(PY.PATH) --with-ogr --with-geos --prefix=$(PKGROOT);	\
 		$(MAKE);					\
+		cd swig/python;					\
+		module load opt-python;				\
+		$(PY.PATH) setup.py build; 			\
+		module unload opt-python;			\
 	)
 	
 install::
 	mkdir -p $(ROOT)/$(PKGROOT)
-	(							\
+	(								\
 		cd $(ARCHIVENAME)-$(VERSION);				\
-		export PYTHON=$(PY.PATH);             		\
-		export PATH=$(PKGROOT)/bin:$(PATH);		\
+		module load opt-python;					\
+		export PATH=$(PKGROOT)/bin:$(PATH);			\
 		$(MAKE) prefix=$(ROOT)/$(PKGROOT) ROOT=$(ROOT)/ install; \
+		cd swig/python;						\
+		module load opt-python;					\
+		$(PY.PATH) setup.py $@ --root=$(ROOT)/;			\
+		module unload opt-python;				\
 	)
 
 clean::
-	rm -rf $(ARCHIVENAME)-$(VERSION) version.mk
+	rm -rf $(ARCHIVENAME)-$(VERSION) version.mk  prepSrc.sh

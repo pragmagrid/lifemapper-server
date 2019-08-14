@@ -61,13 +61,28 @@ REDHAT.ROOT = $(CURDIR)/../../
 -include $(ROCKSROOT)/etc/Rules.mk
 include Rules.mk
 
+SEDSPEC += \
+        -e 's%@ARCHIVENAME@%$(ARCHIVENAME)%g'  \
+        -e 's%@PKGNAME@%$(PKGNAME)%g'  \
+        -e 's%@TARBALL_POSTFIX@%$(TARBALL_POSTFIX)%g'
+
+prepSrc.sh: prepSrc.sh.in
+	$(SED) $(SEDSPEC) $^ > $@
+	chmod 755 $@
+
+prep: prepSrc.sh
+	rm -rf version.mk
+	make version.mk
+	make prepSrc.sh
+	./prepSrc.sh
+
 version.mk:
 	cat ../version.mk version.mk.in > version.mk
 
 build:
-	gunzip -c $(ARCHIVENAME)-$(VERSION)-stable.$(TARBALL_POSTFIX) | $(TAR) -xf -
+	gunzip -c $(PKGNAME).$(TARBALL_POSTFIX) | $(TAR) -xf -
 	( 							\
-		cd $(ARCHIVENAME)-$(VERSION)-stable;				\
+		cd $(PKGNAME);				\
 		./configure --prefix=$(LMHOME);	\
 		$(MAKE);					\
 	)
@@ -75,9 +90,9 @@ build:
 install::
 	mkdir -p $(ROOT)/$(LMHOME)
 	(							\
-		cd $(ARCHIVENAME)-$(VERSION)-stable;				\
+		cd $(PKGNAME);				\
 		$(MAKE) prefix=$(ROOT)/$(LMHOME) install-libLTLIBRARIES;\
 	)
 
 clean::
-	rm -rf $(ARCHIVENAME)-$(VERSION)-stable version.mk
+	rm -rf $(PKGNAME) version.mk prepSrc.sh

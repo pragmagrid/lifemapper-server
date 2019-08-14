@@ -15,58 +15,51 @@
 	<changelog>
 	</changelog>
 
-	<package>flex</package>
+     <!-- RPM repos needed for postgresql,postgis,mapserver -->
+	<package>pgdg-centos96</package>
 
-        <!-- RPM repos needed for postgresql,postgis,mapserver -->
-	<package>pgdg-centos91</package>
-	<package>epel-release</package>
-
-	<!-- lifemapper dependencies -->
-	<package>giflib-devel</package>
-	<package>byacc</package>
-	<package>readline-devel</package>
-	<package>pakchois</package>
-	<package>neon</package>
-	<package>hdf4</package>
-	<package>hdf4-devel</package>
+	<!-- gdal prerequisites -->
+	<package>libaec</package>
+	<package>libaec-devel</package>
 	<package>hdf5</package>
 	<package>hdf5-devel</package>
-	<package>cmake</package>
-	<package>screen</package>
+		 
+	<!-- for pgbouncer, python2-psycopg2, from pgdg96 -->
+	<package>c-ares</package>
+	<package>postgresql10-libs</package>
+	<package>python2-psycopg2</package>     
+	<package>pgbouncer</package>
+
+	<!-- mapserver and prereq -->
+	<package>bitstream-vera-fonts-common</package>
+	<package>bitstream-vera-sans-fonts</package>
+	<package>postgresql-libs</package>
+
+	<package>opt-lifemapper-mapserver</package>
+
 	<package>lifemapper-cctools</package>
 	<package>lifemapper-cmd</package>
-	<package>lifemapper-proj</package>
-	<package>lifemapper-geos</package>
-	<package>lifemapper-gdal</package>
-	<package>lifemapper-tiff</package>
+	<package>lifemapper-libevent</package>
 	<package>lifemapper-solr</package>
 
 	<!-- python prerequisites -->
-	<!-- no opt-lifemapper-setuptools, needed for build, conflicts with install -->
-	<package>opt-lifemapper-coverage</package>
-	<package>opt-lifemapper-numexpr</package>
-	<package>opt-lifemapper-cython</package>
-	<package>opt-lifemapper-pytables</package>
+	<package>opt-lifemapper-cython</package>	
+	<package>opt-lifemapper-dendropy</package>	
 	<package>opt-lifemapper-egenix-mx-base</package>
-	<package>opt-lifemapper-psycopg2</package>
-	<package>opt-lifemapper-faulthandler</package>
+	<package>opt-lifemapper-idigbio</package>
+	<package>opt-lifemapper-pytest</package>
 	<package>opt-lifemapper-requests</package>
-	<package>opt-lifemapper-dendropy</package>
+	<package>opt-lifemapper-unicodecsv</package>
+
+	<!-- biotaphy connectors -->
+	<package>opt-lifemapper-biotaphy-otol</package>
+	<package>opt-lifemapper-idigbio</package>
 
 	<!-- lifemapper distro -->
 	<package>lifemapper-lmserver</package>
 	<package>lifemapper-webclient</package>
 	<package>rocks-lifemapper</package>
 	<package>roll-lifemapper-server-usersguide</package>
-
-	<!-- mapserver and prereq -->
-	<package>opt-lifemapper-mapserver </package>
-	<package>bitstream-vera-fonts-common</package>
-	<package>bitstream-vera-sans-fonts</package>
-	<package>fribidi</package>
-	<package>fcgi</package>
-	<package>postgresql91-libs</package>
-	<!-- removed mapserver, building from source for python mapscript -->
 
 	<!-- lifemapper data -->
 	<package>lifemapper-env-data</package>

@@ -60,7 +60,6 @@ RPM.ARCH = noarch
 
 REDHAT.ROOT = $(CURDIR)/../../
 
-# ENV_DATA_DIR also defined in LmServerCommon.common.lmconstants
 EXPORTDIR=$(subst share,state/partition1,$(DATADIR_SHARED))/$(ENV_DATA_DIR)
 
 -include $(ROCKSROOT)/etc/Rules.mk
@@ -77,6 +76,7 @@ SEDSPEC += \
         -e 's%@LMURL@%$(LMURL)%g' \
         -e 's%@LMHOME@%$(LMHOME)%g' \
         -e 's%@TNC_URL@%$(TNC_URL)%g' \
+        -e 's%@VERSION@%$(VERSION)%g' \
         -e 's%@ECOREGION_FILE@%$(ECOREGION_FILE)%g' \
         -e 's%@TARBALL_POSTFIX@%$(TARBALL_POSTFIX)%g'
 
@@ -95,7 +95,7 @@ build:
 
 install::
 	mkdir -p $(ROOT)/$(EXPORTDIR)
-	tar xzvf  $(SCENARIO_PACKAGE).$(TARBALL_POSTFIX) -C  $(ROOT)/$(EXPORTDIR)/
+	tar xzvf  $(SCENARIO_PACKAGE)-$(VERSION).$(TARBALL_POSTFIX) -C  $(ROOT)/$(EXPORTDIR)/
 	unzip     $(ECOREGION_FILE)                      -d  $(ROOT)/$(EXPORTDIR)/
 
 clean::

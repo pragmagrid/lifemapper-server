@@ -53,7 +53,7 @@
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 # 
 # @Copyright@
-#
+# https://files.pythonhosted.org/packages/df/d5/3e3ff673e8f3096921b3f1b79ce04b832e0100b4741573154b72b756a681/pytz-2019.1.tar.gz
 # $Log$
 
 
@@ -68,19 +68,38 @@ version.mk:
 
 PY.PATH = /opt/python/bin/$(PYTHONVER)
 
+SEDSPEC += \
+        -e 's%@ARCHIVENAME@%$(ARCHIVENAME)%g'  \
+        -e 's%@VERSION@%$(VERSION)%g'  \
+        -e 's%@TARBALL_POSTFIX@%$(TARBALL_POSTFIX)%g'
+
+prepSrc.sh: prepSrc.sh.in
+	$(SED) $(SEDSPEC) $^ > $@
+	chmod 755 $@
+
+prep: prepSrc.sh
+	rm -rf version.mk
+	make version.mk
+	make prepSrc.sh
+	./prepSrc.sh
+
 build:
-	unzip  $(ARCHIVENAME)-$(VERSION).zip
+	tar xzf  $(ARCHIVENAME)-$(VERSION).$(TARBALL_POSTFIX)
 	(\
 	    cd $(ARCHIVENAME)-$(VERSION);   \
+	    module load opt-python;			\
 	    $(PY.PATH) setup.py build;      \
+	    module unload opt-python;			\
 	)
 
 
 install::
 	(\
 	    cd $(ARCHIVENAME)-$(VERSION);   \
+	    module load opt-python;			\
 	    $(PY.PATH) setup.py $@ --root=$(ROOT)/; \
+	    module unload opt-python;			\
 	)
 
 clean::
-	rm -rf $(ARCHIVENAME)-$(VERSION) version.mk
+	rm -rf $(ARCHIVENAME)-$(VERSION) version.mk prepSrc.sh

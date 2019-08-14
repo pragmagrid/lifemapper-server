@@ -2,9 +2,10 @@
 
 set PYBIN=/opt/python/bin
 set LMBIN=@PKGROOT@/bin
+set CCBIN=@PKGROOT@/cctools/bin
 set PGSQLBIN=/usr/pgsql-@PGSQLVER@/bin
 
-set path = ( $PGSQLBIN $PYBIN $LMBIN $path )
+set path = ( $PGSQLBIN $PYBIN $LMBIN $CCBIN $path )
 setenv PYTHON $PYBIN/@PYTHONVER@
 
 setenv PYTHONPATH "@LMHOME@:@LMHOME@/LmClient/LmPython/lifemapper:@PKGROOT@"
@@ -15,7 +16,7 @@ setenv PROJ_LIB=@PKGROOT@/share/proj
 setenv PGHOST /var/run/postgresql
 
 setenv JAVA_TOOL_OPTIONS=-Xmx512m
-setenv  SOLR_JAVA_HOME /etc/alternatives/java_sdk
+setenv  SOLR_JAVA_HOME /etc/alternatives/java
 
 setenv LIFEMAPPER_SERVER_CONFIG_FILE @LMHOME@/config/config.lmserver.ini
 setenv LIFEMAPPER_SITE_CONFIG_FILE @LMHOME@/config/config.site.ini

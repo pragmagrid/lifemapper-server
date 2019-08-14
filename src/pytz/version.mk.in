@@ -1,4 +1,7 @@
-NAME = opt-lifemapper-pytz
-VERSION = 2017.2
-ARCHIVENAME = pytz
-RELEASE = 0
+NAME		= opt-lifemapper-pytz
+VERSION		= 2019.1
+ARCHIVENAME	= pytz
+RELEASE		= 0
+TARBALL_POSTFIX	= tar.gz
+
+RPM.FILES	= $(PYTHON27_PACKAGES)/*

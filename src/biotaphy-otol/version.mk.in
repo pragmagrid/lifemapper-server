@@ -1,0 +1,7 @@
+NAME			= opt-lifemapper-biotaphy-otol
+VERSION			= 0.2
+ARCHIVENAME		= ot_service_wrapper
+RELEASE			= 0
+TARBALL_POSTFIX = tar.gz
+
+RPM.FILES	= $(PYTHON27_PACKAGES)/*

@@ -34,7 +34,9 @@ class Baseconfig:
         self.role          = confconst.ROLE 
         self.roletempl     = confconst.ROLETEMPL
         self.unixSocketDir = confconst.UNIX_SOCKET_DIR
-        self.ip = None
+        self.ip            = None
+        self.network       = None
+        self.cidr          = None
         self.iface         = None        # need to establish for each host
         self.reconfigure   = False       # indicates if need to rerun configuration
 
@@ -162,12 +164,16 @@ class Baseconfig:
                 parts = line.split()
                 if parts[1]  == "Kickstart_PublicAddress": self.ip = parts[2]
                 if parts[1]  == "Kickstart_PublicNetwork": self.network = parts[2]
-                if parts[1]  == "Kickstart_PublicNetmaskCIDR": self.cidr = parts[2]
+                if parts[1]  == "Kickstart_PublicNetmask": netmask = parts[2]
                 if parts[1]  == "Kickstart_PublicInterface": self.iface = parts[2]
 
         if self.iface == None:
             print "Missing information about public interface "
             sys.exit(1)
+
+        if self.ip != None:
+           i = IP(self.ip).make_net(netmask)
+           subnet, self.cidr = (i.strNormal()).split('/')
 
         if self.ip == None or self.network == None or self.cidr == None:
             (self.ip, self.network, self.cidr ) = self.findIfaceVals(self.iface)
@@ -187,25 +193,43 @@ class Baseconfig:
         self.feCPUCount = cpuCount
         print "in base self.feCPUCount = %d" % self.feCPUCount
 
+    def findRocksVer(self):
+        """find Rocks version"""
+        cmd = "rocks list roll | grep base | awk '{print $2}'"
+        info, err = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()
+        tmp = info.strip()
+        ver = float(tmp)
+        return ver
+
     def findIfaceVals(self, iface):
-        """find ip, netmask, subnet, cidr, broadcast for a given interface. return as a tuple"""
+        """find ip, netmask, subnet, cidr for a given interface. return as a tuple"""
         __name__ = "findIfaceVals"
+        rocksver = findRocksVer()
 
-        cmd = '/sbin/ifconfig %s | grep Mask' % iface
-
+        cmd = '/sbin/ifconfig %s | grep -i mask' % iface
         info, err = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()
         if err: 
             print "/sbin/ifconfig returned error: %s" % err
         parts = info.split()
-        try:
-            tmp, ip = parts[1].split(':')
-            tmp, netmask = parts[3].split(':')
-        except:
-            print "ERROR: can't find information for %s interface" % iface
-            sys.exit(1)
+        
+        if rocksver < 7:
+            try:
+                tmp, ip = parts[1].split(':')
+                tmp, netmask = parts[3].split(':')
+            except:
+                print "ERROR: can't find information for %s interface" % iface
+                sys.exit(1)
+        else:
+            try:
+                ipidx = parts.index['inet']
+                ip = parts[ipidx+1]
+                mskidx = parts.index['netmask']
+                netmask = parts[mskidx+1]
+            except:
+                print "ERROR: can't find information for %s interface" % iface
+                sys.exit(1)
 
         i = IP(ip).make_net(netmask)
-        broadcast = i.broadcast().strNormal()
         subnet, cidr = (i.strNormal()).split('/')
 
         return (ip, subnet, cidr )

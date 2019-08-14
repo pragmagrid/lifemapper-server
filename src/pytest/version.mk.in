@@ -1,0 +1,7 @@
+NAME		= opt-lifemapper-pytest
+VERSION		= 4.6.4
+ARCHIVENAME = pytest
+RELEASE		= 0
+TARBALL_POSTFIX	= tar.gz
+
+RPM.FILES	= $(PYTHON27_PACKAGES)/*

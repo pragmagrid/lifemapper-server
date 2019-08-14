@@ -18,19 +18,16 @@
 	</changelog>
 
 	<package>lifemapper-mod_wsgi</package>
+	
 	<package>opt-lifemapper-six</package>
 	<package>opt-lifemapper-cheroot</package>
 	<package>opt-lifemapper-pytz</package>
 	<package>opt-lifemapper-tempora</package>
 	<package>opt-lifemapper-portend</package>
 	<package>opt-lifemapper-cherrypy</package>
-	<package>opt-lifemapper-rdflib</package>
-	<package>opt-lifemapper-isodate</package>
-	<package>opt-lifemapper-processing</package>
-	<package>java-1.8.0-openjdk-headless</package>
-	<package>java-1.8.0-openjdk</package>
-	<package>java-1.8.0-openjdk-devel</package>
 
+	<package>opt-lifemapper-processing</package>
+	
 <post>
 # check for attribute before setting
 attrWebserver=`/opt/rocks/bin/rocks list host attr localhost | /bin/grep LM_webserver | awk '{print $3}'`
@@ -56,7 +53,7 @@ fi
 
 </file>
 
-/sbin/service httpd restart
+/sbin/systemctl restart httpd.service
 
 </post>
 

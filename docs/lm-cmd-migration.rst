@@ -48,15 +48,15 @@ To be executed by root
      runs define_lm_database and add_lm_functions in rocks/bin/initLM
    * ``update``: create lifemapper tables, views, functions,
      runs update_lm_tables and add_lm_functions in rocks/bin/initLM
-   * ``populate``: insert metadata for archive data inputs, runs
-     rocks/bin/fillDB (options may be enabled for this script)
+   * ``populate``: insert metadata for public data inputs, runs
+     rocks/bin/catalogDefaultDataInputs (options may be enabled for this script)
  
 #. ``add cron jobs`` lm add cron compute/server
  
    * ``compute``: runs rocks/bin/installComputeCronJobs
    * ``server``: runs rocks/bin/installServerCronJobs
 
-#. ``update IP``: runs rocks/bin/updateIP and/or updateIP-compute depending lm update ip
+#. ``update config``: runs rocks/bin/updateCfg and/or updateCfg-compute depending lm update ip
    on which rolls are installed.
 #. ``build`` solr index  lm add index
 #. ``list`` : lists database contents, will create a script for these queries lm list X

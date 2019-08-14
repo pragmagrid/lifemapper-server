@@ -4,140 +4,234 @@
 #
 . /opt/rocks/share/devel/src/roll/etc/bootstrap-functions.sh
 
-(cd src/RPMS; 
-EPELREPO=epel-release-6-8.noarch.rpm
-wget  http://download-i2.fedoraproject.org/pub/epel/6/x86_64/$EPELREPO
-rpm -i $EPELREPO
-)
+# Add PGDG repo for Postgresql and geospatial libs
+# No opt-python for yum
+module unload opt-python
+yum install src/RPMS/screen-4.1.0-0.25.20120314git3c2946.el7.x86_64.rpm
+yum install src/RPMS/pgdg-centos96-9.6-3.noarch.rpm epel-release
+yum install cmake
+yum update
 
-# enable repo for postgresql and postgis2 rpms
-(cd src/RPMS; 
-PGDGREPO=pgdg-centos91-9.1-4.noarch.rpm
-wget http://yum.postgresql.org/9.1/redhat/rhel-6-x86_64/$PGDGREPO
-rpm -i $PGDGREPO
-)
+### do this only once for roll distro to keep known RPMS in the roll src
+#cd src/RPMS
+# yumdownloader --resolve --enablerepo base screen.x86_64
 
-#do this only once for roll distro to keep known RPMS in the roll src
-#(cd src/RPMS; 
-#wget ftp://ftp.pbone.net/mirror/atrpms.net/el6-x86_64/atrpms/stable/bitstream-vera-sans-fonts-1.10-18.el6.noarch.rpm; \
-#wget ftp://ftp.pbone.net/mirror/atrpms.net/el6-i386/atrpms/stable/bitstream-vera-fonts-common-1.10-18.el6.noarch.rpm; \
-### elgis repo is belly up
-#yumdownloader --resolve --enablerepo epel fcgi.x86_64; \
-#yumdownloader --resolve --enablerepo epel fribidi.x86_64; \
-#yumdownloader --resolve --enablerepo epel mapserver.x86_64; \
-#yumdownloader --resolve --enablerepo pgdg91 postgresql91.x86_64; \
-#yumdownloader --resolve --enablerepo pgdg91 postgresql91-devel.x86_64; \
-#yumdownloader --resolve --enablerepo pgdg91 postgresql91-server.x86_64; \
-#yumdownloader --resolve --enablerepo pgdg91 postgresql91-docs.x86_64; \
-#yumdownloader --resolve --enablerepo pgdg91 postgresql91-python.x86_64; \
-#yumdownloader --resolve --enablerepo base uuid.x86_64; \
-#yumdownloader --resolve --enablerepo pgdg91 postgresql91-contrib.x86_64; \
-#yumdownloader --resolve --enablerepo pgdg91 postgresql91-test.x86_64; \
-#yumdownloader --enablerepo pgdg91 pgbouncer.x86_64; \
-#yumdownloader --resolve --enablerepo base json-c.x86_64; \
-#yumdownloader --resolve --enablerepo pgdg91 postgis2_91.x86_64; \
-### hdf libs are in Rocks 6.2 repository 
-#yumdownloader --resolve hdf4.x86_64 hdf4-devel.x86_64; \
-#yumdownloader --resolve hdf5.x86_64 hdf5-devel.x86_64; \
-#yumdownloader --resolve --enablerepo base readline-devel.x86_64; \
-#yumdownloader --resolve --enablerepo base giflib-devel.x86_64; \
-#yumdownloader --resolve --enablerepo base byacc.x86_64; \
-#yumdownloader --resolve --enablerepo base neon.x86_64 pakchois.x86_64; \
-#yumdownloader --resolve --enablerepo base cmake.x86_64; \
-#yumdownloader --resolve --enablerepo base screen.x86_64; \
-#)
+# wget http://li.nux.ro/download/nux/dextop/el7/x86_64/bitstream-vera-fonts-common-1.10-19.el7.nux.noarch.rpm
+# wget http://li.nux.ro/download/nux/dextop/el7/x86_64/bitstream-vera-sans-fonts-1.10-19.el7.nux.noarch.rpm
+#
+## for postgresql9.6 and postgis2 rpms
+# wget https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-7-x86_64/pgdg-centos96-9.6-3.noarch.rpm
+#
+## for gdal
+# yumdownloader --resolve --enablerepo epel libaec.x86_64  libaec-devel.x86_64
+# yumdownloader --resolve --enablerepo epel hdf5.x86_64 hdf5-devel.x86_64
+## for postgis
+# yumdownloader --resolve --enablerepo epel proj.x86_64
+## for mapserver
+# yumdownloader --resolve --enablerepo base giflib-devel.x86_64
+#
+# pgbouncer, retrieves deps python2-pyscopg2, postgresql10-libs
+# yumdownloader --resolve --enablerepo=pgdg96 pgbouncer
+#
+## Add PostgreSQL 9.6, devel, server, python
+# yumdownloader --resolve --enablerepo=pgdg96 postgresql96
+# yumdownloader --resolve --enablerepo=pgdg96 postgresql96-server 
+# yumdownloader --resolve --enablerepo=pgdg96 postgresql96-contrib 
+# yumdownloader --resolve --enablerepo=pgdg96 postgresql96-devel 
+# yumdownloader --resolve --enablerepo=pgdg96 postgresql96-plpython
+#
+#
+## Add postgis 
+# yumdownloader --resolve --enablerepo=pgdg96 boost-serialization-1.53.0-27.el7.x86_64.rpm
+# for gdal-libs
+# yumdownloader --resolve --enablerepo=epel libdap libdap-devel
+# yumdownloader --resolve --enablerepo=epel CharLS CharLS-devel 
+# yumdownloader --resolve --enablerepo=epel cfitsio cfitsio-devel
+# yumdownloader --resolve --enablerepo=epel freexl freexl-devel
+# yumdownloader --resolve --enablerepo=epel libgta libgta-devel
+# yumdownloader --resolve --enablerepo=epel netcdf netcdf-devel
+# yumdownloader --resolve --enablerepo=epel openjpeg2 openjpeg2-devel openjpeg2-tools
+## armadillo brings arpack, SuperLU, openblas-openmp
+# yumdownloader --resolve --enablerepo epel  armadillo
 
-# add dynamic libs
-echo "/usr/java/latest/jre/lib/amd64" > /etc/ld.so.conf.d/lifemapper-server.conf
-echo "/usr/java/latest/jre/lib/amd64/server" >> /etc/ld.so.conf.d/lifemapper-server.conf
-echo "/opt/lifemapper/lib" >> /etc/ld.so.conf.d/lifemapper-server.conf
-echo "/opt/python/lib/" >> /etc/ld.so.conf.d/lifemapper-server.conf
-echo "/opt/rocks/fcgi/lib" >> /etc/ld.so.conf.d/lifemapper-server.conf
-/sbin/ldconfig
+# yumdownloader --resolve --enablerepo=pgdg96 postgis2_96
+#
+## Add postgresql-python connector
+# yumdownloader --resolve --enablerepo=pgdg96 python2_psycopg2.x86_64
 
-rpm -i src/RPMS/screen*rpm
+## Add pgbouncer from PGDG and dependency c-ares from epel and base repos
+## Must download AND INSTALL c-ares before downloading pgbouncer
+# yumdownloader --resolve --enablerepo=base c-ares.x86_64
+# yumdownloader --resolve --enablerepo=base c-ares-devel.x86_64
+# yumdownloader --resolve --enablerepo=pgdg96 pgbouncer
+#
+# for gdal
+rpm -i src/RPMS/libaec-1.0.4-1.el7.x86_64.rpm
+rpm -i src/RPMS/libaec-devel-1.0.4-1.el7.x86_64.rpm
+rpm -i src/RPMS/hdf5-1.8.12-10.el7.x86_64.rpm
+rpm -i src/RPMS/hdf5-devel-1.8.12-10.el7.x86_64.rpm
 
-# for compiling 
-yum --enablerepo base install cmake
+# for pgbouncer
+rpm -i src/RPMS/c-ares-1.10.0-3.el7.x86_64.rpm
+rpm -i src/RPMS/c-ares-devel-1.10.0-3.el7.x86_64.rpm
+
+# for gdal-libs (for postgis) WTF?
+# rpm -i src/RPMS/libgeotiff-1.4.0-1.rhel7.1.x86_64.rpm
+# rpm -i src/RPMS/ogdi-3.2.0-4.rhel7.1.x86_64.rpm
+# rpm -i src/RPMS/unixODBC-2.3.1-11.el7.x86_64.rpm
+# rpm -i src/RPMS/xerces-c-3.1.1-8.el7_2.x86_64.rpm
+# rpm -i src/RPMS/libdap-3.13.1-2.el7.x86_64.rpm
+# rpm -i src/RPMS/libdap-devel-3.13.1-2.el7.x86_64.rpm
+# rpm -i src/RPMS/CharLS-1.0-5.el7.x86_64.rpm
+# rpm -i src/RPMS/CharLS-devel-1.0-5.el7.x86_64.rpm
+# rpm -i src/RPMS/cfitsio-3.370-10.el7.x86_64.rpm
+# rpm -i src/RPMS/cfitsio-devel-3.370-10.el7.x86_64.rpm
+# rpm -i src/RPMS/freexl-1.0.5-1.el7.x86_64.rpm
+# rpm -i src/RPMS/freexl-devel-1.0.5-1.el7.x86_64.rpm
+# rpm -i src/RPMS/netcdf-4.3.3.1-5.el7.x86_64.rpm
+# rpm -i src/RPMS/netcdf-devel-4.3.3.1-5.el7.x86_64.rpm
+# rpm -i src/RPMS/openjpeg2-2.3.1-1.el7.x86_64.rpm
+# rpm -i src/RPMS/openjpeg2-tools-2.3.1-1.el7.x86_64.rpm
+# rpm -i src/RPMS/openjpeg2-devel-2.3.1-1.el7.x86_64.rpm
+# rpm -i src/RPMS/libgta-1.0.4-1.el7.x86_64.rpm
+# rpm -i src/RPMS/libgta-devel-1.0.4-1.el7.x86_64.rpm
+# 
+# rpm -i src/RPMS/SuperLU-5.2.0-5.el7.x86_64.rpm
+# rpm -i src/RPMS/arpack-3.1.3-2.el7.x86_64.rpm
+# rpm -i src/RPMS/openblas-openmp-0.3.3-2.el7.x86_64.rpm
+# rpm -i src/RPMS/armadillo-8.300.0-1.el7.x86_64.rpm
+# 
+# rpm -i src/RPMS/gdal-libs-1.11.4-12.rhel7.x86_64.rpm
+# 
+# 
+# # rpm -i src/RPMS/boost-serialization-1.53.0-27.el7.x86_64.rpm     
+# rpm -i src/RPMS/unixODBC-2.3.1-11.el7.x86_64.rpm     
+# rpm -i src/RPMS/xerces-c-3.1.1-8.el7_2.x86_64.rpm     
+rpm -i src/RPMS/proj-4.8.0-4.el7.x86_64.rpm
 
 # for mapserver
+module unload opt-python
+# gd-devel pulls libXpm-devel also
+yum --enablerepo base install gd-devel
+rpm -i src/RPMS/bitstream-vera-fonts-common-1.10-19.el7.nux.noarch.rpm
+rpm -i src/RPMS/bitstream-vera-sans-fonts-1.10-19.el7.nux.noarch.rpm
+rpm -i src/RPMS/giflib-devel-4.1.6-9.el7.x86_64.rpm
+
+# add dynamic libs
+echo "/etc/alternatives/jre/lib/amd64" > /etc/ld.so.conf.d/lifemapper-server.conf
+echo "/etc/alternatives/jre/lib/amd64/server" >> /etc/ld.so.conf.d/lifemapper-server.conf
+echo "/opt/lifemapper/lib" >> /etc/ld.so.conf.d/lifemapper-server.conf
+echo "/opt/python/lib/" >> /etc/ld.so.conf.d/lifemapper-server.conf
+# echo "/opt/rocks/fcgi/lib" >> /etc/ld.so.conf.d/lifemapper-server.conf
+/sbin/ldconfig
+
+# install proj, tiff, geos for gdal
+cd src/proj
+make prep
+cd ../..
 compile proj
 install lifemapper-proj
-yum --enablerepo base install gd-devel
-rpm -i src/RPMS/bitstream-vera-fonts-common-1.10-18.el6.noarch.rpm
-rpm -i src/RPMS/bitstream-vera-sans-fonts-1.10-18.el6.noarch.rpm
-rpm -i src/RPMS/giflib-devel-4.1.6-3.1.el6.x86_64.rpm
+/sbin/ldconfig
 
-# for mysql-python, rtree, cherrypy
-# setuptools 6.1, included in python roll
-# setuptools 20.7, needed for cherrypy build (on devapp, not in LM install)
-compile setuptools
-install opt-lifemapper-setuptools
+cd src/tiff
+make prep
+cd ../..
+compile tiff
+install lifemapper-tiff
+/sbin/ldconfig
 
-# for cherrypy
-# cheroot requires six
-# tempora requires six, pytz
-# portend requires tempora
-# cherrypy requires six, cheroot>=5.2.0, portend>=1.6.1
-compile six
-install opt-lifemapper-six
-compile cheroot
-install opt-lifemapper-cheroot
-compile pytz
-install opt-lifemapper-pytz
-compile tempora
-install opt-lifemapper-tempora
-compile portend
-install opt-lifemapper-portend
-
-# for pytables 
-compile cython 
-install opt-lifemapper-cython 
-compile numexpr 
-install opt-lifemapper-numexpr 
-rpm -i src/RPMS/hdf5*rpm
-
-# meed for gdal
+cd src/geos
+make prep
+cd ../..
 compile geos
 install lifemapper-geos
 /sbin/ldconfig
 
-# meed for psycopg2
+cd src/gdal
+make prep
+cd ../..
+module load opt-python
 compile gdal
+module unload opt-python
 install lifemapper-gdal
 /sbin/ldconfig
 
-# for rtree
-compile spatialindex
-install lifemapper-spatialindex
+# # install other deps for postgis2_96
+# rpm -i src/RPMS/proj49-4.9.3-3.rhel7.1.x86_64.rpm     
+# rpm -i src/RPMS/postgresql96-libs-9.6.15-1PGDG.rhel7.x86_64.rpm     
+# rpm -i src/RPMS/proj-4.8.0-2.rhel7.x86_64.rpm     
+# rpm -i src/RPMS/postgresql96-9.6.15-1PGDG.rhel7.x86_64.rpm
+      
+
+# TODO: Upgrade cherrypy to 17.4.2 and prepSrc on it and dependencies
+# cherrypy 17.4.2 requires six>=1.11.0, cheroot>=6.2.4, portend>=2.1.1
+# cherrypy 10.2.1 requires six, cheroot>=5.2.0, portend>=1.6.1
+# cheroot requires six
+# portend requires tempora requires six, pytz
+cd src/six
+make prep
+cd ../..
+module load opt-python
+compile six
+module unload opt-python
+install opt-lifemapper-six
 /sbin/ldconfig
 
-# for postgis
-yum --enablerepo base install json-c 
+cd src/cheroot
+make prep
+cd ../..
+module load opt-python
+compile cheroot
+module unload opt-python
+install opt-lifemapper-cheroot
 /sbin/ldconfig
-yum --enablerepo=base,updates update json-c
+
+cd src/pytz
+make prep
+cd ../..
+module load opt-python
+compile pytz
+module unload opt-python
+install opt-lifemapper-pytz
+/sbin/ldconfig
+
+cd src/tempora
+make prep
+cd ../..
+module load opt-python
+compile tempora
+module unload opt-python
+install opt-lifemapper-tempora
+/sbin/ldconfig
+
+cd src/portend
+make prep
+cd ../..
+module load opt-python
+compile portend
+module unload opt-python
+install opt-lifemapper-portend
 /sbin/ldconfig
 
 # install postgresql
-yum --enablerepo base update openssl
-yum install postgresql91
-yum install postgresql91-devel
+# yum --enablerepo base update openssl
+rpm -i src/RPMS/postgresql96-libs-9.6.15-1PGDG.rhel7.x86_64
+rpm -i src/RPMS/postgresql96-9.6.15-1PGDG.rhel7.x86_64
+rpm -i src/RPMS/postgresql96-devel-9.6.15-1PGDG.rhel7.x86_64
 
-echo "You will need to checkout Lifemapper src from Github:"
-echo "    cd src/lmserver"
-echo "    make prep "
-echo "then download data from Lifemapper:"
-echo "    cd src/lmdata-env"
-echo "    make prep "
-echo "    cd src/lmdata-species"
-echo "    make prep "
-echo "then download Solr source code:"
-echo "    cd src/solr"
-echo "    make prep "
-echo "finally download CCTools source code:"
-echo "    cd src/cctools"
-echo "    make prep "
-echo "and DendroPy source code:"
-echo "    cd src/dendropy"
-echo "    make prep "
+# Leave with opt-python loaded
+module load opt-python
+
+
+echo "You will need to download source code, data and dependencies."
+echo "    lmserver"
+echo "    webclient"
+echo "    lmdata-env"
+echo "    lmdata-image"
+echo "    lmdata-species"
+echo "    solr"
+echo "    cctools"
+echo "    dendropy"
+echo "Go to each of the packages and execute:"
+echo "    make prep"
 

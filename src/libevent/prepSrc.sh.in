@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# Purpose: Fetch CherryPy source
+DL_URL=https://github.com/libevent/libevent/releases/download/release-2.1.10-stable
+DL_PKG=@PKGNAME@.@TARBALL_POSTFIX@
+libevent-2.1.10-stable.tar.gz
+get_source_files () {
+  echo "Fetch CherryPy source code"
+  wget "$DL_URL/$DL_PKG"
+}
+
+### main ###
+get_source_files

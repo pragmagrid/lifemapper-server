@@ -1,8 +1,18 @@
-/state/partition1/lmscratch/log/apache/lifemapper_* {
+/state/partition1/lmscratch/log/apache/lifemapper_access {
+       rotate 4
+       weekly
+       compress
+       missingok
+       notifempty
+       copytruncate
+}
+/state/partition1/lmscratch/log/apache/lifemapper_error {
        weekly
        missingok
        copytruncate
-       dateext
        rotate 4
        compress
+       notifempty
 }
+
+

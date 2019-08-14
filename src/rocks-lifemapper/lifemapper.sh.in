@@ -2,9 +2,10 @@
 
 PYBIN=/opt/python/bin
 LMBIN=@PKGROOT@/bin
+CCBIN=@PKGROOT@/cctools/bin
 PGSQLBIN=/usr/pgsql-@PGSQLVER@/bin
 
-export PATH=$PGSQLBIN:$PYBIN:$LMBIN:$PATH
+export PATH=$PGSQLBIN:$PYBIN:$LMBIN:$CCBIN:$PATH
 export PYTHON=$PYBIN/@PYTHONVER@
 
 export PYTHONPATH=@LMHOME@:@LMHOME@/LmClient/LmPython/lifemapper:@PKGROOT@
@@ -15,7 +16,7 @@ export PROJ_LIB=@PKGROOT@/share/proj
 export PGHOST=/var/run/postgresql
 
 export JAVA_TOOL_OPTIONS=-Xmx512m
-export  SOLR_JAVA_HOME=/etc/alternatives/java_sdk
+export  SOLR_JAVA_HOME=/etc/alternatives/java
 
 export LIFEMAPPER_SERVER_CONFIG_FILE=@LMHOME@/config/config.lmserver.ini
 export LIFEMAPPER_SITE_CONFIG_FILE=@LMHOME@/config/config.site.ini

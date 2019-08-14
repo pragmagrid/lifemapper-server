@@ -84,13 +84,17 @@ build:
 	tar xzf  $(ARCHIVENAME)-$(VERSION).tar.gz 
 	(\
 	    cd $(ARCHIVENAME)-$(VERSION);   \
-	    $(PY.PATH) setup.py build;      \
+	    module load opt-python;			\
+	    $(PY.PATH) setup.py build;		\
+	    module unload opt-python;		\
 	)
 
 install::
 	(\
 	    cd $(ARCHIVENAME)-$(VERSION);   \
+	    module load opt-python;			\
 	    $(PY.PATH) setup.py $@ --root=$(ROOT)/; \
+	    module unload opt-python;			\
 	)
 
 clean::

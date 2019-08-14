@@ -1,5 +1,9 @@
 NAME        	= lifemapper-libevent
 ARCHIVENAME     = libevent
-VERSION     	= 2.0.21
-RELEASE 	= 0
+PKGNAME         = $(ARCHIVENAME)-$(VERSION)-stable
+VERSION     	= 2.1.10
+RELEASE			= 0
 TARBALL_POSTFIX	= tar.gz
+
+RPM.FILES		= $(PKGROOT)/*
+

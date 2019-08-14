@@ -60,14 +60,13 @@ REDHAT.ROOT = $(CURDIR)/../../
 -include $(ROCKSROOT)/etc/Rules.mk
 include Rules.mk
 
-PY.PATH = /opt/python
-PERL.PATH = /opt/perl
-
 version.mk:
 	cat ../version.mk version.mk.in > version.mk
 
+
 SEDSPEC += \
         -e 's%@ARCHIVENAME@%$(ARCHIVENAME)%g'  \
+        -e 's%@PKGNAME@%$(PKGNAME)%g'  \
         -e 's%@TARBALL_POSTFIX@%$(TARBALL_POSTFIX)%g'
 
 prepSrc.sh: prepSrc.sh.in
@@ -80,23 +79,26 @@ prep: prepSrc.sh
 	make prepSrc.sh
 	./prepSrc.sh
 
-build:
-	$(TAR) -xzvf $(ARCHIVENAME).$(TARBALL_POSTFIX) 
-	( 									\
-		cd $(ARCHIVENAME);						\
-		export PYTHON=$(PYTHON27);             				\
-		./configure   --with-python-path $(PY.PATH) --prefix=$(PKGROOT);\
+build: version.mk
+	tar xzvf  $(PKGNAME).$(TARBALL_POSTFIX) 
+	(\
+	    cd $(PKGNAME);				  	\
+		export PATH=$(PKGROOT)/bin:$(PATH);	\
+	    module load opt-python;				\
+		./configure --prefix=$(PKGROOT)/$(ARCHIVENAME);	\
 		$(MAKE);							\
+	    module unload opt-python;			\
 	)
-	
+
 install::
-	mkdir -p $(ROOT)/$(PKGROOT)
-	(														\
-		cd $(ARCHIVENAME);											\
-		export PYTHON=$(PY.PATH);             									\
-		export PATH=$(PKGROOT)/bin:$(PATH);									\
-		$(MAKE) CCTOOLS_INSTALL_DIR=$(ROOT)/$(PKGROOT) CCTOOLS_PYTHON_PATH=$(ROOT)/$(PYTHON27_PACKAGES) install;\
+	mkdir -p $(ROOT)/$(PKGROOT)/$(ARCHIVENAME)
+	(\
+	    cd $(PKGNAME);  				\
+	    module load opt-python;				\
+	    export PATH=$(PKGROOT)/bin:$(PATH);	\
+	    $(MAKE) CCTOOLS_INSTALL_DIR=$(ROOT)/$(PKGROOT)/$(ARCHIVENAME) CCTOOLS_PYTHON_PATH=$(ROOT)/$(PYTHON27_PACKAGES) install;\
+	    module unload opt-python;			\
 	)
 
 clean::
-	rm -rf $(ARCHIVENAME) version.mk prepSrc.sh
+	rm -rf $(PKGNAME) version.mk prepSrc.sh 

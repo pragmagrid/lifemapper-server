@@ -1,10 +1,10 @@
 NAME            = lifemapper-cctools
-VERSION         = 6.2.2
-ARCHIVENAME     = cctools-$(VERSION)-source
+VERSION         = 7.0.15
+ARCHIVENAME     = cctools
+PKGNAME         = $(ARCHIVENAME)-$(VERSION)-source
 RELEASE         = 0
 TARBALL_POSTFIX	= tar.gz
 
-PYTHON27	= /opt/python/bin/python2.7
-PYTHON27_PACKAGES = /opt/python/lib/python2.7/site-packages
-
 RPM.EXTRAS = "AutoReq: no"
+
+RPM.FILES = $(PKGROOT)/$(ARCHIVENAME)/  

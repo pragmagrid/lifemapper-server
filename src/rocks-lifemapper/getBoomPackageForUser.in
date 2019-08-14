@@ -1,0 +1,316 @@
+#!/bin/bash
+#
+# This script downloads a boom data package, containing an occurrence package, 
+# and a BOOM parameter file.  It optionally contains a 
+# tree in Nexus format and a compressed file of biogeographic hypotheses. 
+# The script also downloads the named scenario data package (if it is not 
+# present), containing scenario metadata, and raster files, and transforms data 
+# into mxe format for Maxent modeling. It uncompresses and places data in the 
+# correct directories.
+#
+# The scenario download/transform functions in this script are also included in 
+# getScenarioPackageForUser
+#
+# The script can be run at any time to download and install boom data, 
+# environmental data.
+
+usage () 
+{
+    echo "Usage: $0 <BOOM_PACKAGE_NAME>  <USER_ID>"
+    echo "This script is run on an existing lifemapper-server installation. "
+    echo "It will:"
+    echo "     - download the BOOM_PACKAGE_NAME data into the "
+    echo "       @LMSCRATCHDISK@/temp directory, then "
+    echo "     - install species, tree, and hypotheses data into the "
+    echo "       @DATADIR_SHARED@/archive/<user> directory"
+    echo "     - identify then download scenario data (if missing) into the "
+    echo "       @DATADIR_SHARED@/layers directory, and transform layerb data"
+    echo "       into mxe format for Maxent modeling"
+    echo "   "
+    echo "The script can be run at any time to download and install data for"
+    echo "a BOOM run."
+    echo "   "
+}
+
+set_defaults() {
+    BOOM_PKG=$1
+    THIS_USER=$2
+    LMURL=@LMURL@
+    THISNAME=`/bin/basename $0`
+    
+    /bin/egrep -i "^lmwriter" /etc/passwd
+    if [ $? -ne 0 ]; then
+        echo "Error: user lmwriter does not exist" | tee -a $LOG
+        exit 1
+    fi    
+
+    LOG=@LMSCRATCHDISK@/log/$THISNAME.log
+    # Append to existing logfile
+    touch $LOG
+    
+    TEMP_DIR=@LMSCRATCHDISK@/temp
+    USER_DIR=@DATADIR_SHARED@/archive/$THIS_USER
+    CLIMATE_DIR=@DATADIR_SHARED@/@ENV_DATA_DIR@
+    
+    # Python and python/bash scripts
+    PYBIN=/opt/python/bin/@PYTHONVER@
+    module load opt-python
+    BOOM_POPULATE=@LMHOME@/rocks/bin/initWorkflow
+    TRANSFORMPY=@LMHOME@/LmBackend/tools/convert_layers_in_package.py
+    
+    # *_PKG variables are file basenames, no path or file extension
+    BOOM_PKG_FILE=$TEMP_DIR/$BOOM_PKG.@TARBALL_POSTFIX@
+    BOOM_CONTENTS_FILE=$TEMP_DIR/$BOOM_PKG.contents
+}
+
+
+### Retrieve boom package named in BOOM_PKG
+pull_boom_package () {
+    # find metadata file BOOM_PKG.contents
+    if [ -f $BOOM_CONTENTS_FILE ]; then
+        echo "Test metadata $BOOM_CONTENTS_FILE already present" | tee -a $LOG
+    else  
+        echo "Fetch test data into $BOOM_PKG_FILE" | tee -a $LOG
+        curl -L "$LMURL/$BOOM_PKG.@TARBALL_POSTFIX@" -o $BOOM_PKG_FILE 
+  
+        # uncompress 
+        if [ -f $BOOM_PKG_FILE ]; then
+            tar xzf $BOOM_PKG_FILE -C $TEMP_DIR/
+            rm -f $BOOM_PKG_FILE 
+        else
+            echo "Failed to retrieve $BOOM_PKG_FILE ..." | tee -a $LOG
+            exit 1
+        fi
+    fi     
+}
+
+### Read data file names from test package metadata
+read_boom_datanames () {
+    # Required keywords/values
+    #    BOOM_PARAMETER_FILE initial boom parameters (<BOOM_PKG>.params)
+    # Optional keywords/values
+    #    SPECIES_PACKAGE species occurrences (tar.gz file)
+    #    BIOGEO_PACKAGE biogeographic hypotheses (without .tar.gz extension)
+    #    TREE_FILE  tree file (<tree>.nex file)
+    BOOM_PARAM_BASENAME=`grep -i BOOM_PARAMETER_FILE $BOOM_CONTENTS_FILE | grep -v ';' | awk '{print $2}'`
+
+    echo "Var BOOM_PARAM_BASENAME = $BOOM_PARAM_BASENAME" | tee -a $LOG       
+
+    # Optional data
+    POINT_PKG=`grep -i SPECIES_PACKAGE $BOOM_CONTENTS_FILE | grep -v ';' | awk '{print $2}'`
+    TREE_BASENAME=`grep -i TREE_FILE $BOOM_CONTENTS_FILE | grep -v ';' | awk '{print $2}'`
+    BIOGEO_PKG=`grep -i BIOGEO_PACKAGE $BOOM_CONTENTS_FILE | grep -v ';' | awk '{print $2}'`
+
+    echo "    POINT_PKG = $POINT_PKG" | tee -a $LOG
+    echo "    TREE_BASENAME = $TREE_BASENAME" | tee -a $LOG       
+    echo "    BIOGEO_PKG = $BIOGEO_PKG" | tee -a $LOG
+
+    TEMP_PARAM_FILE=$TEMP_DIR/$BOOM_PARAM_BASENAME
+    # Read Params 
+    BOOM_ARCHIVE=`grep -i ARCHIVE_NAME $TEMP_PARAM_FILE | grep -v ';' | awk '{print $2}'`
+    SCEN_PKG=`grep -i SCENARIO_PACKAGE $TEMP_PARAM_FILE | grep -v ';' | awk '{print $2}'`
+    SCEN_META_FILE=@DATADIR_SHARED@/@ENV_DATA_DIR@/$SCEN_PKG.py
+}
+
+### Replace ARCHIVE_USER in BOOM parameter file and create user directory
+set_user_and_directory () {
+	 # Replace default Boom user name with userId argument
+    if [ -f $TEMP_PARAM_FILE ]; then
+        echo "REPLACE ARCHIVE_USER with $THIS_USER in $TEMP_PARAM_FILE" | tee -a $LOG
+        DEF_USER=`grep -in "^ARCHIVE_USER" $TEMP_PARAM_FILE | grep -vi EMAIL | awk '{print $2}'`
+        TMP=`grep -in "^ARCHIVE_USER" $TEMP_PARAM_FILE | grep -vi EMAIL | awk '{print $1}'`
+        LNUM=${TMP%%:*}
+        
+        sed -i "${LNUM}s%$DEF_USER%$THIS_USER%"  $TEMP_PARAM_FILE
+    else 
+        echo "Failed to find $TEMP_PARAM_FILE" | tee -a $LOG
+        exit 1
+    fi
+
+	 # Find or create the user Boom data directory
+    if [ -d $USER_DIR ]; then
+        echo "ARCHIVE_USER data directory $USER_DIR already exists" | tee -a $LOG
+    else 
+        echo "Create data directory $USER_DIR" | tee -a $LOG
+        /bin/mkdir $USER_DIR 
+        fix_permissions $USER_DIR 
+    fi
+    
+    # Set User data filenames
+    POINT_META_FILE=$USER_DIR/$POINT_PKG.json
+}
+
+
+### Move species data named in POINT_PKG (bison pulls dynamically)
+install_param_file () {
+    # find parameter file
+    echo "Move boom parameter file into $USER_DIR" | tee -a $LOG
+    if [ -f $TEMP_PARAM_FILE ]; then
+        cp -p $TEMP_PARAM_FILE $USER_DIR/
+        rm -f $TEMP_PARAM_FILE
+
+    else
+        echo "Failed to find $TEMP_PARAM_FILE ..." | tee -a $LOG
+        exit 1
+    fi
+}
+
+### Move species data named in POINT_PKG (bison pulls dynamically)
+install_occ_data () {
+    # find metadata file pkgname.py
+    if [ -z ${POINT_PKG} ]; then
+        echo "No point data" | tee -a $LOG
+    # already exists
+    elif [ -f $POINT_META_FILE ]; then
+        echo "Point metadata $POINT_META_FILE already present" | tee -a $LOG
+        rm -f $TEMP_DIR/$POINT_PKG.@TARBALL_POSTFIX@ 
+    # uncompress
+    elif [ -f $TEMP_DIR/$POINT_PKG.@TARBALL_POSTFIX@ ]; then
+        echo "Uncompress point data into $USER_DIR" | tee -a $LOG
+        tar xzf $TEMP_DIR/$POINT_PKG.@TARBALL_POSTFIX@ -C $USER_DIR/
+        rm -f $TEMP_DIR/$POINT_PKG.@TARBALL_POSTFIX@ 
+    else
+        echo "Failed to find $POINT_PKG ..." | tee -a $LOG
+        exit 1
+    fi
+}
+
+
+### Move optional tree named in TREE_BASENAME to user dir
+install_tree_data () {
+    # if tree file exists, move to User dir
+    if [ -z ${TREE_BASENAME} ]; then
+        echo "No tree data" | tee -a $LOG
+    else
+        echo "Move tree data into $USER_DIR" | tee -a $LOG
+        if [ -f $TEMP_DIR/$TREE_BASENAME ]; then
+            cp -p $TEMP_DIR/$TREE_BASENAME $USER_DIR/
+            rm -f $TEMP_DIR/$TREE_BASENAME
+        else
+            echo "Failed to find $TREE_BASENAME ..." | tee -a $LOG
+        fi
+    fi
+}
+
+### Move optional biogeographic hypotheses named in BIOGEO_PKG to User dir
+install_hypotheses_data () {
+    # if biogeographic hypotheses package exists, move to User dir
+    if [ -z ${BIOGEO_PKG} ]; then
+        echo "No biogeographic hypotheses" | tee -a $LOG
+    else
+        echo "Uncompress biogeographic data into $USER_DIR" | tee -a $LOG
+        if [ -f $TEMP_DIR/$BIOGEO_PKG.@TARBALL_POSTFIX@ ]; then
+            tar xzf $TEMP_DIR/$BIOGEO_PKG.@TARBALL_POSTFIX@ -C $USER_DIR/
+            rm -f $TEMP_DIR/$BIOGEO_PKG.@TARBALL_POSTFIX@
+        else
+            echo "Failed to find $BIOGEO_PKG ..." | tee -a $LOG
+        fi
+    fi
+}
+
+### Fix THIS_ITEM (file or directory) to group lmwriter with write permission 
+fix_permissions () {
+	THIS_ITEM=$1
+
+	# Change group write for item
+    /bin/chgrp -R lmwriter $THIS_ITEM
+
+	# Check permissions
+	perm=$(stat -c %a "$THIS_ITEM")
+	len=${#perm}
+	if [[ "$len" = 3 ]]; then 
+		gwperm=`echo ${perm:1:1}`
+	else 
+		gwperm=`echo ${perm:2:1}` 
+	fi
+    
+	# Allow group write for file or dir 
+    if [[ $gwperm = 7 ]]; then 
+    	echo 'Group write permission is correctly set'; 
+    else 
+        if [ -d $THIS_ITEM ]; then
+            echo "Set group write permission recursively on $THIS_ITEM dir"   | tee -a $LOG
+            /bin/chmod -R g+ws   $THIS_ITEM
+        elif [ -f $THIS_ITEM ]; then
+            echo "Set group write permission on $THIS_ITEM file"   | tee -a $LOG
+            /bin/chmod g+w  $THIS_ITEM
+        fi    
+    fi
+}
+
+
+### Remove temporary package contents file, set group and write perm for new files
+cleanup () {
+    echo "Cleanup files in $TEMP_DIR"   | tee -a $LOG
+    rm -f $BOOM_CONTENTS_FILE
+
+    /bin/chgrp lmwriter $USER_DIR/*
+    /bin/chmod g+w      $USER_DIR/*
+}
+
+
+findget_scen_data () {
+    if [ -f $SCEN_META_FILE ]; then
+	    echo "$SCEN_META_FILE metadata are present for this archive"    | tee -a $LOG
+	else
+	    echo "Get and convert layers in $SCEN_PKG for $THIS_USER" | tee -a $LOG
+	    @LMHOME@/rocks/bin/getScenPackageForUser $SCEN_PKG $THIS_USER   | tee -a $LOG
+	fi
+}
+
+### Create ASCII and MXE layers from TIFFs
+# Not needed, getScenPackageForUser transforms layers also
+transform_layers () {
+    if [ -f $TRANSFORMPY ] ; then
+	    NEW_CLIMATE_DIR=$CLIMATE_DIR/$SCEN_PKG      
+        echo "Convert layers in $NEW_CLIMATE_DIR to ascii and mxe ..." | tee -a $LOG
+        $PYBIN $TRANSFORMPY $NEW_CLIMATE_DIR 2>&1 | tee -a $LOG
+    else
+        echo "Error: Missing file $TRANSFORMPY" | tee -a $LOG
+        exit 1
+    fi
+}
+
+
+instruct_user () {
+    echo ""   | tee -a $LOG
+    echo "*****************"   | tee -a $LOG
+    echo "This script installed data in $BOOM_PKG for User $THIS_USER, Archive $BOOM_ARCHIVE"   | tee -a $LOG
+    echo "*****************"   | tee -a $LOG
+    echo ""   | tee -a $LOG
+    echo ""   | tee -a $LOG
+    echo ""   | tee -a $LOG
+    echo ""   | tee -a $LOG
+    
+    echo "*****************"   | tee -a $LOG
+    echo "Next, catalog input data for BOOM computations with"   | tee -a $LOG
+    echo "   $BOOM_POPULATE $USER_DIR/$BOOM_PARAM_BASENAME"   | tee -a $LOG
+    echo "*****************"   | tee -a $LOG
+}
+
+TimeStamp () {
+    echo $1 `/bin/date` >> $LOG
+}
+
+####### Main #######
+if [ $# -ne 2 ]; then
+    usage
+    exit 0
+fi 
+
+set_defaults $1 $2
+TimeStamp "# Start"
+
+pull_boom_package
+read_boom_datanames
+findget_scen_data
+#transform_layers
+set_user_and_directory 
+install_param_file
+install_occ_data
+install_tree_data
+install_hypotheses_data
+instruct_user
+cleanup
+
+TimeStamp "# End"

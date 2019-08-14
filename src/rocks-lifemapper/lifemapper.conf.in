@@ -20,7 +20,7 @@ LoadModule status_module modules/mod_status.so
 
 # Enable MapServer debugging
 SetEnv MS_ERRORFILE "@MAPSERVER_TMP@/mapserver_error.txt"
-SetEnv MS_DEBUGLEVEL 5
+SetEnv MS_DEBUGLEVEL 2
 
 # Custom logs
 LogLevel debug
@@ -37,6 +37,13 @@ SetEnv PROJ_LIB "@LMHOME@/share/proj"
  
 # Root for lifemapper content
 RewriteEngine on
+
+# On KU Only: redirect any requests to (svc|yeti).lifemapper.org 
+#             to client.lifemapper.org 
+# RewriteCond %{HTTP_HOST} ^(svc|yeti)\.lifemapper\.org$
+# RewriteRule ^/(.*)$ http://client.lifemapper.org/$1 [R=301]
+## Redirect old boom page requests to new biotaphy url
+# Redirect /boom/ http://client.lifemapper.org/biotaphy/
 
 # Mod_wsgi script for Lifemapper content
 WSGIScriptAliasMatch ^/(api) @LMHOME@/LmWebServer/services/common/svcRoot.py/$1

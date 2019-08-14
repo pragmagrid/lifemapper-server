@@ -76,5 +76,5 @@ install::
 
 clean::
 	rm -rf $(ARCHIVENAME)-$(VERSION) 
-	rm -rf version.mk 
+	rm -rf version.mk  prepSrc.sh
 	rm -rf $(SCRIPTS) 

@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# Purpose: Fetch proj.4 source
+
+DL_URL=http://download.osgeo.org/@ARCHIVENAME@/
+DL_PKG=@ARCHIVENAME@-@VERSION@.@TARBALL_POSTFIX@
+
+get_source_files () {
+  echo "Fetch proj.4 source code"
+  wget "$DL_URL/$DL_PKG"
+}
+
+### main ###
+get_source_files

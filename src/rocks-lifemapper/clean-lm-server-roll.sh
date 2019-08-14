@@ -21,6 +21,50 @@ set_defaults() {
     touch $LOG
 }
 
+del-lifemapper-shared() {
+   echo "Removing shared geos, proj, tiff, and gdal dependencies RPMS" >> $LOG
+   $RM libaec libaec-devel
+   $RM hdf5 hdf5-devel
+   
+   echo "Removing SHARED lifemapper-* and prerequisite RPMS" >> $LOG	
+   $RM lifemapper-cctools
+   $RM lifemapper-gdal
+   $RM lifemapper-geos
+   $RM lifemapper-proj
+   
+   echo "Removing SHARED data RPMS" >> $LOG
+   $RM lifemapper-env-data
+   
+   echo "Removing SHARED opt-* RPMS" >> $LOG
+   $RM opt-lifemapper-cython
+   $RM opt-lifemapper-dendropy
+   $RM opt-lifemapper-egenix-mx-base
+   $RM opt-lifemapper-requests
+}
+
+del-shared-directories() {
+   echo "Removing lifemapper installation directory" >> $LOG
+   rm -rf /opt/lifemapper
+   echo "Removing shared lifemapper temp and data directories" >> $LOG
+   rm -rf /state/partition1/lmscratch
+   rm -rf /state/partition1/lm
+   echo "Removing shared lifemapper PID directory" >> $LOG
+   rm -rf /var/run/lifemapper
+}
+
+del-shared-user-group () {
+   if [ $LMUSER_COUNT = 1 ] ; then
+       echo "Remove lmwriter user/group/dirs" >> $LOG
+       userdel lmwriter
+       groupdel lmwriter
+       /bin/rm -f /var/spool/mail/lmwriter
+       /bin/rm -rf /export/home/lmwriter
+       echo "Syncing users info" >> $LOG
+       rocks sync users
+   fi
+}
+
+
 # stop Lifemapper daemons if running
 stop-lm-daemons () {
     TRYAGAIN=0
@@ -65,40 +109,14 @@ stop-services () {
     fi    
 }
 
-del-possible-shared-dependencies() {
-   if [ $LMROLL_COUNT = 1 ]; then
-      echo "Removing SHARED hdf rpms" >> $LOG
-      $RM hdf4-devel hdf4
-      $RM hdf5-devel hdf5
-   fi
-}
-
-del-lifemapper-shared() {
-   if [ $LMROLL_COUNT = 1 ]; then
-      echo "Removing SHARED lifemapper-* and prerequisite RPMS" >> $LOG
-      $RM lifemapper-cctools
-      $RM lifemapper-gdal
-      $RM lifemapper-geos
-      $RM lifemapper-proj
-      $RM lifemapper-spatialindex
-      $RM lifemapper-tiff
-      $RM lifemapper-env-data
-      echo "Removing SHARED opt-* RPMS" >> $LOG
-      $RM opt-lifemapper-egenix-mx-base
-      $RM opt-lifemapper-requests
-      $RM opt-lifemapper-rtree
-      $RM opt-lifemapper-dendropy   
-   fi
-}
-
 del-lifemapper() {
    echo "Removing lifemapper-* and prerequisite RPMS" >> $LOG
    $RM lifemapper-cmd
-   $RM lifemapper-image-data
    $RM lifemapper-libevent
    $RM lifemapper-lmserver
    $RM lifemapper-mod_wsgi
    $RM lifemapper-solr
+   $RM lifemapper-image-data
    $RM lifemapper-species-data
    $RM lifemapper-webclient
    $RM rocks-lifemapper
@@ -107,64 +125,50 @@ del-lifemapper() {
 
 del-opt-python () {
    echo "Removing opt-* RPMS" >> $LOG
+   $RM opt-lifemapper-biotaphy-otol
    $RM opt-lifemapper-cheroot
    $RM opt-lifemapper-cherrypy
    $RM opt-lifemapper-coverage
-   $RM opt-lifemapper-cython
-   $RM opt-lifemapper-faulthandler
-   $RM opt-lifemapper-isodate
-   $RM opt-lifemapper-MySQL-python
-   $RM opt-lifemapper-numexpr
-	$RM opt-lifemapper-portend
+   $RM opt-lifemapper-idigbio
+   $RM opt-lifemapper-portend
    $RM opt-lifemapper-processing
    $RM opt-lifemapper-psycopg2
    $RM opt-lifemapper-pytables
+   $RM opt-lifemapper-pytest
    $RM opt-lifemapper-pytz
-   $RM opt-lifemapper-rdflib
    $RM opt-lifemapper-six
-	$RM opt-lifemapper-tempora
+   $RM opt-lifemapper-tempora
+   $RM opt-lifemapper-unicodecsv
 }
 
 del-mapserver(){
    echo "Removing mapserver and dependencies RPMS" >> $LOG
    $RM opt-lifemapper-mapserver
-   $RM giflib-devel
+   $RM postgresql-libs
    $RM bitstream-vera-sans-fonts
    $RM bitstream-vera-fonts-common
 }
 
 del-postgres() {
    echo "Removing postgis, postgres, pgbouncer and dependencies RPMS" >> $LOG
-   $RM postgis2_91
-   $RM json-c.x86_64
+   $RM postgresql96 postgresql96-libs postgresql96-devel postgresql96-server postgresql96-contrib
+   $RM boost-serialization     
+   $RM SFCGAL SFCGAL-libs     
+   $RM proj     
+   $RM CGAL     
+   $RM postgis2_96
+   $RM c-ares
+   $RM postgresql10-libs
+   $RM python2-psycopg2     
    $RM pgbouncer
-   $RM postgresql91-test
-   $RM postgresql91-contrib
-   $RM postgresql91-python
-   $RM postgresql91-docs
-   $RM postgresql91-server
-   $RM postgresql91-devel
-   $RM postgresql91
-   $RM postgresql91-libs
 }
 
 del-sysRPM() {
-   echo "Removing pgdg and elgis repos RPMS" >> $LOG
-   $RM pgdg-centos91
-   $RM elgis-release
+   echo "Removing pgdg repo" >> $LOG
+   $RM pgdg-centos96
 }
 
-del-directories () {
-   if [ $LMROLL_COUNT = 1 ]; then
-      echo "Removing shared /opt/lifemapper"
-      rm -rf /opt/lifemapper
-      echo "Removing shared data directories"
-      rm -rf /state/partition1/lmscratch
-      rm -rf /state/partition1/lm
-      echo "Removing shared PID directory"
-      rm -rf /var/run/lifemapper
-   fi
-   
+del-directories () {   
    echo "Removing  directories used by postgres and pgbouncer" >> $LOG
    rm -rf /var/run/postgresql
    rm -rf /var/lib/pgsql
@@ -173,11 +177,10 @@ del-directories () {
    echo "Removing data directories" >> $LOG
    rm -rf /state/partition1/lmserver
 
-   echo "Removing jcc installed by bootstrap" >> $LOG
-   rm -rf /opt/python/lib/python2.7/site-packages/jcc
-   rm -rf /opt/python/lib/python2.7/site-packages/libjcc.so 
-   rm -rf /opt/python/lib/python2.7/site-packages/JCC-2.18-py2.7.egg-info  
-
+#    echo "Removing jcc installed by bootstrap" >> $LOG
+#    rm -rf /opt/python/lib/python2.7/site-packages/jcc
+#    rm -rf /opt/python/lib/python2.7/site-packages/libjcc.so 
+#    rm -rf /opt/python/lib/python2.7/site-packages/JCC-2.18-py2.7.egg-info  
 }
 
 del-webstuff () {
@@ -194,14 +197,6 @@ del-webstuff () {
 
 del-user-group () {
    needSync=0
-   if [ $LMUSER_COUNT = 1 ] && [ $LMROLL_COUNT = 1 ]; then
-       echo "Remove lmwriter user/group/dirs" >> $LOG
-       userdel lmwriter
-       groupdel lmwriter
-       /bin/rm -f /var/spool/mail/lmwriter
-       /bin/rm -rf /export/home/lmwriter
-       needSync=1
-   fi
 
    /bin/egrep -i "^solr" /etc/passwd
    if [ $? -eq 0 ]; then
@@ -277,12 +272,13 @@ check_lm_processes
 
 set_defaults
 TimeStamp "# Start"
+
 stop-lm-daemons
 stop-services
+
 del-postgres
 del-mapserver 
-del-lifemapper-shared
-del-possible-shared-dependencies
+
 del-opt-python 
 del-lifemapper
 del-sysRPM
@@ -292,10 +288,18 @@ del-user-group
 del-attr
 del-cron-jobs
 del-automount-entry
+
+if [ $LMROLL_COUNT = 1 ]; then
+	del-lifemapper-shared
+	del-shared-directories
+	del-shared-user-group
+fi
+
 echo
 echo "Removing roll lifemapper-server"
 /opt/rocks/bin/rocks remove roll lifemapper-server
 echo "Rebuilding the distro"
+module unload opt-python
 (cd /export/rocks/install; rocks create distro; yum clean all)
 echo
 TimeStamp "# End"

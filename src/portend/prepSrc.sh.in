@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# Purpose: Fetch portend source
+DL_URL=https://files.pythonhosted.org/packages/2c/59/948666fc2455ae471efd40cb2a9a990f5f6f2354a9a6b228e29b9fb4a307
+DL_PKG=@ARCHIVENAME@-@VERSION@.@TARBALL_POSTFIX@
+
+get_source_files () {
+  echo "Fetch portend source code"
+  wget "$DL_URL/$DL_PKG"
+}
+
+### main ###
+get_source_files

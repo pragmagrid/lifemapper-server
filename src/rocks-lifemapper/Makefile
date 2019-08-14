@@ -61,6 +61,10 @@ include Rules.mk
 
 PY.PATH = /opt/python/bin/$(PYTHONVER)
 
+YR=`date +'%Y'`
+MO=`date +'%_m'`
+DY=`date +'%_d'`
+
 version.mk:
 	cat ../version.mk version.mk.in > version.mk
 
@@ -83,7 +87,18 @@ SEDSPEC += \
         -e 's%@LMURL@%$(LMURL)%g' \
         -e 's%@TARBALL_POSTFIX@%$(TARBALL_POSTFIX)%g' \
         -e 's%@LMCLIENT@%$(LMCLIENT)%g' \
-        -e 's%@DASHBOARD@%$(DASHBOARD)%g'
+        -e 's%@DASHBOARD@%$(DASHBOARD)%g' \
+        -e 's%@PUBLIC_USER@%$(PUBLIC_USER)%g' \
+        -e 's%@GRID_NAME@%$(GRID_NAME)%g' \
+        -e 's%@GRID_CELLSIZE@%$(GRID_CELLSIZE)%g' \
+        -e 's%@GRID_NUM_SIDES@%$(GRID_NUM_SIDES)%g' \
+        -e 's%@GBIF_VERSION@%$(GBIF_VERSION)%g' \
+        -e 's%@GBIF_TAXONOMY@%$(GBIF_TAXONOMY)%g' \
+        -e 's%@GBIF_OCCURRENCES@%$(GBIF_OCCURRENCES)%g' \
+        -e 's%@GBIF_PROVIDER@%$(GBIF_PROVIDER)%g' \
+        -e "s%@SPECIES_EXP_YEAR@%$(YR)%g" \
+        -e "s%@SPECIES_EXP_MONTH@%$(MO)%g" \
+        -e "s%@SPECIES_EXP_DAY@%$(DY)%g" 
         
 PROFILES = \
 	lifemapper.sh \
@@ -106,19 +121,23 @@ CRONS = \
 	lmserver_count_completed
 
 PROGS = \
+	catalogDefaultDataInputs \
+	initWorkflow \
 	checkLibs \
-	clearUser \
+	clearData \
 	confconst.py \
 	cycleMatt \
 	initDbserver \
 	initLM \
 	initPostgis \
 	installServerCronJobs \
-	fillDB \
-	fillGBIFTaxonomy \
-	getClimateData \
-	getBoomPackage \
-	updateIP
+	getScenPackageForUser \
+	getBoomPackageForUser \
+	indexTaxonomySolr \
+	updateDB \
+	updateCfg \
+	updateLM \
+	updateSolr
 
 PYFILES = __init__.py \
 	confconst.py \
@@ -130,12 +149,13 @@ EXECFILES = \
 	confPostgres \
 	confUsers 
 
+
 %: %.in
 	$(SED) $(SEDSPEC) $^ > $@
 
 .SUFFIXES:
 
-build: $(SCRIPTS) $(PROFILES) $(CRONS) $(PROGS) $(PYFILES) $(EXECFILES)
+build: $(SCRIPTS) $(PROFILES) $(CRONS) $(PROGS) $(PYFILES) $(EXECFILES) 
 	
 install::
 

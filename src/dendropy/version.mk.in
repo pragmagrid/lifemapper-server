@@ -1,7 +1,11 @@
 NAME            = opt-lifemapper-dendropy
-VERSION         = 4.3.0
+VERSION         = 4.4.0
 ARCHIVENAME     = DendroPy
 RELEASE         = 0
 TARBALL_POSTFIX = tar.gz
 
 RPM.EXTRAS = "AutoReq: no"
+
+RPM.FILES = \
+    /opt/python/bin         \n\
+    $(PYTHON27_PACKAGES)/*

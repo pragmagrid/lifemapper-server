@@ -61,6 +61,22 @@ REDHAT.ROOT = $(CURDIR)/../../
 -include $(ROCKSROOT)/etc/Rules.mk
 include Rules.mk
 
+SEDSPEC += \
+        -e 's%@PKGNAME@%$(PKGNAME)%g'  \
+        -e 's%@ARCHIVENAME@%$(ARCHIVENAME)%g'  \
+        -e 's%@VERSION@%$(VERSION)%g'  \
+        -e 's%@TARBALL_POSTFIX@%$(TARBALL_POSTFIX)%g'
+
+prepSrc.sh: prepSrc.sh.in
+	$(SED) $(SEDSPEC) $^ > $@
+	chmod 755 $@
+
+prep: prepSrc.sh
+	rm -rf version.mk
+	make version.mk
+	make prepSrc.sh
+	./prepSrc.sh
+
 version.mk:
 	cat ../version.mk version.mk.in > version.mk
 
@@ -80,4 +96,4 @@ install::
 	)
 
 clean::
-	rm -rf $(PKGNAME)-$(VERSION) version.mk
+	rm -rf $(PKGNAME)-$(VERSION)  version.mk prepSrc.sh

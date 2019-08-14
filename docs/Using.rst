@@ -13,7 +13,8 @@ Populate the database
 
 #. Initialize the database happens on reboot, called by rocks/bin/initLM 
 
-    Examine the script output in ``/tmp/fillDB.log`` (and ``/tmp/initLM.log``). ::
+   Examine the script output in ``/tmp/catalogDefaultDataInputs.log`` 
+   (and ``/tmp/initLM.log``).
   
    Check the available memory ::
 

@@ -63,8 +63,10 @@ version.mk:
 	cat ../version.mk version.mk.in > version.mk
 
 PY.PATH = /opt/python/bin/$(PYTHONVER)
-EXPORTDIR=$(subst share,state/partition1,$(DATADIR_SERVER))/test
 
+YR=`date +'%Y'`
+MO=`date +'%_m'`
+DY=`date +'%_d'`
 
 SEDSPEC += \
         -e 's%@PKGROOT@%$(PKGROOT)%g' \
@@ -72,6 +74,8 @@ SEDSPEC += \
         -e 's%@PYBIN@%$(PY.PATH)%g' \
         -e 's%@DATADIR_SERVER@%$(DATADIR_SERVER)%g' \
         -e 's%@DATADIR_SHARED@%$(DATADIR_SHARED)%g' \
+        -e 's%@SPECIES_DATA_DIR@%$(SPECIES_DATA_DIR)%g' \
+        -e 's%@PACKAGING_DIR@%$(PACKAGING_DIR)%g' \
         -e 's%@LMHOME@%$(LMHOME)%g' \
         -e 's%@SMTPSERVER@%$(SMTPSERVER)%g' \
         -e 's%@LMSCRATCHDISK@%$(LMSCRATCHDISK)%g' \
@@ -79,14 +83,25 @@ SEDSPEC += \
         -e 's%@REPONAME@%$(REPONAME)%g' \
         -e 's%@NAME@%$(NAME)%g' \
         -e 's%@TARBALL_POSTFIX@%$(TARBALL_POSTFIX)%g' \
-        -e 's%@SPECIES_DATA@%$(SPECIES_DATA)%g' \
         -e 's%@SCENARIO_PACKAGE@%$(SCENARIO_PACKAGE)%g' \
+        -e 's%@ECOREGION_LAYER@%$(ECOREGION_LAYER)%g' \
         -e 's%@EPSG@%$(EPSG)%g' \
+        -e 's%@PUBLIC_USER@%$(PUBLIC_USER)%g' \
         -e 's%@MAPUNITS@%$(MAPUNITS)%g' \
-        -e 's%@JAVABIN@%$(JAVABIN)%g'
+        -e 's%@JAVABIN@%$(JAVABIN)%g' \
+        -e 's%@GRID_NAME@%$(GRID_NAME)%g' \
+        -e 's%@GRID_CELLSIZE@%$(GRID_CELLSIZE)%g' \
+        -e 's%@GRID_NUM_SIDES@%$(GRID_NUM_SIDES)%g' \
+        -e 's%@GBIF_VERSION@%$(GBIF_VERSION)%g' \
+        -e 's%@GBIF_TAXONOMY@%$(GBIF_TAXONOMY)%g' \
+        -e 's%@GBIF_OCCURRENCES@%$(GBIF_OCCURRENCES)%g' \
+        -e 's%@GBIF_PROVIDER@%$(GBIF_PROVIDER)%g' \
+        -e "s%@SPECIES_EXP_YEAR@%$(YR)%g" \
+        -e "s%@SPECIES_EXP_MONTH@%$(MO)%g" \
+        -e "s%@SPECIES_EXP_DAY@%$(DY)%g"
 
 SCRIPTS = config.lmserver.ini \
-          boomInit.sample.ini \
+          boom.public.params \
           cherrypy.conf
           
 TOPDIR =  $(REPONAME)-$(VERSION)
@@ -102,6 +117,10 @@ cherrypy.conf: $(TOPDIR)/LmWebServer/config/cherrypy.conf.in
 
 boomInit.sample.ini:
 	cat $(TOPDIR)/LmServer/config/$@ > $(TOPDIR)/config/$@
+
+boom.public.params: $(TOPDIR)/LmServer/config/boom.public.params.in
+	$(SED) -i $(SEDSPEC) $^ 
+	cat $^ > $(TOPDIR)/config/$@
 
 prepSrc.sh: prepSrc.sh.in
 	$(SED) $(SEDSPEC) $^ > $@
@@ -119,7 +138,6 @@ build:
 	make $(SERVICES)
 
 install::
-	mkdir -p $(ROOT)/$(EXPORTDIR)
 	mkdir -p $(ROOT)/$(LMHOME)
 	mv $(TOPDIR)/*  $(ROOT)/$(LMHOME) 
 	

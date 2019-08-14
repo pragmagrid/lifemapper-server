@@ -45,8 +45,8 @@ MakeProfile () {
 MakeSimpleRpms () {
     declare -a easyrpms=("cherrypy" "cython" "egenix" "faulthandler" 
           "gdal" "geos" "isodate" "libevent" "lm-cmd" "mapserver" "mod-wsgi" 
-          "mysql-python" "numexpr" "processing" "proj" "psycopg2" "pytables" 
-          "rdflib" "requests" "rocks-lifemapper" "rtree" "spatialindex" 
+          "numexpr" "processing" "proj" "psycopg2" "pytables" 
+          "rdflib" "requests" "rocks-lifemapper" 
           "tiff" "usersguide")
 
     for i in "${easyrpms[@]}"

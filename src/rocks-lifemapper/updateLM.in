@@ -1,0 +1,99 @@
+#!/bin/bash 
+#
+# Update @LMHOME@/config/config.lmserver.ini file with correct ip info  
+#
+
+
+usage () 
+{
+    echo "Usage: $0"
+    echo "This script runs update scripts, and is intended to be run after" 
+    echo "code and rocks-l* rpms are updated on a Lifemapper installation"
+    echo "The script runs:"
+    echo "    updateCfg which updates variables in"
+    echo "              @LMHOME@/config/config.lmserver.ini file"
+    echo "    updateDB which applies needed database updates"
+}
+
+set_defaults() {
+    THISNAME=`/bin/basename $0`
+    LOG=@LMSCRATCHDISK@/log/$THISNAME.log
+    rm -f $LOG
+    touch $LOG
+
+    BIN=@PKGROOT@/rocks/bin
+    LMCLIENT_DIR=@DATADIR_SERVER@/@LMCLIENT@
+    
+    CFG_UPDATE_SCRIPT=$BIN/updateCfg
+    DB_UPDATE_SCRIPT=$BIN/updateDB
+    # Python and python/bash scripts
+    PYBIN=/opt/python/bin/@PYTHONVER@
+    module load opt-python
+    BOOM_POPULATE=@LMHOME@/rocks/bin/initWorkflow
+    MATT_DAEMON=@LMHOME@/LmServer/tools/mattDaemon.py
+}
+
+time_stamp () {
+    echo $1 `/bin/date` >> $LOG
+}
+
+
+# stop mattDaemon
+stop_matt () {
+	MATT_COUNT=`ps -Alf | grep mattDaemon  | grep -v grep | wc -l`
+	COUNTER=0
+	while [ $MATT_COUNT -gt 0 ] && [ $COUNTER -lt 10 ] ; do
+		let COUNTER+=1
+		
+		echo "-- stop mattDaemon " >> $LOG
+		su -c "@PYBIN@ $MATT_DAEMON stop" lmwriter >> $LOG 2>&1
+
+		MATT_COUNT=`ps -Alf | grep mattDaemon  | grep -v grep | wc -l`
+		if [ $MATT_COUNT -eq 0 ]; then
+			echo "   mattDaemon has stopped" >> $LOG
+		else
+			echo "   mattDaemon not yet stopped, sleep 5 min ..." >> $LOG
+			/bin/sleep 300
+			echo "   done sleeping" >> $LOG
+		fi
+	done
+}
+
+# start mattDaemon
+instruct_start_matt () {	
+	echo "-- AFTER re-installing nodes, start mattDaemon " >> $LOG
+	echo "   with following command:  su -c \"@PYBIN@ $MATT_DAEMON -dl 2 start\" lmwriter" >> $LOG
+}
+
+update_database () {
+    echo "-- update database" >> $LOG
+    $DB_UPDATE_SCRIPT  >> $LOG
+}
+
+update_config () {
+    echo "-- update configuration file" >> $LOG
+    $CFG_UPDATE_SCRIPT  >> $LOG
+}
+
+make_client_link () {
+    if [ -d $LMCLIENT_DIR ] ; then
+        (cd /var/www/html; ln -s $LMCLIENT_DIR)
+        echo "Creating lmclient link" >> $LOG
+    fi
+}
+
+
+#### Main ####
+
+if [ $# -ne 0 ]; then
+    usage
+    exit 0
+fi 
+
+set_defaults
+
+stop_matt
+update_config
+update_database
+make_client_link
+instruct_start_matt
