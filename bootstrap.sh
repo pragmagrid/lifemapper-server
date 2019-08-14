@@ -30,16 +30,12 @@ yum update
 ## for mapserver
 # yumdownloader --resolve --enablerepo base giflib-devel.x86_64
 #
-# pgbouncer, retrieves deps python2-pyscopg2, postgresql10-libs
-# yumdownloader --resolve --enablerepo=pgdg96 pgbouncer
-#
 ## Add PostgreSQL 9.6, devel, server, python
 # yumdownloader --resolve --enablerepo=pgdg96 postgresql96
 # yumdownloader --resolve --enablerepo=pgdg96 postgresql96-server 
 # yumdownloader --resolve --enablerepo=pgdg96 postgresql96-contrib 
 # yumdownloader --resolve --enablerepo=pgdg96 postgresql96-devel 
 # yumdownloader --resolve --enablerepo=pgdg96 postgresql96-plpython
-#
 #
 ## Add postgis 
 # yumdownloader --resolve --enablerepo=pgdg96 boost-serialization-1.53.0-27.el7.x86_64.rpm
@@ -60,7 +56,6 @@ yum update
 # yumdownloader --resolve --enablerepo=pgdg96 python2-psycopg2.x86_64
 
 ## Add pgbouncer from PGDG and dependency c-ares from epel and base repos
-## Must download AND INSTALL c-ares before downloading pgbouncer
 # yumdownloader --resolve --enablerepo=base c-ares.x86_64
 # yumdownloader --resolve --enablerepo=base c-ares-devel.x86_64
 # yumdownloader --resolve --enablerepo=pgdg96 pgbouncer
@@ -74,11 +69,6 @@ rpm -i src/RPMS/hdf5-devel-1.8.12-10.el7.x86_64.rpm
 # for pgbouncer
 rpm -i src/RPMS/c-ares-1.10.0-3.el7.x86_64.rpm
 rpm -i src/RPMS/c-ares-devel-1.10.0-3.el7.x86_64.rpm
-
-# for gdal-libs (for postgis) WTF?
-# rpm -i src/RPMS/gdal-libs-1.11.4-12.rhel7.x86_64.rpm
-# rpm -i src/RPMS/boost-serialization-1.53.0-27.el7.x86_64.rpm     
-# rpm -i src/RPMS/proj-4.8.0-4.el7.x86_64.rpm
 
 # for mapserver
 module unload opt-python

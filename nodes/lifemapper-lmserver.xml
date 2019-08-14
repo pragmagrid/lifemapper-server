@@ -66,8 +66,7 @@
 		<!-- Add pgbouncer from PGDG96 -->
 		<package>c-ares</package>
 		<package>c-ares-devel</package>
-		<package>pgbouncer</package>
-		
+		<package>pgbouncer</package>		
 
 <post>
 # check for attribute before setting

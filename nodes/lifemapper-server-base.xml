@@ -24,12 +24,6 @@
 	<package>hdf5</package>
 	<package>hdf5-devel</package>
 		 
-	<!-- for pgbouncer, python2-psycopg2, from pgdg96 -->
-	<package>c-ares</package>
-	<package>postgresql10-libs</package>
-	<package>python2-psycopg2</package>     
-	<package>pgbouncer</package>
-
 	<!-- mapserver and prereq -->
 	<package>bitstream-vera-fonts-common</package>
 	<package>bitstream-vera-sans-fonts</package>
