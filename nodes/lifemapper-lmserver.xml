@@ -60,8 +60,7 @@
 		<package>proj</package>
 		<package>postgis2_96</package>
 		
-		<!-- Add python2_psycopg2 from PGDG96 repo (also dep for pgbouncer) -->
-		<package>python2-psycopg2</package>
+		<package>opt-lifemapper-psycopg2</package>
 
 		<!-- Add pgbouncer from PGDG96 -->
 		<package>c-ares</package>
@@ -81,6 +80,7 @@ export PATH=/usr/pgsql-9.2/bin:$PATH
 # set mode to strict (2) to prevent postgres being killed  by OOM 
 /sbin/sysctl -w vm.overcommit_memory=2
 
+# TODO: remove this text in clean-lm-server-roll.sh
 <file name="/etc/sysctl.conf" mode="append">
 
 # Postgres (for lifemapper)

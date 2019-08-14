@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# Purpose: Fetch @ARCHIVENAME@ source
+
+URL=http://initd.org/@ARCHIVENAME@/tarballs/PSYCOPG-2-8/
+PKG=@ARCHIVENAME@-@VERSION@.@TARBALL_POSTFIX@
+
+get_source_files () {
+  echo "Fetch @ARCHIVENAME@ source code"
+  wget "$URL/$PKG"
+}
+
+### main ###
+get_source_files
