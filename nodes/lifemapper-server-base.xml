@@ -16,7 +16,7 @@
 	</changelog>
 
      <!-- RPM repos needed for postgresql,postgis,mapserver -->
-	<package arch="x86_64">pgdg-centos96</package>
+	<!-- <package arch="x86_64">pgdg-centos96</package> -->
 
 	<!-- gdal prerequisites -->
 	<package>libaec</package>
@@ -57,7 +57,7 @@
 
 	<!-- lifemapper distro -->
 	<package>lifemapper-lmserver</package>
-	<package>lifemapper-webclient</package>
+	<!-- <package>lifemapper-webclient</package> -->
 	<package>rocks-lifemapper</package>
 	<package>roll-lifemapper-server-usersguide</package>
 
