@@ -42,6 +42,10 @@ del-lifemapper-shared() {
    $RM opt-lifemapper-requests
 }
 
+del-dependencies() {
+	
+}
+
 del-shared-directories() {
    echo "Removing lifemapper installation directory" >> $LOG
    rm -rf /opt/lifemapper
@@ -153,12 +157,29 @@ del-postgres() {
    echo "Removing postgis, postgres, pgbouncer and dependencies RPMS" >> $LOG
    $RM postgresql96 postgresql96-libs postgresql96-devel postgresql96-server postgresql96-contrib
    $RM boost-serialization     
+   $RM CGAL
    $RM SFCGAL SFCGAL-libs     
-   $RM proj     
-   $RM CGAL     
+   $RM geos
+   $RM libgeotiff
+   $RM ogdi
+   $RM unixODBC
+   $RM xerces-c
+   $RM libdap libdap-devel
+   $RM CharLS CharLS-devel
+   $RM cfitsio  cfitsio-devel
+   $RM freexl  freexl-devel
+   $RM netcdf  netcdf-devel
+   $RM openjpeg2  openjpeg2-tools  openjpeg2-devel
+   $RM libgta  libgta-devel
+   $RM SuperLU
+   $RM arpack
+   $RM openblas-openmp
+   $RM armadillo 
+   $RM gdal-libs
+   $RM proj
    $RM postgis2_96
-   $RM c-ares
-   $RM postgresql10-libs
+   $RM c-ares  c-ares-devel
+#    $RM postgresql10-libs
    $RM python2-psycopg2     
    $RM pgbouncer
 }
