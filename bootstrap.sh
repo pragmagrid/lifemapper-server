@@ -179,6 +179,7 @@ install opt-lifemapper-portend
 rpm -i src/RPMS/postgresql96-libs-9.6.15-1PGDG.rhel7.x86_64
 rpm -i src/RPMS/postgresql96-9.6.15-1PGDG.rhel7.x86_64
 rpm -i src/RPMS/postgresql96-devel-9.6.15-1PGDG.rhel7.x86_64
+/sbin/ldconfig  /usr/pgsql-9.6/lib/
 
 # Leave with opt-python loaded
 module load opt-python
