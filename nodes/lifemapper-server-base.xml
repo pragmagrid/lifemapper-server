@@ -31,6 +31,10 @@
 
 	<package>opt-lifemapper-mapserver</package>
 
+	<package>lifemapper-proj</package>	
+	<package>lifemapper-tiff</package>	
+	<package>lifemapper-geos</package>	
+	<package>lifemapper-gdal</package>	
 	<package>lifemapper-cctools</package>
 	<package>lifemapper-cmd</package>
 	<package>lifemapper-libevent</package>

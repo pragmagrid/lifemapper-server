@@ -26,10 +26,10 @@
 
 		<!-- Add postgis2 and dependencies from epel and PGDG96 repos -->
 		<!-- gdal-libs deps -->
-		<package>boost-serialization</package>
+		<!-- <package>boost-serialization</package>
 		<package>CGAL</package>
-		<package>SFCGAL-libs</package>     
-		<package>SFCGAL</package>     
+		<package>SFCGAL-libs</package>
+		<package>SFCGAL</package>
 		<package>geos</package>     
 		<package>libgeotiff</package>     
 		<package>ogdi</package>     
@@ -49,14 +49,14 @@
 		<package>openjpeg2-tools</package>
 		<package>openjpeg2-devel</package>
 		<package>libgta</package>
-		<package>libgta-devel</package>
+		<package>libgta-devel</package> -->
 		<!-- armadillo deps -->
-		<package>SuperLU</package>
+		<!-- <package>SuperLU</package>
 		<package>arpack</package>
 		<package>openblas-openmp</package>
-		<package>armadillo</package>
-
-		<package>gdal-libs</package>
+		<package>armadillo</package> -->
+		<!-- <package>gdal-libs</package> -->
+		
 		<package>proj</package>
 		<package>postgis2_96</package>
 		
