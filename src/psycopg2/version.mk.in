@@ -6,6 +6,4 @@ TARBALL_POSTFIX = tar.gz
 
 RPM.EXTRAS = "AutoReq: no"
 
-RPM.FILES = \
-    /opt/python/bin         \n\
-    $(PYTHON27_PACKAGES)/*
+RPM.FILES = $(PYTHON27_PACKAGES)/*
