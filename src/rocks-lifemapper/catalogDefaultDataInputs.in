@@ -33,7 +33,7 @@ SetDefaults () {
     module load opt-python
     DEFCAT_PY=@LMHOME@/LmDbServer/tools/catalogDefaults.py    
     SCENCAT_PY=@LMHOME@/LmDbServer/tools/catalogScenPkg.py    
-    BOOMCAT_PY=@LMHOME@/LmDbServer/tools/initWorkflow.py
+    BOOMCAT_PY=@LMHOME@/LmDbServer/boom/initWorkflow.py
 
     THISNAME=`/bin/basename $0`
     LOG=@LMSCRATCHDISK@/log/$THISNAME.log
@@ -41,9 +41,9 @@ SetDefaults () {
     touch $LOG
 
     if [ -f $INIT_CONFIG ] ; then
-        echo "Looking for DATA_SOURCE, ARCHIVE_USER, TREE in user config file $INIT_CONFIG"   | tee -a $LOG  
+        echo "Looking for DATA_SOURCE, PUBLIC_USER, TREE in user config file $INIT_CONFIG"   | tee -a $LOG  
         DATA_SOURCE=`grep -i DATA_SOURCE $INIT_CONFIG | grep -v ';' | awk '{print $2}'`
-        ARCHIVE_USER=`grep -i ARCHIVE_USER $INIT_CONFIG | grep -v _EMAIL | grep -v ';' | awk '{print $2}'`
+        PUBLIC_USER=`grep -i PUBLIC_USER $INIT_CONFIG | grep -v _EMAIL | grep -v ';' | awk '{print $2}'`
         SCEN_PKG==`grep -i SCENARIO_PACKAGE $INIT_CONFIG | grep -v ';' | awk '{print $2}'`
         TREE_BASENAME=`grep -i TREE $INIT_CONFIG | grep -v ';' | awk '{print $2}'`
         ARCHIVE_NAME=`grep -i ARCHIVE_NAME $INIT_CONFIG | grep -v ';' | awk '{print $2}'`
@@ -64,17 +64,17 @@ SetDefaults () {
         fi
     fi
     
-    if [ ! "$ARCHIVE_USER" ] ; then 
+    if [ ! "$PUBLIC_USER" ] ; then 
         # look in config.site.ini
         if [ -f $SITE_CONFIG_FILE ] ; then        
-            echo "Looking for ARCHIVE_USER in site config file"   | tee -a $LOG  
-            ARCHIVE_USER=`grep -i ARCHIVE_USER $SITE_CONFIG_FILE | grep -v _EMAIL | grep -v ';' | awk '{print $2}'`
+            echo "Looking for PUBLIC_USER in site config file"   | tee -a $LOG  
+            PUBLIC_USER=`grep -i PUBLIC_USER $SITE_CONFIG_FILE | grep -v _EMAIL | grep -v ';' | awk '{print $2}'`
         fi
         
         # look in installed config file        
-        if [ ! "$ARCHIVE_USER" ] ; then 
-            echo "Looking for ARCHIVE_USER in installed config file"   | tee -a $LOG  
-            ARCHIVE_USER=`grep -i ARCHIVE_USER $CONFIG_FILE | grep -v _EMAIL | grep -v ';' | awk '{print $2}'`
+        if [ ! "$PUBLIC_USER" ] ; then 
+            echo "Looking for PUBLIC_USER in installed config file"   | tee -a $LOG  
+            PUBLIC_USER=`grep -i PUBLIC_USER $CONFIG_FILE | grep -v _EMAIL | grep -v ';' | awk '{print $2}'`
         fi
     fi
     
@@ -91,8 +91,8 @@ SetDefaults () {
             SCEN_PKG=`grep -i SCENARIO_PACKAGE $CONFIG_FILE | grep -v ';' | awk '{print $2}'`
         fi
     fi
-    if [ ! "$ARCHIVE_USER" ] ; then
-        echo "Error: Missing value for ARCHIVE_USER" | tee -a $LOG
+    if [ ! "$PUBLIC_USER" ] ; then
+        echo "Error: Missing value for PUBLIC_USER" | tee -a $LOG
         exit 1
     fi
     if [ ! "$DATA_SOURCE" ] ; then
@@ -104,7 +104,7 @@ SetDefaults () {
         exit 1
     fi
     
-    ARCHIVE_USER_DATA_DIR=@DATADIR_SHARED@/archive/$ARCHIVE_USER    
+    PUBLIC_USER_DATA_DIR=@DATADIR_SHARED@/archive/$PUBLIC_USER    
 }
 
 TimeStamp () {
@@ -125,8 +125,8 @@ PopulateDefaults () {
 ### populate lifemapper DB with environmental scenario inputs for default users, no makeflow
 PopulateScenariosForPublic () {
     if [ -f $SCENCAT_PY ] ; then
-        echo "Cataloging env data $SCEN_PKG for user $ARCHIVE_USER with '$SCENCAT_PY' ..." | tee -a $LOG
-        /opt/python/bin/@PYTHONVER@ $SCENCAT_PY  $ARCHIVE_USER  $SCEN_PKG \
+        echo "Cataloging env data $SCEN_PKG for user $PUBLIC_USER with '$SCENCAT_PY' ..." | tee -a $LOG
+        /opt/python/bin/@PYTHONVER@ $SCENCAT_PY  $PUBLIC_USER  $SCEN_PKG \
                                          2>&1 | tee -a $LOG
     else
         echo "Error: Missing file $SCENCAT_PY" | tee -a $LOG
@@ -157,9 +157,9 @@ FixPermissions () {
     fi
 
     # This script is run by root, so set group write permission on data dir if default
-    echo "Update lmwriter group permissions on $ARCHIVE_USER_DATA_DIR" | tee -a $LOG
-    /bin/chgrp -R lmwriter $ARCHIVE_USER_DATA_DIR
-    /bin/chmod -R g+ws     $ARCHIVE_USER_DATA_DIR
+    echo "Update lmwriter group permissions on $PUBLIC_USER_DATA_DIR" | tee -a $LOG
+    /bin/chgrp -R lmwriter $PUBLIC_USER_DATA_DIR
+    /bin/chmod -R g+ws     $PUBLIC_USER_DATA_DIR
 }
 
 

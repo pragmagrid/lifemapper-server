@@ -13,22 +13,24 @@
 
 libname=libpq.so
 rpmname=postgresql-libs
+# rpmname2=postgresql10-libs
 
 PSQLDIR=pgsql-@PGSQLVER@
 
-answer=`rpm -qa | grep postgresql-libs`
+answer=`rpm -qa | grep $rpmname`
 if [ "$answer" != "" ] ; then
-    echo "Removing postgresql-libs rpm"
+    echo "Removing $rpmname rpm"
     /usr/bin/yum remove $rpmname.x86_64
     /sbin/ldconfig
+#     /sbin/ldconfig $PSQLDIR
 fi
 
 # Check if correct version of libpq.so is available
 answer=`/sbin/ldconfig -p | grep $libname | grep $PSQLDIR`
 if [ "$answer" == "" ] ; then
-    echo "ERROR: missing libpq.so from $PSQLDIR "
+    echo "ERROR: missing $libname from $PSQLDIR "
 else
-    echo "Have correct libpq.so"
+    echo "Have correct $libname"
     /usr/$PSQLDIR/bin/psql -V
 fi
 

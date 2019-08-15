@@ -45,6 +45,9 @@ set_defaults() {
     DEFINE_TABLES_SQL=@LMHOME@/rocks/sql/dbDefineTables.sql
     UPDATE_TABLES_SQL=@LMHOME@/rocks/sql/dbUpdateTables.sql
     ADD_FUNCTIONS_SQL=@LMHOME@/rocks/sql/dbAddFunctions.sql
+    
+    PVER=echo ${@PGSQLVER@/./}
+    PGSETUP_CMD=/usr/pgsql-@PGSQLVER@/bin/postgresql$PVER-setup
 
     MAP_BACKGROUND=@LMHOME@/LmWebServer/public_html/images/BMNG.geotiff
     IMAGE_DIR=@DATADIR_SERVER@/image
@@ -70,17 +73,17 @@ set_defaults() {
         exit 1
     fi
 
-    # Find ARCHIVE_USER
+    # Find PUBLIC_USER
     if [ -f $SITE_CONFIG_FILE ] ; then        
-        echo "Looking for ARCHIVE_USER in site config file"   | tee -a $LOG  
-        ARCHIVE_USER=`grep -i ARCHIVE_USER $SITE_CONFIG_FILE | grep -v _EMAIL | grep -v ';' | awk '{print $2}'`
+        echo "Looking for PUBLIC_USER in site config file"   | tee -a $LOG  
+        PUBLIC_USER=`grep -i PUBLIC_USER $SITE_CONFIG_FILE | grep -v _EMAIL | grep -v ';' | awk '{print $2}'`
     fi
-    if [ -z ${ARCHIVE_USER} ] ; then 
-        echo "Looking for ARCHIVE_USER in installed config file"   | tee -a $LOG  
-        ARCHIVE_USER=`grep -i ARCHIVE_USER $CONFIG_FILE | grep -v _EMAIL | grep -v ';' | awk '{print $2}'`
+    if [ -z ${PUBLIC_USER} ] ; then 
+        echo "Looking for PUBLIC_USER in installed config file"   | tee -a $LOG  
+        PUBLIC_USER=`grep -i PUBLIC_USER $CONFIG_FILE | grep -v _EMAIL | grep -v ';' | awk '{print $2}'`
     fi
-    if [ -z ${ARCHIVE_USER} ] ; then
-        echo "Error: Missing configured value for ARCHIVE_USER" | tee -a $LOG
+    if [ -z ${PUBLIC_USER} ] ; then
+        echo "Error: Missing configured value for PUBLIC_USER" | tee -a $LOG
         exit 1
     fi
     
@@ -183,7 +186,7 @@ init_postgres () {
     OPT="en_US.UTF-8"
     
 	if [ $ROCKS_VER = '7.0' ]; then
-    	/usr/pgsql-9.2/bin/postgresql92-setup initdb >> $LOG
+    	$PGSETUP_CMD initdb >> $LOG
     else
     	/sbin/service $PG initdb $OPT  >> $LOG
     fi
@@ -307,8 +310,6 @@ make_client_link () {
         echo "Creating lmclient link" >> $LOG
     fi
 }
-
-libtool --finish /opt/lifemapper/lib
 
 TimeStamp () {
     echo $1 `/bin/date` >> $LOG

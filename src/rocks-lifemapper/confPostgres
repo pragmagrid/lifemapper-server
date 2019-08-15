@@ -189,7 +189,7 @@ class ConfPostgres(confbase.Baseconfig):
         lines += "log_truncate_on_rotation = off\n"
         lines += "log_rotation_age = 1d\n"
         lines += "log_rotation_size = 10MB\n"
-        lines += "unix_socket_directory = '%s'\n" % self.unixSocketDir
+#         lines += "unix_socket_directory = '%s'\n" % self.unixSocketDir
 
         return lines        
 

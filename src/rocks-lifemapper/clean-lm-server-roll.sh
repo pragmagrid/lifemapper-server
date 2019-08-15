@@ -42,9 +42,6 @@ del-lifemapper-shared() {
    $RM opt-lifemapper-requests
 }
 
-del-dependencies() {
-	
-}
 
 del-shared-directories() {
    echo "Removing lifemapper installation directory" >> $LOG
