@@ -2,7 +2,7 @@
 
 # Purpose: Fetch @ARCHIVENAME@ source
 
-URL=http://initd.org/@ARCHIVENAME@/tarballs/PSYCOPG-2-8/
+URL=http://initd.org/psycopg/tarballs/PSYCOPG-2-8/
 PKG=@ARCHIVENAME@-@VERSION@.@TARBALL_POSTFIX@
 
 get_source_files () {
