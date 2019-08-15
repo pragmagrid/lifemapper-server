@@ -124,7 +124,7 @@ lmserver &Kickstart_PrivateHostname;:/export/&amp;
 lm &Kickstart_PrivateHostname;:/export/&amp;
 </file>
 
-/etc/init.d/autofs restart
+/usr/bin/systemctl restart autofs 
 /opt/rocks/bin/rocks sync users
 
 # add solr index files
