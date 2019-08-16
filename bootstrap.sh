@@ -117,13 +117,6 @@ module unload opt-python
 install lifemapper-gdal
 /sbin/ldconfig
 
-cd src/postgis2
-make prep
-cd ../..
-compile postgis2
-install lifemapper-postgis2
-/sbin/ldconfig
-
 # install postgresql
 # yum --enablerepo base update openssl
 rpm -i src/RPMS/postgresql96-libs-9.6.15-1PGDG.rhel7.x86_64
@@ -133,7 +126,12 @@ rpm -i src/RPMS/postgresql96-server-9.6.15-1PGDG.rhel7.x86_64.rpm
 rpm -i src/RPMS/postgresql96-contrib-9.6.15-1PGDG.rhel7.x86_64.rpm
 /sbin/ldconfig  /usr/pgsql-9.6/lib/
 
-
+cd src/postgis2
+make prep
+cd ../..
+compile postgis2
+install lifemapper-postgis2
+/sbin/ldconfig
 
 # # install other deps for postgis2_96
 # rpm -i src/RPMS/proj49-4.9.3-3.rhel7.1.x86_64.rpm     
