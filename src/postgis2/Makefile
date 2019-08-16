@@ -63,6 +63,8 @@ include Rules.mk
 version.mk:
 	cat ../version.mk version.mk.in > version.mk
 
+PY.PATH = /opt/python/bin/$(PYTHONVER)
+
 SEDSPEC += \
         -e 's%@ARCHIVENAME@%$(ARCHIVENAME)%g'  \
         -e 's%@VERSION@%$(VERSION)%g'  \
@@ -79,18 +81,19 @@ prep: prepSrc.sh
 	./prepSrc.sh
 
 build:
-	tar xjvf $(ARCHIVENAME)-$(VERSION).$(TARBALL_POSTFIX)
-	(											\
-	    cd $(ARCHIVENAME)-$(VERSION);			\
-	    ./configure --prefix=$(PKGROOT);		\
-	    $(MAKE);								\
+	$(TAR) -xzvf $(ARCHIVENAME)-$(VERSION).$(TARBALL_POSTFIX)
+	( 							\
+		cd $(ARCHIVENAME)-$(VERSION);		\
+		./configure --prefix=$(PKGROOT);	\
+		$(MAKE);							\
 	)
 	
 install::
 	mkdir -p $(ROOT)/$(PKGROOT)
-	(												\
-	    cd $(ARCHIVENAME)-$(VERSION);				\
-	    $(MAKE) prefix=$(ROOT)/$(PKGROOT) install;	\
+	(								\
+		cd $(ARCHIVENAME)-$(VERSION);				\
+		$(MAKE) prefix=$(ROOT)/$(PKGROOT) ROOT=$(ROOT)/ install; \
+		/usr/sbin/ldconfig
 	)
 
 clean::

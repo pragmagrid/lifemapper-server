@@ -57,9 +57,9 @@
 		<package>armadillo</package> -->
 		<!-- <package>gdal-libs</package> -->
 		
-		<package>proj</package>
-		<package>postgis2_96</package>
-		
+		<package>proj</package>		
+<!-- 	<package>postgis2_96</package> -->		
+		<package>lifemapper-postgis2</package>
 		<package>opt-lifemapper-psycopg2</package>
 
 		<!-- Add pgbouncer from PGDG96 -->

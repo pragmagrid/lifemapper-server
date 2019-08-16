@@ -1,0 +1,9 @@
+NAME            = lifemapper-postgis2
+ARCHIVENAME     = postgis
+VERSION         = 2.4.8
+RELEASE         = 0
+TARBALL_POSTFIX	= tar.gz
+
+RPM.EXTRAS = "AutoReq: no"
+
+RPM.FILES = $(PKGROOT)/*  
