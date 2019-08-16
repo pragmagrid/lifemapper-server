@@ -20,7 +20,7 @@ PSQLDIR=pgsql-@PGSQLVER@
 answer=`rpm -qa | grep $rpmname`
 if [ "$answer" != "" ] ; then
     echo "Removing $rpmname rpm"
-    /usr/bin/yum remove $rpmname.x86_64
+    /usr/bin/yum -y remove $rpmname.x86_64
     /sbin/ldconfig
 #     /sbin/ldconfig $PSQLDIR
 fi

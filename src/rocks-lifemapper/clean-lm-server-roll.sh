@@ -153,28 +153,28 @@ del-mapserver(){
 del-postgres() {
    echo "Removing postgis, postgres, pgbouncer and dependencies RPMS" >> $LOG
    $RM postgresql96 postgresql96-libs postgresql96-devel postgresql96-server postgresql96-contrib
-   $RM boost-serialization     
-   $RM CGAL
-   $RM SFCGAL SFCGAL-libs     
-   $RM geos
-   $RM libgeotiff
-   $RM ogdi
-   $RM unixODBC
-   $RM xerces-c
-   $RM libdap libdap-devel
-   $RM CharLS CharLS-devel
-   $RM cfitsio  cfitsio-devel
-   $RM freexl  freexl-devel
-   $RM netcdf  netcdf-devel
-   $RM openjpeg2  openjpeg2-tools  openjpeg2-devel
-   $RM libgta  libgta-devel
-   $RM SuperLU
-   $RM arpack
-   $RM openblas-openmp
-   $RM armadillo 
-   $RM gdal-libs
-   $RM proj
-   $RM postgis2_96
+#    $RM boost-serialization     
+#    $RM CGAL
+#    $RM SFCGAL SFCGAL-libs     
+#    $RM geos
+#    $RM libgeotiff
+#    $RM ogdi
+#    $RM unixODBC
+#    $RM xerces-c
+#    $RM libdap libdap-devel
+#    $RM CharLS CharLS-devel
+#    $RM cfitsio  cfitsio-devel
+#    $RM freexl  freexl-devel
+#    $RM netcdf  netcdf-devel
+#    $RM openjpeg2  openjpeg2-tools  openjpeg2-devel
+#    $RM libgta  libgta-devel
+#    $RM SuperLU
+#    $RM arpack
+#    $RM openblas-openmp
+#    $RM armadillo 
+#    $RM gdal-libs
+#    $RM proj
+#    $RM postgis2_96
    $RM c-ares  c-ares-devel
    $RM pgbouncer
 }
@@ -189,7 +189,14 @@ del-directories () {
    rm -rf /var/run/postgresql
    rm -rf /var/lib/pgsql
    rm -rf /etc/pgbouncer
-
+   
+   echo "Removing other dirs" >> $LOG
+   rm -rf /state/partition1/lmscratch/log/apache
+   rm -rf /state/partition1/lmscratch/sessions
+   rm -rf /state/partition1/lmscratch/tmpUpload
+   rm -rf /state/partition1/lmscratch/makeflow
+   rm -rf /state/partition1/lm/data/archive
+   
    echo "Removing data directories" >> $LOG
    rm -rf /state/partition1/lmserver
 

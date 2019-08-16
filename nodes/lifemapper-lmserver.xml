@@ -98,6 +98,7 @@ PG=`basename /usr/lib/systemd/system/postgresql-*.service`
 
 /usr/bin/systemctl enable pgbouncer
 
+# Execute on reboot. Log output goes to /tmp/post-99-lifemapper-lmserver.debug
 <file name="/etc/rc.d/rocksconfig.d/post-99-lifemapper-lmserver" perms="0700">
 #!/bin/bash
 # do LM initialization and start services
