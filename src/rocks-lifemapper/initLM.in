@@ -30,10 +30,10 @@ fi
 
 set_defaults() {
     # Rocks version
-    ROCKS_VER=`rocks list roll | grep base | awk '{print $2}'`
+    ROCKS_VER=`/opt/rocks/bin/rocks list roll | grep base | awk '{print $2}'`
 
     THISNAME=`/bin/basename $0`
-    if [ $ROCKS_VER = '7.0' ]; then
+    if [ "$ROCKS_VER" = "7.0" ]; then
     	PG=`basename /usr/lib/systemd/system/postgresql-*.service`
     else
     	PG=`basename /etc/init.d/postgresql-*`
@@ -46,7 +46,8 @@ set_defaults() {
     UPDATE_TABLES_SQL=@LMHOME@/rocks/sql/dbUpdateTables.sql
     ADD_FUNCTIONS_SQL=@LMHOME@/rocks/sql/dbAddFunctions.sql
     
-    PVER=echo ${@PGSQLVER@/./}
+    tmp=@PGSQLVER@
+    PVER=${tmp/.}
     PGSETUP_CMD=/usr/pgsql-@PGSQLVER@/bin/postgresql$PVER-setup
 
     MAP_BACKGROUND=@LMHOME@/LmWebServer/public_html/images/BMNG.geotiff
@@ -106,7 +107,7 @@ set_defaults() {
 cmd_service () {
 	svc=$1
 	cmd=$2
-	if [ $ROCKS_VER = '7.0' ]; then
+    if [ "$ROCKS_VER" = "7.0" ]; then
     	/usr/bin/systemctl $2 $1  >> $LOG
     else
     	/sbin/service $1 $2  >> $LOG
@@ -185,7 +186,7 @@ init_postgres () {
     # OPT needs testing
     OPT="en_US.UTF-8"
     
-	if [ $ROCKS_VER = '7.0' ]; then
+    if [ "$ROCKS_VER" = "7.0" ]; then
     	$PGSETUP_CMD initdb >> $LOG
     else
     	/sbin/service $PG initdb $OPT  >> $LOG
@@ -299,14 +300,14 @@ update_config() {
 
 make_dashboard_link () {
     if [ -d $DASHBOARD_DIR ] ; then
-        (cd /var/www/html; ln -s $DASHBOARD_DIR)
+        (cd /var/www/html; /usr/bin/ln -s $DASHBOARD_DIR)
         echo "Creating dashboard link" >> $LOG
     fi
 }
 
 make_client_link () {
     if [ -d $LMCLIENT_DIR ] ; then
-        (cd /var/www/html; ln -s $LMCLIENT_DIR)
+        (cd /var/www/html; /usr/bin/ln -s $LMCLIENT_DIR)
         echo "Creating lmclient link" >> $LOG
     fi
 }
