@@ -68,7 +68,8 @@ PY.PATH = /opt/python/bin/$(PYTHONVER)
 SEDSPEC += \
         -e 's%@ARCHIVENAME@%$(ARCHIVENAME)%g'  \
         -e 's%@VERSION@%$(VERSION)%g'  \
-        -e 's%@TARBALL_POSTFIX@%$(TARBALL_POSTFIX)%g'
+        -e 's%@TARBALL_POSTFIX@%$(TARBALL_POSTFIX)%g'  \
+        -e 's%@PGSQLVER@%$(PGSQLVER)%g'
 
 prepSrc.sh: prepSrc.sh.in
 	$(SED) $(SEDSPEC) $^ > $@
@@ -82,18 +83,18 @@ prep: prepSrc.sh
 
 build:
 	$(TAR) -xzvf $(ARCHIVENAME)-$(VERSION).$(TARBALL_POSTFIX)
-	( 							\
+	( 										\
 		cd $(ARCHIVENAME)-$(VERSION);		\
-		./configure --prefix=$(PKGROOT);	\
+		./configure --prefix=$(PKGROOT) --with-pgconfig=/usr/pgsql-@PGSQLVER@/bin/pg_config	 --with-geosconfig=$(PKGROOT)/bin/geos-config  --with-projdir=$(PKGROOT)  --with-gdalconfig=$(PKGROOT)/bin/gdal-config;	\
 		$(MAKE);							\
 	)
 	
 install::
 	mkdir -p $(ROOT)/$(PKGROOT)
-	(								\
-		cd $(ARCHIVENAME)-$(VERSION);				\
+	(										\
+		cd $(ARCHIVENAME)-$(VERSION);		\
 		$(MAKE) prefix=$(ROOT)/$(PKGROOT) ROOT=$(ROOT)/ install; \
-		/usr/sbin/ldconfig
+		/usr/sbin/ldconfig;					\
 	)
 
 clean::
