@@ -64,6 +64,7 @@ version.mk:
 	cat ../version.mk version.mk.in > version.mk
 
 PY.PATH = /opt/python/bin/$(PYTHONVER)
+PGPATH = /usr/pgsql-$(PGSQLVER)/
 
 SEDSPEC += \
         -e 's%@ARCHIVENAME@%$(ARCHIVENAME)%g'  \
@@ -91,7 +92,11 @@ build:
 	
 install::
 	mkdir -p $(ROOT)/$(PKGROOT)
-	(										\
+	mkdir -p $(PGPATH)/bin
+	mkdir -p $(PGPATH)/lib
+	mkdir -p $(PGPATH)/share/contrib/postgis-2.4
+	mkdir -p $(PGPATH)/share/extension/address
+	(
 		cd $(ARCHIVENAME)-$(VERSION);		\
 		$(MAKE) prefix=$(ROOT)/$(PKGROOT) ROOT=$(ROOT)/ install; \
 		/usr/sbin/ldconfig;					\
