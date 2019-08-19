@@ -83,22 +83,21 @@ prep: prepSrc.sh
 	./prepSrc.sh
 
 build:
+	mkdir -p $(ROOT)/$(PGPATH)/bin
+	cp -p $(PGPATH)/bin/pg_config $(ROOT)/$(PGPATH)/bin/
 	$(TAR) -xzvf $(ARCHIVENAME)-$(VERSION).$(TARBALL_POSTFIX)
 	( \
 		cd $(ARCHIVENAME)-$(VERSION);   \
-		./configure --prefix=$(PKGROOT) --with-pgconfig=/usr/pgsql-$(PGSQLVER)/bin/pg_config  --with-geosconfig=$(PKGROOT)/bin/geos-config  --with-projdir=$(PKGROOT)  --with-gdalconfig=$(PKGROOT)/bin/gdal-config;	\
+		./configure --with-pgconfig=$(PGPATH)/bin/pg_config  --with-geosconfig=$(PKGROOT)/bin/geos-config  --with-projdir=$(PKGROOT)  --with-gdalconfig=$(PKGROOT)/bin/gdal-config;	\
 		$(MAKE);                        \
 	)
 	
 install::
-	mkdir -p $(ROOT)/$(PKGROOT)
-	mkdir -p $(ROOT)/$(PGPATH)/bin
-	mkdir -p $(ROOT)/$(PGPATH)/lib
-	mkdir -p $(ROOT)/$(PGPATH)/share/contrib/postgis-2.4
-	mkdir -p $(ROOT)/$(PGPATH)/share/extension
+	mkdir -p $(ROOT)/usr/lib64
+	mkdir -p $(ROOT)/$(PGPATH)
 	( \
 		cd $(ARCHIVENAME)-$(VERSION);     \
-		$(MAKE) prefix=$(ROOT)/$(PKGROOT) ROOT=$(ROOT)/ install; \
+		$(MAKE) prefix=$(ROOT)/$(PGPATH)  install; \
 		/usr/sbin/ldconfig;               \
 	)
 

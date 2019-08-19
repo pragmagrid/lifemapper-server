@@ -6,7 +6,7 @@ TARBALL_POSTFIX	= tar.gz
 
 RPM.EXTRAS = "AutoReq: no"
 
-RPM.FILES = $(PKGROOT)/*     \n\
+RPM.FILES = /usr/lib64/liblwgeom*     \n\
     		/usr/pgsql-$(PGSQLVER)/bin/pgsql2shp                \n\
     		/usr/pgsql-$(PGSQLVER)/bin/raster2pgsql             \n\
     		/usr/pgsql-$(PGSQLVER)/bin/shp2pgsql                \n\
