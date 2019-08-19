@@ -85,7 +85,7 @@ build:
 	$(TAR) -xzvf $(ARCHIVENAME)-$(VERSION).$(TARBALL_POSTFIX)
 	( 										\
 		cd $(ARCHIVENAME)-$(VERSION);		\
-		./configure --prefix=$(PKGROOT) --with-pgconfig=/usr/pgsql-@PGSQLVER@/bin/pg_config	 --with-geosconfig=$(PKGROOT)/bin/geos-config  --with-projdir=$(PKGROOT)  --with-gdalconfig=$(PKGROOT)/bin/gdal-config;	\
+		./configure --prefix=$(PKGROOT) --with-pgconfig=/usr/pgsql-$(PGSQLVER)/bin/pg_config  --with-geosconfig=$(PKGROOT)/bin/geos-config  --with-projdir=$(PKGROOT)  --with-gdalconfig=$(PKGROOT)/bin/gdal-config;	\
 		$(MAKE);							\
 	)
 	
