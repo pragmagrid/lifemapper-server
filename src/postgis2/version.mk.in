@@ -10,10 +10,10 @@ RPM.FILES = $(PKGROOT)/*     \n\
     		/usr/pgsql-$(PGSQLVER)/bin/pgsql2shp                \n\
     		/usr/pgsql-$(PGSQLVER)/bin/raster2pgsql             \n\
     		/usr/pgsql-$(PGSQLVER)/bin/shp2pgsql                \n\
-    		/usr/pgsql-$(PGSQLVER)/lib/postgis-2.4.so           \n\ 
+    		/usr/pgsql-$(PGSQLVER)/lib/postgis-2.4.so           \n\
     		/usr/pgsql-$(PGSQLVER)/lib/rtpostgis-2.4.so         \n\
-    		/usr/pgsql-$(PGSQLVER)/lib/postgis_topology-2.4.so  \n\ 
-    		/usr/pgsql-$(PGSQLVER)/lib/address_standardizer.so  \n\ 
+    		/usr/pgsql-$(PGSQLVER)/lib/postgis_topology-2.4.so  \n\
+    		/usr/pgsql-$(PGSQLVER)/lib/address_standardizer.so  \n\
     		/usr/pgsql-$(PGSQLVER)/share/contrib/postgis-2.4/*  \n\
     		/usr/pgsql-$(PGSQLVER)/share/extension/address*     \n\
     		/usr/pgsql-$(PGSQLVER)/share/extension/postgis*     \n\

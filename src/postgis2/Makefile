@@ -84,22 +84,22 @@ prep: prepSrc.sh
 
 build:
 	$(TAR) -xzvf $(ARCHIVENAME)-$(VERSION).$(TARBALL_POSTFIX)
-	( 										\
-		cd $(ARCHIVENAME)-$(VERSION);		\
+	( \
+		cd $(ARCHIVENAME)-$(VERSION);   \
 		./configure --prefix=$(PKGROOT) --with-pgconfig=/usr/pgsql-$(PGSQLVER)/bin/pg_config  --with-geosconfig=$(PKGROOT)/bin/geos-config  --with-projdir=$(PKGROOT)  --with-gdalconfig=$(PKGROOT)/bin/gdal-config;	\
-		$(MAKE);							\
+		$(MAKE);                        \
 	)
 	
 install::
 	mkdir -p $(ROOT)/$(PKGROOT)
-	mkdir -p $(PGPATH)/bin
-	mkdir -p $(PGPATH)/lib
-	mkdir -p $(PGPATH)/share/contrib/postgis-2.4
-	mkdir -p $(PGPATH)/share/extension/address
-	(
-		cd $(ARCHIVENAME)-$(VERSION);		\
+	mkdir -p $(ROOT)/$(PGPATH)/bin
+	mkdir -p $(ROOT)/$(PGPATH)/lib
+	mkdir -p $(ROOT)/$(PGPATH)/share/contrib/postgis-2.4
+	mkdir -p $(ROOT)/$(PGPATH)/share/extension
+	( \
+		cd $(ARCHIVENAME)-$(VERSION);     \
 		$(MAKE) prefix=$(ROOT)/$(PKGROOT) ROOT=$(ROOT)/ install; \
-		/usr/sbin/ldconfig;					\
+		/usr/sbin/ldconfig;               \
 	)
 
 clean::
