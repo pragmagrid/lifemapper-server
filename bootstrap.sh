@@ -38,16 +38,16 @@ yum update
 # yumdownloader --resolve --enablerepo=pgdg96 postgresql96-plpython
 #
 ## Add postgis 
-# yumdownloader --resolve --enablerepo=pgdg96 boost-serialization-1.53.0-27.el7.x86_64.rpm
+# yumdownloader --resolve --enablerepo=pgdg96 boost-serialization
 # for gdal-libs
-# yumdownloader --resolve --enablerepo=epel libdap libdap-devel
-# yumdownloader --resolve --enablerepo=epel CharLS CharLS-devel 
-# yumdownloader --resolve --enablerepo=epel cfitsio cfitsio-devel
-# yumdownloader --resolve --enablerepo=epel freexl freexl-devel
-# yumdownloader --resolve --enablerepo=epel libgta libgta-devel
-# yumdownloader --resolve --enablerepo=epel netcdf netcdf-devel
-# yumdownloader --resolve --enablerepo=epel openjpeg2 openjpeg2-devel openjpeg2-tools
-## armadillo brings arpack, SuperLU, openblas-openmp
+# yumdownloader --resolve --enablerepo=epel libdap 
+# yumdownloader --resolve --enablerepo=epel CharLS  
+# yumdownloader --resolve --enablerepo=epel cfitsio
+# yumdownloader --resolve --enablerepo=epel freexl 
+# yumdownloader --resolve --enablerepo=epel libgta 
+# yumdownloader --resolve --enablerepo=epel netcdf 
+# yumdownloader --resolve --enablerepo=epel openjpeg2 
+## armadillo brings arpack, atlas, blas, lapack, hdf5, SuperLU, openblas-openmp
 # yumdownloader --resolve --enablerepo epel  armadillo
 
 # yumdownloader --resolve --enablerepo=pgdg96 postgis2_96
@@ -125,19 +125,6 @@ rpm -i src/RPMS/postgresql96-devel-9.6.15-1PGDG.rhel7.x86_64
 rpm -i src/RPMS/postgresql96-server-9.6.15-1PGDG.rhel7.x86_64.rpm
 rpm -i src/RPMS/postgresql96-contrib-9.6.15-1PGDG.rhel7.x86_64.rpm
 /sbin/ldconfig  /usr/pgsql-9.6/lib/
-
-cd src/postgis2
-make prep
-cd ../..
-compile postgis2
-install lifemapper-postgis2
-/sbin/ldconfig
-
-# # install other deps for postgis2_96
-# rpm -i src/RPMS/proj49-4.9.3-3.rhel7.1.x86_64.rpm     
-# rpm -i src/RPMS/postgresql96-libs-9.6.15-1PGDG.rhel7.x86_64.rpm     
-# rpm -i src/RPMS/proj-4.8.0-2.rhel7.x86_64.rpm     
-# rpm -i src/RPMS/postgresql96-9.6.15-1PGDG.rhel7.x86_64.rpm
       
 
 # TODO: Upgrade cherrypy to 17.4.2 and prepSrc on it and dependencies

@@ -26,7 +26,7 @@
 
 		<!-- Add postgis2 and dependencies from epel and PGDG96 repos -->
 		<!-- gdal-libs deps -->
-		<!-- <package>boost-serialization</package>
+		<package>boost-serialization</package>
 		<package>CGAL</package>
 		<package>SFCGAL-libs</package>
 		<package>SFCGAL</package>
@@ -36,30 +36,25 @@
 		<package>unixODBC</package>
 		<package>xerces-c</package>
 		<package>libdap</package>
-		<package>libdap-devel</package>
 		<package>CharLS</package>
-		<package>CharLS-devel</package>
 		<package>cfitsio</package>
-		<package>cfitsio-devel</package>
 		<package>freexl</package>
-		<package>freexl-devel</package>
 		<package>netcdf</package>
-		<package>netcdf-devel</package>
 		<package>openjpeg2</package>
-		<package>openjpeg2-tools</package>
-		<package>openjpeg2-devel</package>
 		<package>libgta</package>
-		<package>libgta-devel</package> -->
 		<!-- armadillo deps -->
-		<!-- <package>SuperLU</package>
+		<package>SuperLU</package>
 		<package>arpack</package>
+		<package>atlas</package>
+		<package>blas</package>
+		<package>lapack</package>
 		<package>openblas-openmp</package>
-		<package>armadillo</package> -->
-		<!-- <package>gdal-libs</package> -->
-		
-		<!-- <package>proj</package>		 -->
-<!-- 	<package>postgis2_96</package> -->		
-		<package>lifemapper-postgis2</package>
+		<package>armadillo</package>
+		<package>gdal-libs</package		
+
+		<package>proj</package>		
+		<package>postgis2_96</package>
+
 		<package>opt-lifemapper-psycopg2</package>
 
 		<!-- Add pgbouncer from PGDG96 -->
