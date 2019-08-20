@@ -1,6 +1,6 @@
-NAME            = opt-lifemapper-chardet
-VERSION         = 3.0.4
-ARCHIVENAME     = chardet
+NAME            = opt-lifemapper-urllib3
+VERSION         = 1.25.3
+ARCHIVENAME     = urllib3
 RELEASE         = 0
 TARBALL_POSTFIX = tar.gz
 

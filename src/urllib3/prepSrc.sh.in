@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# Purpose: Fetch python-chardet source
-SRC_URL=https://files.pythonhosted.org/packages/fc/bb/a5768c230f9ddb03acc9ef3f0d4a3cf93462473795d18e9535498c8f929d
+# Purpose: Fetch python-urllib3 source
+SRC_URL=https://files.pythonhosted.org/packages/4c/13/2386233f7ee40aa8444b47f7463338f3cbdf00c316627558784e3f542f07
 SRC_PKG=@ARCHIVENAME@-@VERSION@.@TARBALL_POSTFIX@
 
 get_source_files () {
