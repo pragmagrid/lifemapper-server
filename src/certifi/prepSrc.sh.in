@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# Purpose: Fetch python-@ARCHIVENAME@ source
+SRC_URL=https://files.pythonhosted.org/packages/c5/67/5d0548226bcc34468e23a0333978f0e23d28d0b3f0c71a151aef9c3f7680
+SRC_PKG=@ARCHIVENAME@-@VERSION@.@TARBALL_POSTFIX@
+
+get_source_files () {
+  echo "Fetch @ARCHIVENAME@ source code"
+  wget "$SRC_URL/$SRC_PKG"
+}
+
+### main ###
+get_source_files

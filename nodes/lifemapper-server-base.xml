@@ -48,8 +48,10 @@
 	<package>opt-lifemapper-pytest</package>
 	
 	<!-- # for requests -->
-	<package>python-ipaddress</package>
-	<package>python-urllib3</package>
+	<!-- <package>python-ipaddress</package> -->
+	<package>opt-lifemapper-certifi</package>
+	<package>opt-lifemapper-chardet</package>
+	<package>opt-lifemapper-urllib3</package>
 	<package>opt-lifemapper-requests</package>
 	
 	<package>opt-lifemapper-unicodecsv</package>

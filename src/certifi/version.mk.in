@@ -1,0 +1,9 @@
+NAME            = opt-lifemapper-certifi
+VERSION         = 2019.6.16
+ARCHIVENAME     = certifi
+RELEASE         = 0
+TARBALL_POSTFIX = tar.gz
+
+RPM.EXTRAS = "AutoReq: no"
+
+RPM.FILES =    $(PYTHON27_PACKAGES)/*
