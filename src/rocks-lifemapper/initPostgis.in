@@ -17,6 +17,6 @@ fi
 
 # create DB users and postgis extensions
 TDIR=@PKGROOT@/rocks/sql
-su - postgres -c "export PGHOST=$PGHOST; psql template1 -f $TDIR/roles.sql"
-su - postgres -c "export PGHOST=$PGHOST; psql template1 -f $TDIR/postgis.sql"
+su - postgres -c "export PGHOST=$PGHOST; psql -d template1 -f $TDIR/roles.sql"
+su - postgres -c "export PGHOST=$PGHOST; psql -d template1 -f $TDIR/postgis.sql"
 

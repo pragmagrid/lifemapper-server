@@ -195,21 +195,16 @@ init_postgres () {
     # start postgres with default config
     echo "-- start postgres with default config" >> $LOG
     cmd_service $PG start
-    # /usr/bin/systemctl start $PG >> $LOG
     /bin/sleep 15
 }
 
+# initialize postgres db
 # create lifemapper db users and roles.sql 
 # and initialize postgres db with user/postgis data
-dbserver_init() {
-    echo "-- Executing initDbserver (including confDbconnect)" >> $LOG
-    $BIN/initDbserver >> $LOG
-}
-
-# initialize postgres db
 init_db() {
     init_postgres
-    dbserver_init
+    echo "-- Executing initDbserver (including confDbconnect)" >> $LOG
+    $BIN/initDbserver >> $LOG
 }
 
 # populate Lifemapper tables
