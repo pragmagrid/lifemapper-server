@@ -1,0 +1,9 @@
+NAME            = opt-lifemapper-idna
+VERSION         = 2.8
+ARCHIVENAME     = idna
+RELEASE         = 0
+TARBALL_POSTFIX = tar.gz
+
+RPM.EXTRAS = "AutoReq: no"
+
+RPM.FILES =    $(PYTHON27_PACKAGES)/*
