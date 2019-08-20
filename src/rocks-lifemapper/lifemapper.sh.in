@@ -8,7 +8,7 @@ PGSQLBIN=/usr/pgsql-@PGSQLVER@/bin
 export PATH=$PGSQLBIN:$PYBIN:$LMBIN:$CCBIN:$PATH
 export PYTHON=$PYBIN/@PYTHONVER@
 
-export PYTHONPATH=@LMHOME@:@PYTHON27_PACKAGES@:@LMHOME@/LmClient/LmPython/lifemapper
+export PYTHONPATH=@LMHOME@:@PYTHON27_PACKAGES@:@PYTHON27_PACKAGES@/pip/_vendor/requests/packages:@LMHOME@/LmClient/LmPython/lifemapper
 
 # Needed for apache/mapserver, should this be here or lifemapper.conf?
 export PROJ_LIB=@PKGROOT@/share/proj
