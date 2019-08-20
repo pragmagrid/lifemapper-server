@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# Purpose: Fetch python-chardet source
+
+SRC_URL=https://files.pythonhosted.org/packages/91/05/28f23094cdf1410fb03533f0d71e6b4aad3c504100e83b8cea6fc899552c
+SRC_PKG=@ARCHIVENAME@-@VERSION@.@TARBALL_POSTFIX@
+
+get_source_files () {
+  echo "Fetch @ARCHIVENAME@ source code"
+  wget "$SRC_URL/$SRC_PKG"
+}
+
+### main ###
+get_source_files

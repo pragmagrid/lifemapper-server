@@ -1,0 +1,9 @@
+NAME            = opt-lifemapper-chardet
+VERSION         = 3.0.2
+ARCHIVENAME     = chardet
+RELEASE         = 0
+TARBALL_POSTFIX = tar.gz
+
+RPM.EXTRAS = "AutoReq: no"
+
+RPM.FILES =    $(PYTHON27_PACKAGES)/*
