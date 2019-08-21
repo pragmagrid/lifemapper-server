@@ -13,7 +13,7 @@ usage ()
     echo "     - creating roles and postgis tables"
     echo "     - create new config and auth files for postgres "
     echo "     - create new config for pgbouncer "
-    echo "     - set postgres unix socket PGHOST=/var/run/postgresql"
+    echo "     - set postgres unix socket PGHOST=@UNIXSOCKET@"
     echo "     - restart postgres/pgbouncer with new configuration\n"
     echo "     - inserts host IP in @LMHOME@/config/config.lmserver.ini\n"
     echo "     - installs cron files\n"
@@ -52,6 +52,7 @@ set_defaults() {
 
     MAP_BACKGROUND=@LMHOME@/LmWebServer/public_html/images/BMNG.geotiff
     IMAGE_DIR=@DATADIR_SERVER@/image
+    # link url address to install of lifemapper-webclient rpm
     LMCLIENT_DIR=@DATADIR_SERVER@/@LMCLIENT@
     DASHBOARD_DIR=@LMHOME@/LmWebServer/public_html/@DASHBOARD@
     
@@ -211,6 +212,7 @@ init_db() {
 fill_db() {
     echo "-- Executing catalogDefaultDataInputs" >> $LOG
     . /etc/profile.d/lifemapper.sh
+    module load opt-python
     $BIN/catalogDefaultDataInputs >> $LOG
 }
 
@@ -269,12 +271,12 @@ install_cron_jobs () {
 start_services() {
     # set unix socket dir
     echo "-- update unix socket " >> $LOG
-    export PGHOST=/var/run/postgresql
+    export PGHOST=@UNIXSOCKET@
     if [ ! -f $PROFILE ] ; then
         touch $PROFILE
         chown postgres:postgres $PROFILE
     fi
-    echo "export PGHOST=/var/run/postgresql" >> $PROFILE
+    echo "export PGHOST=@UNIXSOCKET@" >> $PROFILE
 
     # restart postgres with updated configuration
     echo "-- restart postgres with new configuration" >> $LOG

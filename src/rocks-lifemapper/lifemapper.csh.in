@@ -13,7 +13,7 @@ setenv PYTHONPATH "@LMHOME@:@PYTHON27_PACKAGES@:@LMHOME@/LmClient/LmPython/lifem
 # Needed for apache/mapserver, should this be here or lifemapper.conf?
 setenv PROJ_LIB=@PKGROOT@/share/proj
 
-setenv PGHOST /var/run/postgresql
+setenv PGHOST @UNIXSOCKET@
 
 setenv JAVA_TOOL_OPTIONS=-Xmx512m
 setenv  SOLR_JAVA_HOME /etc/alternatives/java
