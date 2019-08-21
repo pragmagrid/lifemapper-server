@@ -1,14 +1,14 @@
 NAME            = lifemapper-webclient
 ARCHIVENAME     = $(LMCLIENT)
 PACKAGING_CODE	= mcpa
-WEBAPP_CODE		= boom
+WEBAPP_CODE	= boom
 REPONAME        = viz_client
-VERSION         = 2.2.14
+VERSION         = 2.2.15
 RELEASE         = 0
 TARBALL_POSTFIX	= tar.gz
 
 RPM.EXTRAS = "AutoReq: no"
 
 RPM.FILES = $(subst share,state/partition1,$(DATADIR_SERVER))/*  \n\
-            $(PKGROOT)/*  
+            $(PKGROOT)/LmWebServer/assets/*  
 
