@@ -46,7 +46,6 @@
 	<package>opt-lifemapper-egenix-mx-base</package>
 	<package>opt-lifemapper-idigbio</package>
 	<package>opt-lifemapper-pytest</package>
-	
 	<!-- # for requests -->
 	<!-- <package>python-ipaddress</package> -->
 	<package>opt-lifemapper-certifi</package>
@@ -63,7 +62,7 @@
 
 	<!-- lifemapper distro -->
 	<package>lifemapper-lmserver</package>
-	<!-- <package>lifemapper-webclient</package> -->
+	<package>lifemapper-webclient</package>
 	<package>rocks-lifemapper</package>
 	<package>roll-lifemapper-server-usersguide</package>
 
