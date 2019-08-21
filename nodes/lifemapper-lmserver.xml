@@ -50,7 +50,7 @@
 		<package>lapack</package>
 		<package>openblas-openmp</package>
 		<package>armadillo</package>
-		<package>gdal-libs</package		
+		<package>gdal-libs</package>
 
 		<package>proj</package>		
 		<package>postgis2_96</package>

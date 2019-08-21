@@ -7,7 +7,7 @@
 #    user accounts and groups : postgres, pgbouncer, solr, lmwriter
 
 RM="rpm -evl --quiet --nodeps"
-LMROLL_COUNT=`rocks list roll | grep lifemapper | wc -l`
+LMROLL_COUNT=`$ROCKS_CMD list roll | grep lifemapper | wc -l`
 LMUSER_COUNT=`/bin/egrep -i "^lmwriter" /etc/passwd  | wc -l`
 
 TimeStamp () {
@@ -65,7 +65,7 @@ del-shared-user-group () {
        /bin/rm -f /var/spool/mail/lmwriter
        /bin/rm -rf /export/home/lmwriter
        echo "Syncing users info" >> $LOG
-       rocks sync users
+       $ROCKS_CMD sync users
    fi
 }
 
@@ -104,7 +104,7 @@ stop-services () {
     prog="postmaster"
     if [ -n "`pidof $prog`" ]; then
         echo "-- kill $prog process " >> $LOG
-        killproc  $prog
+        /usr/bin/kill -SIGKILL  $prog
     fi
     
     SOLR_PROCESSES=`ps -Af | grep solr | grep -v "grep" | wc -l`
@@ -252,21 +252,21 @@ del-user-group () {
 
    if [ "$needSync" -eq "1" ]; then
        echo "Syncing users info" >> $LOG
-       rocks sync users
+       $ROCKS_CMD sync users
    fi
 }
 
 del-attr () {
-   rocks list host attr localhost | /bin/egrep -i LM_dbserver
+   $ROCKS_CMD list host attr localhost | /bin/egrep -i LM_dbserver
    if [ $? -eq 0 ]; then
-   	echo "Remove attribute LM_dbserver" >> $LOG
-   	rocks remove host attr localhost LM_dbserver
+		echo "Remove attribute LM_dbserver" >> $LOG
+   		$ROCKS_CMD remove host attr localhost LM_dbserver
    fi
 
    rocks list host attr localhost | /bin/egrep -i LM_webserver
    if [ $? -eq 0 ]; then
    	echo "Remove attribute LM_webserver" >> $LOG
-   	rocks remove host attr localhost LM_webserver
+   	$ROCKS_CMD remove host attr localhost LM_webserver
    fi
 }
 
@@ -325,9 +325,9 @@ fi
 
 echo
 echo "Removing roll lifemapper-server"
-/opt/rocks/bin/rocks remove roll lifemapper-server
+$ROCKS_CMD remove roll lifemapper-server
 echo "Rebuilding the distro"
 module unload opt-python
-(cd /export/rocks/install; rocks create distro; yum clean all)
+(cd /export/rocks/install; $ROCKS_CMD create distro; yum clean all)
 echo
 TimeStamp "# End"
