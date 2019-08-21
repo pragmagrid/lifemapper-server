@@ -51,6 +51,7 @@
 	<!-- <package>python-ipaddress</package> -->
 	<package>opt-lifemapper-certifi</package>
 	<package>opt-lifemapper-chardet</package>
+	<package>opt-lifemapper-idna</package>
 	<package>opt-lifemapper-urllib3</package>
 	<package>opt-lifemapper-requests</package>
 	

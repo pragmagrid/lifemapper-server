@@ -42,6 +42,7 @@ del-lifemapper-shared() {
    $RM opt-lifemapper-requests
    $RM opt-lifemapper-chardet
    $RM opt-lifemapper-certifi
+   $RM opt-lifemapper-idna
    $RM opt-lifemapper-urllib3
 }
 
@@ -189,6 +190,7 @@ del-sysRPM() {
 
 del-directories () {   
    echo "Removing  directories used by postgres and pgbouncer" >> $LOG
+   # Configured @UNIXSOCKET@ == /var/run/postgresql in version.mk constants
    rm -rf /var/run/postgresql
    rm -rf /var/lib/pgsql
    rm -rf /etc/pgbouncer
