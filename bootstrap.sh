@@ -86,15 +86,15 @@ echo "/opt/python/lib/" >> /etc/ld.so.conf.d/lifemapper-server.conf
 # echo "/opt/rocks/fcgi/lib" >> /etc/ld.so.conf.d/lifemapper-server.conf
 /sbin/ldconfig
 
-# add newer version of chardet for requests dependency
-cd src/chardet
-make prep
-cd ../..
-module load opt-python
-compile chardet
-module unload opt-python
-install opt-lifemapper-chardet
-/sbin/ldconfig
+# # add newer version of chardet for requests dependency
+# cd src/chardet
+# make prep
+# cd ../..
+# module load opt-python
+# compile chardet
+# module unload opt-python
+# install opt-lifemapper-chardet
+# /sbin/ldconfig
 
 # install proj, tiff, geos for gdal
 cd src/proj
