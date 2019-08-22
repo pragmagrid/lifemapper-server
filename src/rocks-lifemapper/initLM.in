@@ -30,8 +30,9 @@ fi
 
 set_defaults() {
 	# load opt-python
-    bash /usr/share/Modules/init/bash
-    module load opt-python
+	bash /usr/share/Modules/init/bash
+	module load opt-python
+	export PYTHONPATH=@LMHOME@
 
     # Rocks version
     ROCKS_VER=`/opt/rocks/bin/rocks list roll | grep base | awk '{print $2}'`
