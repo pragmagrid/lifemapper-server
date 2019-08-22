@@ -13,16 +13,18 @@
 
 libname=libpq.so
 rpmname=postgresql-libs
-# rpmname2=postgresql10-libs
 
 PSQLDIR=pgsql-@PGSQLVER@
 
 answer=`rpm -qa | grep $rpmname`
 if [ "$answer" != "" ] ; then
+	echo "Unload opt-python for yum"
+	bash /usr/share/Modules/init/bash
+	module unload opt-python
+
     echo "Removing $rpmname rpm"
     /usr/bin/yum -y remove $rpmname.x86_64
     /sbin/ldconfig
-#     /sbin/ldconfig $PSQLDIR
 fi
 
 # Check if correct version of libpq.so is available

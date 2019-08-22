@@ -11,7 +11,6 @@ PATH=/bin:/usr/bin:/usr/local/bin
 # load opt-python
 bash /usr/share/Modules/init/bash
 module load opt-python
-export PYTHONPATH=@LMHOME@
 
 # Log latest results of this job
 LOG=/tmp/`/bin/basename $0`.log

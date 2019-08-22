@@ -55,7 +55,7 @@ set_defaults() {
 	# load opt-python
     bash /usr/share/Modules/init/bash
     module load opt-python
-	export PYTHONPATH=@LMHOME@
+	. /etc/profile.d/lifemapper.sh
 
     # bash/python scripts
     BOOM_POPULATE=@LMHOME@/rocks/bin/initWorkflow

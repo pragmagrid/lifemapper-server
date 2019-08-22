@@ -12,7 +12,6 @@ set_defaults () {
 	# load opt-python
     bash /usr/share/Modules/init/bash
     module load opt-python
-	export PYTHONPATH=@LMHOME@
 	
 	# Set environment in case it is not already set
 	SHELL=/usr/local/bin/bash

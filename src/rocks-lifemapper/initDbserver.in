@@ -21,6 +21,7 @@ set_defaults() {
 	# load opt-python
     bash /usr/share/Modules/init/bash
     module load opt-python
+	. /etc/profile.d/lifemapper.sh
 }
 
 # create lifemapper db users and roles.sql 

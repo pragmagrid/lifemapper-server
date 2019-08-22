@@ -39,6 +39,7 @@ SetDefaults () {
     # python
     bash /usr/share/Modules/init/bash
     module load opt-python
+	. /etc/profile.d/lifemapper.sh
     BOOMCAT_PY=@LMHOME@/LmDbServer/boom/initWorkflow.py
 
     THISNAME=`/bin/basename $0`

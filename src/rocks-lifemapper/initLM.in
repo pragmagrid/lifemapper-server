@@ -32,7 +32,7 @@ set_defaults() {
 	# load opt-python
 	bash /usr/share/Modules/init/bash
 	module load opt-python
-	export PYTHONPATH=@LMHOME@
+	. /etc/profile.d/lifemapper.sh
 
     # Rocks version
     ROCKS_VER=`/opt/rocks/bin/rocks list roll | grep base | awk '{print $2}'`
@@ -216,7 +216,6 @@ init_db() {
 # populate Lifemapper tables
 fill_db() {
     echo "-- Executing catalogDefaultDataInputs" >> $LOG
-    . /etc/profile.d/lifemapper.sh
     $BIN/catalogDefaultDataInputs >> $LOG
 }
 
