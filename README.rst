@@ -372,9 +372,11 @@ Notes
 
    #. On 4gb memory host: compile succeeds. 
 
-#. **Free memory loss**: during building a roll some java-based packages are not releasing allocated memory properly
-   which results in available memory loss. After building a roll check host memory with ``free -m`` and 
-   reboot if the free memory is too low. 
+#. **Free memory loss**: during building a roll some java-based packages are 
+   not releasing allocated memory properly which results in available memory 
+   loss. After building a roll check host memory with ``free -m`` and run::
+   
+      sync && echo 1 > /proc/sys/vm/drop_caches
  
 TODO
 ----

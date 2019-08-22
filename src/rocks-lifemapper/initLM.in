@@ -34,17 +34,17 @@ set_defaults() {
     touch $LOG
 
     echo "-- load opt-python for initLM"  | tee -a $LOG
-	bash /usr/share/Modules/init/bash
-	module load opt-python
-	pver=`@PYBIN@ --version`
-	echo "-- $pver"   | tee -a $LOG
+    bash /usr/share/Modules/init/bash
+    module load opt-python
+    pver=`@PYBIN@ --version`
+    echo "-- $pver"   | tee -a $LOG
 
     PROF=/etc/profile.d/lifemapper.sh
     echo "-- set environment"  | tee -a $LOG
     if [ -f $PROF ] ; then
 	 . $PROF 
     else
-    	echo "ERROR: file $PROF not found" 
+    	echo "ERROR: file $PROF not found" | tee -a $LOG 
     	exit
     fi
 
@@ -172,12 +172,10 @@ stop_services () {
 
     if [ -f /var/run/pgbouncer/pgbouncer.pid ]; then
     	cmd_service pgbouncer stop
-    	# /usr/bin/systemctl stop pgbouncer | tee -a $LOG
     fi
 
     if [ -f /var/run/$PG.pid ] ; then
     	cmd_service $PG stop
-    	# /usr/bin/systemctl stop $PG | tee -a $LOG
     fi
 
     prog="postmaster"
@@ -190,7 +188,7 @@ stop_services () {
 finish_libevent_install () {
     # Complete libevent install
     echo "-- complete libevent install" | tee -a $LOG
-	/usr/bin/libtool --finish @LMHOME@/lib
+    /usr/bin/libtool --finish @LMHOME@/lib
 }
 
 # run initdb, start postgres daemon
@@ -220,16 +218,16 @@ init_postgres () {
 init_db() {
     init_postgres
     echo "-- Executing initDbserver (including confDbconnect)" | tee -a $LOG
-	pver=`@PYBIN@ --version`
-	echo "-- $pver"
+    pver=`@PYBIN@ --version`
+    echo "-- $pver" | tee -a $LOG
     $BIN/initDbserver >> $LOG
 }
 
 # populate Lifemapper tables
 fill_db() {
     echo "-- Executing catalogDefaultDataInputs" | tee -a $LOG
-	pver=`@PYBIN@ --version`
-	echo "-- $pver"
+    pver=`@PYBIN@ --version`
+    echo "-- $pver" | tee -a $LOG
     $BIN/catalogDefaultDataInputs >> $LOG
 }
 
@@ -275,15 +273,17 @@ add_lm_functions () {
 # need to update openssl for postgres
 update_openssl() {
     echo "-- yum update openssl" | tee -a $LOG
-	bash /usr/share/Modules/init/bash
-	module unload opt-python
-	pver=`@PYBIN@ --version`
-	echo "-- $pver"
+    bash /usr/share/Modules/init/bash
+    module unload opt-python
+    pver=`@PYBIN@ --version`
+    echo "-- $pver" | tee -a $LOG 
+    
     /usr/bin/yum --enablerepo base update openssl | tee -a $LOG 
-	bash /usr/share/Modules/init/bash
-	module load opt-python
-	pver=`@PYBIN@ --version`
-	echo "-- $pver"
+    
+    bash /usr/share/Modules/init/bash
+    module load opt-python
+    pver=`@PYBIN@ --version`
+    echo "-- $pver" | tee -a $LOG 
 }
 
 # install cron jobs for daily execution
