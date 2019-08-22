@@ -1,10 +1,8 @@
 #!/bin/bash
 #
-# This script dumps the contents of the taxon table into a CSV file, then 
-# calls a python script to read and insert the contents into a solr index.
-# An optional parameter will specify to filter by one taxonomysourceId or 
-# userId.  If the value is an integer, it will filter by taxonomysourceId, 
-# if it is a string, it will be filtered by userId.
+# This script only dumps the contents of the taxon table into a CSV file, then 
+# The first argument will specify to filter by one taxonomysourceId.
+#
 
 if [ $# -ne 1 ]; then
     usage
@@ -18,7 +16,7 @@ usage ()
     echo "This script is run on an existing lifemapper-server installation. "
     echo "It will:"
     echo "     - dump the contents of the taxon table records for "
-    echo "       taxonomy source id "
+    echo "       the provided taxonomy source id "
     echo "   "
     echo "The script can be run at any time to solr-index data for"
     echo "a taxonomy."
@@ -37,8 +35,12 @@ set_defaults() {
     
     USERSFILE=@PKGROOT@/rocks/etc/users
     SQL_CMD="select * from lm_v3.taxon where taxonomysourceid = $TAXSOURCEID"
-    module load opt-python
-    PY_CMD=@LMHOME@LmDbServer/tools/index_taxonomy_from_csv.py
+}
+
+
+# Log execution
+time_stamp () {
+    echo $1 `/bin/date` >> $LOG
 }
 
 
@@ -66,7 +68,7 @@ set_password () {
 
 
 ### Retrieve boom package named in BOOM_PKG
-get_taxonomy_for_solr () {
+export_taxonomy_for_solr () {
     # find metadata file testpkgname.ini
     if [ -f $OUTFILE ]; then
         echo "Output file $OUTFILE already present" | tee -a $LOG
@@ -76,9 +78,14 @@ get_taxonomy_for_solr () {
     fi     
 }
 
-set_defaults
+###### Main ###### 
+set_defaults $1
+time_stamp "# Start"
 set_password
-get_taxonomy_for_solr
+
+export_taxonomy_for_solr
+
+time_stamp "# End"
 
 
 #psql -U admin -d borg -c "COPY (select * from lm_v3.taxon where taxonomysourceid = 1) TO STDOUT WITH CSV HEADER" > /tmp/taxon.csv

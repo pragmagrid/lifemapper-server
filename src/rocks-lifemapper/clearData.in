@@ -17,11 +17,14 @@ usage ()
 }
 
 ### define varibles
-SetDefaults () {
+set_defaults () {
     USER_OR_GRIDSETID = $1
 
-    THISNAME=`/bin/basename $0`
+	# load opt-python
+    bash /usr/share/Modules/init/bash
     module load opt-python
+
+    THISNAME=`/bin/basename $0`
     CLEANUP_SCRIPT=@LMHOME@/LmDbServer/tools/janitor.py
     
     LOG=@LMSCRATCHDISK@/log/$THISNAME.log
@@ -29,15 +32,18 @@ SetDefaults () {
     touch $LOG
 }
 
-TimeStamp () {
+
+# Log execution
+time_stamp () {
     echo $1 `/bin/date` >> $LOG
 }
 
+
 ### delete user computed data from lifemapper DB and filesystem
-ClearData () {
+clear_data () {
     if [ -f $CLEANUP_SCRIPT ] ; then
         echo "Running '$CLEANUP_SCRIPT'..." | tee -a $LOG
-        /opt/python/bin/@PYTHONVER@ $CLEANUP_SCRIPT $USER_OR_GRIDSETID 2>&1 | tee -a $LOG
+        @PYBIN@ $CLEANUP_SCRIPT $USER_OR_GRIDSETID 2>&1 | tee -a $LOG
     else
         echo "Error: Missing file $CLEANUP_SCRIPT" | tee -a $LOG
         exit 1
@@ -51,7 +57,7 @@ if [ $# -ne 1 ]; then
     exit 0
 fi 
 
-SetDefaults $1
-TimeStamp "# Start"
-ClearData
-TimeStamp "# End"
+set_defaults $1
+time_stamp "# Start"
+clear_data
+time_stamp "# End"

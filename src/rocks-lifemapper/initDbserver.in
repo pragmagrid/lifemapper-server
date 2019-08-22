@@ -17,6 +17,10 @@ set_defaults() {
     rm -f $LOG
     touch $LOG
     BIN=@PKGROOT@/rocks/bin
+
+	# load opt-python
+    bash /usr/share/Modules/init/bash
+    module load opt-python
 }
 
 # create lifemapper db users and roles.sql 

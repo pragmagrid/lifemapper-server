@@ -23,16 +23,18 @@ set_defaults () {
     else
         INIT_CONFIG=$1
     fi
-   
-    PYEXE=/opt/python/bin/@PYTHONVER@
 
+	# load opt-python
+	bash /usr/share/Modules/init/bash
+	module load opt-python
+	export PYTHONPATH=@LMHOME@
+   
     # config files
     CONFIG_FILE=@LMHOME@/config/config.lmserver.ini
     SITE_CONFIG_FILE=@LMHOME@/config/config.site.ini
     BOOM_PARAMS=@LMHOME@/config/boom.public.params
 
     # scripts
-    module load opt-python
     DEFCAT_PY=@LMHOME@/LmDbServer/tools/catalogDefaults.py    
     SCENCAT_PY=@LMHOME@/LmDbServer/tools/catalogScenPkg.py    
     BOOMCAT_PY=@LMHOME@/LmDbServer/boom/initWorkflow.py
@@ -106,7 +108,7 @@ set_defaults () {
         exit 1
     fi
     
-    PUBLIC_USER_DATA_DIR=@DATADIR_SHARED@/archive/$PUBLIC_USER    
+    PUBLIC_USER_DATA_DIR=@DATADIR_SHARED@/archive/$PUBLIC_USER
 }
 
 TimeStamp () {
@@ -116,9 +118,8 @@ TimeStamp () {
 ### populate lifemapper DB with Algorithms and default metadata, no makeflow
 populate_defaults () {
     if [ -f $BORG_DEFCAT_PY ] ; then
-    	module load opt-python
         echo "Cataloging default inputs and parameters with '$DEFCAT_PY' ..." | tee -a $LOG
-        $PYEXE $DEFCAT_PY 2>&1 | tee -a $LOG
+        @PYBIN@ $DEFCAT_PY 2>&1 | tee -a $LOG
     else
         echo "Error: Missing file $DEFCAT_PY" | tee -a $LOG
         exit 1
@@ -128,9 +129,8 @@ populate_defaults () {
 ### populate lifemapper DB with environmental scenario inputs for default users, no makeflow
 PopulateScenariosForPublic () {
     if [ -f $SCENCAT_PY ] ; then
-    	module load opt-python
         echo "Cataloging env data $SCEN_PKG for user $PUBLIC_USER with '$SCENCAT_PY' ..." | tee -a $LOG
-        $PYEXE $SCENCAT_PY  $PUBLIC_USER  $SCEN_PKG 2>&1 | tee -a $LOG
+        @PYBIN@ $SCENCAT_PY  $PUBLIC_USER  $SCEN_PKG 2>&1 | tee -a $LOG
     else
         echo "Error: Missing file $SCENCAT_PY" | tee -a $LOG
         exit 1
@@ -142,9 +142,8 @@ PopulateScenariosForPublic () {
 ### a makeflow to begin computing the BOOM workflow
 create_public_archive_workflow () {
     if [ -f $BOOMCAT_PY ] ; then
-    	module load opt-python
         echo "Catalog BOOM $BOOM_PARAMS inputs then insert a makeflow to create and run tasks with '$BOOMCAT_PY' ..." | tee -a $LOG
-        $PYEXE $BOOMCAT_PY  $BOOM_PARAMS 2>&1 | tee -a $LOG
+        @PYBIN@ $BOOMCAT_PY  $BOOM_PARAMS 2>&1 | tee -a $LOG
     else
         echo "Error: Missing file $BOOMCAT_PY" | tee -a $LOG
         exit 1
@@ -174,8 +173,11 @@ fi
 
 set_defaults $1
 TimeStamp "# Start"
+
 populate_defaults
+
 # includes scenarios
 create_public_archive_workflow
+
 fix_permissions
 TimeStamp "# End"

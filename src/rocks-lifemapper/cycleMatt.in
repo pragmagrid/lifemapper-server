@@ -8,6 +8,11 @@ set_defaults () {
 		echo 'This script must be run as lmwriter user'
 		exit 0
 	fi
+
+	# load opt-python
+    bash /usr/share/Modules/init/bash
+    module load opt-python
+	export PYTHONPATH=@LMHOME@
 	
 	# Set environment in case it is not already set
 	SHELL=/usr/local/bin/bash
@@ -19,15 +24,14 @@ set_defaults () {
 	# Log latest results of this cron job
 	LOG=/tmp/`/bin/basename $0`.log
 	rm -f $LOG
-	touch $LOG
-	
-	# Have to export PYTHONPATH or the modules will not be found
-	export PYTHONPATH=@LMHOME@
+	touch $LOG	
 }
+
 
 time_stamp () {
     echo $1 `/bin/date` >> $LOG
 }
+
 
 # stop mattDaemon
 stop_matt () {
@@ -45,7 +49,8 @@ start_matt () {
 	@PYBIN@ $MATT_DAEMON start
 }
 
-#### Main ####
+
+####### Main #######
 set_defaults
 time_stamp "# Start"
 

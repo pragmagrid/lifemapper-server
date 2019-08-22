@@ -3,7 +3,9 @@
 # Set environment in case it is not already set
 . /etc/profile.d/lifemapper.sh
 
-# Have to export PYTHONPATH or the modules will not be found
+# load opt-python
+bash /usr/share/Modules/init/bash
+module load opt-python
 export PYTHONPATH=@LMHOME@
 
 # Log latest results of this job

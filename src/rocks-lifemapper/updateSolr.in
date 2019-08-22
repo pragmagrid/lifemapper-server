@@ -19,7 +19,11 @@ set_defaults() {
     THISNAME=`/bin/basename $0`
     BIN=@PKGROOT@/rocks/bin
     LOG=@LMSCRATCHDISK@/log/$THISNAME.log
-    
+
+	# load opt-python
+	bash /usr/share/Modules/init/bash
+	module load opt-python
+	    
     rm -f $LOG
     touch $LOG
 }

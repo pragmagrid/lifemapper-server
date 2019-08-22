@@ -2,10 +2,9 @@
 #
 # This script dumps the contents of the taxon table into a CSV file, then 
 # calls a python script to read and insert the contents into a solr index.
-# An optional parameter will specify to filter by one taxonomysourceId or 
-# userId.  If the value is an integer, it will filter by taxonomysourceId, 
-# if it is a string, it will be filtered by userId.
-
+# If no arguments are sent, the script will filter by the GBIF Backbone Taxonomy.
+# The optional argument specifies to filter by the provided taxonomysourceId.
+#
 
 usage () 
 {
@@ -24,15 +23,23 @@ set_defaults() {
     THISNAME=`/bin/basename $0`
     TSTAMP=`date +'%F_%T'`
 
-    TAXONCSV=/state/partition1/lmscratch/temp/taxon.$TSTAMP.csv
-    LOG=/state/partition1/lmscratch/log/$THISNAME.$TSTAMP.log
+    TAXONCSV=@LMSCRATCHDISK@/temp/taxon.$TSTAMP.csv
+    LOG=@LMSCRATCHDISK@/log/$THISNAME.$TSTAMP.log
     # Append to existing logfile
     touch $LOG
     
     USERSFILE=/opt/lifemapper/rocks/etc/users
-    PYBIN=/opt/python/bin/python2.7
-    module load opt-python
     SOLRIDX_PY=/opt/lifemapper/LmDbServer/tools/index_taxonomy_from_csv.py
+
+	# load opt-python
+    bash /usr/share/Modules/init/bash
+    module load opt-python
+}
+
+
+# Log execution
+time_stamp () {
+    echo $1 `/bin/date` >> $LOG
 }
 
 
@@ -59,9 +66,8 @@ set_password () {
 }
 
 
-
-### Retrieve boom package named in BOOM_PKG
-get_taxonomy_for_solr () {
+### Retrieve taxonomy as a CSV file
+get_taxonomy_as_csv () {
     # find metadata file testpkgname.ini
     if [ -f $TAXONCSV ]; then
         echo "Output file $TAXONCSV already present" | tee -a $LOG
@@ -72,12 +78,12 @@ get_taxonomy_for_solr () {
     fi     
 }
 
+
 ### Populate a solr index with taxonomy for chosen source
 solr_index_taxonomy () {
     if [ -f $SOLRIDX_PY ] ; then
         echo "Index taxonomy into solr with '$SOLRIDX_PY ..." | tee -a $LOG
-        /opt/python/bin/@PYTHONVER@ $SOLRIDX_PY $TAXONCSV  \
-                                                2>&1 | tee -a $LOG
+        @PYBIN@ $SOLRIDX_PY $TAXONCSV  2>&1 | tee -a $LOG
     else
         echo "Error: Missing file $SOLRIDX_PY" | tee -a $LOG
         exit 1
@@ -89,6 +95,7 @@ solr_index_taxonomy () {
 
 set_defaults
 set_password
+
 if [ $# -eq 1 ]; then
     TAXSOURCEID=$1
 else  
@@ -96,7 +103,8 @@ else
     GET_ID_CMD="select taxonomysourceid from taxonomysource where datasetidentifier = 'GBIF Backbone Taxonomy'"
     TAXSOURCEID=`psql -U admin -d borg -c "COPY ($GET_ID_CMD) TO STDOUT"`
 fi 
-get_taxonomy_for_solr
+
+get_taxonomy_as_csv
 solr_index_taxonomy
 
 

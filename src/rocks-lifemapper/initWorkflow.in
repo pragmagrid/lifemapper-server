@@ -36,7 +36,8 @@ SetDefaults () {
     CONFIG_FILE=@LMHOME@/config/config.lmserver.ini
     SITE_CONFIG_FILE=@LMHOME@/config/config.site.ini
 
-    # script
+    # python
+    bash /usr/share/Modules/init/bash
     module load opt-python
     BOOMCAT_PY=@LMHOME@/LmDbServer/boom/initWorkflow.py
 
@@ -93,12 +94,12 @@ PopulateBoomInputs () {
         echo "initWorkflow $INIT_CONFIG initializes data inputs " | tee -a $LOG
         echo "then inserts a makeflow to create and run tasks " | tee -a $LOG
         echo "with '$BOOMCAT_PY' ..." | tee -a $LOG
-        /opt/python/bin/@PYTHONVER@ $BOOMCAT_PY  $INIT_CONFIG \
-                             			 --init_makeflow=True \
-                                         2>&1 | tee -a $LOG
+        @PYBIN@ $BOOMCAT_PY  $INIT_CONFIG  2>&1 | tee -a $LOG
+        
     else
         echo "Error: Missing file $BOOMCAT_PY" | tee -a $LOG
         exit 1
+        
     fi   
 }
 

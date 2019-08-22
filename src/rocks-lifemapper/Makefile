@@ -128,6 +128,7 @@ PROGS = \
 	clearData \
 	confconst.py \
 	cycleMatt \
+	exportTaxonomyToCsv \
 	initDbserver \
 	initLM \
 	initPostgis \

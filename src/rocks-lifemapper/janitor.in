@@ -32,13 +32,15 @@ SetDefaults () {
         exit 1
     fi
 
+	# load opt-python
+    bash /usr/share/Modules/init/bash
+    module load opt-python
+	export PYTHONPATH=@LMHOME@
+    BOOMCAT_PY=@LMHOME@/LmDbServer/boom/initWorkflow.py
+
     # config files
     CONFIG_FILE=@LMHOME@/config/config.lmserver.ini
     SITE_CONFIG_FILE=@LMHOME@/config/config.site.ini
-
-    # script
-    module load opt-python
-    BOOMCAT_PY=@LMHOME@/LmDbServer/boom/initWorkflow.py
 
     THISNAME=`/bin/basename $0`
     LOG=@LMSCRATCHDISK@/log/$THISNAME.log

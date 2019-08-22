@@ -58,7 +58,7 @@ getWorkerOptions () {
 
 getAddress () {
     # public host address
-    Addr=`/opt/rocks/bin/rocks list host attr localhost | grep Kickstart_PublicHostname | grep -v _old | awk '{print $3}'`
+    Addr=`/opt/rocks/bin/rocks list host attr localhost | grep Kickstart_PublicFQDN | awk '{print $3}'`
 
     # check if we are on EC2
     x=$(curl -s -f http://169.254.169.254/latest/meta-data/local-ipv4 2> /dev/null)
@@ -68,13 +68,13 @@ getAddress () {
     fi
 
     # check for attribute for lifemapper dbserver 
-    AddrDbserver=`/opt/rocks/bin/rocks list host attr localhost | grep LM_dbserver | grep -v _old | awk '{print $3}'`
+    AddrDbserver=`/opt/rocks/bin/rocks list host attr localhost | grep LM_dbserver | awk '{print $3}'`
     if [ "$AddrDbserver" = "true" ] || [ "$AddrDbserver" = "" ] ; then
         AddrDbserver=$Addr
     fi
 
     # check for attribute for lifemapper webserver 
-    AddrWebserver=`/opt/rocks/bin/rocks list host attr localhost | grep LM_webserver | grep -v _old | awk '{print $3}'`
+    AddrWebserver=`/opt/rocks/bin/rocks list host attr localhost | grep LM_webserver | awk '{print $3}'`
     if [ "$AddrWebserver" = "true" ] ||  [ "$AddrWebserver" = "" ] ; then
         AddrWebserver=$Addr
     fi
@@ -98,7 +98,6 @@ updateConfigVars () {
           s%@MAX_MAKEFLOWS@%$MaxMakeflows%g; \
           s%@MAX_WORKERS@%$MaxWorkers%g; \
           s%@EXTRA_WORKER_OPTIONS@%$WorkerOptions%g" $infile > $outfile
-          
 }
 
 updateWebhost () {

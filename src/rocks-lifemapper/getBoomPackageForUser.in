@@ -52,9 +52,12 @@ set_defaults() {
     USER_DIR=@DATADIR_SHARED@/archive/$THIS_USER
     CLIMATE_DIR=@DATADIR_SHARED@/@ENV_DATA_DIR@
     
-    # Python and python/bash scripts
-    PYBIN=/opt/python/bin/@PYTHONVER@
+	# load opt-python
+    bash /usr/share/Modules/init/bash
     module load opt-python
+	export PYTHONPATH=@LMHOME@
+
+    # bash/python scripts
     BOOM_POPULATE=@LMHOME@/rocks/bin/initWorkflow
     TRANSFORMPY=@LMHOME@/LmBackend/tools/convert_layers_in_package.py
     
@@ -264,7 +267,7 @@ transform_layers () {
     if [ -f $TRANSFORMPY ] ; then
 	    NEW_CLIMATE_DIR=$CLIMATE_DIR/$SCEN_PKG      
         echo "Convert layers in $NEW_CLIMATE_DIR to ascii and mxe ..." | tee -a $LOG
-        $PYBIN $TRANSFORMPY $NEW_CLIMATE_DIR 2>&1 | tee -a $LOG
+        @PYBIN@ $TRANSFORMPY $NEW_CLIMATE_DIR 2>&1 | tee -a $LOG
     else
         echo "Error: Missing file $TRANSFORMPY" | tee -a $LOG
         exit 1

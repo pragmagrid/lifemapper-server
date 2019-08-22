@@ -36,7 +36,9 @@ set_defaults() {
     LMURL=@LMURL@
     THISNAME=`/bin/basename $0`
     
-    PYBIN=/opt/python/bin/@PYTHONVER@
+	# python
+    bash /usr/share/Modules/init/bash
+    module load opt-python
     TRANSFORMPY=@LMHOME@/LmBackend/tools/convert_layers_in_package.py
 
     LOG=@LMSCRATCHDISK@/log/$THISNAME.log
@@ -50,21 +52,21 @@ set_defaults() {
     echo "Scenario package: $SCEN_PKG, Scenario User: $USR" | tee -a $LOG
     USER_DIR=@DATADIR_SHARED@/archive/$USR
     
-    # Python scripts and executable
-    module load opt-python
     SCEN_META_FILE=$SCEN_DIR/$SCEN_PKG.py
-    TEMP_SCEN_PKG_FILE=$TEMP_DIR/$SCEN_PKG.@TARBALL_POSTFIX@
-    NEW_SCEN_DATA_DIR=$SCEN_DIR/$SCEN_PKG
+    SCEN_PKG_FILE=$SCEN_PKG.@TARBALL_POSTFIX@
+
+    NEW_SPDIR=$SCEN_DIR/$SCEN_PKG
+    TMP_SPFILE=$TEMP_DIR/$SCEN_PKG_FILE
 }
 
-### Retrieve scenario data named in SCENARIO_PACKAGE
+### Retrieve scenario data named in SCENARIO_PACKAGE into temp dir
 pull_scenario_data () {
     # find metadata file pkgname.py
     if [ -f $SCEN_META_FILE ]; then
         echo "Scenario metadata $SCEN_META_FILE already present" | tee -a $LOG
     else  
-        echo "Fetch scenario $TEMP_SCEN_PKG_FILE" | tee -a $LOG
-        curl -L "$LMURL/$SCEN_PKG.@TARBALL_POSTFIX@" -o $TEMP_SCEN_PKG_FILE   
+        echo "Fetch scenario $TMP_SPFILE" | tee -a $LOG
+        curl -L "$LMURL/$SCEN_PKG_FILE" -o $TMP_SPFILE
     fi
 }
 
@@ -90,16 +92,18 @@ move_scenario_data () {
         echo "Scenario metadata $SCEN_META_FILE already present" | tee -a $LOG
     else  
         # uncompress 
-        if [ -f $TEMP_SCEN_PKG_FILE ]; then
-		    echo "Uncompress $TEMP_SCEN_PKG_FILE into $SCEN_DIR"   | tee -a $LOG
-            tar xzf $TEMP_SCEN_PKG_FILE -C $SCEN_DIR/
-		    echo "Remove $TEMP_SCEN_PKG_FILE"   | tee -a $LOG
-            rm -f $TEMP_SCEN_PKG_FILE
+        if [ -f $TMP_SPFILE ]; then
+		    echo "Uncompress $TMP_SPFILE into $SCEN_DIR"   | tee -a $LOG
+            tar xzf $TMP_SPFILE -C $SCEN_DIR/
+		    
+		    echo "Remove $TMP_SPFILE"   | tee -a $LOG
+            rm -f $TMP_SPFILE
+            
 		    echo "Reset group and write permission on $SCEN_DIR"   | tee -a $LOG
 		    /bin/chgrp -R lmwriter $SCEN_DIR
 		    /bin/chmod -R g+ws     $SCEN_DIR
         else
-            echo "Failed to find $TEMP_SCEN_PKG_FILE ..." | tee -a $LOG
+            echo "Failed to find $TMP_SPFILE ..." | tee -a $LOG
         fi
 
     fi
@@ -109,7 +113,7 @@ move_scenario_data () {
 transform_layers () {
     if [ -f $TRANSFORMPY ] ; then
         echo "Convert layers for $SCEN_PKG to ascii and mxe ..." | tee -a $LOG
-        $PYBIN $TRANSFORMPY $NEW_SCEN_DATA_DIR 2>&1 | tee -a $LOG
+        @PYBIN@ $TRANSFORMPY $NEW_SPDIR 2>&1 | tee -a $LOG
     else
         echo "Error: Missing file $TRANSFORMPY" | tee -a $LOG
         exit 1

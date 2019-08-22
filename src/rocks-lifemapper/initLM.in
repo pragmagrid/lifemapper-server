@@ -29,6 +29,10 @@ if [ $# -ne 0 ]; then
 fi 
 
 set_defaults() {
+	# load opt-python
+    bash /usr/share/Modules/init/bash
+    module load opt-python
+
     # Rocks version
     ROCKS_VER=`/opt/rocks/bin/rocks list roll | grep base | awk '{print $2}'`
 
@@ -212,14 +216,12 @@ init_db() {
 fill_db() {
     echo "-- Executing catalogDefaultDataInputs" >> $LOG
     . /etc/profile.d/lifemapper.sh
-    module load opt-python
     $BIN/catalogDefaultDataInputs >> $LOG
 }
 
 # update user/password file for python
 update_connect_file() {
     echo "-- update users passwords in @LMHOME@/LmServer/db/connect.py" >> $LOG
-    module load opt-python
     $BIN/confDbconnect >> $LOG  2>&1
 }
 

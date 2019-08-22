@@ -16,6 +16,14 @@ usage ()
 }
 
 set_defaults() {
+	# load opt-python
+	bash /usr/share/Modules/init/bash
+	module load opt-python
+	export PYTHONPATH=@LMHOME@
+    # python/bash scripts
+    BOOM_POPULATE=@LMHOME@/rocks/bin/initWorkflow
+    MATT_DAEMON=@LMHOME@/LmServer/tools/mattDaemon.py
+	
     THISNAME=`/bin/basename $0`
     LOG=@LMSCRATCHDISK@/log/$THISNAME.log
     rm -f $LOG
@@ -25,12 +33,7 @@ set_defaults() {
     LMCLIENT_DIR=@DATADIR_SERVER@/@LMCLIENT@
     
     CFG_UPDATE_SCRIPT=$BIN/updateCfg
-    DB_UPDATE_SCRIPT=$BIN/updateDB
-    # Python and python/bash scripts
-    PYBIN=/opt/python/bin/@PYTHONVER@
-    module load opt-python
-    BOOM_POPULATE=@LMHOME@/rocks/bin/initWorkflow
-    MATT_DAEMON=@LMHOME@/LmServer/tools/mattDaemon.py
+    DB_UPDATE_SCRIPT=$BIN/updateDB    
 }
 
 time_stamp () {
