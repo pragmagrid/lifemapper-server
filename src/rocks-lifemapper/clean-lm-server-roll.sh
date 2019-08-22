@@ -7,6 +7,7 @@
 #    user accounts and groups : postgres, pgbouncer, solr, lmwriter
 
 RM="rpm -evl --quiet --nodeps"
+ROCKS_CMD=/opt/rocks/bin/rocks
 LMROLL_COUNT=`$ROCKS_CMD list roll | grep lifemapper | wc -l`
 LMUSER_COUNT=`/bin/egrep -i "^lmwriter" /etc/passwd  | wc -l`
 
@@ -31,6 +32,7 @@ del-lifemapper-shared() {
    $RM lifemapper-gdal
    $RM lifemapper-geos
    $RM lifemapper-proj
+   $RM lifemapper-tiff
    
    echo "Removing SHARED data RPMS" >> $LOG
    $RM lifemapper-env-data
