@@ -135,12 +135,10 @@ del-opt-python () {
    $RM opt-lifemapper-biotaphy-otol
    $RM opt-lifemapper-cheroot
    $RM opt-lifemapper-cherrypy
-   $RM opt-lifemapper-coverage
    $RM opt-lifemapper-idigbio
    $RM opt-lifemapper-portend
    $RM opt-lifemapper-processing
    $RM opt-lifemapper-psycopg2
-   $RM opt-lifemapper-pytables
    $RM opt-lifemapper-pytest
    $RM opt-lifemapper-pytz
    $RM opt-lifemapper-six
