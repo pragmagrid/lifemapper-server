@@ -20,6 +20,9 @@ set_defaults() {
     LOG=/tmp/$THISNAME.log
     rm -f $LOG
     touch $LOG
+
+    echo "-- enable modules"  | tee -a $LOG
+    source /usr/share/Modules/init/bash
 }
 
 del-lifemapper-shared() {
@@ -326,8 +329,10 @@ fi
 echo
 echo "Removing roll lifemapper-server"
 $ROCKS_CMD remove roll lifemapper-server
+
 echo "Rebuilding the distro"
 module unload opt-python
 (cd /export/rocks/install; $ROCKS_CMD create distro; yum clean all)
+
 echo
 TimeStamp "# End"

@@ -4,7 +4,7 @@
 . /etc/profile.d/lifemapper.sh
 
 # load opt-python
-bash /usr/share/Modules/init/bash
+source /usr/share/Modules/init/bash
 module load opt-python
 
 # Log latest results of this job

@@ -20,9 +20,8 @@ usage ()
 set_defaults () {
     USER_OR_GRIDSETID = $1
 
-	# load opt-python
-    bash /usr/share/Modules/init/bash
-    module load opt-python
+	# load opt-python and environment
+    source /usr/share/Modules/init/bash
 	. /etc/profile.d/lifemapper.sh
 
     THISNAME=`/bin/basename $0`
@@ -44,6 +43,7 @@ time_stamp () {
 clear_data () {
     if [ -f $CLEANUP_SCRIPT ] ; then
         echo "Running '$CLEANUP_SCRIPT'..." | tee -a $LOG
+        module load opt-python
         @PYBIN@ $CLEANUP_SCRIPT $USER_OR_GRIDSETID 2>&1 | tee -a $LOG
     else
         echo "Error: Missing file $CLEANUP_SCRIPT" | tee -a $LOG

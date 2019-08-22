@@ -19,7 +19,7 @@ PSQLDIR=pgsql-@PGSQLVER@
 answer=`rpm -qa | grep $rpmname`
 if [ "$answer" != "" ] ; then
 	echo "Unload opt-python for yum"
-	bash /usr/share/Modules/init/bash
+	source /usr/share/Modules/init/bash
 	module unload opt-python
 
     echo "Removing $rpmname rpm"

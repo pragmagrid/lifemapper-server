@@ -31,10 +31,10 @@ set_defaults() {
     USERSFILE=/opt/lifemapper/rocks/etc/users
     SOLRIDX_PY=/opt/lifemapper/LmDbServer/tools/index_taxonomy_from_csv.py
 
-	# load opt-python
-    bash /usr/share/Modules/init/bash
+	# load opt-python and environment
+    source /usr/share/Modules/init/bash
     module load opt-python
-	. /etc/profile.d/lifemapper.sh
+    . /etc/profile.d/lifemapper.sh
 }
 
 

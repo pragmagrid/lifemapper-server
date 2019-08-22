@@ -33,12 +33,6 @@ set_defaults() {
     rm -f $LOG
     touch $LOG
 
-    echo "-- load opt-python for initLM"  | tee -a $LOG
-    bash /usr/share/Modules/init/bash
-    module load opt-python
-    pver=`@PYBIN@ --version`
-    echo "-- $pver"   | tee -a $LOG
-
     PROF=/etc/profile.d/lifemapper.sh
     echo "-- set environment"  | tee -a $LOG
     if [ -f $PROF ] ; then
@@ -47,6 +41,9 @@ set_defaults() {
     	echo "ERROR: file $PROF not found" | tee -a $LOG 
     	exit
     fi
+
+    echo "-- enable modules"  | tee -a $LOG
+    source /usr/share/Modules/init/bash
 
     # Rocks version
     ROCKS_VER=`/opt/rocks/bin/rocks list roll | grep base | awk '{print $2}'`
@@ -128,6 +125,14 @@ cmd_service () {
     else
     	/sbin/service $1 $2  | tee -a $LOG
     fi
+}
+
+cmd_opt_python () {
+	cmd=$1
+    echo "-- $1 opt-python"  | tee -a $LOG
+    module $1 opt-python
+    pver=`@PYBIN@ --version`
+    echo "-- $pver"   | tee -a $LOG
 }
 
 set_permissions () {
@@ -218,16 +223,14 @@ init_postgres () {
 init_db() {
     init_postgres
     echo "-- Executing initDbserver (including confDbconnect)" | tee -a $LOG
-    pver=`@PYBIN@ --version`
-    echo "-- $pver" | tee -a $LOG
+    cmd_opt_python load
     $BIN/initDbserver >> $LOG
 }
 
 # populate Lifemapper tables
 fill_db() {
     echo "-- Executing catalogDefaultDataInputs" | tee -a $LOG
-    pver=`@PYBIN@ --version`
-    echo "-- $pver" | tee -a $LOG
+    cmd_opt_python load
     $BIN/catalogDefaultDataInputs >> $LOG
 }
 
@@ -273,17 +276,9 @@ add_lm_functions () {
 # need to update openssl for postgres
 update_openssl() {
     echo "-- yum update openssl" | tee -a $LOG
-    bash /usr/share/Modules/init/bash
-    module unload opt-python
-    pver=`@PYBIN@ --version`
-    echo "-- $pver" | tee -a $LOG 
-    
+    cmd_opt_python unload 
     /usr/bin/yum --enablerepo base update openssl | tee -a $LOG 
-    
-    bash /usr/share/Modules/init/bash
-    module load opt-python
-    pver=`@PYBIN@ --version`
-    echo "-- $pver" | tee -a $LOG 
+    cmd_opt_python load 
 }
 
 # install cron jobs for daily execution

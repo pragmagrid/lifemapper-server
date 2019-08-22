@@ -18,15 +18,23 @@ set_defaults() {
     touch $LOG
     BIN=@PKGROOT@/rocks/bin
 
-	# load opt-python
-    bash /usr/share/Modules/init/bash
-    module load opt-python
-	. /etc/profile.d/lifemapper.sh
+    echo "-- enable modules"  | tee -a $LOG
+    source /usr/share/Modules/init/bash
+}
+
+cmd_opt_python () {
+	cmd=$1
+    echo "-- $1 opt-python"  | tee -a $LOG
+    module $1 opt-python
+    pver=`@PYBIN@ --version`
+    echo "-- $pver"   | tee -a $LOG
 }
 
 # create lifemapper db users and roles.sql 
 # and initialize postgres db with user/postgis data
 create_db_users() {
+    cmd_opt_python load
+
     echo "-- create lifemapper db users" >> $LOG
     $BIN/confUsers >> $LOG
 
@@ -39,6 +47,8 @@ create_db_users() {
 
 # create postgres and pgbouncer config and auth files
 create_config_files() {
+    cmd_opt_python load
+	
     # create postgres config file 
     echo "-- create postgres config file" >> $LOG
     $BIN/confPostgres pg >> $LOG

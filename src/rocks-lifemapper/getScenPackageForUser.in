@@ -36,10 +36,10 @@ set_defaults() {
     LMURL=@LMURL@
     THISNAME=`/bin/basename $0`
     
-	# python
-    bash /usr/share/Modules/init/bash
+	# load opt-python and environment
+    source /usr/share/Modules/init/bash
     module load opt-python
-	. /etc/profile.d/lifemapper.sh
+    . /etc/profile.d/lifemapper.sh
     TRANSFORMPY=@LMHOME@/LmBackend/tools/convert_layers_in_package.py
 
     LOG=@LMSCRATCHDISK@/log/$THISNAME.log

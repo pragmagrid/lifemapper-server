@@ -32,8 +32,12 @@ SetDefaults () {
         exit 1
     fi
 
-	# load opt-python
-    bash /usr/share/Modules/init/bash
+    THISNAME=`/bin/basename $0`
+    LOG=@LMSCRATCHDISK@/log/$THISNAME.log
+    touch $LOG
+
+	echo "Load opt-python and environment" | tee -a $LOG
+    source /usr/share/Modules/init/bash
     module load opt-python
 	. /etc/profile.d/lifemapper.sh
     BOOMCAT_PY=@LMHOME@/LmDbServer/boom/initWorkflow.py
@@ -41,10 +45,6 @@ SetDefaults () {
     # config files
     CONFIG_FILE=@LMHOME@/config/config.lmserver.ini
     SITE_CONFIG_FILE=@LMHOME@/config/config.site.ini
-
-    THISNAME=`/bin/basename $0`
-    LOG=@LMSCRATCHDISK@/log/$THISNAME.log
-    touch $LOG
 
     # NOTE: These commands pull values from ini files in format KEY: VALUE
     #       but fail on KEY = VALUE (written by the python ConfigParser)

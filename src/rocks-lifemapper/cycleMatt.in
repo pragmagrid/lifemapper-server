@@ -9,12 +9,9 @@ set_defaults () {
 		exit 0
 	fi
 
-	# load opt-python
-    bash /usr/share/Modules/init/bash
+	# load opt-python and environment
+    source /usr/share/Modules/init/bash
     module load opt-python
-	
-	# Set environment in case it is not already set
-	SHELL=/usr/local/bin/bash
 	. /etc/profile.d/lifemapper.sh
 	
 	MATT_DAEMON=@LMHOME@/LmServer/tools/mattDaemon.py

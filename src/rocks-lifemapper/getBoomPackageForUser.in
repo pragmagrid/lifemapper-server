@@ -52,8 +52,8 @@ set_defaults() {
     USER_DIR=@DATADIR_SHARED@/archive/$THIS_USER
     CLIMATE_DIR=@DATADIR_SHARED@/@ENV_DATA_DIR@
     
-	# load opt-python
-    bash /usr/share/Modules/init/bash
+	# load opt-python and environment
+    source /usr/share/Modules/init/bash
     module load opt-python
 	. /etc/profile.d/lifemapper.sh
 

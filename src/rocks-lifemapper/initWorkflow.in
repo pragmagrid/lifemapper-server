@@ -37,7 +37,7 @@ SetDefaults () {
     SITE_CONFIG_FILE=@LMHOME@/config/config.site.ini
 
     # python
-    bash /usr/share/Modules/init/bash
+    source /usr/share/Modules/init/bash
     module load opt-python
 	. /etc/profile.d/lifemapper.sh
     BOOMCAT_PY=@LMHOME@/LmDbServer/boom/initWorkflow.py

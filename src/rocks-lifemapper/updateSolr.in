@@ -21,7 +21,7 @@ set_defaults() {
     LOG=@LMSCRATCHDISK@/log/$THISNAME.log
 
 	# load opt-python
-	bash /usr/share/Modules/init/bash
+	source /usr/share/Modules/init/bash
 	module load opt-python
 	. /etc/profile.d/lifemapper.sh
 	    
