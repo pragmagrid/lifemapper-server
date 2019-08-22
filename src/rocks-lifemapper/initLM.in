@@ -29,12 +29,18 @@ if [ $# -ne 0 ]; then
 fi 
 
 set_defaults() {
-	# load opt-python
+    LOG=@LMSCRATCHDISK@/log/$THISNAME.log
+    rm -f $LOG
+    touch $LOG
+
+    echo "-- load opt-python for initLM"  | tee -a $LOG
 	bash /usr/share/Modules/init/bash
 	module load opt-python
+	pver=`@PYBIN@ --version`
+	echo "-- $pver"   | tee -a $LOG
 
     PROF=/etc/profile.d/lifemapper.sh
-    echo "-- set environment" >> $LOG
+    echo "-- set environment"  | tee -a $LOG
     if [ -f $PROF ] ; then
 	 . $PROF 
     else
@@ -75,12 +81,12 @@ set_defaults() {
     
     # Find SCENARIO_PACKAGE
     if [ -f $SITE_CONFIG_FILE ] ; then        
-        echo "Looking for SCENARIO_PACKAGE in site config file"   | tee -a $LOG  
-        SCEN_PKG=`grep -i SCENARIO_PACKAGE $SITE_CONFIG_FILE | grep -v ';' | awk '{print $2}'`
+        echo "Find SCENARIO_PACKAGE in site config file"   | tee -a $LOG
+        SCEN_PKG=`grep -i ^SCENARIO_PACKAGE $SITE_CONFIG_FILE | awk '{print $2}'`
     fi    
     if [ -z ${SCEN_PKG} ] ; then 
-        echo "Looking for SCENARIO_PACKAGE in installed config file"   | tee -a $LOG  
-        SCEN_PKG=`grep -i SCENARIO_PACKAGE $CONFIG_FILE | grep -v ';' | awk '{print $2}'`
+        echo "Find SCENARIO_PACKAGE in installed config file"   | tee -a $LOG
+        SCEN_PKG=`grep -i ^SCENARIO_PACKAGE $CONFIG_FILE | awk '{print $2}'`
     fi
     # 
     if [ -z ${SCEN_PKG} ] ; then
@@ -90,12 +96,12 @@ set_defaults() {
 
     # Find PUBLIC_USER
     if [ -f $SITE_CONFIG_FILE ] ; then        
-        echo "Looking for PUBLIC_USER in site config file"   | tee -a $LOG  
-        PUBLIC_USER=`grep -i PUBLIC_USER $SITE_CONFIG_FILE | grep -v _EMAIL | grep -v ';' | awk '{print $2}'`
+        echo "Find PUBLIC_USER in site config file"   | tee -a $LOG
+        PUBLIC_USER=`grep -i ^PUBLIC_USER $SITE_CONFIG_FILE |  awk '{print $2}'`
     fi
     if [ -z ${PUBLIC_USER} ] ; then 
-        echo "Looking for PUBLIC_USER in installed config file"   | tee -a $LOG  
-        PUBLIC_USER=`grep -i PUBLIC_USER $CONFIG_FILE | grep -v _EMAIL | grep -v ';' | awk '{print $2}'`
+        echo "Find PUBLIC_USER in installed config file"   | tee -a $LOG
+        PUBLIC_USER=`grep -i ^PUBLIC_USER $CONFIG_FILE | awk '{print $2}'`
     fi
     if [ -z ${PUBLIC_USER} ] ; then
         echo "Error: Missing configured value for PUBLIC_USER" | tee -a $LOG
@@ -106,12 +112,8 @@ set_defaults() {
     INITD=/etc/rc.d/init.d
     . $INITD/functions
 
-    LOG=@LMSCRATCHDISK@/log/$THISNAME.log
-    rm -f $LOG
-    touch $LOG
-
     if [ -d /var/lib/pgsql/@PGSQLVER@/data ] && [ "$(ls -A /var/lib/pgsql/@PGSQLVER@/data)" ]; then
-	    echo "postgres db exists" >> $LOG
+	    echo "postgres db exists" | tee -a $LOG
 	    EXISTING_DB=true
 	 else
 	    EXISTING_DB=false
@@ -122,20 +124,20 @@ cmd_service () {
 	svc=$1
 	cmd=$2
     if [ "$ROCKS_VER" = "7.0" ]; then
-    	/usr/bin/systemctl $2 $1  >> $LOG
+    	/usr/bin/systemctl $2 $1  | tee -a $LOG
     else
-    	/sbin/service $1 $2  >> $LOG
+    	/sbin/service $1 $2  | tee -a $LOG
     fi
 }
 
 set_permissions () {
     /bin/egrep -i "^lmwriter" /etc/passwd
     if [ $? -ne 0 ]; then
-        echo "Error: user lmwriter does not exist" | tee -a $LOG
+        echo "Error: user lmwriter does not exist"  | tee -a $LOG
         exit 1
     fi
 
-    echo "Update group permissions for lmwriter on @LMHOME@" | tee -a $LOG
+    echo "Update group permissions for lmwriter on @LMHOME@"  | tee -a $LOG
     for item in "config" "Lm*" "__init__.py*" ; do
         /bin/chgrp -R lmwriter @LMHOME@/$item
         /bin/chmod -R g+ws     @LMHOME@/$item
@@ -146,7 +148,7 @@ set_permissions () {
 set_password () {
     # check if users file exists
     if [ ! -f $USERSFILE ] ; then
-        echo "Error: missing file $USERSFILE" >> $LOG
+        echo "Error: missing file $USERSFILE" | tee -a $LOG
         exit 1
     fi
 
@@ -154,28 +156,28 @@ set_password () {
     cat $USERSFILE > /dev/null
     RETVAL=$?
     if [ $RETVAL -ne 0 ]; then
-        echo "Error: You must be root to run this script" >> $LOG
+        echo "Error: You must be root to run this script" | tee -a $LOG
         exit 1
     fi
 
     # get the password from 'users' file
-    echo "-- setting postgres password" >> $LOG
+    echo "-- setting postgres password" | tee -a $LOG
     PASS=`grep admin $USERSFILE | awk '{print $2}'`
     export PGPASSWORD=$PASS
 }
 
 # stop services if running
 stop_services () {
-    echo "-- stop $PG and pgbouncer daemons " >> $LOG
+    echo "-- stop $PG and pgbouncer daemons " | tee -a $LOG
 
     if [ -f /var/run/pgbouncer/pgbouncer.pid ]; then
     	cmd_service pgbouncer stop
-    	# /usr/bin/systemctl stop pgbouncer >> $LOG
+    	# /usr/bin/systemctl stop pgbouncer | tee -a $LOG
     fi
 
     if [ -f /var/run/$PG.pid ] ; then
     	cmd_service $PG stop
-    	# /usr/bin/systemctl stop $PG >> $LOG
+    	# /usr/bin/systemctl stop $PG | tee -a $LOG
     fi
 
     prog="postmaster"
@@ -187,27 +189,27 @@ stop_services () {
 # Command listed when making rpm
 finish_libevent_install () {
     # Complete libevent install
-    echo "-- complete libevent install" >> $LOG
+    echo "-- complete libevent install" | tee -a $LOG
 	/usr/bin/libtool --finish @LMHOME@/lib
 }
 
 # run initdb, start postgres daemon
 init_postgres () {
     # initdb creates postgres data/*
-    echo "-- run postgres initdb" >> $LOG
+    echo "-- run postgres initdb" | tee -a $LOG
     # this option will not work via "service"
     # OPT="-E 'UTF-8' --lc-collate='en_US.UTF-8' --lc-ctype='en_US.UTF-8'"
     # OPT needs testing
     OPT="en_US.UTF-8"
     
     if [ "$ROCKS_VER" = "7.0" ]; then
-    	$PGSETUP_CMD initdb >> $LOG
+    	$PGSETUP_CMD initdb | tee -a $LOG
     else
-    	/sbin/service $PG initdb $OPT  >> $LOG
+    	/sbin/service $PG initdb $OPT  | tee -a $LOG
     fi
 
     # start postgres with default config
-    echo "-- start postgres with default config" >> $LOG
+    echo "-- start postgres with default config" | tee -a $LOG
     cmd_service $PG start
     /bin/sleep 15
 }
@@ -217,29 +219,33 @@ init_postgres () {
 # and initialize postgres db with user/postgis data
 init_db() {
     init_postgres
-    echo "-- Executing initDbserver (including confDbconnect)" >> $LOG
+    echo "-- Executing initDbserver (including confDbconnect)" | tee -a $LOG
+	pver=`@PYBIN@ --version`
+	echo "-- $pver"
     $BIN/initDbserver >> $LOG
 }
 
 # populate Lifemapper tables
 fill_db() {
-    echo "-- Executing catalogDefaultDataInputs" >> $LOG
+    echo "-- Executing catalogDefaultDataInputs" | tee -a $LOG
+	pver=`@PYBIN@ --version`
+	echo "-- $pver"
     $BIN/catalogDefaultDataInputs >> $LOG
 }
 
-# update user/password file for python
+# updat| tee -a $LOGpassword file for python
 update_connect_file() {
-    echo "-- update users passwords in @LMHOME@/LmServer/db/connect.py" >> $LOG
+    echo "-- update users passwords in @LMHOME@/LmServer/db/connect.py" | tee -a $LOG
     $BIN/confDbconnect >> $LOG  2>&1
 }
 
 ### define databases 
 define_lm_database () {
     if [ -f $DEFINE_TABLES_SQL ] ; then
-        echo "Running $DEFINE_TABLES_SQL ..." >> $LOG
+        echo "Running $DEFINE_TABLES_SQL ..." | tee -a $LOG
         psql -U admin -d template1 -f $DEFINE_TABLES_SQL 2>&1 | tee -a $LOG
     else
-        echo "Error: missing file $DEFINE_TABLES_SQL" >> $LOG
+        echo "Error: missing file $DEFINE_TABLES_SQL" | tee -a $LOG
         exit 1
     fi
 }
@@ -247,10 +253,10 @@ define_lm_database () {
 ### add database views, types, functions 
 update_lm_tables () {
     if [ -f $UPDATE_TABLES_SQL ] ; then
-        echo "Running $UPDATE_TABLES_SQL ..." >> $LOG
+        echo "Running $UPDATE_TABLES_SQL ..." | tee -a $LOG
         psql -U admin -d template1 -f $UPDATE_TABLES_SQL 2>&1 | tee -a $LOG
     else
-        echo "Error: missing file $UPDATE_TABLES_SQL" >> $LOG
+        echo "Error: missing file $UPDATE_TABLES_SQL" | tee -a $LOG
         exit 1
     fi
 }
@@ -258,18 +264,26 @@ update_lm_tables () {
 ### add database views, types, functions 
 add_lm_functions () {
     if [ -f $ADD_FUNCTIONS_SQL ] ; then
-        echo "Running $ADD_FUNCTIONS_SQL ..." >> $LOG
+        echo "Running $ADD_FUNCTIONS_SQL ..." | tee -a $LOG
         psql -U admin -d template1 -f $ADD_FUNCTIONS_SQL 2>&1 | tee -a $LOG
     else
-        echo "Error: missing file $ADD_FUNCTIONS_SQL" >> $LOG
+        echo "Error: missing file $ADD_FUNCTIONS_SQL" | tee -a $LOG
         exit 1
     fi
 }
 
 # need to update openssl for postgres
 update_openssl() {
-    echo "-- yum update openssl" >> $LOG
-    /usr/bin/yum --enablerepo base update openssl >> $LOG 
+    echo "-- yum update openssl" | tee -a $LOG
+	bash /usr/share/Modules/init/bash
+	module unload opt-python
+	pver=`@PYBIN@ --version`
+	echo "-- $pver"
+    /usr/bin/yum --enablerepo base update openssl | tee -a $LOG 
+	bash /usr/share/Modules/init/bash
+	module load opt-python
+	pver=`@PYBIN@ --version`
+	echo "-- $pver"
 }
 
 # install cron jobs for daily execution
@@ -280,7 +294,7 @@ install_cron_jobs () {
 # set unix socket; restart postgres and pgbouncer with new config
 start_services() {
     # set unix socket dir
-    echo "-- update unix socket " >> $LOG
+    echo "-- update unix socket " | tee -a $LOG
     export PGHOST=@UNIXSOCKET@
     if [ ! -f $PROFILE ] ; then
         touch $PROFILE
@@ -289,33 +303,31 @@ start_services() {
     echo "export PGHOST=@UNIXSOCKET@" >> $PROFILE
 
     # restart postgres with updated configuration
-    echo "-- restart postgres with new configuration" >> $LOG
+    echo "-- restart postgres with new configuration" | tee -a $LOG
     cmd_service $PG restart
-    # /usr/bin/systemctl restart $PG >> $LOG
 
     # start pgbouncer
-    echo "-- restart pgbouncer with new configuration" >> $LOG
+    echo "-- restart pgbouncer with new configuration" | tee -a $LOG
     cmd_service pgbouncer restart
-    # /usr/bin/systemctl restart pgbouncer >> $LOG
 }
 
 # run updateCfg to put correct IP, makeflow parameters lmserver's config.lmserver.ini 
 update_config() {
-    echo "-- update host IP and Makeflow/Workqueue parameters in @LMHOME@/config/config.lmserver.ini" >> $LOG
+    echo "-- update host IP and Makeflow/Workqueue parameters in @LMHOME@/config/config.lmserver.ini" | tee -a $LOG
     $BIN/updateCfg >> $LOG  2>&1
 }
 
 make_dashboard_link () {
     if [ -d $DASHBOARD_DIR ] ; then
         (cd /var/www/html; /usr/bin/ln -s $DASHBOARD_DIR)
-        echo "Creating dashboard link" >> $LOG
+        echo "Creating dashboard link" | tee -a $LOG
     fi
 }
 
 make_client_link () {
     if [ -d $LMCLIENT_DIR ] ; then
         (cd /var/www/html; /usr/bin/ln -s $LMCLIENT_DIR)
-        echo "Creating lmclient link" >> $LOG
+        echo "Creating lmclient link" | tee -a $LOG
     fi
 }
 
@@ -331,13 +343,13 @@ set_permissions
 stop_services
 
 if [ "$EXISTING_DB" = false ] ; then
-    echo "Creating new database" >> $LOG
+    echo "Creating new database" | tee -a $LOG
     init_db
     start_services
     set_password
     define_lm_database
 else
-    echo "Database exists" >> $LOG
+    echo "Database exists" | tee -a $LOG
     start_services
     set_password 
     update_connect_file

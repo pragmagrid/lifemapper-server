@@ -54,5 +54,7 @@ create_config_files() {
 
 ####### Main #######
 set_defaults
+echo "# Start" `/bin/date` >> $LOG
 create_db_users
 create_config_files
+echo "# End" `/bin/date` >> $LOG
