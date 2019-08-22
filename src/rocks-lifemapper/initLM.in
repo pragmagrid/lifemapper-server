@@ -32,7 +32,15 @@ set_defaults() {
 	# load opt-python
 	bash /usr/share/Modules/init/bash
 	module load opt-python
-	. /etc/profile.d/lifemapper.sh
+
+    PROF=/etc/profile.d/lifemapper.sh
+    echo "-- set environment" >> $LOG
+    if [ -f $PROF ] ; then
+	 . $PROF 
+    else
+    	echo "ERROR: file $PROF not found" 
+    	exit
+    fi
 
     # Rocks version
     ROCKS_VER=`/opt/rocks/bin/rocks list roll | grep base | awk '{print $2}'`
