@@ -220,29 +220,33 @@ init_postgres () {
 # and initialize postgres db with user/postgis data
 init_db() {
     init_postgres
-    echo "-- Executing initDbserver (including confDbconnect)" >> $LOG
     cmd_opt_python load
+    echo "-- Start initDbserver script" >> $LOG
     $BIN/initDbserver >> $LOG
+    echo "-- End initDbserver script" >> $LOG
 }
 
 # populate Lifemapper tables
 fill_db() {
-    echo "-- Executing catalogDefaultDataInputs" >> $LOG
     cmd_opt_python load
+    echo "-- Start catalogDefaultDataInputs" >> $LOG
     $BIN/catalogDefaultDataInputs >> $LOG
+    echo "-- End catalogDefaultDataInputs" >> $LOG
 }
 
 # update password file for python
 update_connect_file() {
-    echo "-- update users passwords in @LMHOME@/LmServer/db/connect.py" >> $LOG
+    echo "-- Start confDbconnect" >> $LOG
     $BIN/confDbconnect >> $LOG  2>&1
+    echo "-- End confDbconnect" >> $LOG
 }
 
 ### define databases 
 define_lm_database () {
     if [ -f $DEFINE_TABLES_SQL ] ; then
-        echo "Running $DEFINE_TABLES_SQL ..." >> $LOG
+        echo "-- Start $DEFINE_TABLES_SQL" >> $LOG
         psql -U admin -d template1 -f $DEFINE_TABLES_SQL 2>&1 >> $LOG
+        echo "-- End $DEFINE_TABLES_SQL" >> $LOG
     else
         echo "Error: missing file $DEFINE_TABLES_SQL" >> $LOG
         exit 1
@@ -252,8 +256,9 @@ define_lm_database () {
 ### add database views, types, functions 
 update_lm_tables () {
     if [ -f $UPDATE_TABLES_SQL ] ; then
-        echo "Running $UPDATE_TABLES_SQL ..." >> $LOG
+        echo "Start $UPDATE_TABLES_SQL" >> $LOG
         psql -U admin -d template1 -f $UPDATE_TABLES_SQL 2>&1 >> $LOG
+        echo "End $UPDATE_TABLES_SQL" >> $LOG
     else
         echo "Error: missing file $UPDATE_TABLES_SQL" >> $LOG
         exit 1
@@ -263,8 +268,9 @@ update_lm_tables () {
 ### add database views, types, functions 
 add_lm_functions () {
     if [ -f $ADD_FUNCTIONS_SQL ] ; then
-        echo "Running $ADD_FUNCTIONS_SQL ..." >> $LOG
+        echo "Start $ADD_FUNCTIONS_SQL" >> $LOG
         psql -U admin -d template1 -f $ADD_FUNCTIONS_SQL 2>&1 >> $LOG
+        echo "End $ADD_FUNCTIONS_SQL" >> $LOG
     else
         echo "Error: missing file $ADD_FUNCTIONS_SQL" >> $LOG
         exit 1
@@ -281,7 +287,9 @@ update_openssl() {
 
 # install cron jobs for daily execution
 install_cron_jobs () {
-    @LMHOME@/rocks/bin/installServerCronJobs
+    echo "-- Start installServerCronJobs" >> $LOG
+    $BIN/installServerCronJobs
+    echo "-- End installServerCronJobs" >> $LOG
 }
 
 # set unix socket; restart postgres and pgbouncer with new config
@@ -312,15 +320,15 @@ update_config() {
 
 make_dashboard_link () {
     if [ -d $DASHBOARD_DIR ] ; then
+        echo "-- create dashboard link" >> $LOG
         (cd /var/www/html; /usr/bin/ln -s $DASHBOARD_DIR)
-        echo "Creating dashboard link" >> $LOG
     fi
 }
 
 make_client_link () {
     if [ -d $LMCLIENT_DIR ] ; then
+        echo "-- create lmclient link" >> $LOG
         (cd /var/www/html; /usr/bin/ln -s $LMCLIENT_DIR)
-        echo "Creating lmclient link" >> $LOG
     fi
 }
 
@@ -336,13 +344,13 @@ set_permissions
 stop_services
 
 if [ "$EXISTING_DB" = false ] ; then
-    echo "Creating new database" >> $LOG
+    echo "Create new database" >> $LOG
     init_db
     start_services
     set_password
     define_lm_database
 else
-    echo "Database exists" >> $LOG
+    echo "Update existing database" >> $LOG
     start_services
     set_password 
     update_connect_file
