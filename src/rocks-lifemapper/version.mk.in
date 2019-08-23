@@ -1,6 +1,6 @@
 NAME    = rocks-lifemapper
 VERSION = $(CODEVERSION)
-RELEASE = 3
+RELEASE = 4
 
 TARBALL_POSTFIX	= tar.gz
 
