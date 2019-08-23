@@ -114,7 +114,7 @@ TimeStamp () {
 }
 
 cmd_opt_python () {
-	cmd=$1
+    cmd=$1
     echo "-- $1 opt-python"  | tee -a $LOG
     module $1 opt-python
     pver=`@PYBIN@ --version`

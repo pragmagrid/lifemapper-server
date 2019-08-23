@@ -29,7 +29,7 @@ if [ $# -ne 0 ]; then
 fi 
 
 set_defaults() {
-    LOG=@LMSCRATCHDISK@/log/$THISNAME.log
+    LOG=@LMSCRATCHDISK@/log/`/bin/basename $0`.log
     rm -f $LOG
     touch $LOG
 
@@ -47,13 +47,12 @@ set_defaults() {
 
     # Rocks version
     ROCKS_VER=`/opt/rocks/bin/rocks list roll | grep base | awk '{print $2}'`
-
-    THISNAME=`/bin/basename $0`
     if [ "$ROCKS_VER" = "7.0" ]; then
     	PG=`basename /usr/lib/systemd/system/postgresql-*.service`
     else
     	PG=`basename /etc/init.d/postgresql-*`
     fi
+   
     PROFILE=/var/lib/pgsql/.bash_profile
     BIN=@PKGROOT@/rocks/bin
     USERSFILE=@PKGROOT@/rocks/etc/users
@@ -131,8 +130,7 @@ cmd_opt_python () {
 	cmd=$1
     echo "-- $1 opt-python"  | tee -a $LOG
     module $1 opt-python
-    pver=`@PYBIN@ --version`
-    echo "-- $pver"   | tee -a $LOG
+    @PYBIN@ --version | tee -a $LOG
 }
 
 set_permissions () {

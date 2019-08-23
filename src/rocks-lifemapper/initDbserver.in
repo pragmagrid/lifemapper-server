@@ -26,8 +26,7 @@ cmd_opt_python () {
 	cmd=$1
     echo "-- $1 opt-python"  | tee -a $LOG
     module $1 opt-python
-    pver=`@PYBIN@ --version`
-    echo "-- $pver"   | tee -a $LOG
+    @PYBIN@ --version | tee -a $LOG
 }
 
 # create lifemapper db users and roles.sql 
