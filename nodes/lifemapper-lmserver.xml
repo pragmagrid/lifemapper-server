@@ -60,6 +60,8 @@
 		<!-- Add pgbouncer from PGDG96 -->
 		<package>c-ares</package>
 		<package>c-ares-devel</package>
+        <package>postgresql10-libs</package>
+        <package>python2-psycopg2</package>
 		<package>pgbouncer</package>		
 
 <post>

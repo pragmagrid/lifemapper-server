@@ -183,6 +183,8 @@ del-postgres() {
    $RM proj
    $RM postgis2_96
    $RM c-ares  c-ares-devel
+   $RM postgresql10-libs
+   $RM python2-psycopg2
    $RM pgbouncer
 }
 
