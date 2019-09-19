@@ -63,7 +63,7 @@ include Rules.mk
 PY.PATH = /opt/python/bin/$(PYTHONVER)
 
 SEDSPEC += \
-        -e 's%@CODEVERSION@%$(CODEVERSION)%g' \
+        -e 's%@LMCODE_VERSION@%$(LMCODE_VERSION)%g' \
         -e 's%@VERSION@%$(VERSION)%g' 
 
 version.mk:

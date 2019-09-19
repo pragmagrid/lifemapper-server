@@ -71,6 +71,7 @@ SEDSPEC += \
         -e 's%@REPONAME@%$(REPONAME)%g' \
         -e 's%@TARBALL_POSTFIX@%$(TARBALL_POSTFIX)%g' \
         -e 's%@VERSION@%$(VERSION)%g' \
+        -e 's%@LMVIZ_VERSION@%$(LMVIZ_VERSION)%g' \
         -e 's%@LMHOME@%$(LMHOME)%g' \
         -e 's%@PACKAGING_DIR@%$(PACKAGING_DIR)%g' \
         -e 's%@PACKAGING_CODE@%$(PACKAGING_CODE)%g' \
