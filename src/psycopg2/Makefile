@@ -66,6 +66,7 @@ version.mk:
 	cat ../version.mk version.mk.in > version.mk
 
 PY.PATH = /opt/python/bin/$(PYTHONVER)
+PGCONFIG = /usr/pgsql-$(PGSQLVER)/bin/pg_config
 
 SEDSPEC += \
         -e 's%@ARCHIVENAME@%$(ARCHIVENAME)%g'  \
@@ -87,7 +88,7 @@ build:
 	(\
 	    cd $(ARCHIVENAME)-$(VERSION);   \
 	    module load opt-python;			\
-	    $(PY.PATH) setup.py build;		\
+	    $(PY.PATH) setup.py build_ext --pg-config $(PGCONFIG) build;		\
 	    module unload opt-python;		\
 	)
 
@@ -95,7 +96,7 @@ install::
 	(\
 	    cd $(ARCHIVENAME)-$(VERSION);   \
 	    module load opt-python;			\
-	    $(PY.PATH) setup.py $@ --root=$(ROOT)/; \
+	    $(PY.PATH) setup.py build_ext --pg-config $(PGCONFIG) $@ --root=$(ROOT)/; \
 	    module unload opt-python;			\
 	)
 

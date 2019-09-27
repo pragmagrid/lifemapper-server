@@ -129,9 +129,9 @@ install lifemapper-gdal
 
 # install postgresql
 # yum --enablerepo base update openssl
-rpm -i src/RPMS/postgresql96-libs-9.6.15-1PGDG.rhel7.x86_64
-rpm -i src/RPMS/postgresql96-9.6.15-1PGDG.rhel7.x86_64
-rpm -i src/RPMS/postgresql96-devel-9.6.15-1PGDG.rhel7.x86_64
+rpm -i src/RPMS/postgresql96-libs-9.6.15-1PGDG.rhel7.x86_64.rpm
+rpm -i src/RPMS/postgresql96-9.6.15-1PGDG.rhel7.x86_64.rpm
+rpm -i src/RPMS/postgresql96-devel-9.6.15-1PGDG.rhel7.x86_64.rpm
 rpm -i src/RPMS/postgresql96-server-9.6.15-1PGDG.rhel7.x86_64.rpm
 rpm -i src/RPMS/postgresql96-contrib-9.6.15-1PGDG.rhel7.x86_64.rpm
 /sbin/ldconfig  /usr/pgsql-9.6/lib/
