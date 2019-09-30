@@ -9,8 +9,6 @@ export PATH=$PGSQLBIN:$PYBIN:$LMBIN:$CCBIN:$PATH
 export PYTHON=$PYBIN/@PYTHONVER@
 export PYTHONPATH=@LMHOME@:@PYTHON27_PACKAGES@:@LMHOME@/LmClient/LmPython/lifemapper
 
-# TODO: put a conditional around this module initialization script
-# Load modules needed for bash init, but fails in rpm build
 source /usr/share/Modules/init/bash
 module load opt-python
 

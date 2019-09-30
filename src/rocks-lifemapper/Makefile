@@ -163,7 +163,6 @@ install::
 
 	mkdir -p $(ROOT)/etc/profile.d
 	install -m 755 $(PROFILES) $(ROOT)/etc/profile.d
-	. $(ROOT)/etc/profile.d/lifemapper.sh
 
 	mkdir -p $(ROOT)/etc/sysctl.d
 	install -m 644 postgresd $(ROOT)/etc/sysctl.d

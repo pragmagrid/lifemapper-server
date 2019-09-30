@@ -25,6 +25,7 @@ if [ "$answer" != "" ] ; then
     echo "Removing $rpmname rpm"
     /usr/bin/yum -y remove $rpmname.x86_64
     /sbin/ldconfig
+    /sbin/ldconfig /usr/$PSQLDIR/lib
 fi
 
 # Check if correct version of libpq.so is available

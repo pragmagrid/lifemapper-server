@@ -317,7 +317,6 @@ del-lifemapper
 del-sysRPM
 del-directories
 del-webstuff
-del-user-group
 del-attr
 del-cron-jobs
 del-automount-entry
