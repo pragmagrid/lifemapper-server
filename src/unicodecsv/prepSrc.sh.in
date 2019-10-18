@@ -2,7 +2,7 @@
 
 # Purpose: Fetch CCTools source  
 
-SRC_URL=https://github.com/jdunck/python-unicodecsv/archive/
+SRC_URL=https://github.com/jdunck/@ARCHIVENAME@/archive/
 SRC_PKG=@VERSION@.@TARBALL_POSTFIX@
 
 get_source_files () {
