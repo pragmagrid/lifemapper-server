@@ -12,8 +12,7 @@
 	All rights reserved. Rocks(r) v5.5/v6.0 www.rocksclusters.org
 	</copyright>
 
-	<changelog>
-	</changelog>
+	<changelog> </changelog>
 
      <!-- RPM repos needed for postgresql,postgis,mapserver -->
 	<!-- <package arch="x86_64">pgdg-centos96</package> -->
