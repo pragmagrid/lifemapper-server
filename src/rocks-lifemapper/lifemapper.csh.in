@@ -17,6 +17,7 @@ setenv PGHOST @UNIXSOCKET@
 
 setenv JAVA_TOOL_OPTIONS=-Xmx512m
 setenv  SOLR_JAVA_HOME /etc/alternatives/java
+setenv  JAVA_HOME /etc/alternatives/java
 
 setenv LIFEMAPPER_SERVER_CONFIG_FILE @LMHOME@/config/config.lmserver.ini
 setenv LIFEMAPPER_SITE_CONFIG_FILE @LMHOME@/config/config.site.ini

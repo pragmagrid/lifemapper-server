@@ -19,6 +19,7 @@ export PGHOST=@UNIXSOCKET@
 
 export JAVA_TOOL_OPTIONS=-Xmx512m
 export  SOLR_JAVA_HOME=/etc/alternatives/java
+export  JAVA_HOME=/etc/alternatives/java
 
 export LIFEMAPPER_SERVER_CONFIG_FILE=@LMHOME@/config/config.lmserver.ini
 export LIFEMAPPER_SITE_CONFIG_FILE=@LMHOME@/config/config.site.ini
