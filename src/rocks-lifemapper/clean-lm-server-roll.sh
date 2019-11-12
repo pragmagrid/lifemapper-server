@@ -99,11 +99,11 @@ stop-services () {
     echo "-- stop $PG and pgbouncer daemons " >> $LOG
     
     if [ -f /var/run/pgbouncer/pgbouncer.pid ]; then
-        /sbin/service pgbouncer stop
+        /usr/bin/systemctl stop pgbouncer.service
     fi
 
     if [ -f /var/run/$PG.pid ] ; then
-        /sbin/service $PG stop
+        /usr/bin/systemctl stop $PG
     fi
 
     prog="postmaster"
@@ -115,7 +115,7 @@ stop-services () {
     SOLR_PROCESSES=`ps -Af | grep solr | grep -v "grep" | wc -l`
     if [ $SOLR_PROCESSES = 1 ]; then
         echo "-- stop Solr process " >> $LOG
-        /sbin/service solr stop
+        /usr/bin/systemctl stop solr.service
     fi    
 }
 

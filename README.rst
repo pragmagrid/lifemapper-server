@@ -320,16 +320,12 @@ to update the configuration, database, and restart services.
 Removing a roll
 ---------------
 
-When debugging a roll may need to remove the roll and all installled RPMs.
-Before removing the roll stop postgres and pgbouncer services ::  
+When debugging a roll may need to remove the roll and all installed RPMs.
+Before removing the roll stop postgres and pgbouncer services with service 
+or systemctl command ::  
   
    # /etc/init.d/pgbouncer stop
    # /etc/init.d/postgresql-9.1 stop 
-
-(Nadya: this script is not present on stand-alone installations of the roll)
-Run this script (from the top of roll source directory) to remove all
-installed RPMs, directories, users, etc ::
-
    # bash cleanRoll.sh
 
 These commands remove the installed roll from Rocks database and repo ::
