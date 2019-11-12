@@ -48,9 +48,9 @@ set_defaults() {
     # Rocks version
     ROCKS_VER=`/opt/rocks/bin/rocks list roll | grep base | awk '{print $2}'`
     if [ "$ROCKS_VER" = "7.0" ]; then
-    	PG=`basename /usr/lib/systemd/system/postgresql-*.service`
+    	PG=postgresql-@PGSQLVER@.service
     else
-    	PG=`basename /etc/init.d/postgresql-*`
+    	PG=postgresql-@PGSQLVER@
     fi
    
     PROFILE=/var/lib/pgsql/.bash_profile

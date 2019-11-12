@@ -125,6 +125,7 @@ PROGS = \
 	catalogDefaultDataInputs \
 	initWorkflow \
 	checkLibs \
+	clean-lm-server-roll.sh \
 	clearData \
 	confconst.py \
 	cycleMatt \

@@ -95,7 +95,7 @@ stop-lm-daemons () {
 
 # stop services if running
 stop-services () {
-    PG=`basename /etc/init.d/postgresql-*`
+    PG=postgresql-@PGSQLVER@
     echo "-- stop $PG and pgbouncer daemons " >> $LOG
     
     if [ -f /var/run/pgbouncer/pgbouncer.pid ]; then
