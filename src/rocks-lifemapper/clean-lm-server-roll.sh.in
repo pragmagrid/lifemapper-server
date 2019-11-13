@@ -193,6 +193,16 @@ del-sysRPM() {
    $RM pgdg-centos96
 }
 
+del-config () {   
+   echo "Removing system configuration files used by lifemapper" >> $LOG
+   # Configured @UNIXSOCKET@ == /var/run/postgresql in version.mk constants
+   rm -rf  /etc/ld.so.conf.d/lifemapper-server.conf
+   rm -rf  /etc/logrotate.d/lifemapper-httpd
+   rm -rf  /etc/profile.d/lifemapper.*
+   rm -rf  /etc/security/limits.d/lifemapper.solr.conf
+   rm -rf  /etc/sysctl.d/lifemapper.postgresd
+}
+
 del-directories () {   
    echo "Removing  directories used by postgres and pgbouncer" >> $LOG
    # Configured @UNIXSOCKET@ == /var/run/postgresql in version.mk constants
