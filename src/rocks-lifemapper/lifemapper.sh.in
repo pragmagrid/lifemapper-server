@@ -18,8 +18,7 @@ export PROJ_LIB=@PKGROOT@/share/proj
 export PGHOST=@UNIXSOCKET@
 
 export JAVA_TOOL_OPTIONS=-Xmx512m
-export  SOLR_JAVA_HOME=/etc/alternatives/java
-export  JAVA_HOME=/etc/alternatives/java
+export  SOLR_JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.222.b10-0.el7_6.x86_64/jre
 
 export LIFEMAPPER_SERVER_CONFIG_FILE=@LMHOME@/config/config.lmserver.ini
 export LIFEMAPPER_SITE_CONFIG_FILE=@LMHOME@/config/config.site.ini

@@ -16,8 +16,7 @@ setenv PROJ_LIB=@PKGROOT@/share/proj
 setenv PGHOST @UNIXSOCKET@
 
 setenv JAVA_TOOL_OPTIONS=-Xmx512m
-setenv  SOLR_JAVA_HOME /etc/alternatives/java
-setenv  JAVA_HOME /etc/alternatives/java
+setenv  SOLR_JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.222.b10-0.el7_6.x86_64/jre
 
 setenv LIFEMAPPER_SERVER_CONFIG_FILE @LMHOME@/config/config.lmserver.ini
 setenv LIFEMAPPER_SITE_CONFIG_FILE @LMHOME@/config/config.site.ini
