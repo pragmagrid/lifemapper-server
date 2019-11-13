@@ -53,9 +53,7 @@ SetDefaults () {
         DATA_SOURCE=`grep -i DATA_SOURCE $INIT_CONFIG | grep -v ';' | awk '{print $2}'`
         ARCHIVE_USER=`grep -i ARCHIVE_USER $INIT_CONFIG | grep -iv _EMAIL | grep -v ';' | awk '{print $2}'`
         SCEN_PKG=`grep -i SCENARIO_PACKAGE $INIT_CONFIG | grep -v ';' | awk '{print $2}'`
-        TREE_BASENAME=`grep -i TREE $INIT_CONFIG | grep -v ';' | awk '{print $2}'`
         ARCHIVE_NAME=`grep -i ARCHIVE_NAME $INIT_CONFIG | grep -v ';' | awk '{print $2}'`
-        BIOGEO_HYPOTHESES=`grep -i BIOGEO_HYPOTHESES $INIT_CONFIG | grep -v ';' | awk '{print $2}'`
     fi
 
     if [ ! "$ARCHIVE_USER" ] ; then
