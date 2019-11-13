@@ -115,7 +115,8 @@ stop-services () {
     SOLR_PROCESSES=`ps -Af | grep solr | grep -v "grep" | wc -l`
     if [ $SOLR_PROCESSES = 1 ]; then
         echo "-- stop Solr process " >> $LOG
-        /usr/bin/systemctl stop solr.service
+        # uses service instead of systemctl
+        /usr/sbin/service solr stop
     fi    
 }
 

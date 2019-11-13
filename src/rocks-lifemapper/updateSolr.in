@@ -31,18 +31,6 @@ set_defaults() {
 
 
 
-cmd_service () {
-	svc=$1
-	cmd=$2
-    echo "-- $cmd solr daemon " >> $LOG
-	if [ $ROCKS_VER = '7.0' ]; then
-    	/usr/bin/systemctl $2 $1  >> $LOG
-    else
-    	/sbin/service $1 $2  >> $LOG
-    fi
-}
-
-
 #### Main ####
 
 if [ $# -ne 0 ]; then
@@ -53,8 +41,9 @@ fi
 set_defaults
 TimeStamp "# Start"
 
-cmd_service solr stop
+# uses service instead of systemctl
+/usr/sbin/service solr stop
 $BIN/solr-index
-cmd_service solr start
+/usr/sbin/service solr start
 
 TimeStamp "# End"

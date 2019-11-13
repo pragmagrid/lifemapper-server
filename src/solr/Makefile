@@ -67,6 +67,9 @@ install::
 
 	mkdir -p $(ROOT)/$(JTSDIR)
 	cp  $(JTS)  $(ROOT)/$(JTSDIR)/
+
+    mkdir -p $(ROOT)/etc/security/limits.d/
+    install -m 644 lifemapper.solr.conf $(ROOT)/etc/security/limits.d
    
 	mkdir -p $(ROOT)/etc/rc.d/init.d
 	$(INSTALL) -m 755 solr $(ROOT)/etc/rc.d/init.d
