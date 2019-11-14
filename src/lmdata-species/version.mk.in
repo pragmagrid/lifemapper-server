@@ -4,7 +4,7 @@ GBIF_DATA         = gbif_data_subset
 BIOTAPHY_TREE     = NAM_binary_mod.json
 
 VERSION           = $(GBIF_VERSION)
-RELEASE           = 1
+RELEASE           = 2
 TARBALL_POSTFIX	  = tar.gz
 
 RPM.FILES = $(subst share,state/partition1,$(DATADIR_SERVER))/$(SPECIES_DATA_DIR)/*
