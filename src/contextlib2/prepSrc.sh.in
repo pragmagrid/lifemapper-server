@@ -1,8 +1,8 @@
 #!/bin/bash
 
-# Purpose: Fetch more-itertools source
+# Purpose: Fetch contextlib2 source 
 PYPI_URL=https://files.pythonhosted.org/packages
-DL_DIR=dd/26/30fc0d541d9fdf55faf5ba4b0fd68f81d5bd2447579224820ad525934178
+DL_DIR=02/54/669207eb72e3d8ae8b38aa1f0703ee87a0e9f88f30d3c0a47bebdb6de242
 DL_PKG=@ARCHIVENAME@-@VERSION@.@TARBALL_POSTFIX@
 
 get_source_files () {

@@ -1,8 +1,8 @@
 #!/bin/bash
 
-# Purpose: Fetch more-itertools source
+# Purpose: Fetch zc.lockfile source 
 PYPI_URL=https://files.pythonhosted.org/packages
-DL_DIR=dd/26/30fc0d541d9fdf55faf5ba4b0fd68f81d5bd2447579224820ad525934178
+DL_DIR=11/98/f21922d501ab29d62665e7460c94f5ed485fd9d8348c126697947643a881
 DL_PKG=@ARCHIVENAME@-@VERSION@.@TARBALL_POSTFIX@
 
 get_source_files () {
