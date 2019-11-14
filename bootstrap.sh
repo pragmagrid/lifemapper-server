@@ -138,8 +138,8 @@ rpm -i src/RPMS/postgresql96-contrib-9.6.15-1PGDG.rhel7.x86_64.rpm
       
 
 # TODO: Upgrade cherrypy to 17.4.2 and prepSrc on it and dependencies
-# cherrypy 17.4.2 requires six>=1.11.0, cheroot>=6.2.4, portend>=2.1.1
-# cherrypy 10.2.1 requires six, cheroot>=5.2.0, portend>=1.6.1
+# cherrypy 17.4.2 requires six>=1.11.0, cheroot>=6.2.4, portend>=2.1.1, 
+#                          more-itertools (for exec, not build)
 # cheroot requires six
 # portend requires tempora requires six, pytz
 cd src/six

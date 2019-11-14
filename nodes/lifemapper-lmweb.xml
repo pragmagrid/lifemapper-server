@@ -23,6 +23,7 @@
 	<package>opt-lifemapper-pytz</package>
 	<package>opt-lifemapper-tempora</package>
 	<package>opt-lifemapper-portend</package>
+    <package>opt-lifemapper-more-itertools</package>
 	<package>opt-lifemapper-cherrypy</package>
 
 	<package>opt-lifemapper-processing</package>
