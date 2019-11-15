@@ -14,6 +14,7 @@ SOLR_PORT		= 8983
 
 RPM.FILES =  \
     $(PKGROOT)/*  \n\
+    /etc/security/limits.d/lifemapper.solr.conf  \n\
     /etc/rc.d/init.d/solr  \n\
     $(SOLRDIR)/*  \n\
     $(subst share,state/partition1,$(SOLRDATA))/*

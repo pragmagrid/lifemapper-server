@@ -10,5 +10,4 @@ RPM.FILES =  \
     /etc/ld.so.conf.d/lifemapper-server.conf  \n\
     /etc/logrotate.d/lifemapper-httpd  \n\
     /etc/profile.d/lifemapper.*  \n\
-    /etc/security/limits.d/lifemapper.solr.conf  \n\
     /etc/sysctl.d/lifemapper.postgresd
