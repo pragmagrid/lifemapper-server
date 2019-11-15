@@ -140,6 +140,7 @@ del-opt-python () {
    $RM opt-lifemapper-cheroot
    $RM opt-lifemapper-cherrypy
    $RM opt-lifemapper-idigbio
+   $RM opt-lifemapper-mod_wsgi
    $RM opt-lifemapper-portend
    $RM opt-lifemapper-processing
    $RM opt-lifemapper-psycopg2
@@ -148,6 +149,11 @@ del-opt-python () {
    $RM opt-lifemapper-six
    $RM opt-lifemapper-tempora
    $RM opt-lifemapper-unicodecsv
+   $RM opt-lifemapper-more-itertools
+   $RM opt-lifemapper-contextlib2
+   $RM opt-lifemapper-zc.lockfile
+   $RM opt-lifemapper-backports.functools_lru_cache
+   $RM opt-lifemapper-jaraco.functools
 }
 
 del-mapserver(){

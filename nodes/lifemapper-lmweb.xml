@@ -16,7 +16,7 @@
 
 	<changelog> </changelog>
 
-	<package>lifemapper-mod_wsgi</package>
+	<package>opt-lifemapper-mod_wsgi</package>
 	
 	<package>opt-lifemapper-six</package>
 	<package>opt-lifemapper-cheroot</package>
