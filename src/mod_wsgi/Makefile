@@ -93,16 +93,17 @@ build:
 	)
 	
 install::
+    mkdir -p $(ROOT)/etc/httpd/conf.modules.d
+    install --mode 644  -T wsgi.conf $(ROOT)/etc/httpd/conf.modules.d/02-wsgi.conf
+    
     mkdir -p $(ROOT)/$(PKGROOT)
     (                                                           \
-        mkdir -p $(ROOT)/etc/httpd/conf.modules.d;              \
         mkdir -p $(ROOT)/usr/lib64/httpd/modules;               \
         cd $(ARCHIVENAME)-$(VERSION);                           \
         module load opt-python;                                 \
         export PATH=$(PKGROOT)/bin:$(PATH);                     \
         $(MAKE) DESTDIR=$(ROOT)/ install;                       \
-        module unload opt-python;                               \
-        install --mode 644  -T wsgi.conf $(ROOT)/etc/httpd/conf.modules.d/02-wsgi.conf; \
+        module unload opt-python;                               \        
         )
 
 
