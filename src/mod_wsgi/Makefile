@@ -85,12 +85,15 @@ build:
 	(						\
 		cd $(ARCHIVENAME)-$(VERSION);		\
 	    module load opt-python;			\
-		./configure --with-python=/opt/python/bin/$(PYTHONVER) --prefix=$(PKGROOT);	\
+		./configure --with-python=/opt/python/bin/$(PYTHONVER) --with-apxs=/usr/bin/apxs --prefix=$(PKGROOT);	\
 		$(MAKE);				\
 	    module unload opt-python;			\
 	)
 	
 install::
+    mkdir -p $(ROOT)/opt/python/bin
+    mkdir -p $(ROOT)/usr/lib64/httpd/modules/
+
 	mkdir -p $(ROOT)/$(PKGROOT)/bin
 	(						\
 		cd $(ARCHIVENAME)-$(VERSION);		\
@@ -98,6 +101,11 @@ install::
 		$(MAKE) DESTDIR=$(ROOT)/ install;	\
 	    module unload opt-python;			\
 	)
+    libtool --finish $(ROOT)/usr/lib64/httpd/modules
+
+    mkdir -p $(ROOT)/etc/httpd/conf.modules.d
+    install --mode 644  -T wsgi.conf $(ROOT)/etc/httpd/conf.modules.d/02-wsgi.conf
+
 
 clean::
 	rm -rf $(ARCHIVENAME)-$(VERSION) version.mk prepSrc.sh
