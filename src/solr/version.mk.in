@@ -2,7 +2,7 @@ NAME			= lifemapper-solr
 ARCHIVENAME		= solr
 VERSION			= 8.2.0
 JTS				= jts-core-1.15.0.jar
-RELEASE			= 0
+RELEASE			= 1
 TARBALL_POSTFIX	= tgz
 
 SOLRDIR			= /opt/solr
