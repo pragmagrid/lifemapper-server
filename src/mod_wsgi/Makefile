@@ -62,6 +62,8 @@ include Rules.mk
 
 RPM.EXTRAS += "AutoReq: 0"
 
+PY.PATH = /opt/python/bin/$(PYTHONVER)
+
 SEDSPEC += \
         -e 's%@ARCHIVENAME@%$(ARCHIVENAME)%g'  \
         -e 's%@VERSION@%$(VERSION)%g'  \
@@ -83,28 +85,25 @@ version.mk:
 build:
 	tar xzvf  $(ARCHIVENAME)-$(VERSION).$(TARBALL_POSTFIX) 
 	(						\
-		cd $(ARCHIVENAME)-$(VERSION);		\
-	    module load opt-python;			\
-		./configure --with-python=/opt/python/bin/$(PYTHONVER) --with-apxs=/usr/bin/apxs --prefix=$(PKGROOT);	\
-		$(MAKE);				\
-	    module unload opt-python;			\
+        cd $(ARCHIVENAME)-$(VERSION);		\
+        module load opt-python;             \
+        ./configure --with-python=$(PY.PATH) --with-apxs=/usr/bin/apxs;	\
+        $(MAKE) DESTDIR=$(ROOT)/;			\
+        module unload opt-python;			\
 	)
 	
 install::
-    mkdir -p $(ROOT)/opt/python/bin
-    mkdir -p $(ROOT)/usr/lib64/httpd/modules/
-
-	mkdir -p $(ROOT)/$(PKGROOT)/bin
-	(						\
-		cd $(ARCHIVENAME)-$(VERSION);		\
-	    module load opt-python;			\
-		$(MAKE) DESTDIR=$(ROOT)/ install;	\
-	    module unload opt-python;			\
-	)
-    libtool --finish $(ROOT)/usr/lib64/httpd/modules
-
-    mkdir -p $(ROOT)/etc/httpd/conf.modules.d
-    install --mode 644  -T wsgi.conf $(ROOT)/etc/httpd/conf.modules.d/02-wsgi.conf
+    mkdir -p $(ROOT)/$(PKGROOT)
+    (                                                           \
+        mkdir -p $(ROOT)/etc/httpd/conf.modules.d;              \
+        mkdir -p $(ROOT)/usr/lib64/httpd/modules;               \
+        cd $(ARCHIVENAME)-$(VERSION);                           \
+        module load opt-python;                                 \
+        export PATH=$(PKGROOT)/bin:$(PATH);                     \
+        $(MAKE) DESTDIR=$(ROOT)/ install;                       \
+        module unload opt-python;                               \
+        install --mode 644  -T wsgi.conf $(ROOT)/etc/httpd/conf.modules.d/02-wsgi.conf; \
+        )
 
 
 clean::
