@@ -47,14 +47,16 @@ RewriteEngine on
 
 # Mod_wsgi script for Lifemapper content
 WSGIScriptAliasMatch ^/(api) @LMHOME@/LmWebServer/services/common/svcRoot.py/$1
+<Directory "/opt/lifemapper/LmWebServer/services/common/">
+    Require all granted
+</Directory>
 
 # LmDashboard
 Alias /dashboard "@LMHOME@/LmWebServer/public_html/lmdashboard/"
 <Directory "@LMHOME@/LmWebServer/public_html/lmdashboard">
    Options FollowSymLinks Indexes
    AllowOverride None
-   Order allow,deny
-   Allow from all
+   Require all granted
 </Directory>
 
 # Download directory
@@ -62,8 +64,7 @@ Alias /dl "@LMHOME@/LmWebServer/public_html/dl/"
 <Directory "@LMHOME@/LmWebServer/public_html/dl">
    Options FollowSymLinks Indexes
    AllowOverride None
-   Order allow,deny
-   Allow from all
+   Require all granted
 </Directory>
 
 # Favicon.ico and robots.txt
