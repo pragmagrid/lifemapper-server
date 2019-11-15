@@ -4,4 +4,4 @@ VERSION = 2.22.0
 RELEASE = 0
 TARBALL_POSTFIX	= tar.gz
 
-RPM.FILES   = /opt/python/lib/$(PYTHONVER)/site-packages/*
+RPM.FILES   = $(PYTHON27_PACKAGES)/*

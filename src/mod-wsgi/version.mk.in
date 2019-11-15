@@ -1,9 +1,11 @@
-NAME            = lifemapper-mod_wsgi
+NAME            = opt-lifemapper-mod_wsgi
 ARCHIVENAME     = mod_wsgi
-VERSION         = 4.6.7
+VERSION         = 4.6.8
 RELEASE         = 0
 TARBALL_POSTFIX	= tar.gz
 
 RPM.FILES = \
-    $(PKGROOT)/*  \n\
-    /usr/lib64/httpd/modules/mod_wsgi.so
+    $(PYTHON27_PACKAGES)/*  \n\
+    /opt/python/bin/mod_wsgi-express  \n\
+    /etc/httpd/conf.modules.d/02-wsgi.conf  \n\
+    /usr/lib64/httpd/modules/mod_wsgi-py27.so
