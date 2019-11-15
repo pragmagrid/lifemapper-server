@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Purpose: Fetch mod_wsgi source
-PYPI_URL=https://files.pythonhosted.org/packages/
+PYPI_URL=https://files.pythonhosted.org/packages
 DL_DIR=25/d8/1df4ba9c051cd88e02971814f0867274a8ac821baf983b6778dacd6e31f7
 DL_PKG=@ARCHIVENAME@-@VERSION@.@TARBALL_POSTFIX@
 
