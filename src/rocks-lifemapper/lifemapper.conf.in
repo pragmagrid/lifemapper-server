@@ -8,17 +8,8 @@ MaxClients        10
 MaxRequestsPerChild  50
 </IfModule>
 
-# Need to set up the PYTHONPATH.  Cannot do this in VirtualHost declaration
-WSGIPythonPath @LMHOME@:$(PYTHON27_PACKAGES)
-
-
 # For lifemapper-server roll
 <VirtualHost *:80>
-
-
-# load mod_wsgi module
-LoadModule wsgi_module modules/mod_wsgi-py27.so
-LoadModule status_module modules/mod_status.so
 
 
 # Enable MapServer debugging
@@ -32,18 +23,14 @@ CustomLog @LMSCRATCHDISK@/log/apache/lifemapper_access combined
 ErrorLog  @LMSCRATCHDISK@/log/apache/lifemapper_error
 
 
-# Enable environment for config file
-SetEnv LIFEMAPPER_SERVER_CONFIG_FILE "@LMHOME@/config/config.lmserver.ini"
-SetEnv LIFEMAPPER_SITE_CONFIG_FILE "@LMHOME@/config/config.site.ini"
-
-
 # Make sure Mapserver finds projection files
 SetEnv PROJ_LIB "@LMHOME@/share/proj"
 
- 
+# permissions for uploaded files
+umask 002
+
 # Root for lifemapper content
 RewriteEngine on
-
 
 # On KU Only: redirect any requests to (svc|yeti).lifemapper.org 
 #             to client.lifemapper.org 
@@ -53,8 +40,6 @@ RewriteEngine on
 # Redirect /boom/ http://client.lifemapper.org/biotaphy/
 
 
-# Mod_wsgi script for Lifemapper content
-WSGIScriptAliasMatch ^/(api) @LMHOME@/LmWebServer/services/common/svcRoot.py/$1
 <Directory "@LMHOME@/LmWebServer/services/common/">
     Require all granted
 </Directory>

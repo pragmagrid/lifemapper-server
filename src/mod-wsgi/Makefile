@@ -88,7 +88,7 @@ build:
         cd $(ARCHIVENAME)-$(VERSION);		\
         module load opt-python;             \
         ./configure --with-python=$(PY.PATH) --with-apxs=/usr/bin/apxs;	\
-        $(MAKE) DESTDIR=$(ROOT)/;			\
+        $(PY.PATH) setup.py build;          \
         module unload opt-python;			\
 	)
 	
@@ -100,9 +100,8 @@ install::
 		mkdir -p $(ROOT)/usr/lib64/httpd/modules;               \
 		cd $(ARCHIVENAME)-$(VERSION);                           \
 		module load opt-python;                                 \
-		export PATH=$(PKGROOT)/bin:$(PATH);                     \
-		$(MAKE) DESTDIR=$(ROOT)/ install;                       \
-        	module unload opt-python;			\
+        $(PY.PATH) setup.py $@ --root=$(ROOT)/;                 \
+        module unload opt-python;			                    \
 	)
 
 

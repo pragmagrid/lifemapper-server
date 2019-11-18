@@ -1,6 +1,4 @@
-
-# Lifemapper webserver
+# Lifemapper upload file permissions
+# Contents are appended  to /etc/sysconfig/httpd file 
 umask 002
-export LIFEMAPPER_SERVER_CONFIG_FILE=@LMHOME@/config/config.lmserver.ini
-export LIFEMAPPER_SITE_CONFIG_FILE=@LMHOME@/config/config.site.ini
 
