@@ -5,5 +5,6 @@ RELEASE         = 0
 TARBALL_POSTFIX	= tar.gz
 
 RPM.FILES = \
-    /etc/httpd/conf.modules.d/02-wsgi.conf  \n\
-    /usr/lib64/httpd/modules/mod_wsgi.so
+    $(PYTHON27_PACKAGES)/*  \n\
+    /etc/httpd/conf.modules.d/02-wsgi.conf
+    
