@@ -208,6 +208,7 @@ del-config () {
    rm -rf  /etc/profile.d/lifemapper.*
    rm -rf  /etc/security/limits.d/lifemapper.solr.conf
    rm -rf  /etc/sysctl.d/lifemapper.postgresd
+   rm -f   /etc/systemd/system/httpd.service.d/lifemapper_umask.conf
 }
 
 del-directories () {   

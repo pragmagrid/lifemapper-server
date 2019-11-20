@@ -26,8 +26,6 @@ ErrorLog  @LMSCRATCHDISK@/log/apache/lifemapper_error
 # Make sure Mapserver finds projection files
 SetEnv PROJ_LIB "@LMHOME@/share/proj"
 
-# permissions for uploaded files
-umask 002
 
 # Root for lifemapper content
 RewriteEngine on

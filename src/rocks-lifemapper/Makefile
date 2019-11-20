@@ -110,7 +110,6 @@ SCRIPTS = \
 	dbAddFunctions.sql \
 	dbUpdateTables.sql \
 	lifemapper.conf \
-	lifemapper-sysconfig-httpd \
 	lifemapper-server.conf
 
 CRONS = \
@@ -176,6 +175,9 @@ install::
 	
 	mkdir -p $(ROOT)/etc/logrotate.d
 	install -m 644 lifemapper-httpd $(ROOT)/etc/logrotate.d
+	
+	mkdir -p $(ROOT)/etc/systemd/system/httpd.service.d
+	install -m 644 lifemapper_umask.conf $(ROOT)/etc/systemd/system/httpd.service.d
 
 	mkdir -p $(ROOT)/$(PKGROOT)/rocks/bin
 	install -m 755 $(PROGS) $(ROOT)/$(PKGROOT)/rocks/bin
@@ -183,7 +185,6 @@ install::
 	install -m 755 $(EXECFILES) $(ROOT)/$(PKGROOT)/rocks/bin
 
 	mkdir -p $(ROOT)/$(PKGROOT)/rocks/etc
-	install -m 644 lifemapper-sysconfig-httpd $(ROOT)/$(PKGROOT)/rocks/etc
 	install -m 644 clean-lm-server-roll.sh $(ROOT)/$(PKGROOT)/rocks/etc
 	install -m 755 $(CRONS) $(ROOT)/$(PKGROOT)/rocks/etc
 

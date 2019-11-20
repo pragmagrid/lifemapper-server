@@ -1,4 +1,0 @@
-# Lifemapper upload file permissions
-# Contents are appended  to /etc/sysconfig/httpd file 
-umask 002
-

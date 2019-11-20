@@ -103,10 +103,12 @@ read_boom_datanames () {
     POINT_PKG=`grep -i SPECIES_PACKAGE $BOOM_CONTENTS_FILE | grep -v ';' | awk '{print $2}'`
     TREE_BASENAME=`grep -i TREE_FILE $BOOM_CONTENTS_FILE | grep -v ';' | awk '{print $2}'`
     BIOGEO_PKG=`grep -i BIOGEO_PACKAGE $BOOM_CONTENTS_FILE | grep -v ';' | awk '{print $2}'`
+    SDMMASK_PKG=`grep -i SDMMASK_PKG $BOOM_CONTENTS_FILE | grep -v ';' | awk '{print $2}'`
 
     echo "    POINT_PKG = $POINT_PKG" | tee -a $LOG
-    echo "    TREE_BASENAME = $TREE_BASENAME" | tee -a $LOG       
+    echo "    TREE_BASENAME = $TREE_BASENAME" | tee -a $LOG
     echo "    BIOGEO_PKG = $BIOGEO_PKG" | tee -a $LOG
+    echo "    SDMMASK_PKG = $SDMMASK_PKG" | tee -a $LOG
 
     TEMP_PARAM_FILE=$TEMP_DIR/$BOOM_PARAM_BASENAME
     # Read Params 
@@ -211,6 +213,22 @@ install_hypotheses_data () {
     fi
 }
 
+### Move optional SDM mask layer named in SDMMASK_PKG to User dir
+install_sdmmask_data () {
+    # if sdmmask package exists, move to User dir
+    if [ -z ${SDMMASK_PKG} ]; then
+        echo "No SDM mask layer" | tee -a $LOG
+    else
+        echo "Uncompress SDM mask layer into $USER_DIR" | tee -a $LOG
+        if [ -f $TEMP_DIR/$SDMMASK_PKG.@TARBALL_POSTFIX@ ]; then
+            tar xzf $TEMP_DIR/$SDMMASK_PKG.@TARBALL_POSTFIX@ -C $USER_DIR/
+            rm -f $TEMP_DIR/$SDMMASK_PKG.@TARBALL_POSTFIX@
+        else
+            echo "Failed to find $SDMMASK_PKG ..." | tee -a $LOG
+        fi
+    fi
+}
+
 ### Fix THIS_ITEM (file or directory) to group lmwriter with write permission 
 fix_permissions () {
 	THIS_ITEM=$1
@@ -311,6 +329,7 @@ findget_scen_data
 set_user_and_directory 
 install_param_file
 install_occ_data
+install_sdmmask_data
 install_tree_data
 install_hypotheses_data
 instruct_user
