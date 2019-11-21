@@ -53,8 +53,6 @@ fi
 /bin/chgrp -R lmwriter /state/partition1/lmscratch
 /bin/chmod -R g+ws     /state/partition1/lmscratch
 
-</file>
-
 /usr/bin/systemctl restart httpd.service
 
 </post>
