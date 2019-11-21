@@ -1,4 +1,5 @@
 NAME              = opt-lifemapper-lmpy
+ARCHIVENAME       = lmpy
 REPONAME          = core
 VERSION           = 1.0.0
 RELEASE           = 0
