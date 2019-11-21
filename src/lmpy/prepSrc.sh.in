@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# Purpose: checkout distro of lmpy, lm python objects, from lifemapper Github 
+# repository and create *.tar.gz files to use in RPM. 
+
+URL=https://github.com/lifemapper/@REPONAME@/archive
+FNAME=@VERSION@.@TARBALL_POSTFIX@
+
+https://github.com/lifemapper/lmpy/archive/1.0.0.tar.gz
+
+# download release from lifemapper github
+download_source () {
+  echo "Starting GIT checkout from $URL"
+  wget "$URL/$FNAME" 
+}
+
+### main ###
+download_source

@@ -53,20 +53,27 @@
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 # 
 # @Copyright@
-#
-# $Log$
-
 
 REDHAT.ROOT = $(CURDIR)/../../
+
 -include $(ROCKSROOT)/etc/Rules.mk
 include Rules.mk
 
-RPM.EXTRAS += "AutoReq: 0"
+version.mk:
+	cat ../version.mk version.mk.in > version.mk
+
+PY.PATH = /opt/python/bin/$(PYTHONVER)
+
+YR=`date +'%Y'`
+MO=`date +'%_m'`
+DY=`date +'%_d'`
 
 SEDSPEC += \
-        -e 's%@ARCHIVENAME@%$(ARCHIVENAME)%g'  \
-        -e 's%@VERSION@%$(VERSION)%g'  \
-        -e 's%@TARBALL_POSTFIX@%$(TARBALL_POSTFIX)%g'
+        -e 's%@PKGROOT@%$(PKGROOT)%g' \
+        -e 's%@PYBIN@%$(PY.PATH)%g' \
+        -e 's%@VERSION@%$(VERSION)%g' \
+        -e 's%@REPONAME@%$(REPONAME)%g' \
+        -e 's%@NAME@%$(NAME)%g'
 
 prepSrc.sh: prepSrc.sh.in
 	$(SED) $(SEDSPEC) $^ > $@
@@ -79,27 +86,27 @@ prep: prepSrc.sh
 	./prepSrc.sh
 
 version.mk:
-	cat ../version.mk version.mk.in > version.mk
+    cat ../version.mk version.mk.in > version.mk
 
 PY.PATH = /opt/python/bin/$(PYTHONVER)
 
-build:
-	tar xzf  $(ARCHIVENAME)-$(VERSION).tar.gz 
-	(\
-	    cd $(ARCHIVENAME)-$(VERSION);   \
-	    module load opt-python;			\
-	    $(PY.PATH) setup.py build;      \
-	    module unload opt-python;       \
-	)
+build: 
+	tar xzvf $(VERSION).tar.gz  
+    (\
+        cd $(ARCHIVENAME)-$(VERSION);                  \
+        module load opt-python;         \
+        $(PY.PATH) setup.py build;      \
+        module unload opt-python;       \
+    )
 
 
 install::
-	(\
-	    cd $(ARCHIVENAME)-$(VERSION);   \
-	    module load opt-python;			\
-	    $(PY.PATH) setup.py $@ --root=$(ROOT)/; \
-	    module unload opt-python;			\
-	)
+    (\
+        cd $(ARCHIVENAME)-$(VERSION);   \
+        module load opt-python;         \
+        $(PY.PATH) setup.py $@ --root=$(ROOT)/; \
+        module unload opt-python;           \
+    )
 
 clean::
-	rm -rf $(ARCHIVENAME)-$(VERSION) version.mk prepSrc.sh
+    rm -rf $(ARCHIVENAME)-$(VERSION) version.mk prepSrc.sh
