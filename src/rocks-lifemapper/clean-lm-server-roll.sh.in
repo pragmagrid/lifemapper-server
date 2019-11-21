@@ -106,11 +106,11 @@ stop-services () {
         /usr/bin/systemctl stop $PG
     fi
 
-    prog="postmaster"
-    if [ -n "`pidof $prog`" ]; then
-        echo "-- kill $prog process " >> $LOG
-        /usr/bin/kill -SIGKILL  $prog
-    fi
+#     prog="postmaster"
+#     if [ -n "`pidof $prog`" ]; then
+#         echo "-- kill $prog process " >> $LOG
+#         /usr/bin/kill -SIGKILL  $prog
+#     fi
     
     SOLR_PROCESSES=`ps -Af | grep solr | grep -v "grep" | wc -l`
     if [ $SOLR_PROCESSES = 1 ]; then
