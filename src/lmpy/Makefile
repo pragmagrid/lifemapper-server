@@ -64,10 +64,6 @@ version.mk:
 
 PY.PATH = /opt/python/bin/$(PYTHONVER)
 
-YR=`date +'%Y'`
-MO=`date +'%_m'`
-DY=`date +'%_d'`
-
 SEDSPEC += \
         -e 's%@PKGROOT@%$(PKGROOT)%g' \
         -e 's%@PYBIN@%$(PY.PATH)%g' \
@@ -84,11 +80,6 @@ prep: prepSrc.sh
 	make version.mk
 	make prepSrc.sh
 	./prepSrc.sh
-
-version.mk:
-    cat ../version.mk version.mk.in > version.mk
-
-PY.PATH = /opt/python/bin/$(PYTHONVER)
 
 build: 
 	tar xzvf $(VERSION).tar.gz  

@@ -45,6 +45,7 @@
 	<package>opt-lifemapper-egenix-mx-base</package>
 	<package>opt-lifemapper-idigbio</package>
 	<package>opt-lifemapper-pytest</package>
+    <package>opt-lifemapper-lmpy</package>    
 	<!-- # for requests -->
 	<!-- <package>python-ipaddress</package> -->
 	<package>opt-lifemapper-certifi</package>
