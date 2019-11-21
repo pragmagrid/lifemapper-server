@@ -72,6 +72,10 @@ SEDSPEC += \
         -e 's%@PKGROOT@%$(PKGROOT)%g' \
         -e 's%@LMDISK@%$(LMDISK)%g' \
         -e 's%@PYBIN@%$(PY.PATH)%g' \
+        -e 's%@PYTHONVER@%$(PYTHONVER)%g' \
+        -e 's%@PGSQLVER@%$(PGSQLVER)%g' \
+        -e 's%@LMCODE_VERSION@%$(LMCODE_VERSION)%g' \
+        -e 's%@LMVIZ_VERSION@%$(LMVIZ_VERSION)%g' \
         -e 's%@DATADIR_SERVER@%$(DATADIR_SERVER)%g' \
         -e 's%@DATADIR_SHARED@%$(DATADIR_SHARED)%g' \
         -e 's%@SPECIES_DATA_DIR@%$(SPECIES_DATA_DIR)%g' \
