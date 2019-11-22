@@ -63,8 +63,8 @@ class ConfPgbouncer(confbase.Baseconfig):
 
         
     def defaultConfig(self, lines):
-        """ read original pgbouncer.ini content, skip lines to be overwritten, return non-comment lines """
-
+        """ read original pgbouncer.ini content, skip lines to be overwritten, 
+        return non-comment lines """
         comments = [";", " ", "\t", "\n"]
         keywords = ["logfile", "pidfile", "auth_file", "listen_port", "pool_mode" ]
         content = ""
@@ -96,9 +96,9 @@ class ConfPgbouncer(confbase.Baseconfig):
         addLines += "log_disconnections = 0\n"
         addLines += "log_pooler_errors = 1\n"
         # compute vals based on FE CPU count
-        addLines += "max_client_conn = %d\n" % (50 * self.feCPUCount)
-        addLines += "default_pool_size = %d\n" % (40 * self.feCPUCount)
-        addLines += "reserve_pool_size = %d\n" % (5 * self.feCPUCount)
+        addLines += "max_client_conn = %d\n" % (500 * self.feCPUCount)
+        addLines += "default_pool_size = %d\n" % (200 * self.feCPUCount)
+        addLines += "reserve_pool_size = %d\n" % (20 * self.feCPUCount)
         addLines += "reserve_pool_timeout = 3\n"
 
         return addLines        
