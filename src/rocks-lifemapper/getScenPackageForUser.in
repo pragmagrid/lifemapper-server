@@ -56,7 +56,6 @@ set_defaults() {
     SCEN_META_FILE=$SCEN_DIR/$SCEN_PKG.py
     SCEN_PKG_FILE=$SCEN_PKG.@TARBALL_POSTFIX@
 
-    NEW_SPDIR=$SCEN_DIR/$SCEN_PKG
     TMP_SPFILE=$TEMP_DIR/$SCEN_PKG_FILE
 }
 
@@ -110,15 +109,34 @@ move_scenario_data () {
     fi
 }
 
+set_new_layer_dir() {
+    DEFAULT_SPDIR=$SCEN_DIR/$SCEN_PKG
+    if [ -f $SCEN_META_FILE ]; then
+        echo "Looking for new layer dir in scenario metadata file $SCEN_META_FILE"   | tee -a $LOG  
+        TOPDIR=`grep -i TOPDIR $SCEN_META_FILE | grep -v ';' | awk '{print $2}'`
+    fi
+    if [ ! "$TOPDIR" ] ; then
+        echo "Error: Missing value for TOPDIR" | tee -a $LOG
+        NEW_LAYER_DIR=$DEFAULT_SPDIR
+    else
+        NEW_LAYER_DIR=$SCEN_DIR/$TOPDIR      
+    fi
+    }
+
 ### Create ASCII and MXE layers from TIFFs
 transform_layers () {
-    if [ -f $TRANSFORMPY ] ; then
-        echo "Convert layers for $SCEN_PKG to ascii and mxe ..." | tee -a $LOG
-        @PYBIN@ $TRANSFORMPY $NEW_SPDIR 2>&1 | tee -a $LOG
-    else
-        echo "Error: Missing file $TRANSFORMPY" | tee -a $LOG
-        exit 1
+    if [ -d $NEW_LAYER_DIR ]; then
+        if [ -f $TRANSFORMPY ] ; then
+            echo "Convert layers in $NEW_LAYER_DIR for $SCEN_PKG to ascii and mxe ..." | tee -a $LOG
+            @PYBIN@ $TRANSFORMPY $NEW_LAYER_DIR 2>&1 | tee -a $LOG
+        else
+            echo "Error: Missing file $TRANSFORMPY" | tee -a $LOG
+            exit 1
+        fi
+    else 
+        echo "Layer directory $NEW_LAYER_DIR does not exist" | tee -a $LOG
     fi
+
 }
 
 instruct_user () {
@@ -145,6 +163,7 @@ TimeStamp "# Start"
 pull_scenario_data
 create_user_dir
 move_scenario_data
+find_new_layer_dir
 transform_layers
 instruct_user
 
