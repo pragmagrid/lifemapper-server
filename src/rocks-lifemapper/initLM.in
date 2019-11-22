@@ -192,8 +192,6 @@ finish_dep_installs () {
     # Complete installs
     echo "-- complete libevent install" >> $LOG
     /usr/bin/libtool --finish @LMHOME@/lib
-    echo "-- complete mod_wsgi install" >> $LOG
-    /usr/bin/libtool --finish /usr/lib64/httpd/modules
 }
 
 # update linker paths
