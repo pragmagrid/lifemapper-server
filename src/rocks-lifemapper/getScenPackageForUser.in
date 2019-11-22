@@ -109,32 +109,38 @@ move_scenario_data () {
     fi
 }
 
-set_new_layer_dir() {
-    DEFAULT_SPDIR=$SCEN_DIR/$SCEN_PKG
+set_new_layer_path() {    
     if [ -f $SCEN_META_FILE ]; then
         echo "Looking for new layer dir in scenario metadata file $SCEN_META_FILE"   | tee -a $LOG  
         TOPDIR=`grep -i TOPDIR $SCEN_META_FILE | grep -v ';' | awk '{print $2}'`
     fi
     if [ ! "$TOPDIR" ] ; then
-        echo "Error: Missing value for TOPDIR" | tee -a $LOG
-        NEW_LAYER_DIR=$DEFAULT_SPDIR
-    else
-        NEW_LAYER_DIR=$SCEN_DIR/$TOPDIR      
+        TOPDIR=$SCEN_PKG
+    fi
+    
+    PUBLIC_LYR_PATH=$SCEN_DIR/$TOPDIR
+    USER_LYR_PATH=$USER_DIR/$SCEN_PKG
+    
+    # Todo: Move to user path instead of public path
+    if [ -d $USER_LYR_PATH ]; then
+        NEW_LYR_PATH=$USER_LYR_PATH
+    else 
+        NEW_LYR_PATH=$PUBLIC_LYR_PATH
     fi
     }
 
 ### Create ASCII and MXE layers from TIFFs
 transform_layers () {
-    if [ -d $NEW_LAYER_DIR ]; then
+    if [ -d $NEW_LYR_PATH ]; then
         if [ -f $TRANSFORMPY ] ; then
-            echo "Convert layers in $NEW_LAYER_DIR for $SCEN_PKG to ascii and mxe ..." | tee -a $LOG
-            @PYBIN@ $TRANSFORMPY $NEW_LAYER_DIR 2>&1 | tee -a $LOG
+            echo "Convert layers in $NEW_LYR_PATH for $SCEN_PKG to ascii and mxe ..." | tee -a $LOG
+            @PYBIN@ $TRANSFORMPY $NEW_LYR_PATH 2>&1 | tee -a $LOG
         else
             echo "Error: Missing file $TRANSFORMPY" | tee -a $LOG
             exit 1
         fi
     else 
-        echo "Layer directory $NEW_LAYER_DIR does not exist" | tee -a $LOG
+        echo "Layer directory $NEW_LYR_PATH does not exist" | tee -a $LOG
     fi
 
 }
