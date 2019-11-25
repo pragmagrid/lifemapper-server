@@ -47,11 +47,31 @@ set_defaults() {
     touch $LOG
     
     TEMP_DIR=@LMSCRATCHDISK@/temp
-    SCEN_DIR=@DATADIR_SHARED@/@ENV_DATA_DIR@
+    
+    # Find PUBLIC_USER
+    if [ -f $SITE_CONFIG_FILE ] ; then        
+        echo "Find PUBLIC_USER in site config file" >> $LOG
+        PUBLIC_USER=`grep -i ^PUBLIC_USER $SITE_CONFIG_FILE |  awk '{print $2}'`
+    fi
+    if [ -z ${PUBLIC_USER} ] ; then 
+        echo "Find PUBLIC_USER in installed config file" >> $LOG
+        PUBLIC_USER=`grep -i ^PUBLIC_USER $CONFIG_FILE | awk '{print $2}'`
+    fi
+    if [ -z ${PUBLIC_USER} ] ; then
+        echo "Error: Missing configured value for PUBLIC_USER" >> $LOG
+        exit 1
+    fi
 
     # *_PKG variables are file basenames, no path or file extension
     echo "Scenario package: $SCEN_PKG, Scenario User: $USR" | tee -a $LOG
     USER_DIR=@DATADIR_SHARED@/archive/$USR
+
+    # If missing or public user, install data for all users
+    if [ -z ${USR} || $USR = $PUBLIC_USER ] ; then
+        SCEN_DIR=@DATADIR_SHARED@/@ENV_DATA_DIR@
+    else
+        SCEN_DIR=$USER_DIR
+    fi
     
     SCEN_META_FILE=$SCEN_DIR/$SCEN_PKG.py
     SCEN_PKG_FILE=$SCEN_PKG.@TARBALL_POSTFIX@
@@ -109,28 +129,11 @@ move_scenario_data () {
     fi
 }
 
-set_new_layer_path() {    
-    if [ -f $SCEN_META_FILE ]; then
-        echo "Looking for new layer dir in scenario metadata file $SCEN_META_FILE"   | tee -a $LOG  
-        TOPDIR=`grep -i TOPDIR $SCEN_META_FILE | grep -v ';' | awk '{print $2}'`
-    fi
-    if [ ! "$TOPDIR" ] ; then
-        TOPDIR=$SCEN_PKG
-    fi
-    
-    PUBLIC_LYR_PATH=$SCEN_DIR/$TOPDIR
-    USER_LYR_PATH=$USER_DIR/$SCEN_PKG
-    
-    # Todo: Move to user path instead of public path
-    if [ -d $USER_LYR_PATH ]; then
-        NEW_LYR_PATH=$USER_LYR_PATH
-    else 
-        NEW_LYR_PATH=$PUBLIC_LYR_PATH
-    fi
-    }
 
 ### Create ASCII and MXE layers from TIFFs
 transform_layers () {
+    # Todo: Find alternate top directory name for this package
+    NEW_LYR_PATH=$SCEN_DIR/$SCEN_PKG    
     if [ -d $NEW_LYR_PATH ]; then
         if [ -f $TRANSFORMPY ] ; then
             echo "Convert layers in $NEW_LYR_PATH for $SCEN_PKG to ascii and mxe ..." | tee -a $LOG
@@ -140,7 +143,8 @@ transform_layers () {
             exit 1
         fi
     else 
-        echo "Layer directory $NEW_LYR_PATH does not exist" | tee -a $LOG
+        echo "Directory $NEW_LYR_PATH does not exist" | tee -a $LOG
+        echo "Run $TRANSFORMPY on directory with new layers" | tee -a $LOG
     fi
 
 }
@@ -169,7 +173,6 @@ TimeStamp "# Start"
 pull_scenario_data
 create_user_dir
 move_scenario_data
-find_new_layer_dir
 transform_layers
 instruct_user
 

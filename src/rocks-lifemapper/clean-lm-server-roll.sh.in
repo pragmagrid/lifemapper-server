@@ -49,6 +49,7 @@ del-lifemapper-shared() {
    $RM opt-lifemapper-certifi
    $RM opt-lifemapper-idna
    $RM opt-lifemapper-urllib3
+   $RM opt-lifemapper-lmpy
 }
 
 
@@ -125,7 +126,6 @@ del-lifemapper() {
    $RM lifemapper-cmd
    $RM lifemapper-libevent
    $RM lifemapper-lmserver
-   $RM lifemapper-mod_wsgi
    $RM lifemapper-solr
    $RM lifemapper-image-data
    $RM lifemapper-species-data

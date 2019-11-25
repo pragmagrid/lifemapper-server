@@ -282,7 +282,7 @@ findget_scen_data () {
 ### Create ASCII and MXE layers from TIFFs
 # Not needed, getScenPackageForUser transforms layers also
 transform_layers () {
-    if [ -f $TRANSFORMPY ] ; then
+    if [ -f $TRANSFORMPY ]; then
 	    NEW_CLIMATE_DIR=$CLIMATE_DIR/$SCEN_PKG      
         echo "Convert layers in $NEW_CLIMATE_DIR to ascii and mxe ..." | tee -a $LOG
         @PYBIN@ $TRANSFORMPY $NEW_CLIMATE_DIR 2>&1 | tee -a $LOG
