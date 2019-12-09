@@ -41,6 +41,7 @@ set_defaults() {
     module load opt-python
     . /etc/profile.d/lifemapper.sh
     TRANSFORMPY=@LMHOME@/LmBackend/tools/convert_layers_in_package.py
+    SCENCAT_PY=@LMHOME@/LmDbServer/tools/catalogScenPkg.py
 
     LOG=@LMSCRATCHDISK@/log/$THISNAME.log
     # Append to existing logfile
@@ -146,7 +147,22 @@ transform_layers () {
         echo "Directory $NEW_LYR_PATH does not exist" | tee -a $LOG
         echo "Run $TRANSFORMPY on directory with new layers" | tee -a $LOG
     fi
+}
 
+### Catalog scenarios in the database for this user
+catalog_scenarios () {
+    if [ -f $SCEN_META_FILE ]; then
+        if [ -f $SCENCAT_PY ] ; then
+            echo "Catalog scenario data in $SCEN_META_FILE for $USR ..." | tee -a $LOG
+            @PYBIN@ $SCENCAT_PY $USR $SCEN_META_FILE 2>&1 | tee -a $LOG
+        else
+            echo "Error: Missing file $SCENCAT_PY" | tee -a $LOG
+            exit 1
+        fi
+    else 
+        echo "File $SCEN_META_FILE does not exist" | tee -a $LOG
+        echo "Find $SCEN_META_FILE to run $SCENCAT_PY $USR $SCEN_META_FILE" | tee -a $LOG
+    fi
 }
 
 instruct_user () {
@@ -173,6 +189,7 @@ TimeStamp "# Start"
 pull_scenario_data
 create_user_dir
 move_scenario_data
+catalog_scenarios
 transform_layers
 instruct_user
 
