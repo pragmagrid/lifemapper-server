@@ -48,7 +48,10 @@ set_defaults() {
     touch $LOG
     
     TEMP_DIR=@LMSCRATCHDISK@/temp
-    
+
+    # config files
+    CONFIG_FILE=@LMHOME@/config/config.lmserver.ini
+    SITE_CONFIG_FILE=@LMHOME@/config/config.site.ini    
     # Find PUBLIC_USER
     if [ -f $SITE_CONFIG_FILE ] ; then        
         echo "Find PUBLIC_USER in site config file" >> $LOG
@@ -57,10 +60,15 @@ set_defaults() {
     if [ -z ${PUBLIC_USER} ] ; then 
         echo "Find PUBLIC_USER in installed config file" >> $LOG
         PUBLIC_USER=`grep -i ^PUBLIC_USER $CONFIG_FILE | awk '{print $2}'`
+    else
+        echo "Found PUBLIC_USER in site config file" >> $LOG
     fi
+
     if [ -z ${PUBLIC_USER} ] ; then
         echo "Error: Missing configured value for PUBLIC_USER" >> $LOG
         exit 1
+    else
+        echo "Found PUBLIC_USER in installed config file" >> $LOG
     fi
 
     # *_PKG variables are file basenames, no path or file extension

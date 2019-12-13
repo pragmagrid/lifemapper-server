@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------------------------
--- -- psql -U admin -d template1 --file=LmDbServer/dbsetup/addDBFunctions.sql
+-- -- psql -U admin -d template1 --file=LmDbServer/dbsetup/updateDBTables.sql
 -- ----------------------------------------------------------------------------
 \c borg
 -- ----------------------------------------------------------------------------
