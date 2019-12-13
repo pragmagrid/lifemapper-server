@@ -191,6 +191,7 @@ if [ $# -ne 2 ]; then
     exit 0
 fi 
 
+# 1=scen_package 2=user
 set_defaults $1 $2
 TimeStamp "# Start"
 

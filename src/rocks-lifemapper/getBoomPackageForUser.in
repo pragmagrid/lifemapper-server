@@ -114,7 +114,6 @@ read_boom_datanames () {
     # Read Params 
     BOOM_ARCHIVE=`grep -i ARCHIVE_NAME $TEMP_PARAM_FILE | grep -v ';' | awk '{print $2}'`
     SCEN_PKG=`grep -i SCENARIO_PACKAGE $TEMP_PARAM_FILE | grep -v ';' | awk '{print $2}'`
-    SCEN_META_FILE=@DATADIR_SHARED@/@ENV_DATA_DIR@/$SCEN_PKG.py
 }
 
 ### Replace ARCHIVE_USER in BOOM parameter file and create user directory
@@ -271,10 +270,19 @@ cleanup () {
 
 
 findget_scen_data () {
-    if [ -f $SCEN_META_FILE ]; then
-	    echo "$SCEN_META_FILE metadata are present for this archive"    | tee -a $LOG
+    # Public climate dir
+    PUBLIC_SCEN_META_FILE=$CLIMATE_DIR/$SCEN_PKG.py
+    # User dir
+    USER_SCEN_META_FILE=$USER_DIR/$SCEN_PKG.py
+
+    if [ -f $PUBLIC_SCEN_META_FILE]; then
+        echo "$SCEN_PKG metadata are present in public climate dir for this archive"    | tee -a $LOG
+    elif 
+        [ -f $USER_SCEN_META_FILE]; then
+        echo "$SCEN_PKG metadata are present in user dir for this archive"    | tee -a $LOG
+    # Missing
 	else
-	    echo "Get and convert layers in $SCEN_PKG for $THIS_USER" | tee -a $LOG
+	    echo "Get, catalog and convert layers in $SCEN_PKG for $THIS_USER" | tee -a $LOG
 	    @LMHOME@/rocks/bin/getScenPackageForUser $SCEN_PKG $THIS_USER   | tee -a $LOG
 	fi
 }
@@ -319,6 +327,7 @@ if [ $# -ne 2 ]; then
     exit 0
 fi 
 
+# 1=boom_package 2=user
 set_defaults $1 $2
 TimeStamp "# Start"
 
