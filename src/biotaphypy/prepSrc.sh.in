@@ -1,13 +1,16 @@
 #!/bin/bash
 
-# Purpose: Fetch Biotaphy OpenTree of Life service wrapper package
-OTOL_WRAPPER_URL=https://github.com/biotaphy/@ARCHIVENAME@/archive
-OTOL_WRAPPER_PKG=v@VERSION@.@TARBALL_POSTFIX@
+# Purpose: download release of lmpy, lm python objects, from Github repository 
 
-get_package () {
-  echo "Fetch OTOL wrapper package"
-  wget "$OTOL_WRAPPER_URL/$OTOL_WRAPPER_PKG"
+URL=https://github.com/biotaphy/@ARCHIVENAME@/archive
+FNAME=v@VERSION@.@TARBALL_POSTFIX@
+
+
+# download release from lifemapper github
+download_source () {
+  echo "Starting download from $URL"
+  wget "$URL/$FNAME" 
 }
 
 ### main ###
-get_package
+download_source
