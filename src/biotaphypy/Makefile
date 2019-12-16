@@ -85,9 +85,6 @@ build:
 	tar xzvf v$(VERSION).tar.gz  
 	(\
         cd $(ARCHIVENAME)-$(VERSION);   \
-	rm -rf sample_data;		\
-	rm -rf tests;			\
-	rm -rf docs;			\
         module load opt-python;         \
         $(PY.PATH) setup.py build;      \
         module unload opt-python;       \
