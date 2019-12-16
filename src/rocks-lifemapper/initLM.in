@@ -74,17 +74,13 @@ set_defaults() {
     # config files
     CONFIG_FILE=@LMHOME@/config/config.lmserver.ini
     SITE_CONFIG_FILE=@LMHOME@/config/config.site.ini
+    PUBLIC_ARCHIVE_CONFIG_FILE=@LMHOME@/config/boom.public.params
     
     # Find SCENARIO_PACKAGE
-    if [ -f $SITE_CONFIG_FILE ] ; then        
-        echo "Find SCENARIO_PACKAGE in site config file" >> $LOG
-        SCEN_PKG=`grep -i ^SCENARIO_PACKAGE $SITE_CONFIG_FILE | awk '{print $2}'`
+    if [ -f $PUBLIC_ARCHIVE_CONFIG_FILE ] ; then        
+        echo "Find SCENARIO_PACKAGE in public archive config file" >> $LOG
+        SCEN_PKG=`grep -i ^SCENARIO_PACKAGE $PUBLIC_ARCHIVE_CONFIG_FILE | awk '{print $2}'`
     fi    
-    if [ -z ${SCEN_PKG} ] ; then 
-        echo "Find SCENARIO_PACKAGE in installed config file" >> $LOG
-        SCEN_PKG=`grep -i ^SCENARIO_PACKAGE $CONFIG_FILE | awk '{print $2}'`
-    fi
-    # 
     if [ -z ${SCEN_PKG} ] ; then
         echo "Error: Missing configured value for SCENARIO_PACKAGE" >> $LOG
         exit 1

@@ -18,12 +18,6 @@ usage ()
 
 ### define varibles
 set_defaults () {
-    if [ $# -eq 0 ]; then
-        INIT_CONFIG=0
-    else
-        INIT_CONFIG=$1
-    fi
-
     THISNAME=`/bin/basename $0`
     LOG=@LMSCRATCHDISK@/log/$THISNAME.log
     rm -f $LOG
@@ -42,67 +36,53 @@ set_defaults () {
     SCENCAT_PY=@LMHOME@/LmDbServer/tools/catalogScenPkg.py    
     BOOMCAT_PY=@LMHOME@/LmDbServer/boom/initWorkflow.py
 
-    if [ -f $INIT_CONFIG ] ; then
-        echo "Looking for DATA_SOURCE, PUBLIC_USER, TREE in user config file $INIT_CONFIG"   | tee -a $LOG  
-        DATA_SOURCE=`grep -i ^DATA_SOURCE $INIT_CONFIG | awk '{print $2}'`
-        PUBLIC_USER=`grep -i ^PUBLIC_USER $INIT_CONFIG | awk '{print $2}'`
-        SCEN_PKG==`grep -i ^SCENARIO_PACKAGE $INIT_CONFIG | awk '{print $2}'`
-        TREE_BASENAME=`grep -i ^TREE $INIT_CONFIG | awk '{print $2}'`
-        ARCHIVE_NAME=`grep -i ^ARCHIVE_NAME $INIT_CONFIG | awk '{print $2}'`
-        BIOGEO_HYPOTHESES=`grep -i ^BIOGEO_HYPOTHESES $INIT_CONFIG | awk '{print $2}'`
-    fi
-
-    if [ ! "$DATA_SOURCE" ] ; then 
-        # look in config.site.ini
-        if [ -f $SITE_CONFIG_FILE ] ; then        
-            echo "Looking for DATA_SOURCE in site config file"   | tee -a $LOG  
-            DATA_SOURCE=`grep -i ^DATA_SOURCE $SITE_CONFIG_FILE | gawk '{print $2}'`
-        fi
+    if [ -f $BOOM_PARAMS ] ; then
+        echo "Looking for DATA_SOURCE, ARCHIVE_USER, TREE in public archive config file $INIT_CONFIG"   | tee -a $LOG  
+        DATA_SOURCE=`grep -i ^DATA_SOURCE $BOOM_PARAMS | awk '{print $2}'`
+        ARCHIVE_USER=`grep -i ^ARCHIVE_USER $BOOM_PARAMS | awk '{print $2}'`
+        ARCHIVE_NAME=`grep -i ^ARCHIVE_NAME $BOOM_PARAMS | awk '{print $2}'`
+        SCEN_PKG==`grep -i ^SCENARIO_PACKAGE $BOOM_PARAMS | awk '{print $2}'`
         
-        # look in installed config file        
-        if [ ! "$DATA_SOURCE" ] ; then 
-            echo "Looking for DATA_SOURCE in installed config file"   | tee -a $LOG  
-            DATA_SOURCE=`grep -i ^DATA_SOURCE $CONFIG_FILE | awk '{print $2}'`
-        fi
+        TREE_BASENAME=`grep -i ^TREE $BOOM_PARAMS | awk '{print $2}'`
+        BIOGEO_HYPOTHESES=`grep -i ^BIOGEO_HYPOTHESES $BOOM_PARAMS | awk '{print $2}'`
     fi
     
-    if [ ! "$PUBLIC_USER" ] ; then 
+    # DATA_SOURCE must be in public archive config
+    if [ ! "$DATA_SOURCE" ] ; then 
+        echo "Missing DATA_SOURCE in $BOOM_PARAMS"   | tee -a $LOG
+        exit 1
+    fi
+    
+    # ARCHIVE_USER should be in public archive config, 
+    # otherwise use PUBLIC_USER in site or installed config
+    if [ ! "$ARCHIVE_USER" ] ; then 
         # look in config.site.ini
         if [ -f $SITE_CONFIG_FILE ] ; then        
             echo "Looking for PUBLIC_USER in site config file"   | tee -a $LOG  
-            PUBLIC_USER=`grep -i ^PUBLIC_USER $SITE_CONFIG_FILE | awk '{print $2}'`
+            ARCHIVE_USER=`grep -i ^PUBLIC_USER $SITE_CONFIG_FILE | awk '{print $2}'`
         fi
-        
         # look in installed config file        
-        if [ ! "$PUBLIC_USER" ] ; then 
+        if [ ! "$CONFIG_FILE_USER" ] ; then 
             echo "Looking for PUBLIC_USER in installed config file"   | tee -a $LOG  
-            PUBLIC_USER=`grep -i ^PUBLIC_USER $CONFIG_FILE | awk '{print $2}'`
+            CONFIG_FILE_USER=`grep -i ^PUBLIC_USER $CONFIG_FILE | awk '{print $2}'`
         fi
     fi
+    if [ ! "$ARCHIVE_USER" ] ; then
+        echo "Error: Missing value for ARCHIVE_USER in public archive config (or PUBLIC_USER in site or installed config )" | tee -a $LOG
+        exit 1
+    fi
     
+    # SCENARIO_PACKAGE should be in public archive config, 
+    # otherwise use SCENARIO_PACKAGE in site config
     if [ ! "$SCEN_PKG" ] ; then 
         # look in config.site.ini
         if [ -f $SITE_CONFIG_FILE ] ; then        
             echo "Looking for SCENARIO_PACKAGE in site config file"   | tee -a $LOG  
             SCEN_PKG=`grep -i ^SCENARIO_PACKAGE $SITE_CONFIG_FILE | awk '{print $2}'`
         fi
-        
-        # look in installed config file        
-        if [ ! "$SCEN_PKG" ] ; then 
-            echo "Looking for SCENARIO_PACKAGE in installed config file"   | tee -a $LOG  
-            SCEN_PKG=`grep -i ^SCENARIO_PACKAGE $CONFIG_FILE | awk '{print $2}'`
-        fi
-    fi
-    if [ ! "$PUBLIC_USER" ] ; then
-        echo "Error: Missing value for PUBLIC_USER" | tee -a $LOG
-        exit 1
-    fi
-    if [ ! "$DATA_SOURCE" ] ; then
-        echo "Error: Missing value for DATA_SOURCE" | tee -a $LOG
-        exit 1
     fi
     if [ ! "$SCEN_PKG" ] ; then
-        echo "Error: Missing value for SCENARIO_PACKAGE" | tee -a $LOG
+        echo "Error: Missing value for SCENARIO_PACKAGE in public archive config (and site config)" | tee -a $LOG
         exit 1
     fi
     
@@ -175,12 +155,12 @@ fix_permissions () {
 
 
 ### Main ###
-if [ $# -gt 1 ]; then
+if [ $# -gt 0 ]; then
     usage
     exit 0
 fi 
 
-set_defaults $1
+set_defaults
 TimeStamp "# Start"
 
 populate_defaults
