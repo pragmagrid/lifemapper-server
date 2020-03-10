@@ -1,7 +1,7 @@
 NAME        	= lifemapper-geos
 ARCHIVENAME     = geos
 
-# TODO: Update to >= 3.7 for postgis
+# TODO: update to >= 3.7 for postgis
 VERSION     	= 3.5.0
 RELEASE 		= 0
 TARBALL_POSTFIX	= tar.bz2

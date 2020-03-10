@@ -8,4 +8,4 @@ RPM.EXTRAS = "AutoReq: no"
 
 RPM.FILES =    $(PYTHON36_PACKAGES)/*
 
-# TODO: Update
+# TODO: update
