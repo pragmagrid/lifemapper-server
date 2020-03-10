@@ -43,9 +43,9 @@ MakeProfile () {
 
 ### make ready-to-bake rpms
 MakeSimpleRpms () {
-    declare -a easyrpms=("cherrypy" "cython" "egenix" "faulthandler" 
+    declare -a easyrpms=("cherrypy" "cython" "faulthandler" 
           "gdal" "geos" "isodate" "libevent" "lm-cmd" "mapserver" "mod-wsgi" 
-          "numexpr" "processing" "proj" "psycopg2" "pytables" 
+          "numexpr" "proj" "psycopg2" "pytables" 
           "rdflib" "requests" "rocks-lifemapper" 
           "tiff" "usersguide")
 

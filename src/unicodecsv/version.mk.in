@@ -1,9 +1,0 @@
-NAME            = opt-lifemapper-unicodecsv
-VERSION         = 0.14.1
-ARCHIVENAME     = python-unicodecsv
-RELEASE         = 0
-TARBALL_POSTFIX	= tar.gz
-
-RPM.EXTRAS = "AutoReq: no"
-
-RPM.FILES	= $(PYTHON27_PACKAGES)/*

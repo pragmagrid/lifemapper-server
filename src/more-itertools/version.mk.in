@@ -4,6 +4,8 @@ ARCHIVENAME = more-itertools
 RELEASE		= 0
 TARBALL_POSTFIX	= tar.gz
 
-RPM.FILES	= $(PYTHON27_PACKAGES)/*
+RPM.FILES	= $(PYTHON36_PACKAGES)/*
 
 # 5.0.0 is last version supporting Python2.7
+
+# TODO: update

@@ -42,7 +42,6 @@
 	<!-- python prerequisites -->
 	<package>opt-lifemapper-cython</package>	
 	<package>opt-lifemapper-dendropy</package>	
-	<package>opt-lifemapper-egenix-mx-base</package>
 	<package>opt-lifemapper-idigbio</package>
 	<package>opt-lifemapper-pytest</package>
     <package>opt-lifemapper-lmpy</package>    
@@ -54,8 +53,6 @@
 	<package>opt-lifemapper-urllib3</package>
 	<package>opt-lifemapper-requests</package>
 	
-	<package>opt-lifemapper-unicodecsv</package>
-
 	<!-- biotaphy connectors -->
 	<package>opt-lifemapper-biotaphypy</package>
 	<package>opt-lifemapper-idigbio</package>

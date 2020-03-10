@@ -1,6 +1,0 @@
-NAME		= opt-lifemapper-egenix-mx-base
-VERSION		= 3.2.9
-ARCHIVENAME	= egenix-mx-base
-RELEASE		= 0
-
-RPM.FILES	= $(PYTHON27_PACKAGES)/*

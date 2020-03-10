@@ -8,4 +8,6 @@ RPM.EXTRAS = "AutoReq: no"
 
 RPM.FILES = \
     $(PKGROOT)/*  \n\
-    $(PYTHON27_PACKAGES)/*
+    $(PYTHON36_PACKAGES)/*
+
+# TODO: update??

@@ -77,7 +77,7 @@ SEDSPEC += \
         -e 's%@PGSQLVER@%$(PGSQLVER)%g' \
         -e 's%@PYTHONVER@%$(PYTHONVER)%g' \
         -e 's%@PYBIN@%$(PY.PATH)%g' \
-        -e 's%@PYTHON27_PACKAGES@%$(PYTHON27_PACKAGES)%g' \
+        -e 's%@PYTHON36_PACKAGES@%$(PYTHON36_PACKAGES)%g' \
         -e 's%@MYSQLDB@%$(MYSQLDB)%g' \
         -e 's%@PKGROOT@%$(PKGROOT)%g' \
         -e 's%@UNIXSOCKET@%$(UNIXSOCKET)%g' \

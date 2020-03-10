@@ -96,7 +96,7 @@ install::
 	    cd $(PKGNAME);  				\
 	    module load opt-python;				\
 	    export PATH=$(PKGROOT)/bin:$(PATH);	\
-	    $(MAKE) CCTOOLS_INSTALL_DIR=$(ROOT)/$(PKGROOT)/$(ARCHIVENAME) CCTOOLS_PYTHON_PATH=$(ROOT)/$(PYTHON27_PACKAGES) install;\
+	    $(MAKE) CCTOOLS_INSTALL_DIR=$(ROOT)/$(PKGROOT)/$(ARCHIVENAME) CCTOOLS_PYTHON_PATH=$(ROOT)/$(PYTHON36_PACKAGES) install;\
 	    module unload opt-python;			\
 	)
 

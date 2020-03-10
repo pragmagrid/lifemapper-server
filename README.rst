@@ -36,7 +36,7 @@ during the roll build.
    
    :binaries: gdal proj geos libevent libspatialindex tiff mod_wsgi cctools 
               dendropy solr
-   :python modules: CherryPy, Cython,  egenix-mxDateTime (part of egenix-mx-base),   
+   :python modules: CherryPy, Cython,     
                     faulthandler,  numexpr,   
                     psycopg2, setuptools, rdflib, isodate, processing
     
@@ -65,7 +65,6 @@ The packages are a part of the roll source (or downloaded by bootstrap.sh).
     wget http://dist.modpython.org/dist/mod_python-3.5.0.tgz  
     wget https://rdflib.googlecode.com/files/rdflib-3.2.0.tar.gz
     wget --no-check-certificate https://pypi.python.org/packages/source/n/numexpr/numexpr-2.3.tar.gz  
-    wget --no-check-certificate https://downloads.egenix.com/python/egenix-mx-base-3.2.7.tar.gz  
     wget --no-check-certificate http://pypi.python.org/packages/source/s/setuptools/setuptools-2.1.tar.gz  
     wget --no-check-certificate https://pypi.python.org/packages/source/R/Rtree/Rtree-0.7.0.tar.gz  
     wget --no-check-certificate https://pypi.python.org/packages/source/p/psycopg2/psycopg2-2.5.2.tar.gz  

@@ -14,9 +14,9 @@ LMSCRATCHDISK	= /state/partition1/lmscratch
 ENV_DATA_DIR		= layers
 SPECIES_DATA_DIR	= species
 
-PYTHONVER			= python2.7
-PYTHON27			= /opt/python/bin/$(PYTHONVER)
-PYTHON27_PACKAGES	= /opt/python/lib/$(PYTHONVER)/site-packages
+PYTHONVER			= python3.6
+PYTHON36			= /opt/python/bin/$(PYTHONVER)
+PYTHON36_PACKAGES	= /opt/python/lib/$(PYTHONVER)/site-packages
 PGSQLVER			= 9.6
 UNIXSOCKET			= /var/run/postgresql
 SMTPSERVER			= localhost

@@ -6,4 +6,6 @@ TARBALL_POSTFIX = tar.gz
 
 RPM.EXTRAS = "AutoReq: no"
 
-RPM.FILES =    $(PYTHON27_PACKAGES)/*
+RPM.FILES =    $(PYTHON36_PACKAGES)/*
+
+# TODO: update

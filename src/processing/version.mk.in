@@ -5,4 +5,6 @@ RELEASE		= 0
 
 RPM.EXTRAS	= "AutoReq: no"
 
-RPM.FILES	= $(PYTHON27_PACKAGES)/*
+RPM.FILES	= $(PYTHON36_PACKAGES)/*
+
+# TODO: replace (from 2008, may not support P3)

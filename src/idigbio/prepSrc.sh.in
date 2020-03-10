@@ -2,11 +2,11 @@
 
 # Purpose: Fetch CCTools source  
 
-SRC_URL=https://github.com/iDigBio/idigbio-python-client/archive/
+SRC_URL=https://github.com/iDigBio/@ARCHIVENAME@/archive/
 SRC_PKG=v@VERSION@.@TARBALL_POSTFIX@
 
 get_source_files () {
-  echo "Fetch python-unicodecsv source code"
+  echo "Fetch @ARCHIVENAME@ source code"
   wget "$SRC_URL/$SRC_PKG" 
 }
 

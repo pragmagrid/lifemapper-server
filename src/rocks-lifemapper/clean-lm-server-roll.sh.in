@@ -47,7 +47,6 @@ del-lifemapper-shared() {
    $RM opt-lifemapper-biotaphypy
    $RM opt-lifemapper-cython
    $RM opt-lifemapper-dendropy
-   $RM opt-lifemapper-egenix-mx-base
    $RM opt-lifemapper-requests
    $RM opt-lifemapper-chardet
    $RM opt-lifemapper-certifi
@@ -145,13 +144,12 @@ del-opt-python () {
    $RM opt-lifemapper-idigbio
    $RM opt-lifemapper-mod_wsgi
    $RM opt-lifemapper-portend
-   $RM opt-lifemapper-processing
+   # $RM opt-lifemapper-processing
    $RM opt-lifemapper-psycopg2
    $RM opt-lifemapper-pytest
    $RM opt-lifemapper-pytz
    $RM opt-lifemapper-six
    $RM opt-lifemapper-tempora
-   $RM opt-lifemapper-unicodecsv
    $RM opt-lifemapper-more-itertools
    $RM opt-lifemapper-contextlib2
    $RM opt-lifemapper-zc.lockfile
