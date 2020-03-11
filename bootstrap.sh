@@ -145,8 +145,13 @@ rpm -i src/RPMS/postgresql96-contrib-9.6.15-1PGDG.rhel7.x86_64.rpm
 #                          zc.lockfile=2.0
 #                          backports.functools_lru_cache=1.6.1
 #                          jaraco.functools=2.0
-# cheroot requires six
+# cheroot requires six and setuptools
 # portend requires tempora requires six, pytz
+
+# setuptools needed for cheroot build (on devapp, not in LM install?)
+module load opt-python
+(cd src/setuptools; make prep; /opt/python/bin/python3.6 setup.py install)
+
 cd src/six
 make prep
 cd ../..

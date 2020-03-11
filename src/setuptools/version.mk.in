@@ -1,0 +1,7 @@
+NAME        	= opt-lifemapper-setuptools
+ARCHIVENAME     = setuptools
+VERSION     	= setuptools
+RELEASE			= 46.0 0
+ZIP_POSTFIX	    = zip
+
+RPM.FILES	= $(PKGROOT)/*
