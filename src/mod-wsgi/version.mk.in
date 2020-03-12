@@ -1,10 +1,9 @@
 NAME            = opt-lifemapper-mod_wsgi
 ARCHIVENAME     = mod_wsgi
 VERSION         = 4.6.8
-RELEASE         = 0
+RELEASE         = 1
 TARBALL_POSTFIX	= tar.gz
 
 RPM.FILES = \
     $(PYTHON36_PACKAGES)/*  \n\
     /etc/httpd/conf.modules.d/02-wsgi.conf
-    

@@ -1,5 +1,6 @@
 NAME		= opt-lifemapper-cheroot
-VERSION		= 6.5.5
+// VERSION		= 6.5.5
+VERSION     = 8.3.0
 ARCHIVENAME = cheroot
 RELEASE		= 0
 TARBALL_POSTFIX	= tar.gz

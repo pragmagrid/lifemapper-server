@@ -149,8 +149,13 @@ rpm -i src/RPMS/postgresql96-contrib-9.6.15-1PGDG.rhel7.x86_64.rpm
 # portend requires tempora requires six, pytz
 
 # setuptools needed for cheroot build (on devapp, not in LM install?)
+cd src/setuptools
 module load opt-python
-(cd src/setuptools; make prep; /opt/python/bin/python3.6 setup.py install)
+unzip setuptools-46.0.0.zip
+cd setuptools-46.0.0
+/opt/python/bin/python3.6 setup.py install
+cd ../../..
+module unload opt-python
 
 cd src/six
 make prep
