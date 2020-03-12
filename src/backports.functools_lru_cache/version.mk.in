@@ -1,7 +1,7 @@
 NAME		= opt-lifemapper-backports.functools_lru_cache
 VERSION		= 1.6.1
 ARCHIVENAME = backports.functools_lru_cache
-RELEASE		= 0
+RELEASE		= 1
 TARBALL_POSTFIX	= tar.gz
 
 RPM.FILES	= $(PYTHON36_PACKAGES)/*

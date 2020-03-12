@@ -1,7 +1,7 @@
 NAME            = opt-lifemapper-idigbio
 VERSION         = 0.8.5
 ARCHIVENAME     = idigbio-python-client
-RELEASE         = 0
+RELEASE         = 1
 TARBALL_POSTFIX	= tar.gz
 
 RPM.EXTRAS = "AutoReq: no"

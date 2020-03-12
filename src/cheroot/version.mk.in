@@ -1,10 +1,9 @@
+# Note: updated from 6.5.5 to handle p3/setuptools error in cheroot compile
+
 NAME		= opt-lifemapper-cheroot
-// VERSION		= 6.5.5
 VERSION     = 8.3.0
 ARCHIVENAME = cheroot
 RELEASE		= 0
 TARBALL_POSTFIX	= tar.gz
 
 RPM.FILES	= $(PYTHON36_PACKAGES)/*
-
-# TODO: update

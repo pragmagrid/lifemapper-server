@@ -1,7 +1,7 @@
 NAME		= opt-lifemapper-portend
 VERSION		= 2.5
 ARCHIVENAME	= portend
-RELEASE		= 0
+RELEASE		= 1
 TARBALL_POSTFIX	= tar.gz
 
 RPM.FILES	= $(PYTHON36_PACKAGES)/*

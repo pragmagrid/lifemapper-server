@@ -1,7 +1,7 @@
 NAME            = opt-lifemapper-psycopg2
 VERSION         = 2.8.3
 ARCHIVENAME     = psycopg2
-RELEASE         = 0
+RELEASE         = 1
 TARBALL_POSTFIX = tar.gz
 
 RPM.EXTRAS = "AutoReq: no"

@@ -1,7 +1,7 @@
 NAME            = opt-lifemapper-certifi
 VERSION         = 2019.6.16
 ARCHIVENAME     = certifi
-RELEASE         = 0
+RELEASE         = 1
 TARBALL_POSTFIX = tar.gz
 
 RPM.EXTRAS = "AutoReq: no"

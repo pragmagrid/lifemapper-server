@@ -1,7 +1,7 @@
 NAME            = opt-lifemapper-idna
 VERSION         = 2.8
 ARCHIVENAME     = idna
-RELEASE         = 0
+RELEASE         = 1
 TARBALL_POSTFIX = tar.gz
 
 RPM.EXTRAS = "AutoReq: no"

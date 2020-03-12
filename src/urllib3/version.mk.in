@@ -1,7 +1,7 @@
 NAME            = opt-lifemapper-urllib3
 VERSION         = 1.25.3
 ARCHIVENAME     = urllib3
-RELEASE         = 0
+RELEASE         = 1
 TARBALL_POSTFIX = tar.gz
 
 RPM.EXTRAS = "AutoReq: no"

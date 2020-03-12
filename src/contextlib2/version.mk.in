@@ -1,7 +1,7 @@
 NAME		= opt-lifemapper-contextlib2
 VERSION		= 0.6.0.post1
 ARCHIVENAME = contextlib2
-RELEASE		= 0
+RELEASE		= 1
 TARBALL_POSTFIX	= tar.gz
 
 RPM.FILES	= $(PYTHON36_PACKAGES)/*

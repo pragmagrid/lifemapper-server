@@ -1,7 +1,7 @@
 NAME            = lifemapper-gdal
 ARCHIVENAME     = gdal
 VERSION         = 1.11.4
-RELEASE         = 0
+RELEASE         = 1
 TARBALL_POSTFIX	= tar.gz
 
 RPM.EXTRAS = "AutoReq: no"

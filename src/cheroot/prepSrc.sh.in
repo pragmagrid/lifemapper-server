@@ -1,7 +1,6 @@
 #!/bin/bash
 
 # Purpose: Fetch CherryPy source
-# DL_URL=https://files.pythonhosted.org/packages/0c/d9/4e13bc35e920ec63fc0f6b01f84537e9a7b9d6462a0419d903fea591a723
 DL_URL=https://files.pythonhosted.org/packages/57/c9/410e2f96de941759719f4ac1f595b1ed65e423c354bed1b2eb3e09aaf18d
 DL_PKG=@ARCHIVENAME@-@VERSION@.@TARBALL_POSTFIX@
 

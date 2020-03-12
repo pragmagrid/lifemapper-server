@@ -1,7 +1,7 @@
 NAME		= opt-lifemapper-more-itertools
 VERSION		= 5.0.0
 ARCHIVENAME = more-itertools
-RELEASE		= 0
+RELEASE		= 1
 TARBALL_POSTFIX	= tar.gz
 
 RPM.FILES	= $(PYTHON36_PACKAGES)/*
