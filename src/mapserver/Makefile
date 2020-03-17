@@ -87,9 +87,32 @@ prep: prepSrc.sh
 build:
 	tar xzf  $(ARCHIVENAME)-$(VERSION).$(TARBALL_POSTFIX)
 	(\
-		cd $(ARCHIVENAME)-$(VERSION);			\
-		export PYTHON=$(PY.PATH);             		\
-		export PATH=$(ROOT):$(PKGROOT)/bin:$(PATH);	\
+		cd $(ARCHIVENAME)-$(VERSION); \
+		export PYTHON=$(PY.PATH);     \
+		mkdir build;                  \
+		cd build;                     \
+        cmake                         \
+            -DCMAKE_INSTALL_PREFIX=$(PKGROOT) \
+            -DCMAKE_PREFIX_PATH=$(ROOT):$(PKGROOT)/bin:$(PATH) \
+            -DWITH_PROJ=$(PKGROOT)    \
+            -DWITH_PROTOBUFC=OFF      \
+            -DWITH_WMS=ON             \
+            -DWITH_FRIBIDI=OFF        \
+            -DWITH_HARFBUZZ=OFF       \
+            -DWITH_ICONV=OFF          \
+            -DWITH_CAIRO=OFF          \
+            -DWITH_FCGI=OFF           \
+            -DWITH_GEOS=ON            \
+            -DWITH_POSTGIS=OFF        \
+            -DWITH_GDAL=ON            \
+            -DWITH_OGR=ON             \
+            -DWITH_WFS=OFF            \
+            -DWITH_WCS=ON             \
+            -DWITH_LIBXML2=ON         \
+            -DWITH_GIF=ON             \
+            -DWITH_KML=ON             \
+            -DWITH_PYTHON=ON          \
+            ../ >../configure.out.txt
 		./configure --with-python --with-proj=$(PKGROOT) --with-geos --with-ogr --with-gdal --with-postgis --with-kml --prefix=$(PKGROOT);  \
 		$(MAKE); 					\
 		cd mapscript/python;				\
@@ -114,5 +137,5 @@ install::
 	)
 
 clean::
-	rm -rf $(ARCHIVENAME)-$(VERSION) version.mk
+	rm -rf $(ARCHIVENAME)-$(VERSION) version.mk prepSrc.sh
 	
