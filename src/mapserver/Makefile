@@ -69,6 +69,21 @@ version.mk:
 PY.PATH = /opt/python/bin/$(PYTHONVER)
 MAPSERVERPROGS = shp2img shptree sortshp tile4ms
 
+SEDSPEC += \
+        -e 's%@ARCHIVENAME@%$(ARCHIVENAME)%g'  \
+        -e 's%@VERSION@%$(VERSION)%g'  \
+        -e 's%@TARBALL_POSTFIX@%$(TARBALL_POSTFIX)%g'
+
+prepSrc.sh: prepSrc.sh.in
+    $(SED) $(SEDSPEC) $^ > $@
+    chmod 755 $@
+
+prep: prepSrc.sh
+    rm -rf version.mk
+    make version.mk
+    make prepSrc.sh
+    ./prepSrc.sh
+
 build:
 	tar xzf  $(ARCHIVENAME)-$(VERSION).$(TARBALL_POSTFIX)
 	(\
