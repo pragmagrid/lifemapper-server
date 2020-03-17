@@ -113,12 +113,11 @@ build:
             -DWITH_KML=ON             \
             -DWITH_PYTHON=ON          \
             ../ >../configure.out.txt
-		./configure --with-python --with-proj=$(PKGROOT) --with-geos --with-ogr --with-gdal --with-postgis --with-kml --prefix=$(PKGROOT);  \
 		$(MAKE); 					\
-		cd mapscript/python;				\
-		module load opt-python;				\
-		$(PY.PATH) setup.py build; 			\
-		module unload opt-python;			\
+		cd mapscript/python;		\
+		module load opt-python;		\
+		$(PY.PATH) setup.py build; 	\
+		module unload opt-python;	\
 	)
 
 install::

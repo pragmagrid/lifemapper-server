@@ -43,9 +43,9 @@
 	<package>openjpeg2</package>
 	<package>libgta</package>
 	<!-- armadillo deps -->
+    <package>atlas</package>
 	<package>SuperLU</package>
 	<package>arpack</package>
-	<package>atlas</package>
 	<package>blas</package>
 	<package>lapack</package>
 	<package>openblas-openmp</package>
