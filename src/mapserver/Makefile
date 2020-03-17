@@ -75,14 +75,14 @@ SEDSPEC += \
         -e 's%@TARBALL_POSTFIX@%$(TARBALL_POSTFIX)%g'
 
 prepSrc.sh: prepSrc.sh.in
-    $(SED) $(SEDSPEC) $^ > $@
-    chmod 755 $@
+	$(SED) $(SEDSPEC) $^ > $@
+	chmod 755 $@
 
 prep: prepSrc.sh
-    rm -rf version.mk
-    make version.mk
-    make prepSrc.sh
-    ./prepSrc.sh
+	rm -rf version.mk
+	make version.mk
+	make prepSrc.sh
+	./prepSrc.sh
 
 build:
 	tar xzf  $(ARCHIVENAME)-$(VERSION).$(TARBALL_POSTFIX)
