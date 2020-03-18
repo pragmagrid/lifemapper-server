@@ -71,6 +71,7 @@ PGCONFIG = /usr/pgsql-$(PGSQLVER)/bin/pg_config
 SEDSPEC += \
         -e 's%@ARCHIVENAME@%$(ARCHIVENAME)%g'  \
         -e 's%@VERSION@%$(VERSION)%g'  \
+        -e 's%@PKGNAME@%$(PKGNAME)%g'  \
         -e 's%@TARBALL_POSTFIX@%$(TARBALL_POSTFIX)%g'
 
 prepSrc.sh: prepSrc.sh.in
@@ -84,9 +85,9 @@ prep: prepSrc.sh
 	./prepSrc.sh
 
 build:
-	tar xzf  $(ARCHIVENAME)-$(VERSION).tar.gz 
+	tar xzf  $(PKGNAME).tar.gz 
 	(\
-	    cd $(ARCHIVENAME)-$(VERSION);   \
+	    cd $(ARCHIVENAME)-$(PKGNAME);   \
 	    module load opt-python;			\
 	    $(PY.PATH) setup.py build_ext --pg-config $(PGCONFIG) build;		\
 	    module unload opt-python;		\

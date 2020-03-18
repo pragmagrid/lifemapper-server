@@ -1,5 +1,6 @@
 NAME            = opt-lifemapper-psycopg2
 VERSION         = 2.8.3
+PKGNAME         = 2_8_3
 ARCHIVENAME     = psycopg2
 RELEASE         = 1
 TARBALL_POSTFIX = tar.gz
