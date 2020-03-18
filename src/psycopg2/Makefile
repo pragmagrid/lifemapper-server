@@ -95,11 +95,11 @@ build:
 
 install::
 	(\
-	    cd $(ARCHIVENAME)-$(VERSION);   \
+	    cd $(ARCHIVENAME)-$(PKGNAME);   \
 	    module load opt-python;			\
 	    $(PY.PATH) setup.py build_ext --pg-config $(PGCONFIG) $@ --root=$(ROOT)/; \
 	    module unload opt-python;			\
 	)
 
 clean::
-	rm -rf $(ARCHIVENAME)-$(VERSION) version.mk prepSrc.sh
+	rm -rf $(ARCHIVENAME)-$(PKGNAME) version.mk prepSrc.sh
