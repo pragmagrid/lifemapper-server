@@ -28,7 +28,7 @@
 	<package>bitstream-vera-sans-fonts</package>
 	<package>postgresql-libs</package>
 
-	<package>opt-lifemapper-mapserver</package>
+	<!-- <package>opt-lifemapper-mapserver</package> -->
 
 	<package>lifemapper-proj</package>	
 	<package>lifemapper-tiff</package>	

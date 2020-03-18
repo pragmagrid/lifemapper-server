@@ -90,11 +90,12 @@ build:
 		cd $(ARCHIVENAME)-$(VERSION); \
 		export PYTHON=$(PY.PATH);     \
 		mkdir build;                  \
+		cp CMakeLists.txt build/;     \
 		cd build;                     \
         cmake                         \
-            -DCMAKE_INSTALL_PREFIX=$(PKGROOT) \
+            -DCMAKE_INSTALL_PREFIX=$(ROOT)/$(PKGROOT) \
             -DCMAKE_PREFIX_PATH=$(ROOT):$(PKGROOT)/bin:$(PATH) \
-            -DWITH_PROJ=$(PKGROOT)    \
+            -DWITH_PROJ=$(PKGROOT)/bin   \
             -DWITH_PROTOBUFC=OFF      \
             -DWITH_WMS=ON             \
             -DWITH_FRIBIDI=OFF        \
@@ -102,9 +103,9 @@ build:
             -DWITH_ICONV=OFF          \
             -DWITH_CAIRO=OFF          \
             -DWITH_FCGI=OFF           \
-            -DWITH_GEOS=ON            \
+            -DWITH_GEOS=$(PKGROOT)/bin   \
             -DWITH_POSTGIS=OFF        \
-            -DWITH_GDAL=ON            \
+            -DWITH_GDAL=$(PKGROOT)/bin   \
             -DWITH_OGR=ON             \
             -DWITH_WFS=OFF            \
             -DWITH_WCS=ON             \
@@ -112,7 +113,7 @@ build:
             -DWITH_GIF=ON             \
             -DWITH_KML=ON             \
             -DWITH_PYTHON=ON          \
-            ../ >../configure.out.txt
+            ../ >../configure.out.txt;  \
 		$(MAKE); 					\
 		cd mapscript/python;		\
 		module load opt-python;		\
