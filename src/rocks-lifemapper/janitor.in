@@ -40,7 +40,7 @@ SetDefaults () {
     source /usr/share/Modules/init/bash
     module load opt-python
 	. /etc/profile.d/lifemapper.sh
-    BOOMCAT_PY=@LMHOME@/LmDbServer/boom/initWorkflow.py
+    BOOMCAT_PY=@LMHOME@/LmDbServer/boom/init_workflow.py
 
     # config files
     CONFIG_FILE=@LMHOME@/config/config.lmserver.ini

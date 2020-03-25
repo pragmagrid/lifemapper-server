@@ -41,7 +41,7 @@ set_defaults() {
     module load opt-python
     . /etc/profile.d/lifemapper.sh
     TRANSFORMPY=@LMHOME@/LmBackend/tools/convert_layers_in_package.py
-    SCENCAT_PY=@LMHOME@/LmDbServer/tools/catalogScenPkg.py
+    SCENCAT_PY=@LMHOME@/LmDbServer/tools/catalog_scen_package.py
 
     LOG=@LMSCRATCHDISK@/log/$THISNAME.log
     # Append to existing logfile

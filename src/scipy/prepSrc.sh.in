@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# Purpose: Fetch @ARCHIVENAME@ source
+DL_URL=https://files.pythonhosted.org/packages/a4/32/48b7882953d6dbbeea9e4259a5d42258d6e77d1d6f80f9298d82af444af4
+DL_PKG=@ARCHIVENAME@-@VERSION@.@TARBALL_POSTFIX@
+
+get_source_files () {
+  echo "Fetch @ARCHIVENAME@ source code"
+  wget "$DL_URL/$DL_PKG"
+}
+
+### main ###
+get_source_files

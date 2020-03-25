@@ -32,9 +32,9 @@ set_defaults () {
     BOOM_PARAMS=@LMHOME@/config/boom.public.params
 
     # scripts
-    DEFCAT_PY=@LMHOME@/LmDbServer/tools/catalogDefaults.py    
-    SCENCAT_PY=@LMHOME@/LmDbServer/tools/catalogScenPkg.py    
-    BOOMCAT_PY=@LMHOME@/LmDbServer/boom/initWorkflow.py
+    DEFCAT_PY=@LMHOME@/LmDbServer/tools/catalog_defaults.py    
+    SCENCAT_PY=@LMHOME@/LmDbServer/tools/catalog_sen_package.py    
+    BOOMCAT_PY=@LMHOME@/LmDbServer/boom/init_workflow.py
 
     if [ -f $BOOM_PARAMS ] ; then
         echo "Looking for DATA_SOURCE, ARCHIVE_USER, TREE in public archive config file $INIT_CONFIG"   | tee -a $LOG  

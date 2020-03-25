@@ -160,8 +160,15 @@ rpm -i src/RPMS/postgresql96-contrib-9.6.15-1PGDG.rhel7.x86_64.rpm
 # rpm -i src/RPMS/blas-3.4.2-8.el7.x86_64.rpm 
 # rpm -i src/RPMS/lapack-3.4.2-8.el7.x86_64.rpm 
 # rpm -i src/RPMS/openblas-openmp-0.3.3-2.el7.x86_64.rpm 
-# rpm -i src/RPMS/armadillo-8.300.0-1.el7.x86_64.rpm 
+# rpm -i src/RPMS/armadillo-8.300.0-1.el7.x86_64.rpm
+ 
+# rpm -i src/RPMS/libusb-0.1.4-3.el7.x86_64.rpm
+# rpm -i src/RPMS/shapelib-1.3.0-2.el7.x86_64.rpm
+# rpm -i src/RPMS/gpsbabel-1.5.0-2.el7.x86_64.rpm
+# rpm -i src/RPMS/gdal-1.11.4-12.rhel7.x86_64.rpm
+# rpm -i src/RPMS/gdal-devel-1.11.4-12.rhel7.x86_64.rpm
 # rpm -i src/RPMS/gdal-libs-1.11.4-12.rhel7.x86_64.rpm 
+
 # rpm -i src/RPMS/proj-4.8.0-4.el7.x86_64.rpm 
 # rpm -i src/RPMS/postgis2_96-2.3.2-1.rhel7.x86_64.rpm
 
