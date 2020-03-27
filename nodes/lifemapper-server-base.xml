@@ -40,7 +40,8 @@
 	<package>lifemapper-solr</package>
 
 	<!-- python prerequisites -->
-	<package>opt-lifemapper-cython</package>	
+	<package>opt-lifemapper-cython</package>
+	<package>opt-lifemapper-scipy</package>	
 	<package>opt-lifemapper-dendropy</package>	
 	<package>opt-lifemapper-idigbio</package>
 	<package>opt-lifemapper-pytest</package>

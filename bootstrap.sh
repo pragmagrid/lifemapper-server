@@ -127,6 +127,23 @@ module unload opt-python
 install lifemapper-gdal
 /sbin/ldconfig
 
+# cython > 0.23.4 for scipy 
+cd src/cython
+make prep
+cd ../..
+module load opt-python
+compile cython
+module unload opt-python
+install opt-lifemapper-cython
+
+cd src/scipy
+make prep
+cd ../..
+module load opt-python
+compile scipy
+module unload opt-python
+install opt-lifemapper-scipy
+
 # install postgresql
 # yum --enablerepo base update openssl
 rpm -i src/RPMS/postgresql96-libs-9.6.15-1PGDG.rhel7.x86_64.rpm
