@@ -46,6 +46,8 @@ del-lifemapper-shared() {
    echo "Removing SHARED opt-* RPMS" >> $LOG
    $RM opt-lifemapper-biotaphypy
    $RM opt-lifemapper-cython
+   $RM opt-lifemapper-numpy
+   $RM opt-lifemapper-scipy
    $RM opt-lifemapper-dendropy
    $RM opt-lifemapper-requests
    $RM opt-lifemapper-chardet
