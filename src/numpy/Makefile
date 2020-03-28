@@ -80,7 +80,7 @@ version.mk:
 	cat ../version.mk version.mk.in > version.mk
 
 build: version.mk
-    echo $(ARCHIVENAME)
+	echo $(ARCHIVENAME)-$(VERSION)
 
 install::
 	mkdir -p $(ROOT)/$(PKGROOT)/rocks/etc
