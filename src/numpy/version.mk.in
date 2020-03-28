@@ -5,4 +5,5 @@ RELEASE 		= 0
 
 RPM.EXTRAS = "AutoReq: no"
 
-RPM.FILES   = $(PYTHON36_PACKAGES)/*
+RPM.FILES =  \
+    $(PKGROOT)/*

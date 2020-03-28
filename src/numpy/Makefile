@@ -83,12 +83,14 @@ build: version.mk
     echo $(ARCHIVENAME)
 
 install::
+	mkdir -p $(ROOT)/$(PKGROOT)/rocks/etc
+	install -m 664 $(ARCHIVENAME)-$(VERSION)-cp36-cp36m-manylinux1_x86_64.whl $(ROOT)/$(PKGROOT)/rocks/etc
 	(\
-		module load opt-python;		\
-        $(PY.PATH) -m ensurepip --default-pip;  \
-        $(PY.PATH) -m pip install   \
-          $(ARCHIVENAME)-$(VERSION)-cp36-cp36m-manylinux1_x86_64.whl;  \
-		module unload opt-python;	\
+		module load opt-python;			\
+        	$(PYTHON36) -m ensurepip --default-pip; \
+        	$(PYTHON36) -m pip install		\
+			$(ROOT)/$(PKGROOT)/rocks/etc/$(ARCHIVENAME)-$(VERSION)-cp36-cp36m-manylinux1_x86_64.whl;  \
+		module unload opt-python;		\
 	)
 
 clean::
