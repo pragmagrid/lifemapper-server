@@ -136,6 +136,14 @@ compile cython
 module unload opt-python
 install opt-lifemapper-cython
 
+cd src/numpy
+make prep
+cd ../..
+module load opt-python
+compile numpy
+module unload opt-python
+install opt-lifemapper-numpy
+
 cd src/scipy
 make prep
 cd ../..
