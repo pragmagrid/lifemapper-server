@@ -5,5 +5,4 @@ RELEASE 		= 0
 
 RPM.EXTRAS = "AutoReq: no"
 
-RPM.FILES =  \
-    $(PKGROOT)/*
+RPM.FILES =  $(PKGROOT)/*

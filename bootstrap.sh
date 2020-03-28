@@ -136,6 +136,11 @@ compile cython
 module unload opt-python
 install opt-lifemapper-cython
 
+# pip for numpy and scipy
+module load opt-python
+python3.6 -m ensurepip --default-pip
+module unload opt-python
+
 cd src/numpy
 make prep
 cd ../..
@@ -197,7 +202,6 @@ rpm -i src/RPMS/postgresql96-contrib-9.6.15-1PGDG.rhel7.x86_64.rpm
 # rpm -i src/RPMS/proj-4.8.0-4.el7.x86_64.rpm 
 # rpm -i src/RPMS/postgis2_96-2.3.2-1.rhel7.x86_64.rpm
 
-# TODO: Upgrade cherrypy to 17.4.2 and prepSrc on it and build dependencies
 # cherrypy 17.4.2 requires six>=1.11.0, cheroot>=6.2.4, portend>=2.1.1, 
 #                    and for exec, not build:
 #                          more-itertools=5.0.0 
