@@ -62,13 +62,6 @@ include Rules.mk
 
 PY.PATH = /opt/python/bin/$(PYTHONVER)
 
-// COMPILERLIB = /usr/lib64
-// COMMENTMKL =
-// CPPCOMP = g++
-// COMPILE_FLAGS = -O2 -shared -fPIC
-// SETUPOPTS = --compiler=unix --fcompiler=gnu95
-
-
 SEDSPEC += \
         -e 's%@ARCHIVENAME@%$(ARCHIVENAME)%g'  \
         -e 's%@VERSION@%$(VERSION)%g'
@@ -87,20 +80,15 @@ version.mk:
 	cat ../version.mk version.mk.in > version.mk
 
 build: version.mk
-	unzip $(ARCHIVENAME)-$(VERSION).zip
-	(\
-		module load opt-python;			\
-	    cd $(ARCHIVENAME)-$(VERSION);   \
-	    $(PY.PATH) setup.py config \
-		module unload opt-python;			\
-	)
+    echo $(ARCHIVENAME)
 
 install::
 	(\
-		module load opt-python;			\
-	    cd $(ARCHIVENAME)-$(VERSION);   \
-	    $(PY.PATH) setup.py $@ --root=$(ROOT)/; \
-		module unload opt-python;			\
+		module load opt-python;		\
+        $(PY.PATH) -m ensurepip --default-pip;  \
+        $(PY.PATH) -m pip install   \
+          $(ARCHIVENAME)-$(VERSION)-cp36-cp36m-manylinux1_x86_64.whl;  \
+		module unload opt-python;	\
 	)
 
 clean::

@@ -1,13 +1,16 @@
 #!/bin/bash
 
 # Purpose: Fetch @ARCHIVENAME@ source
-DL_URL=https://files.pythonhosted.org/packages/84/1e/ff467ac56bfeaea51d4a2e72d315c1fe440b20192fea7e460f0f248acac8
-DL_PKG=@ARCHIVENAME@-@VERSION@.zip
+DL_SRC_URL=https://files.pythonhosted.org/packages/84/1e/ff467ac56bfeaea51d4a2e72d315c1fe440b20192fea7e460f0f248acac8
+DL_SRC_PKG=@ARCHIVENAME@-@VERSION@.zip
 
-get_source_files () {
-  echo "Fetch @ARCHIVENAME@ source code"
-  wget "$DL_URL/$DL_PKG"
+DL_URL=https://files.pythonhosted.org/packages/07/08/a549ba8b061005bb629b76adc000f3caaaf881028b963c2e18f811c6edc1
+DL_WHL=@ARCHIVENAME@-@VERSION@-cp36-cp36m-manylinux1_x86_64.whl
+
+get_wheel () {
+  echo "Fetch @ARCHIVENAME@ wheel"
+  wget "$DL_URL/$DL_WHL"
 }
 
 ### main ###
-get_source_files
+get_wheel
