@@ -62,17 +62,9 @@ include Rules.mk
 
 PY.PATH = /opt/python/bin/$(PYTHONVER)
 
-COMPILERLIB = /usr/lib64
-COMMENTMKL =
-CPPCOMP = g++
-COMPILE_FLAGS = -O2 -shared -fPIC
-SETUPOPTS = --compiler=unix --fcompiler=gnu95
-
-
 SEDSPEC += \
         -e 's%@ARCHIVENAME@%$(ARCHIVENAME)%g'  \
-        -e 's%@VERSION@%$(VERSION)%g'  \
-        -e 's%@TARBALL_POSTFIX@%$(TARBALL_POSTFIX)%g'
+        -e 's%@VERSION@%$(VERSION)%g'
 
 prepSrc.sh: prepSrc.sh.in
 	$(SED) $(SEDSPEC) $^ > $@
@@ -88,25 +80,18 @@ version.mk:
 	cat ../version.mk version.mk.in > version.mk
 
 build: version.mk
-	tar zxf $(ARCHIVENAME)-$(VERSION).tar.gz
-	/bin/cp patch-files/site.cfg $(ARCHIVENAME)-$(VERSION)
-	(\
-		module load opt-python;			\
-	    cd $(ARCHIVENAME)-$(VERSION);   \
-	    $(PY.PATH) setup.py config \
-	        --noisy $(SETUPOPTS) \
-			build_clib  -g $(SETUPOPTS) \
-			build_ext $(SETUPOPTS); \
-		module unload opt-python;			\
-	)
+	echo $(ARCHIVENAME)-$(VERSION)
 
 install::
-	(\
-		module load opt-python;			\
-	    cd $(ARCHIVENAME)-$(VERSION);   \
-	    $(PY.PATH) setup.py $@ --root=$(ROOT)/; \
-		module unload opt-python;			\
-	)
+    mkdir -p $(ROOT)/$(PKGROOT)/rocks/etc
+    install -m 664 $(ARCHIVENAME)-$(VERSION)-cp36-cp36m-manylinux1_x86_64.whl $(ROOT)/$(PKGROOT)/rocks/etc
+    (\
+        module load opt-python;         \
+        $(PYTHON36) -m ensurepip --default-pip; \
+        $(PYTHON36) -m pip install      \
+            $(ROOT)/$(PKGROOT)/rocks/etc/$(ARCHIVENAME)-$(VERSION)-cp36-cp36m-manylinux1_x86_64.whl;  \
+        module unload opt-python;       \
+    )
 
 clean::
 	rm -rf $(ARCHIVENAME)-$(VERSION) version.mk prepSrc.sh

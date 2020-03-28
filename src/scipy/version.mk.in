@@ -1,12 +1,9 @@
 NAME 			= opt-lifemapper-scipy
 ARCHIVENAME 	= scipy
-# Last version for python 2.7
-VERSION 		= 1.2.2
+VERSION 		= 1.4.1
 RELEASE 		= 0
 TARBALL_POSTFIX	= tar.gz
 
 RPM.EXTRAS = "AutoReq: no"
 
-RPM.FILES   = $(PYTHON36_PACKAGES)/*
-
-# TODO: update
+RPM.FILES =  $(PKGROOT)/*
