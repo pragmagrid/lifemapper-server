@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# Purpose: Fetch @ARCHIVENAME@ wheel
+DL_URL=https://files.pythonhosted.org/packages/8c/23/848298cccf8e40f5bbb59009b32848a4c38f4e7f3364297ab3c3e2e2cd14
+DL_WHL=@ARCHIVENAME@-@VERSION@-py2.py3-none-any.whl
+
+get_wheel () {
+  echo "Fetch @ARCHIVENAME@ wheel file"
+  wget "$DL_URL/$DL_WHL"
+}
+
+### main ###
+get_wheel
