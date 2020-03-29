@@ -61,7 +61,7 @@ REDHAT.ROOT = $(CURDIR)/../../
 include Rules.mk
 
 version.mk:
-    cat ../version.mk version.mk.in > version.mk
+	cat ../version.mk version.mk.in > version.mk
 
 PY.PATH = /opt/python/bin/$(PYTHONVER)
 
@@ -70,8 +70,8 @@ SEDSPEC += \
         -e 's%@VERSION@%$(VERSION)%g'
 
 build:
-    tar xzf  $(ARCHIVENAME)-$(VERSION).tar.gz 
-        (\
+	unzip  $(ARCHIVENAME)-$(VERSION).zip
+	(\
             cd $(ARCHIVENAME)-$(VERSION);   \
             module load opt-python;         \
             $(PY.PATH) setup.py build;      \
@@ -79,12 +79,12 @@ build:
         )
 
 install::
-    (\
-        cd $(ARCHIVENAME)-$(VERSION);   \
-        module load opt-python;         \
-        $(PY.PATH) setup.py $@ --root=$(ROOT)/; \
-        module unload opt-python;           \
-    )
+	(\
+        	cd $(ARCHIVENAME)-$(VERSION);   \
+        	module load opt-python;         \
+        	$(PY.PATH) setup.py $@ --root=$(ROOT)/; \
+        	module unload opt-python;           \
+    	)
 
 clean::
-    rm -rf $(ARCHIVENAME)-$(VERSION) version.mk
+	rm -rf $(ARCHIVENAME)-$(VERSION) version.mk
