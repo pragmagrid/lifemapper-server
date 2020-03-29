@@ -86,6 +86,21 @@ echo "/opt/python/lib/" >> /etc/ld.so.conf.d/lifemapper-server.conf
 # echo "/opt/rocks/fcgi/lib" >> /etc/ld.so.conf.d/lifemapper-server.conf
 /sbin/ldconfig
 
+# pip for numpy and scipy
+module load opt-python
+python3.6 -m ensurepip --default-pip
+module unload opt-python
+
+# wheel for backports.functools_lru_cache install
+cd src/wheel
+make prep
+cd ../..
+module load opt-python
+compile wheel
+module unload opt-python
+install opt-lifemapper-wheel
+
+
 # # add newer version of chardet for requests dependency
 # cd src/chardet
 # make prep
@@ -135,11 +150,6 @@ module load opt-python
 compile cython
 module unload opt-python
 install opt-lifemapper-cython
-
-# pip for numpy and scipy
-module load opt-python
-python3.6 -m ensurepip --default-pip
-module unload opt-python
 
 cd src/numpy
 make prep
@@ -212,14 +222,20 @@ rpm -i src/RPMS/postgresql96-contrib-9.6.15-1PGDG.rhel7.x86_64.rpm
 # cheroot requires six and setuptools
 # portend requires tempora requires six, pytz
 
-# setuptools needed for cheroot build (on devapp, not in LM install?)
-cd src/setuptools
+
+# needed for cheroot build (on devapp, not in LM install?)
+# cd src/setuptools
+# module load opt-python
+# unzip setuptools-46.0.0.zip
+# cd setuptools-46.0.0
+# /opt/python/bin/python3.6 setup.py install
+# cd ../../..
+# module unload opt-python
 module load opt-python
-unzip setuptools-46.0.0.zip
-cd setuptools-46.0.0
-/opt/python/bin/python3.6 setup.py install
-cd ../../..
+compile setuptools
 module unload opt-python
+install opt-lifemapper-setuptools
+/sbin/ldconfig
 
 cd src/six
 make prep
