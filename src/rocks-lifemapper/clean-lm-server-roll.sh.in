@@ -7,6 +7,7 @@
 #    user accounts and groups : postgres, pgbouncer, solr, lmwriter
 
 RM="rpm -evl --quiet --nodeps"
+PY3=/opt/python/bin/python3.6
 ROCKS_CMD=/opt/rocks/bin/rocks
 LMROLL_COUNT=`$ROCKS_CMD list roll | grep lifemapper | wc -l`
 LMUSER_COUNT=`/bin/egrep -i "^lmwriter" /etc/passwd  | wc -l`
@@ -46,8 +47,6 @@ del-lifemapper-shared() {
    echo "Removing SHARED opt-* RPMS" >> $LOG
    $RM opt-lifemapper-biotaphypy
    $RM opt-lifemapper-cython
-   $RM opt-lifemapper-numpy
-   $RM opt-lifemapper-scipy
    $RM opt-lifemapper-dendropy
    $RM opt-lifemapper-requests
    $RM opt-lifemapper-chardet
@@ -55,6 +54,14 @@ del-lifemapper-shared() {
    $RM opt-lifemapper-idna
    $RM opt-lifemapper-urllib3
    $RM opt-lifemapper-lmpy
+
+   echo "Removing SHARED opt-* RPMS with python wheels" >> $LOG
+   $RM opt-lifemapper-numpy
+   $RM opt-lifemapper-scipy
+   module load opt-python
+   $PY3 -m pip uninstall numpy
+   $PY3 -m pip uninstall scipy
+   module unload opt-python
 }
 
 
@@ -242,8 +249,8 @@ del-webstuff () {
    rm -rf /var/www/tmp
 
    echo "Removing symlinks" >> $LOG
-   rm -f /var/www/html/sdm
-   rm -f /var/www/html/lmdashboard
+   rm -f /var/www/html/$LMCLIENT_DIR
+   rm -f /var/www/html/$DASHBOARD_DIR
    
    echo "Removing lifemapper web config" >> $LOG
    rm -f /etc/httpd/conf.d/lifemapper.conf

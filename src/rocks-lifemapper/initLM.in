@@ -188,6 +188,15 @@ finish_dep_installs () {
     # Complete installs
     echo "-- complete libevent install" >> $LOG
     /usr/bin/libtool --finish @LMHOME@/lib
+
+    # install all wheel files
+    echo "-- complete python wheel installs" >> $LOG
+    FILES=@PKGROOT@/rocks/etc/*whl
+    for f in $FILES
+        do
+            echo "Install $f file..."
+            @PYTHON3.6@ -m pip install $f
+        done
 }
 
 # update linker paths
@@ -321,19 +330,17 @@ update_config() {
     $BIN/updateCfg >> $LOG  2>&1
 }
 
-make_dashboard_link () {
+make_web_links () {
+    if [ -d $LMCLIENT_DIR ] ; then
+        echo "-- create lmclient link" >> $LOG
+        (cd /var/www/html; /usr/bin/ln -s $LMCLIENT_DIR)
+    fi
     if [ -d $DASHBOARD_DIR ] ; then
         echo "-- create dashboard link" >> $LOG
         (cd /var/www/html; /usr/bin/ln -s $DASHBOARD_DIR)
     fi
 }
 
-make_client_link () {
-    if [ -d $LMCLIENT_DIR ] ; then
-        echo "-- create lmclient link" >> $LOG
-        (cd /var/www/html; /usr/bin/ln -s $LMCLIENT_DIR)
-    fi
-}
 
 TimeStamp () {
     echo $1 `/bin/date` >> $LOG
@@ -368,7 +375,6 @@ if [ "$EXISTING_DB" = false ] ; then
     fill_db
 fi
 
-make_dashboard_link
-make_client_link
+make_web_links
 
 TimeStamp "# End"

@@ -91,7 +91,15 @@ module load opt-python
 python3.6 -m ensurepip --default-pip
 module unload opt-python
 
-# wheel for backports.functools_lru_cache install
+# setuptools and wheel for backports.functools_lru_cache install
+cd src/setuptools
+make prep
+cd ../..
+module load opt-python
+compile setuptools
+module unload opt-python
+install opt-lifemapper-setuptools
+
 cd src/wheel
 make prep
 cd ../..
@@ -224,19 +232,6 @@ rpm -i src/RPMS/postgresql96-contrib-9.6.15-1PGDG.rhel7.x86_64.rpm
 
 
 # needed for cheroot build (on devapp, not in LM install?)
-# cd src/setuptools
-# module load opt-python
-# unzip setuptools-46.0.0.zip
-# cd setuptools-46.0.0
-# /opt/python/bin/python3.6 setup.py install
-# cd ../../..
-# module unload opt-python
-module load opt-python
-compile setuptools
-module unload opt-python
-install opt-lifemapper-setuptools
-/sbin/ldconfig
-
 cd src/six
 make prep
 cd ../..
