@@ -102,11 +102,12 @@ install opt-lifemapper-setuptools
 
 cd src/wheel
 make prep
-cd ../..
 module load opt-python
+python36 -m ensurepip --default-pip
+python36 -m pip install *.whl
+cd ../..
 compile wheel
 module unload opt-python
-install opt-lifemapper-wheel
 
 
 # # add newer version of chardet for requests dependency
@@ -161,16 +162,19 @@ install opt-lifemapper-cython
 
 cd src/numpy
 make prep
-cd ../..
 module load opt-python
+python36 -m ensurepip --default-pip
+python36 -m pip install *.whl
+cd ../..
 compile numpy
 module unload opt-python
-install opt-lifemapper-numpy
 
 cd src/scipy
 make prep
-cd ../..
 module load opt-python
+python36 -m ensurepip --default-pip
+python36 -m pip install *.whl
+cd ../..
 compile scipy
 module unload opt-python
 install opt-lifemapper-scipy
