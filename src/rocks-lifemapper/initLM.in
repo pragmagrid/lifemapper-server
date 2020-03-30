@@ -188,6 +188,15 @@ finish_dep_installs () {
     # Complete installs
     echo "-- complete libevent install" >> $LOG
     /usr/bin/libtool --finish @LMHOME@/lib
+
+    # install all wheel files
+    echo "-- complete python wheel installs" >> $LOG
+    FILES=@PKGROOT@/rocks/etc/*whl
+    for f in $FILES
+        do
+            echo "Install $f file..."
+            @PYTHON3.6@ -m pip install $f
+        done
 }
 
 # update linker paths
