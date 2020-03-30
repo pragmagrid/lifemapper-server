@@ -70,7 +70,7 @@ SEDSPEC += \
         -e 's%@VERSION@%$(VERSION)%g'
 
 build:
-    tar xzf  $(ARCHIVENAME)-$(VERSION).tar.gz 
+    unzip  $(ARCHIVENAME)-$(VERSION).zip
         (\
             cd $(ARCHIVENAME)-$(VERSION);   \
             module load opt-python;         \
