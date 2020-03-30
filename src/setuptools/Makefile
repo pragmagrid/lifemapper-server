@@ -71,12 +71,12 @@ SEDSPEC += \
 
 build:
     unzip  $(ARCHIVENAME)-$(VERSION).zip
-        (\
-            cd $(ARCHIVENAME)-$(VERSION);   \
-            module load opt-python;         \
-            $(PY.PATH) setup.py build;      \
-            module unload opt-python;           \
-        )
+    (\
+        cd $(ARCHIVENAME)-$(VERSION);   \
+        module load opt-python;         \
+        $(PY.PATH) setup.py build;      \
+        module unload opt-python;           \
+    )
 
 install::
     (\
