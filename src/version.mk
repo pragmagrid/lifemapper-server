@@ -49,7 +49,7 @@ GRID_CELLSIZE			= 1
 GRID_NUM_SIDES			= 4
 
 # Code version
-LMCODE_VERSION			  = 3.3.7.p3
+LMCODE_VERSION			  = 3.3.8.p3
 LMVIZ_VERSION            = 2.3.1
 
 
