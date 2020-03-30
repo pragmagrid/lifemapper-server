@@ -330,19 +330,17 @@ update_config() {
     $BIN/updateCfg >> $LOG  2>&1
 }
 
-make_dashboard_link () {
+make_web_links () {
+    if [ -d $LMCLIENT_DIR ] ; then
+        echo "-- create lmclient link" >> $LOG
+        (cd /var/www/html; /usr/bin/ln -s $LMCLIENT_DIR)
+    fi
     if [ -d $DASHBOARD_DIR ] ; then
         echo "-- create dashboard link" >> $LOG
         (cd /var/www/html; /usr/bin/ln -s $DASHBOARD_DIR)
     fi
 }
 
-make_client_link () {
-    if [ -d $LMCLIENT_DIR ] ; then
-        echo "-- create lmclient link" >> $LOG
-        (cd /var/www/html; /usr/bin/ln -s $LMCLIENT_DIR)
-    fi
-}
 
 TimeStamp () {
     echo $1 `/bin/date` >> $LOG
@@ -377,7 +375,6 @@ if [ "$EXISTING_DB" = false ] ; then
     fill_db
 fi
 
-make_dashboard_link
-make_client_link
+make_web_links
 
 TimeStamp "# End"
