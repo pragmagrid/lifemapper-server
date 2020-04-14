@@ -285,15 +285,3 @@ install opt-lifemapper-portend
 module load opt-python
 
 
-echo "You will need to download source code, data and dependencies."
-echo "    lmserver"
-echo "    webclient"
-echo "    lmdata-env"
-echo "    lmdata-image"
-echo "    lmdata-species"
-echo "    solr"
-echo "    cctools"
-echo "    dendropy"
-echo "Go to each of the packages and execute:"
-echo "    make prep"
-
