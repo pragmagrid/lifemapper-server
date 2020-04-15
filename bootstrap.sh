@@ -103,8 +103,8 @@ install opt-lifemapper-setuptools
 cd src/wheel
 make prep
 module load opt-python
-python36 -m ensurepip --default-pip
-python36 -m pip install *.whl
+python3.6 -m ensurepip --default-pip
+python3.6 -m pip install *.whl
 cd ../..
 compile wheel
 module unload opt-python
@@ -163,8 +163,8 @@ install opt-lifemapper-cython
 cd src/numpy
 make prep
 module load opt-python
-python36 -m ensurepip --default-pip
-python36 -m pip install *.whl
+python3.6 -m ensurepip --default-pip
+python3.6 -m pip install *.whl
 cd ../..
 compile numpy
 module unload opt-python
@@ -172,8 +172,8 @@ module unload opt-python
 cd src/scipy
 make prep
 module load opt-python
-python36 -m ensurepip --default-pip
-python36 -m pip install *.whl
+python3.6 -m ensurepip --default-pip
+python3.6 -m pip install *.whl
 cd ../..
 compile scipy
 module unload opt-python
