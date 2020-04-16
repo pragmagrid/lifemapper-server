@@ -195,7 +195,7 @@ finish_dep_installs () {
     for f in $FILES
         do
             echo "Install $f file..."
-            @PYTHON3.6@ -m pip install $f
+            @PYBIN@ -m pip install $f
         done
 }
 

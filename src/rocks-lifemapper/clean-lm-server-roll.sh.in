@@ -8,6 +8,7 @@
 
 RM="rpm -evl --quiet --nodeps"
 PY3=/opt/python/bin/python3.6
+PIP3=/opt/python/bin/pip3.6
 ROCKS_CMD=/opt/rocks/bin/rocks
 LMROLL_COUNT=`$ROCKS_CMD list roll | grep lifemapper | wc -l`
 LMUSER_COUNT=`/bin/egrep -i "^lmwriter" /etc/passwd  | wc -l`
@@ -59,8 +60,8 @@ del-lifemapper-shared() {
    $RM opt-lifemapper-numpy
    $RM opt-lifemapper-scipy
    module load opt-python
-   $PY3 -m pip uninstall numpy
-   $PY3 -m pip uninstall scipy
+   $PIP3 uninstall -y numpy
+   $PIP3 uninstall -y scipy
    module unload opt-python
 }
 
