@@ -3,7 +3,7 @@
 # Purpose: download release of lmpy, lm python objects, from Github repository 
 
 URL=https://github.com/lifemapper/@ARCHIVENAME@/archive
-FNAME=@VERSION@.@TARBALL_POSTFIX@
+FNAME=v@VERSION@.@TARBALL_POSTFIX@
 
 # wget https://github.com/lifemapper/lmpy/archive/1.0.0.tar.gz
 
