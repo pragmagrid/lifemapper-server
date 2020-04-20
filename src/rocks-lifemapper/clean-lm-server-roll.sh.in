@@ -7,7 +7,6 @@
 #    user accounts and groups : postgres, pgbouncer, solr, lmwriter
 
 RM="rpm -evl --quiet --nodeps"
-PY3=/opt/python/bin/python3.6
 PIP3=/opt/python/bin/pip3.6
 ROCKS_CMD=/opt/rocks/bin/rocks
 LMROLL_COUNT=`$ROCKS_CMD list roll | grep lifemapper | wc -l`
