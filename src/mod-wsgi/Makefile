@@ -77,10 +77,14 @@ prep: prepSrc.sh
 	rm -rf version.mk
 	make version.mk
 	make prepSrc.sh
+	make wsgi.conf
 	./prepSrc.sh
 
 version.mk:
 	cat ../version.mk version.mk.in > version.mk
+
+wsgi.conf: wsgi.conf.in
+    $(SED) $(SEDSPEC) $^ > $@
 
 build:
 	tar xzvf  $(ARCHIVENAME)-$(VERSION).$(TARBALL_POSTFIX) 
@@ -106,4 +110,4 @@ install::
 
 
 clean::
-	rm -rf $(ARCHIVENAME)-$(VERSION) version.mk prepSrc.sh
+	rm -rf $(ARCHIVENAME)-$(VERSION) version.mk prepSrc.sh wsgi.conf

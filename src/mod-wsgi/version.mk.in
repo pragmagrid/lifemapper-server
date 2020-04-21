@@ -1,7 +1,7 @@
 NAME            = opt-lifemapper-mod_wsgi
 ARCHIVENAME     = mod_wsgi
 VERSION         = 4.6.8
-RELEASE         = 1
+RELEASE         = 2
 TARBALL_POSTFIX	= tar.gz
 
 RPM.FILES = \

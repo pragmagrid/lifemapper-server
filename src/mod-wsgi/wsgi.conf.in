@@ -1,9 +1,9 @@
 # TODO: Use @LMHOME@ and fill on make 
 
-LoadModule wsgi_module "/opt/python/lib/python3.6/site-packages/mod_wsgi/server/mod_wsgi-py36.cpython-36m-x86_64-linux-gnu.so"
+LoadModule wsgi_module "@PYTHON36_PACKAGES@/mod_wsgi/server/mod_wsgi-py36.cpython-36m-x86_64-linux-gnu.so"
 
 WSGIPythonHome "/opt/python"
-WSGIPythonPath "/opt/lifemapper:/opt/python/lib/python3.6/site-packages"
+WSGIPythonPath "/opt/lifemapper:@PYTHON36_PACKAGES@"
 
 # Enable environment for config file 
 SetEnv LIFEMAPPER_SERVER_CONFIG_FILE "/opt/lifemapper/config/config.lmserver.ini"
