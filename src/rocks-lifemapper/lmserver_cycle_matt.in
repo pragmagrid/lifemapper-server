@@ -7,4 +7,4 @@
 # |  |  |  |  |
 # *  *  *  *  * user-name command to be executed
 
-0  3  *  *  * lmwriter @LMHOME@/rocks/bin/cycleMatt
+0  3  *  *  * lmwriter @LMHOME@/rocks/bin/matt_daemon restart

@@ -127,7 +127,7 @@ PROGS = \
 	clean-lm-server-roll.sh \
 	clearData \
 	confconst.py \
-	cycleMatt \
+	matt_daemon \
 	exportTaxonomyToCsv \
 	initDbserver \
 	initLM \

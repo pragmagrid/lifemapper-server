@@ -184,11 +184,15 @@ stop_services () {
 }
 
 # Command listed when making rpm
-finish_dep_installs () {
+finish_libevent_install () {
     # Complete installs
     echo "-- complete libevent install" >> $LOG
     /usr/bin/libtool --finish @LMHOME@/lib
+}
 
+# Install all python wheel files with pip
+finish_wheel_installs () {
+    @PYBIN@ -m ensurepip --default-pip
     # install all wheel files
     echo "-- complete python wheel installs" >> $LOG
     FILES=@PKGROOT@/rocks/etc/*whl
@@ -349,7 +353,8 @@ TimeStamp () {
 ####### Main #######
 set_defaults
 TimeStamp "# Start"
-finish_dep_installs
+finish_libevent_install
+finish_wheel_installs
 set_permissions
 stop_services
 
