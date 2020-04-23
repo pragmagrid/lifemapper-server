@@ -8,7 +8,7 @@ usage ()
 {
     echo "Usage: $0 <BOOM params filename>"
     echo "This script is run by the superuser. It will "
-    echo "     - run initWorkflow.py to populate the databases with "
+    echo "     - run init_workflow.py to populate the databases with "
     echo "       BOOM inputs from the provided parameters file and the default"
     echo "       configuration"
     echo "   "

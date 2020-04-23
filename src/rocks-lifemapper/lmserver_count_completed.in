@@ -18,4 +18,4 @@ LOG=/tmp/`/bin/basename $0`.log
 touch $LOG
 
 # Query the database for completed status
-@PYBIN@ @LMHOME@/LmServer/tools/checkProgress.py  > $LOG 2>&1
+@PYBIN@ @LMHOME@/LmServer/tools/check_progress.py  > $LOG 2>&1

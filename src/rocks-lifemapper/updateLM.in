@@ -23,7 +23,7 @@ set_defaults() {
 	
     # python/bash scripts
     BOOM_POPULATE=@LMHOME@/rocks/bin/initWorkflow
-    MATT_DAEMON=@LMHOME@/LmServer/tools/mattDaemon.py
+    MATT_DAEMON=@LMHOME@/LmServer/tools/matt_daemon.py
 	
     THISNAME=`/bin/basename $0`
     LOG=@LMSCRATCHDISK@/log/$THISNAME.log
