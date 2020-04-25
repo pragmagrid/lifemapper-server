@@ -85,7 +85,7 @@ version.mk:
 	cat ../version.mk version.mk.in > version.mk
 
 wsgi.conf: wsgi.conf.in
-    $(SED) $(SEDSPEC) $^ > $@
+	$(SED) $(SEDSPEC) $^ > $@
 
 
 build: wsgi.conf
