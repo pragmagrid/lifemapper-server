@@ -18,7 +18,7 @@ usage ()
 
 set_defaults () {
 	USR=`whoami | awk '{print $1}'`
-	if [ "$USR" != 'lmwriter' ]; then
+	if [[ $USR != 'lmwriter' ]]; then
 		echo 'This script must be run as lmwriter user'
 		exit 0
 	fi
@@ -26,7 +26,7 @@ set_defaults () {
 	# load opt-python and environment
     source /usr/share/Modules/init/bash
     module load opt-python
-	. /etc/profile.d/lifemapper.sh
+    . /etc/profile.d/lifemapper.sh
 	
 	MATT_DAEMON=@LMHOME@/LmServer/tools/matt_daemon.py
 	PIDFILE=@LMSCRATCHDISK@/run/matt_daemon.pid
@@ -34,7 +34,7 @@ set_defaults () {
 	# Log latest results of this cron job
 	LOG=/tmp/`/bin/basename $0`.log
 	rm -f $LOG
-	touch $LOG	
+	touch $LOG
 }
 
 test_inputs () {
@@ -42,17 +42,24 @@ test_inputs () {
     debug_level=$2
     
     MATT_COUNT=`ps -Alf | grep matt_daemon | grep 'start' | wc -l`
-    if [ $cmd == 'start' ] && [ $MATT_COUNT -ne 0 ]; then
-        echo "   matt_daemon is already running"
-    elif [ $cmd == 'stop' ] && [ $MATT_COUNT -eq 0 ]; then
-        echo "   matt_daemon is not running"
-    elif [ $cmd != 'restart' ]; then
+    echo "MATT_COUNT = $MATT_COUNT" >> $LOG
+    if [[ $cmd == 'start' ]]; then
+        if [[ $MATT_COUNT -ne 0 ]]; then
+            echo "   matt_daemon is already running" >> $LOG
+            exit 0
+        fi
+    elif [[ $cmd == 'stop' ]]; then
+        if [[ $MATT_COUNT -eq 0 ]]; then
+            echo "   matt_daemon is not running" >> $LOG
+            exit 0
+        fi
+    elif [[ $cmd != 'restart' ]]; then
         usage
         exit 0
     fi
 
-    if [ $cmd == 'start' ] || [ $cmd != 'restart' ]; then 
-        if [ $debug_level -ge 0 ] and [ $debug_level -le 2 ]; then 
+    if [[ $cmd == 'start' ]] || [[ $cmd != 'restart' ]]; then 
+        if [[ $debug_level -ge 0 ]] && [[ $debug_level -le 2 ]]; then 
             debug_options=" -dl=$debug_level -dm=$debug_level -do=$debug_level"
         else
             debug_options=""
@@ -76,6 +83,7 @@ stop_matt () {
 
 # restart matt_daemon
 restart_matt () {
+    echo "-- restart matt_daemon" >> $LOG
     if [ $MATT_COUNT -ne 0 ]; then
         stop_matt
         MATT_COUNT=`ps -Alf | grep matt_daemon | grep 'start' | wc -l`
@@ -92,17 +100,17 @@ restart_matt () {
 
 # start matt_daemon
 start_matt () {	
-	echo "-- start matt_daemon " >> $LOG
-	@PYBIN@ $MATT_DAEMON start
+	echo "-- start matt_daemon with debug_options = $debug_options" >> $LOG
+	@PYBIN@ $MATT_DAEMON start $debug_options
 }
 
 
 ####### Main #######
 
-if [ $# < 1 ]; then
+if [[ $# -lt 1 ]]; then
     usage
     exit 0
-elif [ $# -eq 1 ]; then
+elif [[ $# -eq 1 ]]; then
     cmd=$1
     debug_level=-1
 else
@@ -111,16 +119,16 @@ else
 fi
 
 set_defaults
-get_inputs $cmd $debug_level
+test_inputs $cmd $debug_level
 
 time_stamp "# Start"
 
-if [ $cmd == 'start' ]; then
-    start_matt $debug_options
-elif [ $cmd == 'stop' ]; then
+if [[ $cmd == 'start' ]]; then
+    start_matt
+elif [[ $cmd == 'stop' ]]; then
     stop_matt
-elif [ $cmd == 'restart' ]; then
-    restart_matt $debug_options
+elif [[ $cmd == 'restart' ]]; then
+    restart_matt
 fi
 
 time_stamp "# End"
