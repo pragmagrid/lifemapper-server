@@ -33,19 +33,9 @@ removeOldTasks () {
     echo "Removed old tasks in ${CRON_HOURLY_DIR} and ${CRON_DAILY_DIR} on frontend ..." | tee -a $LOG
 }
 
-# install hourly cron jobs (solr)
-installHourlyTasks () {
-    # run hourly 
-    install @LMHOME@/rocks/etc/lmserver_build_solr_index ${CRON_HOURLY_DIR}
-    install @LMHOME@/rocks/etc/lmserver_troubleshoot_jobs ${CRON_HOURLY_DIR}
-    echo "Installed hourly tasks to ${CRON_HOURLY_DIR} ..." | tee -a $LOG
-}
-
 # install daily cron jobs (security, cleanup, tests)
 installDailyTasks () {
     # run daily 
-    install @LMHOME@/rocks/etc/lmserver_delete_old_anon ${CRON_DAILY_DIR}
-    install @LMHOME@/rocks/etc/lmserver_run_server_tests ${CRON_DAILY_DIR}
     install @LMHOME@/rocks/etc/lmserver_count_completed ${CRON_DAILY_DIR}
     echo "Installed daily tasks to ${CRON_DAILY_DIR} ..." | tee -a $LOG
 }
@@ -66,7 +56,6 @@ fi
 setDefaults
 TimeStamp "# Start"
 removeOldTasks
-installHourlyTasks
 installDailyTasks
 installUserTasks
 TimeStamp "# End"
