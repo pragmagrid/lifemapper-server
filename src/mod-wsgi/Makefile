@@ -85,9 +85,9 @@ version.mk:
 	cat ../version.mk version.mk.in > version.mk
 
 wsgi.conf: wsgi.conf.in
-    $(SED) $(SEDSPEC) $^ > $@
+	$(SED) $(SEDSPEC) $^ > $@
 
-build:
+build: wsgi.conf
 	tar xzvf  $(ARCHIVENAME)-$(VERSION).$(TARBALL_POSTFIX) 
 	(						\
         cd $(ARCHIVENAME)-$(VERSION);		\
