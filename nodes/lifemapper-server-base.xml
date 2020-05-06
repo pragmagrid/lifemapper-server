@@ -22,6 +22,9 @@
 	<package>libaec-devel</package>
 	<package>hdf5</package>
 	<package>hdf5-devel</package>
+	<!-- yum install fribidi cairo fcgi harfbuzz httpd librsvg2 -->
+    <package>mapserver</package>
+    <package>mapserver-python</package>
 		 
 	<!-- mapserver and prereq -->
 	<package>bitstream-vera-fonts-common</package>
