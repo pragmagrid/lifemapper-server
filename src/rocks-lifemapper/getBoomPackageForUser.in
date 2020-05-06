@@ -275,10 +275,10 @@ findget_scen_data () {
     # User dir
     USER_SCEN_META_FILE=$USER_DIR/$SCEN_PKG.py
 
-    if [ -f $PUBLIC_SCEN_META_FILE]; then
+    if [ -f $PUBLIC_SCEN_META_FILE ]; then
         echo "$SCEN_PKG metadata are present in public climate dir for this archive"    | tee -a $LOG
     elif 
-        [ -f $USER_SCEN_META_FILE]; then
+        [ -f $USER_SCEN_META_FILE ]; then
         echo "$SCEN_PKG metadata are present in user dir for this archive"    | tee -a $LOG
     # Missing
 	else
