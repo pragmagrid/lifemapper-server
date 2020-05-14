@@ -93,14 +93,9 @@ build:
 		cp CMakeLists.txt build/;     \
 		cd build;                     \
         cmake                         \
-            -DCMAKE_INSTALL_PREFIX=$(ROOT)/$(PKGROOT) \
+            -DCMAKE_INSTALL_PREFIX=$(PKGROOT) \
             -DCMAKE_PREFIX_PATH=$(ROOT):$(PKGROOT)/bin:$(PATH) \
             -DWITH_PROJ=$(PKGROOT)    \
-            
-        cmake                         \
-            -DCMAKE_INSTALL_PREFIX=/state/partition1/git/lifemapper-server/src/mapserver/opt-lifemapper-mapserver.buildroot//opt/lifemapper \
-            -DCMAKE_PREFIX_PATH=/state/partition1/git/lifemapper-server/src/mapserver/opt-lifemapper-mapserver.buildroot:/opt/lifemapper/bin:/opt/python/bin:/opt/openmpi/bin:/usr/lib64:/usr/lib64/qt-3.3/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/opt/ganglia/bin:/opt/ganglia/sbin:/opt/pdsh/bin:/opt/rocks/bin:/opt/rocks/sbin:/opt/gridengine/bin/lx-amd64:/root/bin \
-            -DWITH_PROJ=/opt/lifemapper    \
             -DWITH_PROTOBUFC=OFF      \
             -DWITH_WMS=ON             \
             -DWITH_FRIBIDI=OFF        \
@@ -108,9 +103,9 @@ build:
             -DWITH_ICONV=OFF          \
             -DWITH_CAIRO=OFF          \
             -DWITH_FCGI=OFF           \
-            -DWITH_GEOS=/opt/lifemapper   \
+            -DWITH_GEOS=$(PKGROOT)    \
             -DWITH_POSTGIS=OFF        \
-            -DWITH_GDAL=/opt/lifemapper   \
+            -DWITH_GDAL=$(PKGROOT)    \
             -DWITH_OGR=ON             \
             -DWITH_WFS=OFF            \
             -DWITH_WCS=ON             \
@@ -130,39 +125,16 @@ install::
 	mkdir -p $(ROOT)/$(PKGROOT)/bin
 	mkdir -p $(ROOT)/$(PKGROOT)/sbin
 	(\
-		cd $(ARCHIVENAME)-$(VERSION); 			\
-		export PYTHON=$(PY.PATH);             		\
-		export PATH=$(ROOT)/$(PKGROOT)/bin:$(PATH);	\
-		$(INSTALL) $(MAPSERVERPROGS) $(ROOT)/$(PKGROOT)/bin;	\
-		$(INSTALL) mapserv $(ROOT)/$(PKGROOT)/sbin;	\
-		cd mapscript/python;				\
-		module load opt-python;				\
-		$(PY.PATH) setup.py $@ --root=$(ROOT)/; 	\
-		module unload opt-python;			\
+		cd $(ARCHIVENAME)-$(VERSION);             \
+		export PYTHON=$(PY.PATH);                 \
+		export PATH=$(ROOT):$(PKGROOT)/bin:$(PATH);           \
+		$(INSTALL) $(MAPSERVERPROGS) $(ROOT)/$(PKGROOT)/bin;  \
+		$(INSTALL) mapserv $(ROOT)/$(PKGROOT)/sbin;           \
+		cd mapscript/python;                      \
+		module load opt-python;                   \
+		$(PY.PATH) setup.py $@ --root=$(ROOT)/;   \
+		module unload opt-python;                 \
 	)
 
 clean::
 	rm -rf $(ARCHIVENAME)-$(VERSION) version.mk prepSrc.sh
-	
-cmake                         \
-            -DCMAKE_INSTALL_PREFIX=/state/partition1/git/lifemapper-server/src/mapserver/opt-lifemapper-mapserver.buildroot//opt/lifemapper \
-                    -DCMAKE_PREFIX_PATH=/state/partition1/git/lifemapper-server/src/mapserver/opt-lifemapper-mapserver.buildroot:/opt/lifemapper/bin:/opt/python/bin:/opt/openmpi/bin:/usr/lib64:/usr/lib64/qt-3.3/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/opt/ganglia/bin:/opt/ganglia/sbin:/opt/pdsh/bin:/opt/rocks/bin:/opt/rocks/sbin:/opt/gridengine/bin/lx-amd64:/root/bin \
-            -DWITH_PROJ=/opt/lifemapper    \
-                    -DWITH_PROTOBUFC=OFF      \
-            -DWITH_WMS=ON             \
-                    -DWITH_FRIBIDI=OFF        \
-            -DWITH_HARFBUZZ=OFF       \
-                    -DWITH_ICONV=OFF          \
-            -DWITH_CAIRO=OFF          \
-                    -DWITH_FCGI=OFF           \
-            -DWITH_GEOS=ON            \
-                    -DWITH_POSTGIS=OFF        \
-            -DWITH_GDAL=ON            \
-                    -DWITH_OGR=ON             \
-            -DWITH_WFS=OFF            \
-                    -DWITH_WCS=ON             \
-            -DWITH_LIBXML2=ON         \
-                    -DWITH_GIF=ON             \
-            -DWITH_KML=ON             \
-                    -DWITH_PYTHON=ON          \
-            ../ >../configure.out.txt

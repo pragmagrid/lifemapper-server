@@ -1,5 +1,5 @@
 NAME			= opt-lifemapper-mapserver
-VERSION         = 7.4.3
+VERSION         = 7.6.0
 ARCHIVENAME		= mapserver
 RELEASE			= 0
 TARBALL_POSTFIX	= tar.gz

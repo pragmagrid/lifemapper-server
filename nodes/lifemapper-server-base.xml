@@ -23,15 +23,13 @@
 	<package>hdf5</package>
 	<package>hdf5-devel</package>
 	<!-- yum install fribidi cairo fcgi harfbuzz httpd librsvg2 -->
-    <package>mapserver</package>
-    <package>mapserver-python</package>
 		 
 	<!-- mapserver and prereq -->
 	<package>bitstream-vera-fonts-common</package>
 	<package>bitstream-vera-sans-fonts</package>
 	<package>postgresql-libs</package>
 
-	<!-- <package>opt-lifemapper-mapserver</package> -->
+	<package>opt-lifemapper-mapserver</package>
 
 	<package>lifemapper-proj</package>	
 	<package>lifemapper-tiff</package>	
