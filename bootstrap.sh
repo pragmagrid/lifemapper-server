@@ -11,8 +11,13 @@ module unload opt-python
 yum install src/RPMS/screen-4.1.0-0.25.20120314git3c2946.el7.x86_64.rpm
 yum install src/RPMS/pgdg-centos96-9.6-3.noarch.rpm 
 yum install src/RPMS/epel-release-latest-7.noarch.rpm
-yum install cmake
-yum update
+
+# yumdownloader --resolve --enablerepo epel cmake3
+rpm -i src/RPMS/cmake3-3.17.1-2.el7.x86_64.rpm     
+rpm -i src/RPMS/cmake3-data-3.17.1-2.el7.noarch.rpm     
+rpm -i src/RPMS/libuv-1.37.0-1.el7.x86_64.rpm     
+rpm -i src/RPMS/libzstd-1.4.4-1.el7.x86_64.rpm
+rpm -i src/RPMS/rhash-1.3.4-2.el7.x86_64.rpm
 
 ### do this only once for roll distro to keep known RPMS in the roll src
 #cd src/RPMS
@@ -49,6 +54,7 @@ yum update
 # yumdownloader --resolve --enablerepo=epel libgta 
 # yumdownloader --resolve --enablerepo=epel netcdf 
 # yumdownloader --resolve --enablerepo=epel openjpeg2 
+#
 ## armadillo brings arpack, atlas, blas, lapack, hdf5, SuperLU, openblas-openmp
 # yumdownloader --resolve --enablerepo epel  armadillo
 
@@ -111,7 +117,6 @@ cd ../..
 compile wheel
 module unload opt-python
 
-
 # # add newer version of chardet for requests dependency
 # cd src/chardet
 # make prep
@@ -122,7 +127,7 @@ module unload opt-python
 # install opt-lifemapper-chardet
 # /sbin/ldconfig
 
-# install proj, tiff, geos for gdal
+# # install newer verson of proj for gdal
 cd src/proj
 make prep
 cd ../..
@@ -130,28 +135,16 @@ compile proj
 install lifemapper-proj
 /sbin/ldconfig
 
-cd src/tiff
-make prep
-cd ../..
-compile tiff
-install lifemapper-tiff
-/sbin/ldconfig
+rpm -i src/RPMS/libgeotiff-1.4.0-1.rhel7.x86_64.rpm
+rpm -i src/RPMS/libgeotiff-devel-1.4.0-1.rhel7.x86_64.rpm
+rpm -i src/RPMS/libtiff-devel-4.0.3-27.el7_3.x86_64.rpm
 
-cd src/geos
-make prep
-cd ../..
-compile geos
-install lifemapper-geos
-/sbin/ldconfig
+rpm -i src/RPMS/geos-3.5.0-1.rhel7.x86_64.rpm
+rpm -i src/RPMS/geos-devel-3.5.0-1.rhel7.x86_64.rpm
 
-cd src/gdal
-make prep
-cd ../..
-module load opt-python
-compile gdal
-module unload opt-python
-install lifemapper-gdal
-/sbin/ldconfig
+rpm -i src/RPMS/gdal-1.11.4-12.rhel7.x86_64.rpm
+rpm -i src/RPMS/gdal-devel-1.11.4-12.rhel7.x86_64.rpm
+rpm -i src/RPMS/gdal-libs-1.11.4-12.rhel7.x86_64.rpm
 
 # cython > 0.23.4 for scipy 
 cd src/cython

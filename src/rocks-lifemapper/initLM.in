@@ -190,7 +190,7 @@ finish_libevent_install () {
     /usr/bin/libtool --finish @LMHOME@/lib
 }
 
-# Install all python wheel files with pip
+# Install all python wheel files with pip and uncompress egg packages
 finish_wheel_installs () {
     @PYBIN@ -m ensurepip --default-pip
     # install all wheel files

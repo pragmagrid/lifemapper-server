@@ -1,8 +1,0 @@
-NAME        	= lifemapper-tiff
-PKGNAME     	= tiff
-ARCHIVENAME     = libtiff
-VERSION     	= 4.0.4
-RELEASE 	= 0
-TARBALL_POSTFIX	= tar.gz
-
-RPM.FILES   = $(PKGROOT)/*

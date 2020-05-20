@@ -88,35 +88,36 @@ build:
 	tar xzf  $(ARCHIVENAME)-$(VERSION).$(TARBALL_POSTFIX)
 	(\
 		cd $(ARCHIVENAME)-$(VERSION); \
+        module load opt-python;     \
 		export PYTHON=$(PY.PATH);     \
 		mkdir build;                  \
 		cp CMakeLists.txt build/;     \
 		cd build;                     \
-        cmake                         \
-            -DCMAKE_INSTALL_PREFIX=$(PKGROOT) \
-            -DCMAKE_PREFIX_PATH=$(ROOT):$(PKGROOT)/bin:$(PATH) \
-            -DWITH_PROJ=$(PKGROOT)    \
-            -DWITH_PROTOBUFC=OFF      \
-            -DWITH_WMS=ON             \
-            -DWITH_FRIBIDI=OFF        \
-            -DWITH_HARFBUZZ=OFF       \
-            -DWITH_ICONV=OFF          \
-            -DWITH_CAIRO=OFF          \
-            -DWITH_FCGI=OFF           \
-            -DWITH_GEOS=$(PKGROOT)    \
-            -DWITH_POSTGIS=OFF        \
-            -DWITH_GDAL=$(PKGROOT)    \
-            -DWITH_OGR=ON             \
-            -DWITH_WFS=OFF            \
-            -DWITH_WCS=ON             \
-            -DWITH_LIBXML2=ON         \
-            -DWITH_GIF=ON             \
-            -DWITH_KML=ON             \
-            -DWITH_PYTHON=ON          \
+        cmake3                         \
+            -DCMAKE_INSTALL_PREFIX=$(PKGROOT)       \
+            -DCMAKE_INSTALL_LIBDIR=$(PKGROOT)/lib   \
+            -DCMAKE_PREFIX_PATH=$(ROOT):$(PKGROOT):$(PKGROOT)/bin:/usr/lib64:$(PATH)  \
+            -DWITH_GEOS=1           \
+            -DWITH_PROJ=$(PKGROOT)  \
+            -DWITH_GDAL=1           \
+            -DWITH_PROTOBUFC=0      \
+            -DWITH_WMS=1            \
+            -DWITH_FRIBIDI=0        \
+            -DWITH_HARFBUZZ=0       \
+            -DWITH_ICONV=0          \
+            -DWITH_CAIRO=0          \
+            -DWITH_FCGI=0           \
+            -DWITH_POSTGIS=0        \
+            -DWITH_OGR=1            \
+            -DWITH_WFS=0            \
+            -DWITH_WCS=1            \
+            -DWITH_LIBXML2=1        \
+            -DWITH_GIF=1            \
+            -DWITH_KML=1            \
+            -DWITH_PYTHON=$(PYTHON36_PACKAGES)   \
             ../ >../configure.out.txt;    \
 		$(MAKE); 					\
 		cd mapscript/python;		\
-		module load opt-python;		\
 		$(PY.PATH) setup.py build; 	\
 		module unload opt-python;	\
 	)
@@ -124,14 +125,17 @@ build:
 install::
 	mkdir -p $(ROOT)/$(PKGROOT)/bin
 	mkdir -p $(ROOT)/$(PKGROOT)/sbin
+    mkdir -p $(ROOT)/$(PYTHON36_PACKAGES)
 	(\
 		cd $(ARCHIVENAME)-$(VERSION);             \
+        module load opt-python;     \
 		export PYTHON=$(PY.PATH);                 \
-		export PATH=$(ROOT):$(PKGROOT)/bin:$(PATH);           \
+		export PATH=$(PKGROOT)/bin:$(PATH);           \
+		cd build;                                 \
+		$(MAKE) install prefix=$(ROOT)/$(PKGROOT);                          \
 		$(INSTALL) $(MAPSERVERPROGS) $(ROOT)/$(PKGROOT)/bin;  \
 		$(INSTALL) mapserv $(ROOT)/$(PKGROOT)/sbin;           \
 		cd mapscript/python;                      \
-		module load opt-python;                   \
 		$(PY.PATH) setup.py $@ --root=$(ROOT)/;   \
 		module unload opt-python;                 \
 	)

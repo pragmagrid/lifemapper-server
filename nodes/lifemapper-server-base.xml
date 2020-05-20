@@ -23,6 +23,53 @@
 	<package>hdf5</package>
 	<package>hdf5-devel</package>
 	<!-- yum install fribidi cairo fcgi harfbuzz httpd librsvg2 -->
+
+    <!-- for postgis which is for mapserver -->
+    <package>CGAL</package>
+    <package>boost-serialization</package> 
+    <package>SFCGAL-libs</package> 
+    <package>SFCGAL</package>
+    <package>geos</package>
+    <package>libgeotiff</package> 
+    <package>ogdi</package> 
+    <package>unixODBC</package> 
+    <package>xerces</package> 
+    <package>libdap</package> 
+    <package>CharLS</package> 
+    <package>cfitsio</package> 
+    <package>freexl</package> 
+    <package>netcdf</package> 
+    <package>openjpeg2</package> 
+    <package>libgta</package> 
+    <package>atlas</package> 
+    <package>SuperLU 
+    <package>arpack</package> 
+    <package>blas</package> 
+    <package>lapack</package> 
+    <package>openblas-openmp</package> 
+    <package>armadillo</package>
+    
+    <package>libgeotiff</package>
+    <package>libgeotiff-devel</package>
+    <package>libtiff-devel</package>
+
+    <package>geos</package>
+    <package>geos-devel</package>
+
+    <package>gdal</package>
+    <package>gdal-devel</package>
+    <package>gdal-libs</package>
+ 
+    <package>libusb</package>
+    <package>shapelib</package>
+    <package>gpsbabel</package>
+    <package>gdal</package>
+    <package>gdal-devel</package>
+    <package>gdal-libs</package> 
+    <package>gdal-python</package> 
+
+    <package>proj</package> 
+    <package>postgis2_96</package>
 		 
 	<!-- mapserver and prereq -->
 	<package>bitstream-vera-fonts-common</package>
@@ -32,15 +79,13 @@
 	<package>opt-lifemapper-mapserver</package>
 
 	<package>lifemapper-proj</package>	
-	<package>lifemapper-tiff</package>	
-	<package>lifemapper-geos</package>	
-	<package>lifemapper-gdal</package>	
 	<package>lifemapper-cctools</package>
 	<package>lifemapper-cmd</package>
 	<package>lifemapper-libevent</package>
 	<package>lifemapper-solr</package>
 
 	<!-- python prerequisites -->
+    <package>opt-lifemapper-gdal</package>
 	<package>opt-lifemapper-cython</package>
     <package>opt-lifemapper-numpy</package> 
     <package>opt-lifemapper-scipy</package> 
@@ -49,7 +94,6 @@
 	<package>opt-lifemapper-pytest</package>
     <package>opt-lifemapper-lmpy</package>    
 	<!-- # for requests -->
-	<!-- <package>python-ipaddress</package> -->
 	<package>opt-lifemapper-certifi</package>
 	<package>opt-lifemapper-chardet</package>
 	<package>opt-lifemapper-idna</package>

@@ -4,8 +4,7 @@ ARCHIVENAME		= mapserver
 RELEASE			= 0
 TARBALL_POSTFIX	= tar.gz
 
-RPM.FILES		=  \
-    $(PKGROOT)/*     \n\
-    $(PYTHON36_PACKAGES)/*
+RPM.FILES = \
+    $(PYTHON36_PACKAGES)/*  \n\
+    $(PKGROOT)/*
 
-# TODO: update

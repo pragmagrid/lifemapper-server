@@ -1,13 +1,9 @@
-NAME            = lifemapper-gdal
+NAME            = opt-lifemapper-gdal
 ARCHIVENAME     = gdal
 VERSION         = 1.11.4
-RELEASE         = 1
+RELEASE         = 0
 TARBALL_POSTFIX	= tar.gz
 
 RPM.EXTRAS = "AutoReq: no"
 
-RPM.FILES = \
-    $(PKGROOT)/*  \n\
-    $(PYTHON36_PACKAGES)/*
-
-# TODO: update??
+RPM.FILES = $(PKGROOT)/*
