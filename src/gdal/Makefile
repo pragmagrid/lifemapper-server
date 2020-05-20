@@ -67,14 +67,14 @@ SEDSPEC += \
         -e 's%@VERSION@%$(VERSION)%g'
 
 version.mk:
-    cat ../version.mk version.mk.in > version.mk
+	cat ../version.mk version.mk.in > version.mk
 
 build: version.mk
-    echo $(ARCHIVENAME)-$(VERSION)
+	echo $(ARCHIVENAME)-$(VERSION)
 
 install::
-    mkdir -p $(ROOT)/$(PYTHON36_PACKAGES)
-    tar xzvf  $(ARCHIVENAME)-$(VERSION)-py3.6.tar.gz -C  $(ROOT)/$(PYTHON36_PACKAGES)/
+	mkdir -p $(ROOT)/$(PYTHON36_PACKAGES)
+	tar xzvf  $(ARCHIVENAME)-$(VERSION)-py3.6.egg.tar.gz -C  $(ROOT)/$(PYTHON36_PACKAGES)/
 
 clean::
-    rm -rf $(ARCHIVENAME)-$(VERSION) version.mk
+	rm -rf $(ARCHIVENAME)-$(VERSION) version.mk

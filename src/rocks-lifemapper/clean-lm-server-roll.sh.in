@@ -33,13 +33,19 @@ del-lifemapper-shared() {
    $RM lapack lapack-devel
    $RM libaec libaec-devel
    $RM hdf5 hdf5-devel
+   $RM libtiff-devel
+   $RM libgeotiff
+   $RM libgeotiff-devel
+   $RM geos
+   $RM geos-devel
+   $RM gdal
+   $RM gdal-devel
+   $RM gdal-libs
    
    echo "Removing SHARED lifemapper-* and prerequisite RPMS" >> $LOG	
    $RM lifemapper-cctools
    $RM lifemapper-gdal
-   $RM lifemapper-geos
    $RM lifemapper-proj
-   $RM lifemapper-tiff
    
    echo "Removing SHARED data RPMS" >> $LOG
    $RM lifemapper-env-data
@@ -153,7 +159,6 @@ del-opt-python () {
    $RM opt-lifemapper-idigbio
    $RM opt-lifemapper-mod_wsgi
    $RM opt-lifemapper-portend
-   # $RM opt-lifemapper-processing
    $RM opt-lifemapper-psycopg2
    $RM opt-lifemapper-pytest
    $RM opt-lifemapper-pytz
@@ -181,6 +186,7 @@ del-postgres() {
    $RM CGAL
    $RM SFCGAL SFCGAL-libs     
    $RM geos
+   $RM geos-devel
    $RM libgeotiff
    $RM ogdi
    $RM unixODBC
@@ -195,8 +201,7 @@ del-postgres() {
    $RM SuperLU
    $RM arpack
    $RM openblas-openmp
-   $RM armadillo 
-   $RM gdal-libs
+   $RM armadillo
    $RM proj
    $RM postgis2_96
    $RM c-ares  c-ares-devel

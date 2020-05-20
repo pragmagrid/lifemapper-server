@@ -33,14 +33,14 @@
     <package>libgeotiff</package> 
     <package>ogdi</package> 
     <package>unixODBC</package> 
-    <package>xerces</package> 
+    <package>xerces-c</package> 
     <package>libdap</package> 
     <package>CharLS</package> 
     <package>cfitsio</package> 
     <package>freexl</package> 
     <package>netcdf</package> 
     <package>openjpeg2</package> 
-    <package>libgta</package> 
+    <package>libgta</package>
     <package>atlas</package> 
     <package>SuperLU 
     <package>arpack</package> 
@@ -66,7 +66,6 @@
     <package>gdal</package>
     <package>gdal-devel</package>
     <package>gdal-libs</package> 
-    <package>gdal-python</package> 
 
     <package>proj</package> 
     <package>postgis2_96</package>
