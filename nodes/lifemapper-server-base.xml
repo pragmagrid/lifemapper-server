@@ -84,6 +84,7 @@
 	<package>lifemapper-solr</package>
 
 	<!-- python prerequisites -->
+	<package>opt-lifemapper-wheel</package>
     <package>opt-lifemapper-gdal</package>
 	<package>opt-lifemapper-cython</package>
     <package>opt-lifemapper-numpy</package> 

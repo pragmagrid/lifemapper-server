@@ -59,6 +59,7 @@ del-lifemapper-shared() {
    $RM opt-lifemapper-certifi
    $RM opt-lifemapper-idna
    $RM opt-lifemapper-urllib3
+   $RM opt-lifemapper-wheel
    $RM opt-lifemapper-lmpy
 
    echo "Removing SHARED opt-* RPMS with python wheels" >> $LOG
