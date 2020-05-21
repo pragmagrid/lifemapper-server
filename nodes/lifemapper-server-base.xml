@@ -42,8 +42,8 @@
     <package>openjpeg2</package> 
     <package>libgta</package>
     <package>atlas</package> 
-    <package>SuperLU 
-    <package>arpack</package> 
+    <package>SuperLU</package> 
+    <package>arpack</package>
     <package>blas</package> 
     <package>lapack</package> 
     <package>openblas-openmp</package> 
