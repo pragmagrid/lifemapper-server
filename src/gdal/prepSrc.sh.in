@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# Purpose: Fetch GDAL source
+
+DL_URL=https://download.osgeo.org/@ARCHIVENAME@/@VERSION@/
+DL_PKG=@ARCHIVENAME@-@VERSION@.@TARBALL_POSTFIX@
+
+get_source_files () {
+  echo "Fetch GDAL source code"
+  wget "$DL_URL/$DL_PKG"
+}
+
+### main ###
+get_source_files

@@ -64,17 +64,45 @@ PY.PATH = /opt/python/bin/$(PYTHONVER)
 
 SEDSPEC += \
         -e 's%@ARCHIVENAME@%$(ARCHIVENAME)%g'  \
-        -e 's%@VERSION@%$(VERSION)%g'
+        -e 's%@VERSION@%$(VERSION)%g'  \
+        -e 's%@TARBALL_POSTFIX@%$(TARBALL_POSTFIX)%g'
 
-version.mk:
-	cat ../version.mk version.mk.in > version.mk
+prepSrc.sh: prepSrc.sh.in
+    $(SED) $(SEDSPEC) $^ > $@
+    chmod 755 $@
 
-build: version.mk
-	echo $(ARCHIVENAME)-$(VERSION)
+prep: prepSrc.sh
+    rm -rf version.mk
+    make version.mk
+    make prepSrc.sh
+    ./prepSrc.sh
 
+build:
+    $(TAR) -xzvf $(ARCHIVENAME)-$(VERSION).$(TARBALL_POSTFIX)
+    (                           \
+        cd $(ARCHIVENAME)-$(VERSION);           \
+        module load opt-python;             \
+        export PATH=$(PKGROOT)/bin:$(PATH);     \
+        ./configure --with-python=$(PY.PATH) --with-ogr --with-geos --prefix=$(PKGROOT);    \
+        $(MAKE);                    \
+        cd swig/python;                 \
+        module load opt-python;             \
+        $(PY.PATH) setup.py build;          \
+        module unload opt-python;           \
+    )
+    
 install::
-	mkdir -p $(ROOT)/$(PYTHON36_PACKAGES)
-	tar xzvf  $(ARCHIVENAME)-$(VERSION)-py3.6.egg.tar.gz -C  $(ROOT)/$(PYTHON36_PACKAGES)/
+    mkdir -p $(ROOT)/$(PKGROOT)
+    (                               \
+        cd $(ARCHIVENAME)-$(VERSION);               \
+        module load opt-python;                 \
+        export PATH=$(PKGROOT)/bin:$(PATH);         \
+        $(MAKE) prefix=$(ROOT)/$(PKGROOT) ROOT=$(ROOT)/ install; \
+        cd swig/python;                     \
+        module load opt-python;                 \
+        $(PY.PATH) setup.py $@ --root=$(ROOT)/;         \
+        module unload opt-python;               \
+    )
 
 clean::
-	rm -rf $(ARCHIVENAME)-$(VERSION) version.mk
+    rm -rf $(ARCHIVENAME)-$(VERSION) version.mk prepSrc.sh
