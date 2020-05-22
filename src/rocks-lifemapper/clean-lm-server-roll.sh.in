@@ -44,7 +44,6 @@ del-lifemapper-shared() {
    
    echo "Removing SHARED lifemapper-* and prerequisite RPMS" >> $LOG	
    $RM lifemapper-cctools
-   $RM lifemapper-gdal
    $RM lifemapper-proj
    
    echo "Removing SHARED data RPMS" >> $LOG
@@ -54,6 +53,7 @@ del-lifemapper-shared() {
    $RM opt-lifemapper-biotaphypy
    $RM opt-lifemapper-cython
    $RM opt-lifemapper-dendropy
+   $RM opt-lifemapper-gdal
    $RM opt-lifemapper-requests
    $RM opt-lifemapper-chardet
    $RM opt-lifemapper-certifi

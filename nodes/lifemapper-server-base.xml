@@ -61,7 +61,11 @@
     <package>libusb</package>
     <package>shapelib</package>
     <package>gpsbabel</package>
-    <package>gdal-libs</package> 
+    <package>gdal-libs</package>
+    <!-- mapserver deps
+    <package>gdal</package> 
+    <package>gdal-devel</package>  
+    -->
 
     <package>proj</package> 
     <package>postgis2_96</package>
@@ -74,14 +78,14 @@
 	<package>opt-lifemapper-mapserver</package>
 
 	<package>lifemapper-proj</package>	
-    <package>lifemapper-gdal</package>
 	<package>lifemapper-cctools</package>
 	<package>lifemapper-cmd</package>
 	<package>lifemapper-libevent</package>
 	<package>lifemapper-solr</package>
 
 	<!-- python prerequisites -->
-	<package>opt-lifemapper-wheel</package>
+    <package>opt-lifemapper-gdal</package>
+    <package>opt-lifemapper-wheel</package>
 	<package>opt-lifemapper-cython</package>
     <package>opt-lifemapper-numpy</package> 
     <package>opt-lifemapper-scipy</package> 
