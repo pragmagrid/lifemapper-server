@@ -101,7 +101,7 @@
 	<package>opt-lifemapper-requests</package>
 	
 	<!-- biotaphy connectors -->
-	<package>opt-lifemapper-biotaphypy</package>
+	<!-- <package>opt-lifemapper-biotaphypy</package> -->
 	<package>opt-lifemapper-idigbio</package>
 
 	<!-- lifemapper distro -->
