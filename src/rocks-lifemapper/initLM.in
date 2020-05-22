@@ -353,8 +353,8 @@ TimeStamp () {
 ####### Main #######
 set_defaults
 TimeStamp "# Start"
-finish_libevent_install
 finish_wheel_installs
+finish_libevent_install
 set_permissions
 stop_services
 

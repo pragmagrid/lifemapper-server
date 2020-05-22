@@ -36,4 +36,3 @@ else
     echo "Have correct $libname"
     /usr/$PSQLDIR/bin/psql -V
 fi
-
