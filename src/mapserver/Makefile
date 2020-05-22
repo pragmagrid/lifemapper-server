@@ -99,7 +99,7 @@ build:
             -DCMAKE_PREFIX_PATH=$(ROOT):$(PKGROOT):$(PKGROOT)/bin:/usr/lib64:$(PATH)  \
             -DWITH_GEOS=1           \
             -DWITH_PROJ=$(PKGROOT)  \
-            -DWITH_GDAL=1           \
+            -DWITH_GDAL=$(PKGROOT)  \
             -DWITH_PROTOBUFC=0      \
             -DWITH_WMS=1            \
             -DWITH_FRIBIDI=0        \

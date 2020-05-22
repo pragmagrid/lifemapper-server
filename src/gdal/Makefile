@@ -67,42 +67,46 @@ SEDSPEC += \
         -e 's%@VERSION@%$(VERSION)%g'  \
         -e 's%@TARBALL_POSTFIX@%$(TARBALL_POSTFIX)%g'
 
+version.mk:
+        cat ../version.mk version.mk.in > version.mk
+
 prepSrc.sh: prepSrc.sh.in
-    $(SED) $(SEDSPEC) $^ > $@
-    chmod 755 $@
+        $(SED) $(SEDSPEC) $^ > $@
+        chmod 755 $@
 
 prep: prepSrc.sh
-    rm -rf version.mk
-    make version.mk
-    make prepSrc.sh
-    ./prepSrc.sh
+        rm -rf version.mk
+        make version.mk
+        make prepSrc.sh
+        ./prepSrc.sh
 
 build:
-    $(TAR) -xzvf $(ARCHIVENAME)-$(VERSION).$(TARBALL_POSTFIX)
-    (                           \
-        cd $(ARCHIVENAME)-$(VERSION);           \
-        module load opt-python;             \
-        export PATH=$(PKGROOT)/bin:$(PATH);     \
-        ./configure --with-python=$(PY.PATH) --with-ogr --with-geos --prefix=$(PKGROOT);    \
-        $(MAKE);                    \
-        cd swig/python;                 \
-        module load opt-python;             \
-        $(PY.PATH) setup.py build;          \
-        module unload opt-python;           \
-    )
+        $(TAR) -xzvf $(ARCHIVENAME)-$(VERSION).$(TARBALL_POSTFIX)
+        (                           \
+                cd $(ARCHIVENAME)-$(VERSION);           \
+                module load opt-python;             \
+                export PATH=$(PKGROOT)/bin:$(PATH);     \
+                ./configure --with-python=$(PY.PATH) --with-ogr --with-geos --prefix=$(PKGROOT);    \
+                $(MAKE);                    \
+                cd swig/python;                 \
+                module load opt-python;             \
+                $(PY.PATH) setup.py build;          \
+                module unload opt-python;           \
+        )
     
 install::
-    mkdir -p $(ROOT)/$(PKGROOT)
-    (                               \
-        cd $(ARCHIVENAME)-$(VERSION);               \
-        module load opt-python;                 \
-        export PATH=$(PKGROOT)/bin:$(PATH);         \
-        $(MAKE) prefix=$(ROOT)/$(PKGROOT) ROOT=$(ROOT)/ install; \
-        cd swig/python;                     \
-        module load opt-python;                 \
-        $(PY.PATH) setup.py $@ --root=$(ROOT)/;         \
-        module unload opt-python;               \
-    )
+        mkdir -p $(ROOT)/$(PKGROOT)
+        (                               \
+                cd $(ARCHIVENAME)-$(VERSION);               \
+                module load opt-python;                 \
+                export PATH=$(PKGROOT)/bin:$(PATH);         \
+                $(MAKE) prefix=$(ROOT)/$(PKGROOT) ROOT=$(ROOT)/ install; \
+                cd swig/python;                     \
+                module load opt-python;                 \
+                $(PY.PATH) setup.py $@ --root=$(ROOT)/;         \
+                module unload opt-python;               \
+        )
 
 clean::
-    rm -rf $(ARCHIVENAME)-$(VERSION) version.mk prepSrc.sh
+        rm -rf $(ARCHIVENAME)-$(VERSION) version.mk prepSrc.sh
+        

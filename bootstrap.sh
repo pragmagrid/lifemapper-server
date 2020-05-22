@@ -135,16 +135,20 @@ compile proj
 install lifemapper-proj
 /sbin/ldconfig
 
+# latest gdal and dependencies
 rpm -i src/RPMS/libgeotiff-1.4.0-1.rhel7.x86_64.rpm
 rpm -i src/RPMS/libgeotiff-devel-1.4.0-1.rhel7.x86_64.rpm
 rpm -i src/RPMS/libtiff-devel-4.0.3-27.el7_3.x86_64.rpm
-
 rpm -i src/RPMS/geos-3.5.0-1.rhel7.x86_64.rpm
 rpm -i src/RPMS/geos-devel-3.5.0-1.rhel7.x86_64.rpm
 
-rpm -i src/RPMS/gdal-1.11.4-12.rhel7.x86_64.rpm
-rpm -i src/RPMS/gdal-devel-1.11.4-12.rhel7.x86_64.rpm
-rpm -i src/RPMS/gdal-libs-1.11.4-12.rhel7.x86_64.rpm
+cd src/gdal
+make prep
+cd ../..
+module load opt-python
+compile gdal
+module unload opt-python
+install opt-lifemapper-gdal
 
 # cython > 0.23.4 for scipy 
 cd src/cython
@@ -212,8 +216,6 @@ rpm -i src/RPMS/postgresql96-contrib-9.6.15-1PGDG.rhel7.x86_64.rpm
 # rpm -i src/RPMS/libusb-0.1.4-3.el7.x86_64.rpm
 # rpm -i src/RPMS/shapelib-1.3.0-2.el7.x86_64.rpm
 # rpm -i src/RPMS/gpsbabel-1.5.0-2.el7.x86_64.rpm
-# rpm -i src/RPMS/gdal-1.11.4-12.rhel7.x86_64.rpm
-# rpm -i src/RPMS/gdal-devel-1.11.4-12.rhel7.x86_64.rpm
 # rpm -i src/RPMS/gdal-libs-1.11.4-12.rhel7.x86_64.rpm 
 
 # rpm -i src/RPMS/proj-4.8.0-4.el7.x86_64.rpm 

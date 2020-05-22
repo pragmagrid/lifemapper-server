@@ -25,6 +25,7 @@
 	<!-- yum install fribidi cairo fcgi harfbuzz httpd librsvg2 -->
 
     <!-- for postgis which is for mapserver -->
+    <!-- gdal-libs deps -->
     <package>CGAL</package>
     <package>boost-serialization</package> 
     <package>SFCGAL-libs</package> 
@@ -41,6 +42,7 @@
     <package>netcdf</package> 
     <package>openjpeg2</package> 
     <package>libgta</package>
+    <!-- armadillo deps -->
     <package>atlas</package> 
     <package>SuperLU</package> 
     <package>arpack</package>
@@ -55,16 +57,10 @@
 
     <package>geos</package>
     <package>geos-devel</package>
-
-    <package>gdal</package>
-    <package>gdal-devel</package>
-    <package>gdal-libs</package>
  
     <package>libusb</package>
     <package>shapelib</package>
     <package>gpsbabel</package>
-    <package>gdal</package>
-    <package>gdal-devel</package>
     <package>gdal-libs</package> 
 
     <package>proj</package> 
@@ -78,6 +74,7 @@
 	<package>opt-lifemapper-mapserver</package>
 
 	<package>lifemapper-proj</package>	
+    <package>lifemapper-gdal</package>
 	<package>lifemapper-cctools</package>
 	<package>lifemapper-cmd</package>
 	<package>lifemapper-libevent</package>
@@ -85,7 +82,6 @@
 
 	<!-- python prerequisites -->
 	<package>opt-lifemapper-wheel</package>
-    <package>opt-lifemapper-gdal</package>
 	<package>opt-lifemapper-cython</package>
     <package>opt-lifemapper-numpy</package> 
     <package>opt-lifemapper-scipy</package> 
