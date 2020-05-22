@@ -73,21 +73,21 @@ SEDSPEC += \
         -e 's%@TARBALL_POSTFIX@%$(TARBALL_POSTFIX)%g'
 
 version.mk:
-        cat ../version.mk version.mk.in > version.mk
+	cat ../version.mk version.mk.in > version.mk
 
 prepSrc.sh: prepSrc.sh.in
-        $(SED) $(SEDSPEC) $^ > $@
-        chmod 755 $@
+	$(SED) $(SEDSPEC) $^ > $@
+	chmod 755 $@
 
 prep: prepSrc.sh
-        rm -rf version.mk
-        make version.mk
-        make prepSrc.sh
-        ./prepSrc.sh
+	rm -rf version.mk
+	make version.mk
+	make prepSrc.sh
+	./prepSrc.sh
 
 build:
-        $(TAR) -xzvf $(ARCHIVENAME)-$(VERSION).$(TARBALL_POSTFIX)
-        (                           \
+	$(TAR) -xzvf $(ARCHIVENAME)-$(VERSION).$(TARBALL_POSTFIX)
+	(                           \
                 cd $(ARCHIVENAME)-$(VERSION);           \
                 module load opt-python;             \
                 export PATH=$(PKGROOT)/bin:$(PATH);     \
@@ -100,8 +100,8 @@ build:
         )
     
 install::
-        mkdir -p $(ROOT)/$(PKGROOT)
-        (                               \
+	mkdir -p $(ROOT)/$(PKGROOT)
+	(                               \
                 cd $(ARCHIVENAME)-$(VERSION);               \
                 module load opt-python;                 \
                 export PATH=$(PKGROOT)/bin:$(PATH);         \
@@ -113,5 +113,5 @@ install::
         )
 
 clean::
-        rm -rf $(ARCHIVENAME)-$(VERSION) version.mk prepSrc.sh
+	rm -rf $(ARCHIVENAME)-$(VERSION) version.mk prepSrc.sh
         
