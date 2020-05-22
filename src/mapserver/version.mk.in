@@ -1,5 +1,7 @@
+# Note: Compile fails with mapserver 7.6
+
 NAME			= opt-lifemapper-mapserver
-VERSION         = 7.6.0
+VERSION         = 7.4.4
 ARCHIVENAME		= mapserver
 RELEASE			= 0
 TARBALL_POSTFIX	= tar.gz

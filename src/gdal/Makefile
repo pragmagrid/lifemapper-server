@@ -56,6 +56,11 @@
 #
 # $Log$
 
+# NOTE: Building GDAL from source for python3.6 bindings (python2.7 for 
+# pre-built rpms).  Installed base libraries from CentOS repository to satisfy 
+# mapserver dependencies.  Mapserver could not find built-from-source libraries 
+# even with path specified in config script.
+
 REDHAT.ROOT = $(CURDIR)/../../
 -include $(ROCKSROOT)/etc/Rules.mk
 include Rules.mk
