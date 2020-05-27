@@ -61,7 +61,6 @@ REDHAT.ROOT = $(CURDIR)/../../
 include Rules.mk
 
 PY.PATH = /opt/python/bin/$(PYTHONVER)
-PIP.PATH = /opt/python/bin/pip3
 
 SEDSPEC += \
         -e 's%@ARCHIVENAME@%$(ARCHIVENAME)%g'  \
@@ -85,6 +84,14 @@ build: version.mk
 
 install::
 	mkdir -p $(ROOT)/$(PKGROOT)/rocks/etc
+    $(PY.PATH) -m pip install wheel*.whl --root=$(ROOT)/
+    $(PY.PATH) -m pip install python_dateutil*.whl --root=$(ROOT)/
+    $(PY.PATH) -m pip install pyparsing*.whl --root=$(ROOT)/
+    $(PY.PATH) -m pip install kiwisolver*.whl --root=$(ROOT)/
+    $(PY.PATH) -m pip install cycler*.whl --root=$(ROOT)/
+    $(PY.PATH) -m pip install numpy*.whl --root=$(ROOT)/
+    $(PY.PATH) -m pip install scipy*.whl --root=$(ROOT)/
+    $(PY.PATH) -m pip install @ARCHIVENAME@-@VERSION@*.whl --root=$(ROOT)/
 	install -m 664 *.whl $(ROOT)/$(PKGROOT)/rocks/etc
 
 clean::
