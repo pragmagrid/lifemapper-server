@@ -1,0 +1,20 @@
+NAME 			= opt-lifemapper-matplotlib
+ARCHIVENAME 	= matplotlib
+VERSION 		= 3.2.1
+RELEASE 		= 0
+TARBALL_POSTFIX	= tar.gz
+
+# dependencies for matplotlib
+#     Python (>= 3.6)
+#     FreeType (>= 2.3)
+#     libpng (>= 1.2)
+#     NumPy (>= 1.11)
+#     setuptools
+#     cycler (>= 0.10.0)
+#     dateutil (>= 2.1)
+#     kiwisolver (>= 1.0.0)
+#     pyparsing
+
+RPM.EXTRAS = "AutoReq: no"
+
+RPM.FILES =  $(PKGROOT)/*

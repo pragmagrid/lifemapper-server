@@ -1,6 +1,6 @@
 NAME              = opt-lifemapper-biotaphypy
 ARCHIVENAME       = BiotaPhyPy
-VERSION           = 1.0.1
+VERSION           = 1.2.0
 RELEASE           = 0
 TARBALL_POSTFIX	= tar.gz
 

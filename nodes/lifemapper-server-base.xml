@@ -93,6 +93,7 @@
 	<package>opt-lifemapper-idigbio</package>
 	<package>opt-lifemapper-pytest</package>
     <package>opt-lifemapper-lmpy</package>    
+    <package>opt-lifemapper-matplotlib</package>
 	<!-- # for requests -->
 	<package>opt-lifemapper-certifi</package>
 	<package>opt-lifemapper-chardet</package>
@@ -101,7 +102,7 @@
 	<package>opt-lifemapper-requests</package>
 	
 	<!-- biotaphy connectors -->
-	<!-- <package>opt-lifemapper-biotaphypy</package> -->
+    <package>opt-lifemapper-biotaphypy</package>
 	<package>opt-lifemapper-idigbio</package>
 
 	<!-- lifemapper distro -->
