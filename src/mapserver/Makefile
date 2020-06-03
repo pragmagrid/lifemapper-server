@@ -144,15 +144,15 @@ install::
     mkdir -p $(ROOT)/$(PKGROOT)/lib
     mkdir -p $(ROOT)/$(PKGROOT)/rocks/etc
 	(\
-        cd $(ARCHIVENAME)-$(VERSION);             \
-        export PYTHON=$(PY.PATH);                 \
-        export PATH=$(ROOT):$(PKGROOT)/bin:$(PATH);           \
+        cd $(ARCHIVENAME)-$(VERSION)/build;                   \
         $(INSTALL) $(MAPSERVERPROGS) $(ROOT)/$(PKGROOT)/bin;  \
         $(INSTALL) mapserv $(ROOT)/$(PKGROOT)/sbin;           \
+        export PYTHON=$(PY.PATH);                             \
+        export PATH=$(ROOT):$(PKGROOT)/bin:$(PATH);           \
         cd mapscript/python;                      \
         module load opt-python;                   \
         $(PY.PATH) setup.py $@ --root=$(ROOT)/;   \
-        module unload opt-python; 
+        module unload opt-python;                 \
 	)
 
 clean::
