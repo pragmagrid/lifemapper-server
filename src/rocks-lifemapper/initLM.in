@@ -193,20 +193,20 @@ finish_libevent_install () {
 # Install all python wheel files with pip
 finish_wheel_installs () {
     @PYBIN@ -m ensurepip --default-pip
-    # install all wheel files, dependent packages first
-#     echo "-- complete opt-lifemapper-wheel python wheel install" >> $LOG
-#     @PYBIN@ -m pip install @PKGROOT@/rocks/etc/wheel-0.34.2-py2.py3-none-any.whl
-    echo "-- complete opt-lifemapper-numpy python wheel install" >> $LOG
-    @PYBIN@ -m pip install @PKGROOT@/rocks/etc/numpy-1.18.2-cp36-cp36m-manylinux1_x86_64.whl
-    echo "-- complete opt-lifemapper-scipy python wheel install" >> $LOG
-    @PYBIN@ -m pip install @PKGROOT@/rocks/etc/scipy-1.4.1-cp36-cp36m-manylinux1_x86_64.whl
-    echo "-- complete opt-lifemapper-matplotlib python wheel installs" >> $LOG
-    @PYBIN@ -m pip install @PKGROOT@/rocks/etc/python_dateutil-2.8.1-py2.py3-none-any.whl
-    @PYBIN@ -m pip install @PKGROOT@/rocks/etc/pyparsing-2.4.7-py2.py3-none-any.whl
-    @PYBIN@ -m pip install @PKGROOT@/rocks/etc/kiwisolver-1.2.0-cp36-cp36m-manylinux1_x86_64.whl
-    @PYBIN@ -m pip install @PKGROOT@/rocks/etc/cycler-0.10.0-py2.py3-none-any.whl
-    @PYBIN@ -m pip install @PKGROOT@/rocks/etc/matplotlib-3.2.1-cp36-cp36m-manylinux1_x86_64.whl
-    # install all remaining files, no effect on previously installed files
+    numpy_wheel=@PKGROOT@/rocks/etc/numpy*whl
+    dateutil_wheel=@PKGROOT@/rocks/etc/python_dateutil*whl
+    pyparsing_wheel=@PKGROOT@/rocks/etc/pyparsing*.whl
+    kiwi_wheel=@PKGROOT@/rocks/etc/kiwisolver*.whl
+    cycler_wheel=@PKGROOT@/rocks/etc/cycler*.whl
+    matplotlib_wheel=@PKGROOT@/rocks/etc/matplotlib*.whl
+    ORDERED_WHEELS="$numpy_wheel $dateutil_wheel $pyparsing_wheel $kiwi_wheel $cycler_wheel $matplotlib_wheel"
+    # install order-sensitive wheel files
+    for f in $ORDERED_WHEELS
+        do
+            echo "Install $f wheel ..." >> $LOG
+            @PYBIN@ -m pip install $f
+        done
+    # install rest of wheel files, no effect on previously installed files
     FILES=@PKGROOT@/rocks/etc/*whl
     for f in $FILES
         do
