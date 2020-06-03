@@ -80,7 +80,7 @@ prep: prepSrc.sh
 	./prepSrc.sh
 
 build: 
-    echo $(ARCHIVENAME)-$(VERSION)
+	echo $(ARCHIVENAME)-$(VERSION)
 
 install::
 	mkdir -p $(ROOT)/$(PKGROOT)/rocks/etc
