@@ -100,18 +100,18 @@ build:
 	tar xzf  $(ARCHIVENAME)-$(VERSION).$(TARBALL_POSTFIX)
 	(\
 		cd $(ARCHIVENAME)-$(VERSION); \
-        module load opt-python;     \
+        	module load opt-python;       \
 		export PYTHON=$(PY.PATH);     \
 		mkdir build;                  \
 		cp CMakeLists.txt build/;     \
 		cd build;                     \
-        cmake3                         \
-            -DCMAKE_INSTALL_PREFIX=$(ROOT)/$(PKGROOT)       \
-            -DCMAKE_INSTALL_LIBDIR=$(PKGROOT)/lib   \
+        cmake3                         			\
+            -DCMAKE_INSTALL_PREFIX=$(ROOT)/$(PKGROOT)   \
+            -DCMAKE_INSTALL_LIBDIR=$(PKGROOT)/lib   	\
             -DCMAKE_PREFIX_PATH=$(ROOT):$(PKGROOT):$(PKGROOT)/bin:/usr/lib64:$(PATH)  \
-            -DPYTHON_EXECUTABLE=$(PY.PATH)          \
+            -DPYTHON_EXECUTABLE=$(PY.PATH)          	\
             -DPYTHON_INCLUDE_PATH=$(PY.INCLUDE_PATH)    \
-            -DPYTHON_LIBRARIES=$(PY.LIBRARIES)     \
+            -DPYTHON_LIBRARIES=$(PY.LIBRARIES)		\
             -DWITH_GEOS=1           \
             -DWITH_PROJ=$(PKGROOT)  \
             -DPROJ_LIBRARY=$(PKGROOT)/lib/libproj.so   \
@@ -131,8 +131,8 @@ build:
             -DWITH_GIF=1            \
             -DWITH_KML=1            \
             -DWITH_PYTHON=1   \
-            ../ >../configure.out.txt;    \
-		make  ;  					\
+            ../ >../configure.out.txt;    	\
+		make  ;  			\
 		cd mapscript/python;		\
 		$(PY.PATH) setup.py build; 	\
 		module unload opt-python;	\
@@ -140,9 +140,9 @@ build:
 
 install::
 	mkdir -p $(ROOT)/$(PKGROOT)/bin
-    mkdir -p $(ROOT)/$(PKGROOT)/sbin
-    mkdir -p $(ROOT)/$(PKGROOT)/lib
-    mkdir -p $(ROOT)/$(PKGROOT)/rocks/etc
+	mkdir -p $(ROOT)/$(PKGROOT)/sbin
+	mkdir -p $(ROOT)/$(PKGROOT)/lib
+	mkdir -p $(ROOT)/$(PKGROOT)/rocks/etc
 	(\
         cd $(ARCHIVENAME)-$(VERSION)/build;                   \
         $(INSTALL) $(MAPSERVERPROGS) $(ROOT)/$(PKGROOT)/bin;  \
@@ -158,4 +158,3 @@ install::
 clean::
 	rm -rf $(ARCHIVENAME)-$(VERSION) version.mk prepSrc.sh
 
-# $(INSTALL) mapscript-7.4.4-py3.6.egg.tar.gz $(ROOT)/$(PKGROOT)/rocks/etc; \
