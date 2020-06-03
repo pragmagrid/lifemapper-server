@@ -80,9 +80,9 @@ prep: prepSrc.sh
 	./prepSrc.sh
 
 install::
-    mkdir -p $(ROOT)/$(PKGROOT)/rocks/etc
-    install -m 664 $(ARCHIVENAME)-$(VERSION)-py3-none-any.whl $(ROOT)/$(PKGROOT)/rocks/etc
+	mkdir -p $(ROOT)/$(PKGROOT)/rocks/etc
+	install -m 664 $(ARCHIVENAME)-$(VERSION)-py3-none-any.whl $(ROOT)/$(PKGROOT)/rocks/etc
 
 clean::
-    rm -rf $(ARCHIVENAME)-$(VERSION) version.mk prepSrc.sh
+	rm -rf $(ARCHIVENAME)-$(VERSION) version.mk prepSrc.sh
 
