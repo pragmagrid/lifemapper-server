@@ -144,12 +144,18 @@ install::
     mkdir -p $(ROOT)/$(PKGROOT)/lib
     mkdir -p $(ROOT)/$(PKGROOT)/rocks/etc
 	(\
-        $(INSTALL) mapscript-7.4.4-py3.6.egg.tar.gz $(ROOT)/$(PKGROOT)/rocks/etc; \
-		cd $(ARCHIVENAME)-$(VERSION)/build;                   \
+        cd $(ARCHIVENAME)-$(VERSION);             \
+        export PYTHON=$(PY.PATH);                 \
+        export PATH=$(ROOT):$(PKGROOT)/bin:$(PATH);           \
         $(INSTALL) $(MAPSERVERPROGS) $(ROOT)/$(PKGROOT)/bin;  \
         $(INSTALL) mapserv $(ROOT)/$(PKGROOT)/sbin;           \
-        $(INSTALL) libmapserver.so*  $(ROOT)/$(PKGROOT)/lib;  \
+        cd mapscript/python;                      \
+        module load opt-python;                   \
+        $(PY.PATH) setup.py $@ --root=$(ROOT)/;   \
+        module unload opt-python; 
 	)
 
 clean::
 	rm -rf $(ARCHIVENAME)-$(VERSION) version.mk prepSrc.sh
+
+# $(INSTALL) mapscript-7.4.4-py3.6.egg.tar.gz $(ROOT)/$(PKGROOT)/rocks/etc; \
