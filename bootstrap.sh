@@ -148,6 +148,7 @@ compile cython
 module unload opt-python
 install opt-lifemapper-cython
 
+# numpy for scipy and matplotlib
 cd src/numpy
 make prep
 module load opt-python
@@ -155,6 +156,16 @@ python3.6 -m ensurepip --default-pip
 python3.6 -m pip install *.whl
 cd ../..
 compile numpy
+module unload opt-python
+
+# matplotlib and dependencies (for biotaphypy)
+# rpm only installs wheel files
+cd src/matplotlib
+make prep
+module load opt-python
+python3.6 -m ensurepip --default-pip
+python3.6 -m pip install *.whl
+cd ../..
 module unload opt-python
 
 cd src/scipy

@@ -1,4 +1,10 @@
-# Note: Compile fails with mapserver 7.6
+# Note: This install is a hack.  Built python egg on roll-building server 
+#       and added it to source directory.  The mapscript*egg.tar.gz file
+#       must be uncompressed into /opt/python/lib/python3.6/site-packages.
+#
+#       Error was during rpm build - byte-compile for rpm always used python2.7 
+#       and mapscript.py failed to compile.
+
 
 NAME			= opt-lifemapper-mapserver
 VERSION         = 7.4.4
@@ -6,7 +12,5 @@ ARCHIVENAME		= mapserver
 RELEASE			= 0
 TARBALL_POSTFIX	= tar.gz
 
-RPM.FILES = \
-    $(PYTHON36_PACKAGES)/*  \n\
-    $(PKGROOT)/*
+RPM.FILES = $(PKGROOT)/*
 

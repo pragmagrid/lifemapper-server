@@ -67,7 +67,19 @@ version.mk:
 	cat ../version.mk version.mk.in > version.mk
 
 PY.PATH = /opt/python/bin/$(PYTHONVER)
-MAPSERVERPROGS = shp2img shptree sortshp tile4ms
+PY.INCLUDE_PATH = /opt/python/include/$(PYTHONVER)m
+PY.LIBRARIES = /opt/python/lib/lib$(PYTHONVER)m.so
+
+MAPSERVERPROGS = legend \
+                mapserv \
+                msencrypt \
+                scalebar \
+                shp2img \
+                shptree \
+                shptreetst \
+                shptreevis \
+                sortshp \
+                tile4ms
 
 SEDSPEC += \
         -e 's%@ARCHIVENAME@%$(ARCHIVENAME)%g'  \
@@ -94,11 +106,15 @@ build:
 		cp CMakeLists.txt build/;     \
 		cd build;                     \
         cmake3                         \
-            -DCMAKE_INSTALL_PREFIX=$(PKGROOT)       \
+            -DCMAKE_INSTALL_PREFIX=$(ROOT)/$(PKGROOT)       \
             -DCMAKE_INSTALL_LIBDIR=$(PKGROOT)/lib   \
             -DCMAKE_PREFIX_PATH=$(ROOT):$(PKGROOT):$(PKGROOT)/bin:/usr/lib64:$(PATH)  \
+            -DPYTHON_EXECUTABLE=$(PY.PATH)          \
+            -DPYTHON_INCLUDE_PATH=$(PY.INCLUDE_PATH)    \
+            -DPYTHON_LIBRARIES=$(PY.LIBRARIES)     \
             -DWITH_GEOS=1           \
             -DWITH_PROJ=$(PKGROOT)  \
+            -DPROJ_LIBRARY=$(PKGROOT)/lib/libproj.so   \
             -DWITH_GDAL=1           \
             -DWITH_PROTOBUFC=0      \
             -DWITH_WMS=1            \
@@ -114,9 +130,9 @@ build:
             -DWITH_LIBXML2=1        \
             -DWITH_GIF=1            \
             -DWITH_KML=1            \
-            -DWITH_PYTHON=$(PYTHON36_PACKAGES)   \
+            -DWITH_PYTHON=1   \
             ../ >../configure.out.txt;    \
-		$(MAKE); 					\
+		make  ;  					\
 		cd mapscript/python;		\
 		$(PY.PATH) setup.py build; 	\
 		module unload opt-python;	\
@@ -124,20 +140,15 @@ build:
 
 install::
 	mkdir -p $(ROOT)/$(PKGROOT)/bin
-	mkdir -p $(ROOT)/$(PKGROOT)/sbin
-    mkdir -p $(ROOT)/$(PYTHON36_PACKAGES)
+    mkdir -p $(ROOT)/$(PKGROOT)/sbin
+    mkdir -p $(ROOT)/$(PKGROOT)/lib
+    mkdir -p $(ROOT)/$(PKGROOT)/rocks/etc
 	(\
-		cd $(ARCHIVENAME)-$(VERSION);             \
-        module load opt-python;     \
-		export PYTHON=$(PY.PATH);                 \
-		export PATH=$(PKGROOT)/bin:$(PATH);           \
-		cd build;                                 \
-		$(MAKE) install prefix=$(ROOT)/$(PKGROOT);                          \
-		$(INSTALL) $(MAPSERVERPROGS) $(ROOT)/$(PKGROOT)/bin;  \
-		$(INSTALL) mapserv $(ROOT)/$(PKGROOT)/sbin;           \
-		cd mapscript/python;                      \
-		$(PY.PATH) setup.py $@ --root=$(ROOT)/;   \
-		module unload opt-python;                 \
+        $(INSTALL) mapscript-7.4.4-py3.6.egg.tar.gz $(ROOT)/$(PKGROOT)/rocks/etc; \
+		cd $(ARCHIVENAME)-$(VERSION)/build;                   \
+        $(INSTALL) $(MAPSERVERPROGS) $(ROOT)/$(PKGROOT)/bin;  \
+        $(INSTALL) mapserv $(ROOT)/$(PKGROOT)/sbin;           \
+        $(INSTALL) libmapserver.so*  $(ROOT)/$(PKGROOT)/lib;  \
 	)
 
 clean::
