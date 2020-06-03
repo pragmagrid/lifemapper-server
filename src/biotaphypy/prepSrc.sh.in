@@ -2,8 +2,8 @@
 
 # Purpose: download release of lmpy, lm python objects, from Github repository 
 
-URL=https://github.com/biotaphy/@ARCHIVENAME@/archive
-FNAME=v@VERSION@.@TARBALL_POSTFIX@
+URL=https://github.com/biotaphy/@ARCHIVENAME@/releases/download/v@VERSION@
+FNAME=biotaphy-@VERSION@-py3-none-any.whl
 
 
 # download release from lifemapper github

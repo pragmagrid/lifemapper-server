@@ -59,15 +59,22 @@ del-lifemapper-shared() {
    $RM opt-lifemapper-certifi
    $RM opt-lifemapper-idna
    $RM opt-lifemapper-urllib3
-   $RM opt-lifemapper-wheel
    $RM opt-lifemapper-lmpy
-
-   echo "Removing SHARED opt-* RPMS with python wheels" >> $LOG
    $RM opt-lifemapper-numpy
    $RM opt-lifemapper-scipy
+   $RM opt-lifemapper-matplotlib
+   
+   echo "Removing wheels from SHARED opt-* RPMS" >> $LOG
    module load opt-python
-   $PIP3 uninstall -y numpy
-   $PIP3 uninstall -y scipy
+   $PYBIN@ -m pip uninstall -y python-dateutil
+   $PYBIN@ -m pip uninstall -y pyparsing
+   $PYBIN@ -m pip uninstall -y kiwisolver
+   $PYBIN@ -m pip uninstall -y cycler
+   $PYBIN@ -m pip uninstall -y numpy
+   $PYBIN@ -m pip uninstall -y scipy
+   $PYBIN@ -m pip uninstall -y matplotlib
+   $PYBIN@ -m pip uninstall -y lmpy
+   $PYBIN@ -m pip uninstall -y biotaphy
    module unload opt-python
 }
 
@@ -165,11 +172,16 @@ del-opt-python () {
    $RM opt-lifemapper-pytz
    $RM opt-lifemapper-six
    $RM opt-lifemapper-tempora
+   $RM opt-lifemapper-wheel   
    $RM opt-lifemapper-more-itertools
    $RM opt-lifemapper-contextlib2
    $RM opt-lifemapper-zc.lockfile
    $RM opt-lifemapper-backports.functools_lru_cache
    $RM opt-lifemapper-jaraco.functools
+
+   module load opt-python
+   $PYBIN@ -m pip uninstall -y wheel
+   module unload opt-python
 }
 
 del-mapserver(){

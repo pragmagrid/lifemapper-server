@@ -1,9 +1,9 @@
 NAME              = opt-lifemapper-lmpy
 ARCHIVENAME       = lmpy
-VERSION           = 2.0.2
+VERSION           = 2.0.3
 RELEASE           = 0
 TARBALL_POSTFIX	= tar.gz
 
 RPM.EXTRAS  = %define __os_install_post /usr/lib/rpm/brp-python-bytecompile  $(PY.PATH)
 
-RPM.FILES   = $(PYTHON36_PACKAGES)/*
+RPM.FILES   = $(PKGROOT)/*
