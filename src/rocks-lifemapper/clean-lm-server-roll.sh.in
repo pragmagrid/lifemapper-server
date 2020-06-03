@@ -74,7 +74,7 @@ del-lifemapper-shared() {
    $PYBIN@ -m pip uninstall -y scipy
    $PYBIN@ -m pip uninstall -y matplotlib
    $PYBIN@ -m pip uninstall -y lmpy
-   $PYBIN@ -m pip uninstall -y biotaphy
+   $PYBIN@ -m pip uninstall -y biotaphypy
    module unload opt-python
 }
 
