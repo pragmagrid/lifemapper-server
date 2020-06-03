@@ -88,12 +88,12 @@ prep: prepSrc.sh
 build:
 	$(TAR) -xzvf $(ARCHIVENAME)-$(VERSION).$(TARBALL_POSTFIX)
 	(                           \
-                cd $(ARCHIVENAME)-$(VERSION);           \
+                cd $(ARCHIVENAME)-$(VERSION);       \
                 module load opt-python;             \
-                export PATH=$(PKGROOT)/bin:$(PATH);     \
+                export PATH=$(PKGROOT)/bin:$(PATH); \
                 ./configure --with-python=$(PY.PATH) --with-ogr --with-geos --prefix=$(PKGROOT);    \
-                $(MAKE);                    \
-                cd swig/python;                 \
+                $(MAKE);                            \
+                cd swig/python;                     \
                 module load opt-python;             \
                 $(PY.PATH) setup.py build;          \
                 module unload opt-python;           \
@@ -102,13 +102,13 @@ build:
 install::
 	mkdir -p $(ROOT)/$(PKGROOT)
 	(                               \
-                cd $(ARCHIVENAME)-$(VERSION);               \
+                cd $(ARCHIVENAME)-$(VERSION);           \
                 module load opt-python;                 \
-                export PATH=$(PKGROOT)/bin:$(PATH);         \
+                export PATH=$(PKGROOT)/bin:$(PATH);     \
                 $(MAKE) prefix=$(ROOT)/$(PKGROOT) ROOT=$(ROOT)/ install; \
-                cd swig/python;                     \
+                cd swig/python;                         \
                 module load opt-python;                 \
-                $(PY.PATH) setup.py $@ --root=$(ROOT)/;         \
+                $(PY.PATH) setup.py $@ --root=$(ROOT)/; \
                 module unload opt-python;               \
         )
 
