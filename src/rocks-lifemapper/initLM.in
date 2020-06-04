@@ -327,6 +327,16 @@ install_cron_jobs () {
     echo "-- End installServerCronJobs" >> $LOG
 }
 
+install_opt_python_dependent_rpms() {
+    # opt-lifemapper-mapserver cannot be installed with other rpms by yum 
+    # because it depends on python3.6 and yum cannot co-exist with opt-python
+    DIST_DIR=/state/partition1/rocks/install/rocks-dist/x86_64/RedHat/RPMS
+    RPM_FILE=$DIST_DIR/opt-lifemapper-mapserver*rpm
+    cmd_opt_python load
+    echo "-- Install opt-lifemapper-mapserver rpm" >> $LOG
+    rpm -i RPM_FILE >> $LOG
+}
+
 # set unix socket; restart postgres and pgbouncer with new config
 start_services() {
     # set unix socket dir
@@ -393,6 +403,7 @@ fi
 
 add_lm_functions
 install_cron_jobs
+install_opt_python_dependent_rpms
 update_config
 
 if [ "$EXISTING_DB" = false ] ; then
