@@ -334,7 +334,7 @@ install_opt_python_dependent_rpms() {
     RPM_FILE=$DIST_DIR/opt-lifemapper-mapserver*rpm
     cmd_opt_python load
     echo "-- Install opt-lifemapper-mapserver rpm" >> $LOG
-    rpm -i RPM_FILE >> $LOG
+    rpm -i $RPM_FILE >> $LOG
 }
 
 # set unix socket; restart postgres and pgbouncer with new config

@@ -68,7 +68,7 @@ version.mk:
 
 PY.PATH = /opt/python/bin/$(PYTHONVER)
 PY.INCLUDE_PATH = /opt/python/include/$(PYTHONVER)m
-PY.LIBRARIES = /opt/python/lib/lib$(PYTHONVER)m.so
+PY.LIBRARY = /opt/python/lib/lib$(PYTHONVER)m.so.1.0
 
 MAPSERVERPROGS = legend \
                 mapserv \
@@ -111,7 +111,7 @@ build:
             -DCMAKE_PREFIX_PATH=$(ROOT):$(PKGROOT):$(PKGROOT)/bin:/usr/lib64:$(PATH)  \
             -DPYTHON_EXECUTABLE=$(PY.PATH)          	\
             -DPYTHON_INCLUDE_PATH=$(PY.INCLUDE_PATH)    \
-		-DPYTHON_LIBRARIES=$(PY.LIBRARIES)	\
+    		-DPYTHON_LIBRARIES=$(PY.LIBRARY)	\
             -DWITH_GEOS=1           \
             -DWITH_PROJ=$(PKGROOT)  \
             -DPROJ_LIBRARY=$(PKGROOT)/lib/libproj.so   \
@@ -145,12 +145,14 @@ install::
 	mkdir -p $(ROOT)/$(PKGROOT)/lib
 	mkdir -p $(ROOT)/$(PKGROOT)/rocks/etc
 	(\
+	    cp -p $(PY.LIBRARY) $(ROOT)/$(PKGROOT)/lib/;       \
         export PYTHON=$(PY.PATH);                             \
         export PATH=$(ROOT):$(PKGROOT)/bin:$(PATH);           \
         cd $(ARCHIVENAME)-$(VERSION)/build;	\
         $(INSTALL) $(MAPSERVERPROGS) $(ROOT)/$(PKGROOT)/bin;  \
         $(INSTALL) mapserv $(ROOT)/$(PKGROOT)/sbin;           \
-	cd mapscript/python;                      \
+        $(INSTALL) libmapserver.so* $(ROOT)/$(PKGROOT)/lib;  \
+        cd mapscript/python;                      \
         module load opt-python;                   \
         $(PY.PATH) setup.py $@ --root=$(ROOT)/;   \
         module unload opt-python;                 \

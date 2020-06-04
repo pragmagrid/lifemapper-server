@@ -31,7 +31,6 @@
     <package>SFCGAL-libs</package> 
     <package>SFCGAL</package>
     <package>geos</package>
-    <package>libgeotiff</package> 
     <package>ogdi</package> 
     <package>unixODBC</package> 
     <package>xerces-c</package> 
