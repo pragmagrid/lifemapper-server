@@ -111,7 +111,7 @@ build:
             -DCMAKE_PREFIX_PATH=$(ROOT):$(PKGROOT):$(PKGROOT)/bin:/usr/lib64:$(PATH)  \
             -DPYTHON_EXECUTABLE=$(PY.PATH)          	\
             -DPYTHON_INCLUDE_PATH=$(PY.INCLUDE_PATH)    \
-            -DPYTHON_LIBRARIES=$(PY.LIBRARIES)		\
+		-DPYTHON_LIBRARIES=$(PY.LIBRARIES)	\
             -DWITH_GEOS=1           \
             -DWITH_PROJ=$(PKGROOT)  \
             -DPROJ_LIBRARY=$(PKGROOT)/lib/libproj.so   \
@@ -132,7 +132,8 @@ build:
             -DWITH_KML=1            \
             -DWITH_PYTHON=1   \
             ../ >../configure.out.txt;    	\
-		make  ;  			\
+		make ;  			\
+		cp ../mapscript/python/README.rst mapscript/python/; \
 		cd mapscript/python;		\
 		$(PY.PATH) setup.py build; 	\
 		module unload opt-python;	\
@@ -144,12 +145,12 @@ install::
 	mkdir -p $(ROOT)/$(PKGROOT)/lib
 	mkdir -p $(ROOT)/$(PKGROOT)/rocks/etc
 	(\
-        cd $(ARCHIVENAME)-$(VERSION)/build;                   \
-        $(INSTALL) $(MAPSERVERPROGS) $(ROOT)/$(PKGROOT)/bin;  \
-        $(INSTALL) mapserv $(ROOT)/$(PKGROOT)/sbin;           \
         export PYTHON=$(PY.PATH);                             \
         export PATH=$(ROOT):$(PKGROOT)/bin:$(PATH);           \
-        cd mapscript/python;                      \
+        cd $(ARCHIVENAME)-$(VERSION)/build;	\
+        $(INSTALL) $(MAPSERVERPROGS) $(ROOT)/$(PKGROOT)/bin;  \
+        $(INSTALL) mapserv $(ROOT)/$(PKGROOT)/sbin;           \
+	cd mapscript/python;                      \
         module load opt-python;                   \
         $(PY.PATH) setup.py $@ --root=$(ROOT)/;   \
         module unload opt-python;                 \

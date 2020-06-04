@@ -62,20 +62,14 @@
     <package>shapelib</package>
     <package>gpsbabel</package>
     <package>gdal-libs</package>
-    <!-- mapserver deps
-    <package>gdal</package> 
-    <package>gdal-devel</package>  
-    -->
 
+    <!-- mapserver and deps -->
     <package>proj</package> 
     <package>postgis2_96</package>
-		 
-	<!-- mapserver and prereq -->
 	<package>bitstream-vera-fonts-common</package>
 	<package>bitstream-vera-sans-fonts</package>
 	<package>postgresql-libs</package>
-
-	<package>opt-lifemapper-mapserver</package>
+	<!-- <package>opt-lifemapper-mapserver</package> -->
 
 	<package>lifemapper-proj</package>	
 	<package>lifemapper-cctools</package>
