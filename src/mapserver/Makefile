@@ -151,7 +151,7 @@ install::
         cd $(ARCHIVENAME)-$(VERSION)/build;	\
         $(INSTALL) $(MAPSERVERPROGS) $(ROOT)/$(PKGROOT)/bin;  \
         $(INSTALL) mapserv $(ROOT)/$(PKGROOT)/sbin;           \
-        $(INSTALL) libmapserver.so* $(ROOT)/$(PKGROOT)/lib;  \
+        $(INSTALL) libmapserver.so.$(VERSION) $(ROOT)/$(PKGROOT)/lib;  \
         cd mapscript/python;                      \
         module load opt-python;                   \
         $(PY.PATH) setup.py $@ --root=$(ROOT)/;   \

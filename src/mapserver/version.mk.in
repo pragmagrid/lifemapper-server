@@ -1,3 +1,6 @@
+# Update version number and symlink names in "finish_mapserver_install" 
+#   in rocks-lifemapper/initLM script, executed on roll install
+ 
 NAME			= opt-lifemapper-mapserver
 VERSION         = 7.4.4
 ARCHIVENAME		= mapserver

@@ -190,6 +190,18 @@ finish_libevent_install () {
     /usr/bin/libtool --finish @LMHOME@/lib
 }
 
+# sym link mapserver library filenames to this one
+# TODO: update this when updating mapserver version
+finish_mapserver_install () {
+    # Complete installs
+    echo "-- add symlinks to mapserver library" >> $LOG
+    (\
+    /usr/bin/cd $PKGROOT@/lib; \
+    /usr/bin/ln -s libmapserver.so.2 libmapserver.so.7.4.4; \
+    /usr/bin/ln -s libmapserver.so   libmapserver.so.2; \
+    )     
+}
+
 # Install all python wheel files with pip
 finish_wheel_installs () {
     WHL_DIR=@PKGROOT@/rocks/etc
@@ -384,6 +396,7 @@ set_defaults
 TimeStamp "# Start"
 finish_wheel_installs
 finish_libevent_install
+finish_mapserver_install
 set_permissions
 stop_services
 
