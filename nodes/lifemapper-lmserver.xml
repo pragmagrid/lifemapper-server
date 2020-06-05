@@ -24,14 +24,14 @@
     <package>postgresql96-server</package>
     <package>postgresql96-contrib</package>
 
-	<!-- Add postgis2 and dependencies from epel and PGDG96 repos -->
+	<!-- Add postgis2 and dependencies from epel and PGDG96 repos,
+    some (i.e. libgeotiff) previously installed in lifemapper-server-base -->
 	<!-- gdal-libs deps -->
 	<package>boost-serialization</package>
 	<package>CGAL</package>
 	<package>SFCGAL-libs</package>
 	<package>SFCGAL</package>
 	<package>geos</package>     
-	<package>libgeotiff</package>     
 	<package>ogdi</package>     
 	<package>unixODBC</package>
 	<package>xerces-c</package>

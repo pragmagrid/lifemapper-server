@@ -42,11 +42,14 @@
     <package>openjpeg2</package> 
     <package>libgta</package>
     <!-- armadillo deps -->
-    <package>atlas</package> 
+    <package>atlas</package>
+    <package>atlas-devel</package>
     <package>SuperLU</package> 
     <package>arpack</package>
     <package>blas</package> 
-    <package>lapack</package> 
+    <package>blas-devel</package>
+    <package>lapack</package>
+    <package>lapack-devel</package>
     <package>openblas-openmp</package> 
     <package>armadillo</package>
     

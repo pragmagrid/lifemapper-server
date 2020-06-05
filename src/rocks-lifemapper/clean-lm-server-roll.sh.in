@@ -66,15 +66,15 @@ del-lifemapper-shared() {
    
    echo "Removing wheels from SHARED opt-* RPMS" >> $LOG
    module load opt-python
-   $PYBIN@ -m pip uninstall -y python-dateutil
-   $PYBIN@ -m pip uninstall -y pyparsing
-   $PYBIN@ -m pip uninstall -y kiwisolver
-   $PYBIN@ -m pip uninstall -y cycler
-   $PYBIN@ -m pip uninstall -y numpy
-   $PYBIN@ -m pip uninstall -y scipy
-   $PYBIN@ -m pip uninstall -y matplotlib
-   $PYBIN@ -m pip uninstall -y lmpy
-   $PYBIN@ -m pip uninstall -y biotaphypy
+   $PYBIN -m pip uninstall -y python-dateutil
+   $PYBIN -m pip uninstall -y pyparsing
+   $PYBIN -m pip uninstall -y kiwisolver
+   $PYBIN -m pip uninstall -y cycler
+   $PYBIN -m pip uninstall -y numpy
+   $PYBIN -m pip uninstall -y scipy
+   $PYBIN -m pip uninstall -y matplotlib
+   $PYBIN -m pip uninstall -y lmpy
+   $PYBIN -m pip uninstall -y biotaphypy
    module unload opt-python
 }
 
@@ -198,9 +198,6 @@ del-postgres() {
    $RM boost-serialization     
    $RM CGAL
    $RM SFCGAL SFCGAL-libs     
-   $RM geos
-   $RM geos-devel
-   $RM libgeotiff
    $RM ogdi
    $RM unixODBC
    $RM xerces-c
