@@ -196,7 +196,7 @@ finish_mapserver_install () {
     # Complete installs
     echo "-- add symlinks to mapserver library" >> $LOG
     (\
-    /usr/bin/cd $PKGROOT@/lib; \
+    /usr/bin/cd $PKGROOT/lib; \
     /usr/bin/ln -s libmapserver.so.2 libmapserver.so.7.4.4; \
     /usr/bin/ln -s libmapserver.so   libmapserver.so.2; \
     )     
@@ -215,7 +215,7 @@ finish_wheel_installs () {
             @PYBIN@ -m pip install $wname
         done
 
-    INSTALLED_PKGS=`python3.6 -m pip list | grep -v Package | grep -v "^----" | awk '{print $1}'`
+    INSTALLED_PKGS=`@PYBIN@ -m pip list | /usr/bin/grep -v Package | /usr/bin/grep -v "^----" | /usr/bin/awk '{print $1}'`
     # install rest of wheel files, ignore previously installed files
     FILES=$WHL_DIR/*whl
     startidx=$((${#WHL_DIR} + 2))
