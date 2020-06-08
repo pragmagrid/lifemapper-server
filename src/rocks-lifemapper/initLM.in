@@ -204,19 +204,22 @@ finish_mapserver_install () {
 
 # Install all python wheel files with pip
 finish_wheel_installs () {
+    @PYBIN@ -m ensurepip --default-pip
+    @PYBIN@ -m pip install --upgrade pip
     WHL_DIR=@PKGROOT@/rocks/etc
     # these are filename prefixes
-    ORDERED_DEPS="numpy python_dateutil pyparsing kiwisolver cycler matplotlib"
-    @PYBIN@ -m ensurepip --default-pip
+    echo "-- install ordered wheel dependencies ..." >> $LOG
+    ORDERED_DEPS="numpy python_dateutil pyparsing kiwisolver cycler matplotlib scipy"
     for dep in $ORDERED_DEPS
         do
-            echo "Install $dep wheel ..." >> $LOG
             wname=$WHL_DIR/$dep*whl
+            echo "install ordered dependency $dep ..." >> $LOG
             @PYBIN@ -m pip install $wname
         done
 
     INSTALLED_PKGS=`@PYBIN@ -m pip list | /usr/bin/grep -v Package | /usr/bin/grep -v "^----" | /usr/bin/awk '{print $1}'`
     # install rest of wheel files, ignore previously installed files
+    echo "-- install remaining wheel dependencies ..." >> $LOG
     FILES=$WHL_DIR/*whl
     startidx=$((${#WHL_DIR} + 2))
     for f in $FILES
@@ -227,8 +230,8 @@ finish_wheel_installs () {
             if [[ ${INSTALLED_PKGS[*]} =~ $pkgname ]]; then
                 echo "$pkgname installed already ..."
             else
-                echo "Install $pkgname from $f file..."
-                @PYBIN@ -m pip install $wname
+                echo "install remaining dependency $pkgname ..."
+                @PYBIN@ -m pip install $f
             fi
         done
 }
