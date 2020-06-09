@@ -1,56 +1,57 @@
-cd $(ARCHIVENAME)-$(VERSION)
-module load opt-python
-export PYTHON=/opt/python/bin/python3.6
-mkdir build
-cp CMakeLists.txt build/
-cd build
-cmake3  \
-    -DCMAKE_INSTALL_PREFIX=/opt/lifemapper   \
-    -DCMAKE_INSTALL_LIBDIR=/opt/lifemapper/lib       \
-    -DCMAKE_PREFIX_PATH=/:/opt/lifemapper:/opt/lifemapper/bin:/usr/lib64:$PATH  \
-    -DPYTHON_EXECUTABLE=/opt/python/bin/python3.6      \
-    -DPYTHON_INCLUDE_PATH=/opt/python/include/python3.6m    \
-    -DPYTHON_LIBRARIES=/opt/python/lib/libpython3.6m.so \
-    -DWITH_GEOS=1   \
-    -DWITH_PROJ=1  \
-    -DPROJ_LIBRARY=/opt/lifemapper/lib/libproj.so   \
-    -DWITH_GDAL=1   \
-    -DWITH_PROTOBUFC=0      \
-    -DWITH_WMS=1    \
-    -DWITH_FRIBIDI=0\
-    -DWITH_HARFBUZZ=0       \
-    -DWITH_ICONV=0  \
-    -DWITH_CAIRO=0  \
-    -DWITH_FCGI=0   \
-    -DWITH_POSTGIS=0\
-    -DWITH_OGR=1    \
-    -DWITH_WFS=0    \
-    -DWITH_WCS=1    \
-    -DWITH_LIBXML2=1\
-    -DWITH_GIF=1    \
-    -DWITH_KML=1    \
-    -DWITH_PYTHON=1   \
-    ../ >../configure.out.txt;      \
-make
-cd mapscript/python
-$(PY.PATH) setup.py build
-module unload opt-python
+finish_wheel_installs () {
+    WHL_DIR=/opt/lifemapper/rocks/etc
+    ORDERED_PKGS="numpy python_dateutil pyparsing kiwisolver cycler matplotlib"
+    /opt/python/bin/python3.6 -m ensurepip --default-pip
+    for p in $ORDERED_PKGS
+        do
+            echo "Install $p wheel ..."
+            wname=$WHL_DIR/$p*whl
+            /opt/python/bin/python3.6 -m pip install $wname
+        done
+
+    INSTALLED_PKGS=`python3.6 -m pip list | grep -v Package | grep -v "^----" | awk '{print $1}'`
+    # install rest of wheel files, ignore previously installed files
+    FILES=$WHL_DIR/*whl
+    startidx=$((${#WHL_DIR} + 2))
+    for f in $FILES
+        do
+            filelen=${#f}
+            pkgname=$(echo $f | cut -c$startidx-$filelen | cut -d'-' -f1)
+            echo $pkgname
+            
+            if [[ ${INSTALLED_PKGS[*]} =~ $pkgname ]]; then
+                echo "$pkgname installed already ..."
+            else
+                echo "Install $pkgname from $f file..."
+            fi
+        done
+}
 
 
-install::
-    mkdir -p $(ROOT)/$(PKGROOT)/bin
-    mkdir -p $(ROOT)/$(PKGROOT)/sbin
-    mkdir -p $(ROOT)/$(PKGROOT)/lib
-    mkdir -p $(ROOT)/$(PKGROOT)/rocks/etc
-    (\
-cd $(ARCHIVENAME)-$(VERSION)/build;   \
-$(INSTALL) $(MAPSERVERPROGS) $(ROOT)/$(PKGROOT)/bin;  \
-$(INSTALL) mapserv $(ROOT)/$(PKGROOT)/sbin;   \
-export PYTHON=$(PY.PATH);     \
-export PATH=$(ROOT):$(PKGROOT)/bin:$(PATH);   \
-$(MAKE) prefix=$(ROOT)/$(PKGROOT) ROOT=$(ROOT)/ install; \
-cd mapscript/python;      \
-module load opt-python;   \
-$(PY.PATH) setup.py $@ --root=$(ROOT)/;   \
-module unload opt-python; \
-    )
+
+WHL_DIR=/opt/lifemapper/rocks/etc
+ORDERED_PKGS="numpy python-dateutil pyparsing kiwisolver cycler matplotlib"
+/opt/python/bin/python3.6 -m ensurepip --default-pip
+for p in $ORDERED_PKGS
+    do
+        echo "**** Install $p wheel ..."
+        wname=$WHL_DIR/$p*whl
+        /opt/python/bin/python3.6 -m pip install $wname
+    done
+
+INSTALLED_PKGS=`python3.6 -m pip list | grep -v Package | grep -v "^----" | awk '{print $1}'`
+# install rest of wheel files, ignore previously installed files
+FILES=$WHL_DIR/*whl
+startidx=$((${#WHL_DIR} + 2))
+for f in $FILES
+    do
+        filelen=${#f}
+        pkgname=$(echo $f | cut -c$startidx-$filelen | cut -d'-' -f1)
+        echo $pkgname
+        
+        if [[ ${INSTALLED_PKGS[*]} =~ $pkgname ]]; then
+            echo "**** $pkgname installed already ..."
+        else
+            echo "**** Install $pkgname from $f file..."
+        fi
+    done
