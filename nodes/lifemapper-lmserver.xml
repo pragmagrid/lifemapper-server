@@ -52,8 +52,9 @@
 	<package>armadillo</package>
 	<package>gdal-libs</package>
 
+	<!-- in lifemapper-lmserver-base
 	<package>proj</package>		
-	<package>postgis2_96</package>
+	<package>postgis2_96</package> -->
 
 	<package>opt-lifemapper-psycopg2</package>
 
