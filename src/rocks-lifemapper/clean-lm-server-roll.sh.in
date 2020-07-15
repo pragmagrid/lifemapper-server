@@ -264,8 +264,8 @@ del-webstuff () {
    rm -rf /var/www/tmp
 
    echo "Removing symlinks" >> $LOG
-   rm -f /var/www/html/$LMCLIENT_DIR
-   rm -f /var/www/html/$DASHBOARD_DIR
+   rm -rf /var/www/html/$LMCLIENT
+   rm -rf /var/www/html/$DASHBOARD
    
    echo "Removing lifemapper web config" >> $LOG
    rm -f /etc/httpd/conf.d/lifemapper.conf
