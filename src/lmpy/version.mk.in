@@ -1,6 +1,6 @@
 NAME              = opt-lifemapper-lmpy
 ARCHIVENAME       = lmpy
-VERSION           = 2.0.3
+VERSION           = 2.0.5
 RELEASE           = 0
 TARBALL_POSTFIX	= tar.gz
 
