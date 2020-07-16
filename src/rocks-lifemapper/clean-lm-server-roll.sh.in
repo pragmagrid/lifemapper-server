@@ -27,54 +27,66 @@ set_defaults() {
 }
 
 del-lifemapper-shared() {
-   echo "Removing shared geos, proj, tiff, and gdal dependencies RPMS" >> $LOG
+   echo "Removing shared lifemapper dependency RPMs" >> $LOG
+   # gdal-libs + deps
+   $RM gdal-libs
+   $RM CharLS 
+   $RM SuperLU 
+   $RM armadillo
+   $RM arpack
    $RM atlas atlas-devel
-   $RM blas blas-devel
+   $RM blas  blas-devel
+   $RM cfitsio 
+   $RM freexl 
+   $RM geos geos-devel
+   $RM hdf5 hdf5-devel
    $RM lapack lapack-devel
    $RM libaec libaec-devel
-   $RM hdf5 hdf5-devel
+   $RM libdap 
+   $RM libgeotiff libgeotiff-devel
+   $RM libgta
    $RM libtiff-devel
-   $RM libgeotiff
-   $RM libgeotiff-devel
-   $RM geos
-   $RM geos-devel
-   $RM gdal
-   $RM gdal-devel
-   $RM gdal-libs
+   $RM netcdf 
+   $RM ogdi 
+   $RM openblas-openmp 
+   $RM openjpeg2 
+   $RM postgresql-libs
+   $RM proj 
+   $RM unixODBC 
+   $RM xerces-c 
+   # gdal deps
+   $RM gpsbabel
+   $RM libusb
+   $RM shapelib
    
-   echo "Removing SHARED lifemapper-* and prerequisite RPMS" >> $LOG	
-   $RM lifemapper-cctools
-   $RM lifemapper-proj
-   
-   echo "Removing SHARED data RPMS" >> $LOG
-   $RM lifemapper-env-data
-   
-   echo "Removing SHARED opt-* RPMS" >> $LOG
+   echo "Removing SHARED lifemapper-* and opt-lifemapper-* RPMS" >> $LOG    
    $RM opt-lifemapper-biotaphypy
+   $RM     lifemapper-cctools
+   $RM opt-lifemapper-certifi
+   $RM opt-lifemapper-chardet
    $RM opt-lifemapper-cython
    $RM opt-lifemapper-dendropy
+   $RM     lifemapper-env-data
    $RM opt-lifemapper-gdal
-   $RM opt-lifemapper-requests
-   $RM opt-lifemapper-chardet
-   $RM opt-lifemapper-certifi
    $RM opt-lifemapper-idna
-   $RM opt-lifemapper-urllib3
    $RM opt-lifemapper-lmpy
    $RM opt-lifemapper-numpy
-   $RM opt-lifemapper-scipy
    $RM opt-lifemapper-matplotlib
-   
-   echo "Removing wheels from SHARED opt-* RPMS" >> $LOG
+   $RM     lifemapper-proj
+   $RM opt-lifemapper-requests
+   $RM opt-lifemapper-scipy
+   $RM     lifemapper-tiff
+   $RM opt-lifemapper-urllib3
+
+   echo "Removing python wheels from opt-lifemapper-* RPMs" >> $LOG
    module load opt-python
-   $PYBIN -m pip uninstall -y python-dateutil
-   $PYBIN -m pip uninstall -y pyparsing
-   $PYBIN -m pip uninstall -y kiwisolver
-   $PYBIN -m pip uninstall -y cycler
-   $PYBIN -m pip uninstall -y numpy
-   $PYBIN -m pip uninstall -y scipy
-   $PYBIN -m pip uninstall -y matplotlib
-   $PYBIN -m pip uninstall -y lmpy
-   $PYBIN -m pip uninstall -y biotaphypy
+   $PYBIN@ -m pip uninstall -y python-dateutil
+   $PYBIN@ -m pip uninstall -y pyparsing
+   $PYBIN@ -m pip uninstall -y kiwisolver
+   $PYBIN@ -m pip uninstall -y cycler
+   $PYBIN@ -m pip uninstall -y numpy
+   $PYBIN@ -m pip uninstall -y scipy
+   $PYBIN@ -m pip uninstall -y matplotlib
    module unload opt-python
 }
 
@@ -187,7 +199,6 @@ del-opt-python () {
 del-mapserver(){
    echo "Removing mapserver and dependencies RPMS" >> $LOG
    $RM opt-lifemapper-mapserver
-   $RM postgresql-libs
    $RM bitstream-vera-sans-fonts
    $RM bitstream-vera-fonts-common
 }
@@ -195,25 +206,10 @@ del-mapserver(){
 del-postgres() {
    echo "Removing postgis, postgres, pgbouncer and dependencies RPMS" >> $LOG
    $RM postgresql96 postgresql96-libs postgresql96-devel postgresql96-server postgresql96-contrib
-   $RM boost-serialization     
-   $RM CGAL
-   $RM SFCGAL SFCGAL-libs     
-   $RM ogdi
-   $RM unixODBC
-   $RM xerces-c
-   $RM libdap 
-   $RM CharLS 
-   $RM cfitsio
-   $RM freexl
-   $RM netcdf
-   $RM openjpeg2
-   $RM libgta
-   $RM SuperLU
-   $RM arpack
-   $RM openblas-openmp
-   $RM armadillo
-   $RM proj
    $RM postgis2_96
+   $RM CGAL
+   $RM SFCGAL SFCGAL-libs
+   $RM boost-serialization
    $RM c-ares  c-ares-devel
    $RM postgresql10-libs
    $RM python2-psycopg2
@@ -225,7 +221,7 @@ del-sysRPM() {
    $RM pgdg-centos96
 }
 
-del-config () {   
+del-config () {
    echo "Removing system configuration files used by lifemapper" >> $LOG
    # Configured @UNIXSOCKET@ == /var/run/postgresql in version.mk constants
    rm -rf  /etc/ld.so.conf.d/lifemapper-server.conf

@@ -5,7 +5,7 @@
 
 	<description>
 	Lifemapper-server roll.
-	LMserver installation 
+	Server/Database installation 
 	</description>
 
 	<copyright>
@@ -15,46 +15,12 @@
 
 	<changelog> </changelog>
 	
-    <package>screen</package>
-
 	<!-- Add postgresql 9.6 and related from PGDG96 repo -->
     <package>postgresql96</package>
     <package>postgresql96-libs</package>
     <package>postgresql96-devel</package>
     <package>postgresql96-server</package>
     <package>postgresql96-contrib</package>
-
-	<!-- Add postgis2 and dependencies from epel and PGDG96 repos,
-    some (i.e. libgeotiff) previously installed in lifemapper-server-base -->
-	<!-- gdal-libs deps -->
-	<package>boost-serialization</package>
-	<package>CGAL</package>
-	<package>SFCGAL-libs</package>
-	<package>SFCGAL</package>
-	<package>geos</package>     
-	<package>ogdi</package>     
-	<package>unixODBC</package>
-	<package>xerces-c</package>
-	<package>libdap</package>
-	<package>CharLS</package>
-	<package>cfitsio</package>
-	<package>freexl</package>
-	<package>netcdf</package>
-	<package>openjpeg2</package>
-	<package>libgta</package>
-	<!-- armadillo deps -->
-    <package>atlas</package>
-	<package>SuperLU</package>
-	<package>arpack</package>
-	<package>blas</package>
-	<package>lapack</package>
-	<package>openblas-openmp</package>
-	<package>armadillo</package>
-	<package>gdal-libs</package>
-
-	<!-- in lifemapper-lmserver-base
-	<package>proj</package>		
-	<package>postgis2_96</package> -->
 
 	<package>opt-lifemapper-psycopg2</package>
 

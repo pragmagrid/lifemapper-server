@@ -14,63 +14,55 @@
 
 	<changelog> </changelog>
 
-     <!-- RPM repos needed for postgresql,postgis,mapserver -->
-	<!-- <package arch="x86_64">pgdg-centos96</package> -->
+    <package>screen</package>
 
-	<!-- gdal prerequisites -->
-	<package>libaec</package>
-	<package>libaec-devel</package>
-	<package>hdf5</package>
-	<package>hdf5-devel</package>
-	<!-- yum install fribidi cairo fcgi harfbuzz httpd librsvg2 -->
-
-    <!-- for postgis which is for mapserver -->
-    <!-- gdal-libs deps -->
+    <!-- gdal-libs -->
+    <package>gdal-libs</package>
+    <package>CharLS</package> 
+    <package>SuperLU</package> 
+    <package>armadillo</package>
+    <package>arpack</package>
+    <package>atlas</package>
+    <package>atlas-devel</package>
+    <package>blas</package> 
+    <package>blas-devel</package>
+    <package>cfitsio</package> 
+    <package>freexl</package> 
+    <package>geos</package>
+    <package>geos-devel</package>
+    <package>hdf5</package>
+    <package>hdf5-devel</package>
+    <package>lapack</package>
+    <package>lapack-devel</package>
+    <package>libaec</package>
+    <package>libaec-devel</package>
+    <package>libdap</package> 
+    <package>libgeotiff</package>
+    <package>libgeotiff-devel</package>
+    <package>libgta</package>
+    <package>libtiff-devel</package>
+    <package>netcdf</package> 
+    <package>ogdi</package> 
+    <package>openblas-openmp</package> 
+    <package>openjpeg2</package> 
+    <package>postgresql-libs</package>
+    <package>proj</package> 
+    <package>unixODBC</package> 
+    <package>xerces-c</package> 
+    <!-- gdal -->
+    <package>gpsbabel</package>
+    <package>libusb</package>
+    <package>shapelib</package>
+    <!-- postgis -->
     <package>CGAL</package>
     <package>boost-serialization</package> 
     <package>SFCGAL-libs</package> 
     <package>SFCGAL</package>
-    <package>geos</package>
-    <package>ogdi</package> 
-    <package>unixODBC</package> 
-    <package>xerces-c</package> 
-    <package>libdap</package> 
-    <package>CharLS</package> 
-    <package>cfitsio</package> 
-    <package>freexl</package> 
-    <package>netcdf</package> 
-    <package>openjpeg2</package> 
-    <package>libgta</package>
-    <!-- armadillo deps -->
-    <package>atlas</package>
-    <package>atlas-devel</package>
-    <package>SuperLU</package> 
-    <package>arpack</package>
-    <package>blas</package> 
-    <package>blas-devel</package>
-    <package>lapack</package>
-    <package>lapack-devel</package>
-    <package>openblas-openmp</package> 
-    <package>armadillo</package>
-    
-    <package>libgeotiff</package>
-    <package>libgeotiff-devel</package>
-    <package>libtiff-devel</package>
-
-    <package>geos</package>
-    <package>geos-devel</package>
- 
-    <package>libusb</package>
-    <package>shapelib</package>
-    <package>gpsbabel</package>
-    <package>gdal-libs</package>
 
     <!-- mapserver and deps -->
-    <package>proj</package> 
     <package>postgis2_96</package>
 	<package>bitstream-vera-fonts-common</package>
 	<package>bitstream-vera-sans-fonts</package>
-	<package>postgresql-libs</package>
 	<package>opt-lifemapper-mapserver</package>
 
 	<package>lifemapper-proj</package>	
