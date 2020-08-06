@@ -32,8 +32,8 @@ rpm -i src/RPMS/rhash-1.3.4-2.el7.x86_64.rpm
 ## for gdal
 # yumdownloader --resolve --enablerepo epel libaec.x86_64  libaec-devel.x86_64
 # yumdownloader --resolve --enablerepo epel hdf5.x86_64 hdf5-devel.x86_64
-# yumdownloader --resolve --enablerepo=pgdg94 geos
-# yumdownloader --resolve --enablerepo=pgdg94 geos-devel
+# yumdownloader --resolve --enablerepo=pgdg96 geos
+# yumdownloader --resolve --enablerepo=pgdg96 geos-devel
 ## for postgis
 # yumdownloader --resolve --enablerepo epel proj.x86_64
 ## for mapserver
@@ -71,8 +71,6 @@ rpm -i src/RPMS/rhash-1.3.4-2.el7.x86_64.rpm
 # yumdownloader --resolve --enablerepo=pgdg96 pgbouncer
 #
 # for gdal
-
-
 # # for gdal-libs
 rpm -i src/RPMS/CharLS-1.0-5.el7.x86_64.rpm 
 rpm -i src/RPMS/SuperLU-5.2.0-5.el7.x86_64.rpm 

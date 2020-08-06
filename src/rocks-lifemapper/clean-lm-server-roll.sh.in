@@ -9,8 +9,11 @@
 RM="rpm -evl --quiet --nodeps"
 PIP3=/opt/python/bin/pip3.6
 ROCKS_CMD=/opt/rocks/bin/rocks
-LMROLL_COUNT=`$ROCKS_CMD list roll | grep lifemapper | wc -l`
 LMUSER_COUNT=`/bin/egrep -i "^lmwriter" /etc/passwd  | wc -l`
+LMROLL_COUNT=`$ROCKS_CMD list roll | grep lifemapper | wc -l`
+LMLAB_ROLL_COUNT=`$ROCKS_CMD list roll | grep lifemapper-lab |  wc -l`
+LMCOMPUTE_ROLL_COUNT = `$ROCKS_CMD list roll | grep lifemapper-compute |  wc -l`
+NEED_SYNC = 0
 
 TimeStamp () {
     echo $1 `/bin/date` >> $LOG
@@ -27,90 +30,116 @@ set_defaults() {
 }
 
 del-lifemapper-shared() {
-   echo "Removing shared lifemapper dependency RPMs" >> $LOG
-   # gdal-libs + deps
-   $RM gdal-libs
-   $RM CharLS 
-   $RM SuperLU 
-   $RM armadillo
-   $RM arpack
-   $RM atlas atlas-devel
-   $RM blas  blas-devel
-   $RM cfitsio 
-   $RM freexl 
-   $RM geos geos-devel
-   $RM hdf5 hdf5-devel
-   $RM lapack lapack-devel
-   $RM libaec libaec-devel
-   $RM libdap 
-   $RM libgeotiff libgeotiff-devel
-   $RM libgta
-   $RM libtiff-devel
-   $RM netcdf 
-   $RM ogdi 
-   $RM openblas-openmp 
-   $RM openjpeg2 
-   $RM postgresql-libs
-   $RM proj 
-   $RM unixODBC 
-   $RM xerces-c 
-   # gdal deps
-   $RM gpsbabel
-   $RM libusb
-   $RM shapelib
-   
-   echo "Removing SHARED lifemapper-* and opt-lifemapper-* RPMS" >> $LOG    
-   $RM opt-lifemapper-biotaphypy
-   $RM     lifemapper-cctools
-   $RM opt-lifemapper-certifi
-   $RM opt-lifemapper-chardet
-   $RM opt-lifemapper-cython
-   $RM opt-lifemapper-dendropy
-   $RM     lifemapper-env-data
-   $RM opt-lifemapper-gdal
-   $RM opt-lifemapper-idna
-   $RM opt-lifemapper-lmpy
-   $RM opt-lifemapper-numpy
-   $RM opt-lifemapper-matplotlib
-   $RM     lifemapper-proj
-   $RM opt-lifemapper-requests
-   $RM opt-lifemapper-scipy
-   $RM     lifemapper-tiff
-   $RM opt-lifemapper-urllib3
+    echo "Removing lifemapper RPMs shared" >> $LOG
+    # for requests
+    $RM opt-lifemapper-certifi
+    $RM opt-lifemapper-chardet
+    $RM opt-lifemapper-idna
+    $RM opt-lifemapper-requests
+    $RM opt-lifemapper-urllib3
+    $RM opt-lifemapper-wheel
 
-   echo "Removing python wheels from opt-lifemapper-* RPMs" >> $LOG
-   module load opt-python
-   $PYBIN@ -m pip uninstall -y python-dateutil
-   $PYBIN@ -m pip uninstall -y pyparsing
-   $PYBIN@ -m pip uninstall -y kiwisolver
-   $PYBIN@ -m pip uninstall -y cycler
-   $PYBIN@ -m pip uninstall -y numpy
-   $PYBIN@ -m pip uninstall -y scipy
-   $PYBIN@ -m pip uninstall -y matplotlib
-   module unload opt-python
+    module load opt-python
+    $PYBIN@ -m pip uninstall -y wheel
+    module unload opt-python
+
+    if [ $LMLAB_ROLL_COUNT = 0 ] ; then
+        echo "Removing lmlab/lmserver RPMs shared" >> $LOG
+       $RM opt-lifemapper-cheroot
+       $RM opt-lifemapper-cherrypy
+       $RM opt-lifemapper-mod_wsgi
+       $RM opt-lifemapper-portend
+       $RM opt-lifemapper-pytz
+       $RM opt-lifemapper-six
+       $RM opt-lifemapper-tempora
+       $RM opt-lifemapper-more-itertools
+       $RM opt-lifemapper-contextlib2
+       $RM opt-lifemapper-zc.lockfile
+       $RM opt-lifemapper-backports.functools_lru_cache
+       $RM opt-lifemapper-jaraco.functools
+       $RM     lifemapper-solr
+    fi
+
+    if [ $LMCOMPUTE_ROLL_COUNT = 0 ] ; then
+        echo "Removing lmcompute/lmserver RPMs shared" >> $LOG
+        # gdal-libs + deps
+        $RM gdal-libs
+        $RM CharLS 
+        $RM SuperLU 
+        $RM armadillo
+        $RM arpack
+        $RM atlas atlas-devel
+        $RM blas  blas-devel
+        $RM cfitsio 
+        $RM freexl 
+        $RM geos geos-devel
+        $RM hdf5 hdf5-devel
+        $RM lapack lapack-devel
+        $RM libaec libaec-devel
+        $RM libdap 
+        $RM libgeotiff libgeotiff-devel
+        $RM libgta
+        $RM libtiff-devel
+        $RM netcdf 
+        $RM ogdi 
+        $RM openblas-openmp 
+        $RM openjpeg2 
+        $RM postgresql-libs
+        $RM proj 
+        $RM unixODBC 
+        $RM xerces-c 
+        # gdal deps
+        $RM gpsbabel
+        $RM libusb
+        $RM shapelib
+        
+        echo "Removing lmcompute/lmserver shared lifemapper-* and opt-lifemapper-* RPMS" >> $LOG    
+        $RM opt-lifemapper-biotaphypy
+        $RM     lifemapper-cctools
+        $RM opt-lifemapper-cython
+        $RM opt-lifemapper-dendropy
+        $RM     lifemapper-env-data
+        $RM opt-lifemapper-gdal
+        $RM opt-lifemapper-lmpy
+        $RM opt-lifemapper-numpy
+        $RM opt-lifemapper-matplotlib
+        $RM     lifemapper-proj
+        $RM opt-lifemapper-scipy
+        $RM     lifemapper-tiff
+        
+        echo "Removing lmcompute/lmserver shared python wheels from opt-lifemapper-* RPMs" >> $LOG
+        module load opt-python
+        $PYBIN@ -m pip uninstall -y python-dateutil
+        $PYBIN@ -m pip uninstall -y pyparsing
+        $PYBIN@ -m pip uninstall -y kiwisolver
+        $PYBIN@ -m pip uninstall -y cycler
+        $PYBIN@ -m pip uninstall -y numpy
+        $PYBIN@ -m pip uninstall -y scipy
+        $PYBIN@ -m pip uninstall -y matplotlib
+        module unload opt-python
+    fi
 }
 
 
 del-shared-directories() {
    echo "Removing lifemapper installation directory" >> $LOG
-   rm -rf /opt/lifemapper
+   rm -rf @LMHOME@
    echo "Removing shared lifemapper temp and data directories" >> $LOG
-   rm -rf /state/partition1/lmscratch
-   rm -rf /state/partition1/lm
+   rm -rf @LMSCRATCHDISK@
+   rm -rf @LMDISK@
    echo "Removing shared lifemapper PID directory" >> $LOG
    rm -rf /var/run/lifemapper
 }
 
 del-shared-user-group () {
-   if [ $LMUSER_COUNT = 1 ] ; then
-       echo "Remove lmwriter user/group/dirs" >> $LOG
-       userdel lmwriter
-       groupdel lmwriter
-       /bin/rm -f /var/spool/mail/lmwriter
-       /bin/rm -rf /export/home/lmwriter
-       echo "Syncing users info" >> $LOG
-       $ROCKS_CMD sync users
-   fi
+    echo "Remove lmwriter user/group/dirs" >> $LOG
+    /usr/bin/gpasswd -d apache lmwriter
+    /usr/sbin/userdel lmwriter
+    /usr/sbin/groupdel lmwriter
+    /bin/rm -f /var/spool/mail/lmwriter
+    /bin/rm -rf /export/home/lmwriter
+    echo "Syncing users info" >> $LOG
+    $ROCKS_CMD sync users
 }
 
 
@@ -145,55 +174,29 @@ stop-services () {
         /usr/bin/systemctl stop $PG
     fi
 
-#     prog="postmaster"
-#     if [ -n "`pidof $prog`" ]; then
-#         echo "-- kill $prog process " >> $LOG
-#         /usr/bin/kill -SIGKILL  $prog
-#     fi
-    
     SOLR_PROCESSES=`ps -Af | grep solr | grep -v "grep" | wc -l`
-    if [ $SOLR_PROCESSES = 1 ]; then
+    if [[ $LMLAB_ROLL_COUNT = 0 ] && [ $SOLR_PROCESSES = 1 ]]; then
         echo "-- stop Solr process " >> $LOG
         # uses service instead of systemctl
         /usr/sbin/service solr stop
-    fi    
+    fi
 }
 
 del-lifemapper() {
    echo "Removing lifemapper-* and prerequisite RPMS" >> $LOG
-   $RM lifemapper-cmd
-   $RM lifemapper-libevent
-   $RM lifemapper-lmserver
-   $RM lifemapper-solr
-   $RM lifemapper-image-data
-   $RM lifemapper-species-data
-   $RM lifemapper-webclient
-   $RM rocks-lifemapper
-   $RM roll-lifemapper-server-usersguide
-}
-
-del-opt-python () {
-   echo "Removing opt-* RPMS" >> $LOG
-   $RM opt-lifemapper-cheroot
-   $RM opt-lifemapper-cherrypy
-   $RM opt-lifemapper-idigbio
-   $RM opt-lifemapper-mod_wsgi
-   $RM opt-lifemapper-portend
+   $RM     lifemapper-cmd
+   $RM     lifemapper-image-data
+   $RM     lifemapper-libevent
+   $RM     lifemapper-lmserver
    $RM opt-lifemapper-psycopg2
    $RM opt-lifemapper-pytest
-   $RM opt-lifemapper-pytz
-   $RM opt-lifemapper-six
-   $RM opt-lifemapper-tempora
-   $RM opt-lifemapper-wheel   
-   $RM opt-lifemapper-more-itertools
-   $RM opt-lifemapper-contextlib2
-   $RM opt-lifemapper-zc.lockfile
-   $RM opt-lifemapper-backports.functools_lru_cache
-   $RM opt-lifemapper-jaraco.functools
+   $RM     lifemapper-species-data
+   $RM     lifemapper-webclient
+   $RM rocks-lifemapper
+   $RM roll-lifemapper-server-usersguide
 
-   module load opt-python
-   $PYBIN@ -m pip uninstall -y wheel
-   module unload opt-python
+   echo "Removing opt-* RPMS" >> $LOG
+   $RM opt-lifemapper-idigbio
 }
 
 del-mapserver(){
@@ -222,14 +225,17 @@ del-sysRPM() {
 }
 
 del-config () {
-   echo "Removing system configuration files used by lifemapper" >> $LOG
-   # Configured @UNIXSOCKET@ == /var/run/postgresql in version.mk constants
-   rm -rf  /etc/ld.so.conf.d/lifemapper-server.conf
-   rm -rf  /etc/logrotate.d/lifemapper-httpd
-   rm -rf  /etc/profile.d/lifemapper.*
-   rm -rf  /etc/security/limits.d/lifemapper.solr.conf
-   rm -rf  /etc/sysctl.d/lifemapper.postgresd
-   rm -f   /etc/systemd/system/httpd.service.d/lifemapper_umask.conf
+    echo "Removing system configuration files used by lifemapper" >> $LOG
+    # Configured @UNIXSOCKET@ == /var/run/postgresql in version.mk constants
+    rm -rf  /etc/ld.so.conf.d/lifemapper-server.conf
+    rm -rf  /etc/logrotate.d/lifemapper-httpd
+    rm -rf  /etc/profile.d/lifemapper.*
+    rm -rf  /etc/sysctl.d/lifemapper.postgresd
+    rm -f   /etc/systemd/system/httpd.service.d/lifemapper_umask.conf
+
+    if [ $LMLAB_ROLL_COUNT = 0 ]; then
+        rm -rf  /etc/security/limits.d/lifemapper.solr.conf
+    fi
 }
 
 del-directories () {   
@@ -268,36 +274,38 @@ del-webstuff () {
 }
 
 del-user-group () {
-   needSync=0
-
-   /bin/egrep -i "^solr" /etc/passwd
-   if [ $? -eq 0 ]; then
-       echo "Remove solr user" >> $LOG
-       userdel solr
-       /bin/rm -f /var/spool/mail/solr
-       /bin/rm -rf /export/home/solr
-       needSync=1
-   fi
-
-   /bin/egrep -i "^pgbouncer" /etc/passwd
-   if [ $? -eq 0 ]; then
-       echo "Remove pgbouncer user" >> $LOG
-       userdel pgbouncer
-       /bin/rm -rf /export/home/pgbouncer
-       needSync=1
-   fi
-
-   /bin/egrep -i "^postgres" /etc/passwd
-   if [ $? -eq 0 ]; then
-       echo "Remove postgres user" >> $LOG
-       userdel postgres
-       needSync=1
-   fi
-
-   if [ "$needSync" -eq "1" ]; then
-       echo "Syncing users info" >> $LOG
-       $ROCKS_CMD sync users
-   fi
+    # Deletes solr and lmwriter users and sets NEED_SYNC in del-shared-solr-stuff
+    LMLAB_ROLL_COUNT=`$ROCKS_CMD list roll | grep lifemapper-lab |  wc -l`
+    if [ $LMLAB_ROLL_COUNT = 0 ] ; then
+        /bin/egrep -i "^solr" /etc/passwd
+        if [ $? -eq 0 ]; then
+            echo "Remove solr user" >> $LOG
+            userdel solr
+            /bin/rm -f /var/spool/mail/solr
+            /bin/rm -rf /export/home/solr
+            NEED_SYNC=1
+        fi
+    fi
+    
+    /bin/egrep -i "^pgbouncer" /etc/passwd
+    if [ $? -eq 0 ]; then
+        echo "Remove pgbouncer user" >> $LOG
+        userdel pgbouncer
+        /bin/rm -rf /export/home/pgbouncer
+        NEED_SYNC=1
+    fi
+    
+    /bin/egrep -i "^postgres" /etc/passwd
+    if [ $? -eq 0 ]; then
+        echo "Remove postgres user" >> $LOG
+        userdel postgres
+        NEED_SYNC=1
+    fi
+    
+    if [ "$NEED_SYNC" -eq "1" ]; then
+        echo "Syncing users info" >> $LOG
+        $ROCKS_CMD sync users
+    fi
 }
 
 del-attr () {
@@ -330,7 +338,19 @@ del-automount-entry () {
    fi
 }
 
-check_lm_processes () {
+finish-cleanup () {
+    echo >> $LOG
+    echo "Removing roll lifemapper-server" >> $LOG 
+    $ROCKS_CMD remove roll lifemapper-server
+    
+    echo "Rebuilding the distro" >> $LOG
+    module unload opt-python
+    (cd /export/rocks/install; $ROCKS_CMD create distro; yum clean all)
+    echo >> $LOG
+}
+
+
+check-lm-processes () {
     LMUSER_PROCESSES=`ps -Alf | grep lmwriter | grep -v grep | wc -l`
     if [ $LMUSER_PROCESSES -ne 0 ]; then
         echo "Stop all lmwriter processes before running this script"
@@ -340,7 +360,7 @@ check_lm_processes () {
 
 ### main ###
 
-check_lm_processes
+check-lm-processes
 
 set_defaults
 TimeStamp "# Start"
@@ -361,18 +381,12 @@ del-cron-jobs
 del-automount-entry
 
 if [ $LMROLL_COUNT = 1 ]; then
+    del-shared-solr-stuff
 	del-lifemapper-shared
 	del-shared-directories
 	del-shared-user-group
 fi
 
-echo
-echo "Removing roll lifemapper-server"
-$ROCKS_CMD remove roll lifemapper-server
+finish-cleanup
 
-echo "Rebuilding the distro"
-module unload opt-python
-(cd /export/rocks/install; $ROCKS_CMD create distro; yum clean all)
-
-echo
 TimeStamp "# End"
