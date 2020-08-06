@@ -1,5 +1,5 @@
 NAME            = opt-lifemapper-urllib3
-VERSION         = 1.25.3
+VERSION         = 1.25.10
 ARCHIVENAME     = urllib3
 RELEASE         = 1
 TARBALL_POSTFIX = tar.gz

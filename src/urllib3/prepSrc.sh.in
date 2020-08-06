@@ -1,13 +1,13 @@
 #!/bin/bash
 
-# Purpose: Fetch python-urllib3 source
-SRC_URL=https://files.pythonhosted.org/packages/4c/13/2386233f7ee40aa8444b47f7463338f3cbdf00c316627558784e3f542f07
-SRC_PKG=@ARCHIVENAME@-@VERSION@.@TARBALL_POSTFIX@
+# Purpose: Fetch @ARCHIVENAME@ wheel
+DL_URL=https://files.pythonhosted.org/packages/9f/f0/a391d1463ebb1b233795cabfc0ef38d3db4442339de68f847026199e69d7
+DL_WHL=@ARCHIVENAME@-@VERSION@-py2.py3-none-any.whl
 
-get_source_files () {
-  echo "Fetch @ARCHIVENAME@ source code"
-  wget "$SRC_URL/$SRC_PKG"
+get_wheel () {
+  echo "Fetch @ARCHIVENAME@ wheel file"
+  wget "$DL_URL/$DL_WHL"
 }
 
 ### main ###
-get_source_files
+get_wheel

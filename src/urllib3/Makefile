@@ -60,42 +60,31 @@ REDHAT.ROOT = $(CURDIR)/../../
 -include $(ROCKSROOT)/etc/Rules.mk
 include Rules.mk
 
-SEDSPEC += \
-        -e 's%@ARCHIVENAME@%$(ARCHIVENAME)%g'  \
-        -e 's%@VERSION@%$(VERSION)%g'  \
-        -e 's%@TARBALL_POSTFIX@%$(TARBALL_POSTFIX)%g'
-
-version.mk:
-	cat ../version.mk version.mk.in > version.mk
-
 PY.PATH = /opt/python/bin/$(PYTHONVER)
 
+SEDSPEC += \
+        -e 's%@ARCHIVENAME@%$(ARCHIVENAME)%g'  \
+        -e 's%@VERSION@%$(VERSION)%g'
+
 prepSrc.sh: prepSrc.sh.in
-	$(SED) $(SEDSPEC) $^ > $@
-	chmod 755 $@
+    $(SED) $(SEDSPEC) $^ > $@
+    chmod 755 $@
 
 prep: prepSrc.sh
-	rm -rf version.mk
-	make version.mk
-	make prepSrc.sh
-	./prepSrc.sh
+    rm -rf version.mk
+    make version.mk
+    make prepSrc.sh
+    ./prepSrc.sh
 
-build:
-	tar xzf  $(ARCHIVENAME)-$(VERSION).tar.gz 
-	(\
-	    cd $(ARCHIVENAME)-$(VERSION);   \
-	    module load opt-python;			\
-	    $(PY.PATH) setup.py build;		\
-	    module unload opt-python;		\
-	)
+version.mk:
+    cat ../version.mk version.mk.in > version.mk
+
+build: version.mk
+    echo $(ARCHIVENAME)-$(VERSION)
 
 install::
-	(\
-	    cd $(ARCHIVENAME)-$(VERSION);   \
-	    module load opt-python;			\
-	    $(PY.PATH) setup.py $@ --root=$(ROOT)/; \
-	    module unload opt-python;			\
-	)
+    mkdir -p $(ROOT)/$(PKGROOT)/rocks/etc
+    install -m 664 @ARCHIVENAME@-@VERSION@-py2.py3-none-any.whl $(ROOT)/$(PKGROOT)/rocks/etc
 
 clean::
-	rm -rf $(ARCHIVENAME)-$(VERSION) version.mk prepSrc.sh
+    rm -rf $(ARCHIVENAME)-$(VERSION) version.mk prepSrc.sh
