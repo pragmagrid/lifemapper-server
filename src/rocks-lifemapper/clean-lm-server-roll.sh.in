@@ -7,13 +7,14 @@
 #    user accounts and groups : postgres, pgbouncer, solr, lmwriter
 
 RM="rpm -evl --quiet --nodeps"
+PY3=@PYBIN@
 PIP3=/opt/python/bin/pip3.6
 ROCKS_CMD=/opt/rocks/bin/rocks
 LMUSER_COUNT=`/bin/egrep -i "^lmwriter" /etc/passwd  | wc -l`
 LMROLL_COUNT=`$ROCKS_CMD list roll | grep lifemapper | wc -l`
 LMLAB_ROLL_COUNT=`$ROCKS_CMD list roll | grep lifemapper-lab |  wc -l`
-LMCOMPUTE_ROLL_COUNT = `$ROCKS_CMD list roll | grep lifemapper-compute |  wc -l`
-NEED_SYNC = 0
+LMCOMPUTE_ROLL_COUNT=`$ROCKS_CMD list roll | grep lifemapper-compute |  wc -l`
+NEED_SYNC=0
 
 TimeStamp () {
     echo $1 `/bin/date` >> $LOG
@@ -40,10 +41,10 @@ del-lifemapper-shared() {
     $RM opt-lifemapper-wheel
 
     module load opt-python
-    $PYBIN@ -m pip uninstall -y wheel
+    $PY3 -m pip uninstall -y wheel
     module unload opt-python
 
-    if [ $LMLAB_ROLL_COUNT = 0 ] ; then
+    if [[ $LMLAB_ROLL_COUNT -eq 0 ]] ; then
         echo "Removing lmlab/lmserver RPMs shared" >> $LOG
        $RM opt-lifemapper-cheroot
        $RM opt-lifemapper-cherrypy
@@ -60,7 +61,7 @@ del-lifemapper-shared() {
        $RM     lifemapper-solr
     fi
 
-    if [ $LMCOMPUTE_ROLL_COUNT = 0 ] ; then
+    if [[ $LMCOMPUTE_ROLL_COUNT -eq 0 ]] ; then
         echo "Removing lmcompute/lmserver RPMs shared" >> $LOG
         # gdal-libs + deps
         $RM gdal-libs
@@ -109,13 +110,13 @@ del-lifemapper-shared() {
         
         echo "Removing lmcompute/lmserver shared python wheels from opt-lifemapper-* RPMs" >> $LOG
         module load opt-python
-        $PYBIN@ -m pip uninstall -y python-dateutil
-        $PYBIN@ -m pip uninstall -y pyparsing
-        $PYBIN@ -m pip uninstall -y kiwisolver
-        $PYBIN@ -m pip uninstall -y cycler
-        $PYBIN@ -m pip uninstall -y numpy
-        $PYBIN@ -m pip uninstall -y scipy
-        $PYBIN@ -m pip uninstall -y matplotlib
+        $PY3 -m pip uninstall -y python-dateutil
+        $PY3 -m pip uninstall -y pyparsing
+        $PY3 -m pip uninstall -y kiwisolver
+        $PY3 -m pip uninstall -y cycler
+        $PY3 -m pip uninstall -y numpy
+        $PY3 -m pip uninstall -y scipy
+        $PY3 -m pip uninstall -y matplotlib
         module unload opt-python
     fi
 }
@@ -146,17 +147,17 @@ del-shared-user-group () {
 # stop Lifemapper daemons if running
 stop-lm-daemons () {
     TRYAGAIN=0
-    if [ -f /state/partition1/lmscratch/run/mattDaemon.pid ]; then
+    if [[ -f /state/partition1/lmscratch/run/mattDaemon.pid ]]; then
         echo "-- login as lmwriter to stop mattDaemon" >> $LOG
         TRYAGAIN=1
     fi
 
-    if [ -f /state/partition1/lmscratch/run/daboom.pid ]; then
+    if [[ -f /state/partition1/lmscratch/run/daboom.pid ]]; then
         echo "-- login as lmwriter to stop daboom daemon" >> $LOG
         TRYAGAIN=1
     fi
 
-    if [ $TRYAGAIN = 1 ]; then
+    if [[ $TRYAGAIN -eq ]]; then
         exit
     fi
 }
@@ -166,18 +167,17 @@ stop-services () {
     PG=postgresql-@PGSQLVER@
     echo "-- stop $PG and pgbouncer daemons " >> $LOG
     
-    if [ -f /var/run/pgbouncer/pgbouncer.pid ]; then
+    if [[ -f /var/run/pgbouncer/pgbouncer.pid ]]; then
         /usr/bin/systemctl stop pgbouncer.service
     fi
 
-    if [ -f /var/run/$PG.pid ] ; then
+    if [[ -f /var/run/$PG.pid ]] ; then
         /usr/bin/systemctl stop $PG
     fi
 
     SOLR_PROCESSES=`ps -Af | grep solr | grep -v "grep" | wc -l`
-    if [[ $LMLAB_ROLL_COUNT = 0 ] && [ $SOLR_PROCESSES = 1 ]]; then
+    if [[ $LMLAB_ROLL_COUNT -eq 0  &&  $SOLR_PROCESSES -eq 1 ]]; then
         echo "-- stop Solr process " >> $LOG
-        # uses service instead of systemctl
         /usr/sbin/service solr stop
     fi
 }
@@ -233,7 +233,7 @@ del-config () {
     rm -rf  /etc/sysctl.d/lifemapper.postgresd
     rm -f   /etc/systemd/system/httpd.service.d/lifemapper_umask.conf
 
-    if [ $LMLAB_ROLL_COUNT = 0 ]; then
+    if [[ $LMLAB_ROLL_COUNT -eq 0 ]]; then
         rm -rf  /etc/security/limits.d/lifemapper.solr.conf
     fi
 }
@@ -276,9 +276,9 @@ del-webstuff () {
 del-user-group () {
     # Deletes solr and lmwriter users and sets NEED_SYNC in del-shared-solr-stuff
     LMLAB_ROLL_COUNT=`$ROCKS_CMD list roll | grep lifemapper-lab |  wc -l`
-    if [ $LMLAB_ROLL_COUNT = 0 ] ; then
+    if [[ $LMLAB_ROLL_COUNT -eq 0 ]] ; then
         /bin/egrep -i "^solr" /etc/passwd
-        if [ $? -eq 0 ]; then
+        if [[ $? -eq 0 ]]; then
             echo "Remove solr user" >> $LOG
             userdel solr
             /bin/rm -f /var/spool/mail/solr
@@ -288,7 +288,7 @@ del-user-group () {
     fi
     
     /bin/egrep -i "^pgbouncer" /etc/passwd
-    if [ $? -eq 0 ]; then
+    if [[ $? -eq 0 ]]; then
         echo "Remove pgbouncer user" >> $LOG
         userdel pgbouncer
         /bin/rm -rf /export/home/pgbouncer
@@ -296,13 +296,13 @@ del-user-group () {
     fi
     
     /bin/egrep -i "^postgres" /etc/passwd
-    if [ $? -eq 0 ]; then
+    if [[ $? -eq 0 ]]; then
         echo "Remove postgres user" >> $LOG
         userdel postgres
         NEED_SYNC=1
     fi
     
-    if [ "$NEED_SYNC" -eq "1" ]; then
+    if [[ $NEED_SYNC -eq 1 ]]; then
         echo "Syncing users info" >> $LOG
         $ROCKS_CMD sync users
     fi
@@ -310,13 +310,13 @@ del-user-group () {
 
 del-attr () {
    $ROCKS_CMD list host attr localhost | /bin/egrep -i LM_dbserver
-   if [ $? -eq 0 ]; then
+   if [[ $? -eq 0 ]]; then
 		echo "Remove attribute LM_dbserver" >> $LOG
    		$ROCKS_CMD remove host attr localhost LM_dbserver
    fi
 
    rocks list host attr localhost | /bin/egrep -i LM_webserver
-   if [ $? -eq 0 ]; then
+   if [[ $? -eq 0 ]]; then
    	echo "Remove attribute LM_webserver" >> $LOG
    	$ROCKS_CMD remove host attr localhost LM_webserver
    fi
@@ -329,7 +329,7 @@ del-cron-jobs () {
 }
 
 del-automount-entry () {
-   if [ $LMROLL_COUNT = 1 ]; then
+   if [[ $LMROLL_COUNT -eq 1 ]]; then
        cat /etc/auto.share  | grep -v "^lmserver " | grep -v "^lm " > /tmp/auto.share.nolmserver
        /bin/cp /tmp/auto.share.nolmserver /etc/auto.share
    else
@@ -352,7 +352,7 @@ finish-cleanup () {
 
 check-lm-processes () {
     LMUSER_PROCESSES=`ps -Alf | grep lmwriter | grep -v grep | wc -l`
-    if [ $LMUSER_PROCESSES -ne 0 ]; then
+    if [[ $LMUSER_PROCESSES -ne 0 ]]; then
         echo "Stop all lmwriter processes before running this script"
         exit 0
     fi 
@@ -380,7 +380,7 @@ del-attr
 del-cron-jobs
 del-automount-entry
 
-if [ $LMROLL_COUNT = 1 ]; then
+if [[ $LMROLL_COUNT -eq 1 ]]; then
     del-shared-solr-stuff
 	del-lifemapper-shared
 	del-shared-directories

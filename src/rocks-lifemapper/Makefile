@@ -109,6 +109,7 @@ SCRIPTS = \
 	dbDefineTables.sql \
 	dbAddFunctions.sql \
 	dbUpdateTables.sql \
+    clean-lm-server-roll.sh \
 	lifemapper.conf \
 	lifemapper-server.conf
 
@@ -120,7 +121,6 @@ PROGS = \
 	catalogDefaultDataInputs \
 	initWorkflow \
 	checkLibs \
-	clean-lm-server-roll.sh \
 	clearData \
 	confconst.py \
 	matt_daemon \

@@ -23,7 +23,7 @@ usage ()
     echo "a new one. In this case, old postgres db data (/var/lib/pgsql/*/data/*) is removed."
 }
 
-if [ $# -ne 0 ]; then
+if [[ $# -ne 0 ]]; then
     usage
     exit 0
 fi 
@@ -35,7 +35,7 @@ set_defaults() {
 
     PROF=/etc/profile.d/lifemapper.sh
     echo "-- set environment"  >> $LOG
-    if [ -f $PROF ] ; then
+    if [[ -f $PROF ]] ; then
 	 . $PROF 
     else
     	echo "ERROR: file $PROF not found" >> $LOG 
@@ -47,7 +47,7 @@ set_defaults() {
 
     # Rocks version
     ROCKS_VER=`/opt/rocks/bin/rocks list roll | grep base | awk '{print $2}'`
-    if [ "$ROCKS_VER" = "7.0" ]; then
+    if [[ $ROCKS_VER == "7.0" ]]; then
     	PG=postgresql-@PGSQLVER@.service
     else
     	PG=postgresql-@PGSQLVER@
@@ -77,25 +77,25 @@ set_defaults() {
     PUBLIC_ARCHIVE_CONFIG_FILE=@LMHOME@/config/boom.public.params
     
     # Find SCENARIO_PACKAGE
-    if [ -f $PUBLIC_ARCHIVE_CONFIG_FILE ] ; then        
+    if [[ -f $PUBLIC_ARCHIVE_CONFIG_FILE ]] ; then        
         echo "Find SCENARIO_PACKAGE in public archive config file" >> $LOG
         SCEN_PKG=`grep -i ^SCENARIO_PACKAGE $PUBLIC_ARCHIVE_CONFIG_FILE | awk '{print $2}'`
     fi    
-    if [ -z ${SCEN_PKG} ] ; then
+    if [[ -z ${SCEN_PKG} ]] ; then
         echo "Error: Missing configured value for SCENARIO_PACKAGE" >> $LOG
         exit 1
     fi
 
     # Find PUBLIC_USER
-    if [ -f $SITE_CONFIG_FILE ] ; then        
+    if [[ -f $SITE_CONFIG_FILE ]] ; then        
         echo "Find PUBLIC_USER in site config file" >> $LOG
         PUBLIC_USER=`grep -i ^PUBLIC_USER $SITE_CONFIG_FILE |  awk '{print $2}'`
     fi
-    if [ -z ${PUBLIC_USER} ] ; then 
+    if [[ -z ${PUBLIC_USER} ]] ; then 
         echo "Find PUBLIC_USER in installed config file" >> $LOG
         PUBLIC_USER=`grep -i ^PUBLIC_USER $CONFIG_FILE | awk '{print $2}'`
     fi
-    if [ -z ${PUBLIC_USER} ] ; then
+    if [[ -z ${PUBLIC_USER} ]] ; then
         echo "Error: Missing configured value for PUBLIC_USER" >> $LOG
         exit 1
     fi
@@ -104,7 +104,7 @@ set_defaults() {
     INITD=/etc/rc.d/init.d
     . $INITD/functions
 
-    if [ -d /var/lib/pgsql/@PGSQLVER@/data ] && [ "$(ls -A /var/lib/pgsql/@PGSQLVER@/data)" ]; then
+    if [[ -d /var/lib/pgsql/@PGSQLVER@/data  &&  "$(ls -A /var/lib/pgsql/@PGSQLVER@/data)" ]] ; then
 	    echo "postgres db exists" >> $LOG
 	    EXISTING_DB=true
 	 else
@@ -115,7 +115,7 @@ set_defaults() {
 cmd_service () {
 	svc=$1
 	cmd=$2
-    if [ "$ROCKS_VER" = "7.0" ]; then
+    if [[ $ROCKS_VER == "7.0" ]] ; then
     	/usr/bin/systemctl $2 $1 >> $LOG
     else
     	/sbin/service $1 $2 >> $LOG
@@ -131,7 +131,7 @@ cmd_opt_python () {
 
 set_permissions () {
     /bin/egrep -i "^lmwriter" /etc/passwd
-    if [ $? -ne 0 ]; then
+    if [[ $? -ne 0 ]] ; then
         echo "Error: user lmwriter does not exist" >> $LOG
         exit 1
     fi
@@ -146,7 +146,7 @@ set_permissions () {
 ### sets the password for db "admin" user to execute sql commands
 set_password () {
     # check if users file exists
-    if [ ! -f $USERSFILE ] ; then
+    if [[ ! -f $USERSFILE ]] ; then
         echo "Error: missing file $USERSFILE" >> $LOG
         exit 1
     fi
@@ -154,7 +154,7 @@ set_password () {
     # check who is running the scipt
     cat $USERSFILE > /dev/null
     RETVAL=$?
-    if [ $RETVAL -ne 0 ]; then
+    if [[ $RETVAL -ne 0 ]] ; then
         echo "Error: You must be root to run this script" >> $LOG
         exit 1
     fi
@@ -169,16 +169,16 @@ set_password () {
 stop_services () {
     echo "-- stop $PG and pgbouncer daemons " >> $LOG
 
-    if [ -f /var/run/pgbouncer/pgbouncer.pid ]; then
+    if [[ -f /var/run/pgbouncer/pgbouncer.pid ]] ; then
     	cmd_service pgbouncer stop
     fi
 
-    if [ -f /var/run/$PG.pid ] ; then
+    if [[ -f /var/run/$PG.pid ]] ; then
     	cmd_service $PG stop
     fi
 
     prog="postmaster"
-    if [ -n "`pidof $prog`" ]; then
+    if [[ -n "`pidof $prog`" ]] ; then
         killproc  $prog
     fi
 }
@@ -253,7 +253,7 @@ init_postgres () {
     # OPT needs testing
     OPT="en_US.UTF-8"
     
-    if [ "$ROCKS_VER" = "7.0" ]; then
+    if [[ $ROCKS_VER == "7.0" ]] ; then
     	$PGSETUP_CMD initdb >> $LOG
     else
     	/sbin/service $PG initdb $OPT  >> $LOG
@@ -293,7 +293,7 @@ update_connect_file() {
 
 ### define databases 
 define_lm_database () {
-    if [ -f $DEFINE_TABLES_SQL ] ; then
+    if [[ -f $DEFINE_TABLES_SQL ]] ; then
         echo "-- Start $DEFINE_TABLES_SQL" >> $LOG
         psql -U admin -d template1 -f $DEFINE_TABLES_SQL 2>&1 >> $LOG
         echo "-- End $DEFINE_TABLES_SQL" >> $LOG
@@ -305,7 +305,7 @@ define_lm_database () {
 
 ### add database views, types, functions 
 update_lm_tables () {
-    if [ -f $UPDATE_TABLES_SQL ] ; then
+    if [[ -f $UPDATE_TABLES_SQL ]] ; then
         echo "Start $UPDATE_TABLES_SQL" >> $LOG
         psql -U admin -d template1 -f $UPDATE_TABLES_SQL 2>&1 >> $LOG
         echo "End $UPDATE_TABLES_SQL" >> $LOG
@@ -317,7 +317,7 @@ update_lm_tables () {
 
 ### add database views, types, functions 
 add_lm_functions () {
-    if [ -f $ADD_FUNCTIONS_SQL ] ; then
+    if [[ -f $ADD_FUNCTIONS_SQL ]] ; then
         echo "Start $ADD_FUNCTIONS_SQL" >> $LOG
         psql -U admin -d template1 -f $ADD_FUNCTIONS_SQL 2>&1 >> $LOG
         echo "End $ADD_FUNCTIONS_SQL" >> $LOG
@@ -357,7 +357,7 @@ start_services() {
     # set unix socket dir
     echo "-- update unix socket " >> $LOG
     export PGHOST=@UNIXSOCKET@
-    if [ ! -f $PROFILE ] ; then
+    if [[ ! -f $PROFILE ]] ; then
         touch $PROFILE
         chown postgres:postgres $PROFILE
     fi
@@ -379,11 +379,11 @@ update_config() {
 }
 
 make_web_links () {
-    if [ -d $LMCLIENT_DIR ] ; then
+    if [[ -d $LMCLIENT_DIR ]] ; then
         echo "-- create lmclient link" >> $LOG
         (cd /var/www/html; /usr/bin/ln -s $LMCLIENT_DIR)
     fi
-    if [ -d $DASHBOARD_DIR ] ; then
+    if [[ -d $DASHBOARD_DIR ]] ; then
         echo "-- create dashboard link" >> $LOG
         (cd /var/www/html; /usr/bin/ln -s $DASHBOARD_DIR)
     fi
@@ -403,7 +403,7 @@ finish_mapserver_install
 set_permissions
 stop_services
 
-if [ "$EXISTING_DB" = false ] ; then
+if [[ $EXISTING_DB = false ]] ; then
     echo "Create new database" >> $LOG
     init_db
     start_services
@@ -422,7 +422,7 @@ install_cron_jobs
 #install_opt_python_dependent_rpms
 update_config
 
-if [ "$EXISTING_DB" = false ] ; then
+if [[ $EXISTING_DB = false ]] ; then
     fill_db
 fi
 
